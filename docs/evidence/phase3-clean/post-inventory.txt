@@ -1,0 +1,22 @@
+     pid Arguments
+       1 procnto-smp-instr -mr -d 0777 -u 0777 
+   16387 slogger2 -U 21:21 
+   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg 
+   49157 devc-ser8250 -e 
+   57351 ksh ksh 
+   61446 fsevmgr 
+   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low 
+  131081 random -U 22:22 -s /data/var/random/rnd-seed 
+  143370 pipe -U 24:24 
+  155659 devc-pty -U 37:37 
+  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores 
+  163853 io-sock -m phy -m pci -m usb -d vtnet_pci 
+  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks 
+  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config 
+  253966 qconn 
+  258063 mqueue 
+  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci 
+ 7254018 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R 
+ 7266322 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R 
+ 7266324 sh -c sh 
+ 7270421 pidin ar 

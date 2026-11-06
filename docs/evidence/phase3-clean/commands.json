@@ -1,0 +1,734 @@
+[
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "mkdir /data/resmgrcheck/p3clean1"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/build/qnx-x86_64/runner",
+      "/home/mignon/projects/resmgrcheck/build/qnx-x86_64/worker",
+      "/home/mignon/projects/resmgrcheck/build/qnx-x86_64/sensor-v1-fixture",
+      "/home/mignon/projects/resmgrcheck/build/qnx-x86_64/job-v1-fixture",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-corrected-plan.json",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-defect-plan.json",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-corrected-plan.json",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-defect-plan.json",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/unsupported-plan.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/runner",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/readback/runner"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/worker",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/readback/worker"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/sensor-v1-fixture",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/readback/sensor-v1-fixture"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/job-v1-fixture",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/readback/job-v1-fixture"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && chmod 755 runner worker sensor-v1-fixture job-v1-fixture"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner sensor-corrected-plan.json > sensor-corrected-events.jsonl 2> sensor-corrected-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/sensor-corrected-events.jsonl",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-corrected-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/sensor-corrected-stderr.txt",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-corrected-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner sensor-defect-plan.json > sensor-defect-events.jsonl 2> sensor-defect-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/sensor-defect-events.jsonl",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-defect-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/sensor-defect-stderr.txt",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/sensor-defect-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner job-corrected-plan.json > job-corrected-events.jsonl 2> job-corrected-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/job-corrected-events.jsonl",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-corrected-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/job-corrected-stderr.txt",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-corrected-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner job-defect-plan.json > job-defect-events.jsonl 2> job-defect-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/job-defect-events.jsonl",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-defect-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/job-defect-stderr.txt",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/job-defect-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner unsupported-plan.json > unsupported-events.jsonl 2> unsupported-stderr.txt"
+    ],
+    "exit": 3,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/unsupported-events.jsonl",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/unsupported-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/unsupported-stderr.txt",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/unsupported-stderr.txt"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-version.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-version.json > invalid-version.json.stdout 2> invalid-version.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-version.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-version.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-version.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-version.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-boolean-timing.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-boolean-timing.json > invalid-boolean-timing.json.stdout 2> invalid-boolean-timing.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-boolean-timing.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-boolean-timing.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-boolean-timing.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-boolean-timing.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unknown-operation.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-unknown-operation.json > invalid-unknown-operation.json.stdout 2> invalid-unknown-operation.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-unknown-operation.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unknown-operation.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-unknown-operation.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unknown-operation.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unsafe-path.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-unsafe-path.json > invalid-unsafe-path.json.stdout 2> invalid-unsafe-path.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-unsafe-path.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unsafe-path.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-unsafe-path.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-unsafe-path.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-abi.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-abi.json > invalid-abi.json.stdout 2> invalid-abi.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-abi.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-abi.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-abi.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-abi.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-duplicate.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-duplicate.json > invalid-duplicate.json.stdout 2> invalid-duplicate.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-duplicate.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-duplicate.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-duplicate.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-duplicate.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-leading-zero.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-leading-zero.json > invalid-leading-zero.json.stdout 2> invalid-leading-zero.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-leading-zero.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-leading-zero.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-leading-zero.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-leading-zero.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-trailing-data.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-trailing-data.json > invalid-trailing-data.json.stdout 2> invalid-trailing-data.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-trailing-data.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-trailing-data.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-trailing-data.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-trailing-data.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-nesting.json",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cd /data/resmgrcheck/p3clean1 && ./runner invalid-nesting.json > invalid-nesting.json.stdout 2> invalid-nesting.json.stderr"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-nesting.json.stdout",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-nesting.json.stdout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx:/data/resmgrcheck/p3clean1/invalid-nesting.json.stderr",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-nesting.json.stderr"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "plan",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/invalid-host-profile.json",
+      "--run-id",
+      "invalid",
+      "--output",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/phase3-p3clean1/must-not-exist.json"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: integer outside 1..1\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "pidin ar"
+    ],
+    "exit": 0,
+    "stdout": "     pid Arguments\n       1 procnto-smp-instr -mr -d 0777 -u 0777 \n   16387 slogger2 -U 21:21 \n   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg \n   49157 devc-ser8250 -e \n   57351 ksh ksh \n   61446 fsevmgr \n   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low \n  131081 random -U 22:22 -s /data/var/random/rnd-seed \n  143370 pipe -U 24:24 \n  155659 devc-pty -U 37:37 \n  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores \n  163853 io-sock -m phy -m pci -m usb -d vtnet_pci \n  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks \n  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config \n  253966 qconn \n  258063 mqueue \n  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci \n 7254018 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n 7266322 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n 7266324 sh -c sh \n 7270421 pidin ar \n",
+    "stderr": ""
+  }
+]

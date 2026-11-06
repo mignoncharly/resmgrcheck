@@ -271,3 +271,15 @@ evaluated results, build/command/rejection logs, readback hashes and final inven
 Raw local originals, including downloaded executables, remain ignored under
 `.local/evidence/phase3-p3gate1`. No binaries, SDK/runtime contents or private keys
 were added to Git.
+
+### E007 clean committed-source confirmation
+
+The complete qualification was repeated after the passing checkpoint commit
+`e871ab2` from a clean tree, using `make qnx` and
+`python3 tests/qnx/qualify-phase3.py --prefix p3clean1`. All five native/evaluated
+outcomes, nine native rejections, host rejection, readback hashes and final
+inventory passed again. Build metadata records dirty=false and the same source
+digest/binary hashes. [Clean-revision bundle](evidence/phase3-clean/index.json)
+retains full revision identity, plans, raw observations, evaluated results and
+command statuses. This confirms the actual checkpoint revision, not only the
+precommit source snapshot. No prerequisite Phase 1/2 suite was restarted.

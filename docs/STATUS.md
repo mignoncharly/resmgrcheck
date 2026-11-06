@@ -7,7 +7,7 @@ Updated: 2026-11-06.
 | Item | State |
 | --- | --- |
 | Current gate | Phase 3 passed; Phase 4 is next |
-| Phase 3 source | Qualification at base 55b6d3232d436234c4503af53e2c175435493733 plus the exact source digest in E007/index; checkpoint commit follows passing gate |
+| Phase 3 source | e871ab2, clean committed-source confirmation in E007 / phase3-clean |
 | Phase 1 / Phase 2 | Previously passed; not repeated except the affected sensor path through the new generic adapter regression |
 | Target | Same qualified QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86pc x86_64, KVM, one CPU / 1 GiB |
 | Active blocker | None |

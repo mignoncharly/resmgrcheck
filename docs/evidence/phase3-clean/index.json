@@ -1,0 +1,114 @@
+{
+  "kind": "phase3-qualification-index",
+  "source_builds": {
+    "binaries": {
+      "adapter": "7d8e0a54bb9bbb11084b87c060968f408f9328774cd47d3e3092cdbd8b10dcbe",
+      "fixture": "86c5dc34512efa8aca460687027cb2a74ac6721285c3c9c69abadd82f789271a",
+      "runner": "5b29f21e91cb3a1b850d20eb90002dff68998615de33c371692a34e2a10cf454",
+      "worker": "7d8e0a54bb9bbb11084b87c060968f408f9328774cd47d3e3092cdbd8b10dcbe"
+    },
+    "compiler_variant": "gcc_ntox86_64",
+    "dirty": false,
+    "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+    "source_revision": "e871ab2dddbe18379c089facd7fdc810cb43ea5e",
+    "source_tree_sha256": "ac642b507b1d21de0714cdb7c36d8bd86eb58fb9a46b4829ca7bc63d1f75e968"
+  },
+  "binary_readback_sha256": {
+    "runner": "5b29f21e91cb3a1b850d20eb90002dff68998615de33c371692a34e2a10cf454",
+    "worker": "7d8e0a54bb9bbb11084b87c060968f408f9328774cd47d3e3092cdbd8b10dcbe",
+    "sensor-v1-fixture": "86c5dc34512efa8aca460687027cb2a74ac6721285c3c9c69abadd82f789271a",
+    "job-v1-fixture": "13d83a849950e295e212463c65badc2c06a26fbdbf20322168f9c9d67e3375c9"
+  },
+  "cases": [
+    {
+      "case": "sensor-corrected",
+      "native_exit": 0,
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ]
+    },
+    {
+      "case": "sensor-defect",
+      "native_exit": 0,
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_cleanup"
+      ]
+    },
+    {
+      "case": "job-corrected",
+      "native_exit": 0,
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ]
+    },
+    {
+      "case": "job-defect",
+      "native_exit": 0,
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_cleanup"
+      ]
+    },
+    {
+      "case": "unsupported",
+      "native_exit": 3,
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "required_capability_missing"
+      ]
+    }
+  ],
+  "native_rejections": [
+    {
+      "case": "version",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "boolean-timing",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "unknown-operation",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "unsafe-path",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "abi",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "duplicate",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "leading-zero",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "trailing-data",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    },
+    {
+      "case": "nesting",
+      "native_exit": 2,
+      "stdout_bytes": 0
+    }
+  ],
+  "host_invalid_profile_exit": 2
+}
