@@ -6,7 +6,9 @@ The intended workflow exercises deferred I/O, records what happened on the QNX t
 
 ## Current state
 
-**Phase 1 is in progress.** This repository contains the initial native smoke program, a QNX build target, and the project records. The resource-manager fixtures, supervisor, scenario suite, evaluator, CLI, and reports are planned work.
+**Phase 1 has passed; Phase 2 is in progress.** The repository smoke program builds with qcc, transfers through SSH/SFTP, and ran twice on QNX with exit zero. A compiled native capability probe also passed. See [current status](docs/STATUS.md) and E005 in [test evidence](docs/TEST_EVIDENCE.md).
+
+The resource-manager cancellation fixture and independent supervisor are next. The scenario suite, evaluator, CLI, and reports remain planned work.
 
 An operator has already built the smoke program with QNX's compiler and run it twice inside an x86_64 QNX 8.0 QEMU guest, with exit status zero both times. Those bootstrap results are recorded as operator-provided evidence, separately from validation of this repository checkout. See [test evidence](docs/TEST_EVIDENCE.md).
 
@@ -27,6 +29,7 @@ On a Linux development host with an installed, locally licensed QNX SDP 8.0:
 
 ```bash
 source "$HOME/qnx800/qnxsdp-env.sh"
+make check-qnx
 make qnx
 ```
 

@@ -1,0 +1,7 @@
+cc: targets available in /home/mignon/qnx800/host/linux/x86_64/etc/qcc:
+	12.2.0,gcc_ntox86_64	(default)
+	12.2.0,gcc_ntoaarch64le_gpp
+	12.2.0,gcc_ntox86_64_gpp
+	12.2.0,gcc_ntoaarch64le_cxx
+	12.2.0,gcc_ntox86_64_cxx
+	12.2.0,gcc_ntoaarch64le

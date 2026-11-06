@@ -32,12 +32,116 @@ The operator's existing VM directory is `$HOME/qnx-vm-resmgrcheck`. Its host con
 
 The bootstrap guest had no network adapter. No OpenSSH transfer, cancellation scenario, timeout behavior, signal behavior, client-departure cleanup, or resource-manager recovery was tested by these smoke runs.
 
-## E002: Repository-native checkpoint
+## E002: Actual repository build attempt, 2026-11-06
 
-**State:** not run.
+**State:** build failed; repository-native execution blocked. Executed by the agent, distinct from E001.
 
-The repository build interface is `make qnx`, producing `build/qnx-x86_64/hello` from `native/spikes/hello.c`. The image recipe in [setup-qnx.md](setup-qnx.md) adapts the observed bootstrap configuration to that path. This recipe has not yet been executed from the new repository.
+The intended workspace was empty and not a Git repository. The agent cloned `implementation/phase-1` directly into it. Initial `git status --short --branch` showed a clean checkout at `cd1ecf809a78dab223297b48d57f8a6488a92786`. No workspace contents were removed.
 
-The implementation agent must append the actual source revision and dirty state, build command and exit status, executable identity, target identity, two runtime outputs and exit statuses, console-log location, and any relevant environment change. Retain original evidence locally and publish only reviewed copies without credentials, license information, or unrelated host details.
+Command executed before any source changes:
 
-Passing this checkpoint establishes a repository-owned smoke result. The remaining Phase 1 transport, native-facility, and service-monitor checks must still be recorded before the phase is marked passed.
+```bash
+source /home/mignon/qnx800/qnxsdp-env.sh && make qnx
+```
+
+Make invoked:
+
+```text
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/spikes/hello.c" -o "build/qnx-x86_64/hello"
+```
+
+The compiler waited without output, then reported a licensing failure and six lock-acquisition timeout diagnostics. The operative diagnostic was:
+
+```text
+Lockfile (/home/mignon/.qnx/license/licenses.lck) acquisition timed out after 10 seconds. Check that the file and containing folder have write permissions set for this user, and that no other processes are using this file
+make: *** [Makefile:12: build/qnx-x86_64/hello] Error 129
+```
+
+Actual Make process exit: **2**. A separate unbounded `qcc -V` attempt also exited **129** with the lock diagnostic. Bounded compiler probes returned **124** (timeout); these did not provide a compiler version. Native source SHA256: `7ef116b3ddb0f829a290887c4cee28df182d0a06d8aeb5cc84386e5cd9904947`. No output executable was produced, transferred, or run. There are no repository runtime outputs or statuses to report.
+
+An independent metadata probe using `os.statvfs()` confirmed `ST_RDONLY` on `/home/mignon/.qnx/license`; no license files were read, copied, edited, or unlocked. This execution-context restriction is sufficient to prevent the normal compiler license lock. The compiler's generic invalid-license message does **not** establish that the operator's installed license is invalid.
+
+The initial compiler output was returned by the tool session; the text above is a selected command/result record, not a reconstructed raw log. E004 retains the later preflight output as a local file.
+
+## E003: Agent-run QNX image inventory, 2026-11-06
+
+**State:** real QNX inspection passed; repository build/run gate remains blocked.
+
+The agent copied `ifs.bin`, `disk-qemu`, and its VMDK descriptor from the operator's image into ignored `.local/qnx-vm/`. SHA256 checks after the run confirmed each copied input still matched the original:
+
+| Input | SHA256 |
+| --- | --- |
+| `ifs.bin` | `11ec3c0f02f119c03c7c64d0ddd9c2f05c0e840d8270a80538898c2aedb18667` |
+| `disk-qemu` | `8f7ea89eb38e5c6d690477e0d2844978b184e1adc84f89717b45325e1d57c7e7` |
+| `disk-qemu.vmdk` | `2b60cc7974f882f097af4c832831bda18164299b0d538ee68aca89ebd95825c6` |
+
+The original bootstrap console log remained at SHA256 `bdaab6672a75a5640ddb8512502bb64fba65e46d7c6355496635315088c501e6`. No original image or log was overwritten. These inputs predate the repository; no revision-built binary was included.
+
+KVM launch failed with `failed to initialize kvm: No such file or directory`. This process does not inherit the operator's active KVM group. `sg kvm -c id` failed with `Cannot open audit interface - aborting.` No host service or group configuration was changed. TCG was used for inspection only.
+
+`-snapshot` failed to open a temporary file in read-only `/var/tmp`, including with `TMPDIR=/tmp`. Instead, the agent created an explicit disposable overlay:
+
+```bash
+qemu-img create -f qcow2 -F vmdk \
+  -b /home/mignon/projects/resmgrcheck/.local/qnx-vm/disk-qemu.vmdk \
+  .local/qnx-vm/inspection.qcow2
+qemu-system-x86_64 -accel tcg -cpu max -smp 1 -m 1G \
+  -drive file=.local/qnx-vm/inspection.qcow2,format=qcow2,if=ide,id=drv0 \
+  -kernel .local/qnx-vm/ifs.bin -display none -nic none \
+  -chardev stdio,id=console,mux=on,signal=off,logfile=.local/qnx-vm/console-inspection.log \
+  -serial chardev:console -mon chardev=console,mode=readline \
+  -object rng-random,filename=/dev/urandom,id=rng0 \
+  -device virtio-rng-pci,rng=rng0 -no-reboot
+```
+
+The guest reported `QNX resmgrcheck 8.0.0 2026/06/05-16:26:03EDT x86pc x86_64`. `pidin ar` showed no `server-monitor` or `slm`, and the generated startup files contained no monitor launch. A pipe manager was running. This is a snapshot of this lab image, not evidence that all required native APIs have been exercised.
+
+`/usr/libexec/sshd-auth` and `/system/bin/server-monitor` were absent. `/system/bin/sshd`, `sshd-session`, and `sftp-server` were executable. The installed SDK provides `x86_64/usr/libexec/sshd-auth`, but the bootstrap's generated system build includes only `sshd-session`. This omission is a candidate image fix, not a tested SSH solution. This TCG boot reported `Memory fault (core dumped)` during SSH startup; its cause remains unestablished. The operator's KVM log had instead reported a missing helper.
+
+Retained raw console: `.local/qnx-vm/console-inspection.log`, SHA256 `228a25c836a2e239b7927adc5df337a6d98b0604d21895199ba1b2a7a3c95d53`. [Reviewed console excerpt](evidence/2026-11-06-target-inventory.txt) removes CR characters and excludes the printed SDK startup script. The guest was stopped with the guarded `shutdown -S reboot`; QEMU exited **0**.
+
+The SDK headers `sys/dispatch.h`, `sys/iofunc.h`, `sys/neutrino.h`, `sys/iomsg.h`, `sys/resmgr.h`, `time.h`, `spawn.h`, `sys/wait.h`, `poll.h`, and `unistd.h` are present. No compile/link or runtime probe of these interfaces succeeded in this session. Native facility acceptance remains open.
+
+## E004: Host preflight and transport/commit restrictions
+
+**State:** expected host checks observed; native gate still blocked.
+
+- Host tools observed: Ubuntu 24.04.3, Python 3.12.3, GNU Make 4.3, OpenSSH 9.6p1, QEMU 8.2.2. GCC 12.2.0 remains an operator observation because the current `qcc -V` failed.
+- With the local Makefile and preflight changes (base revision E002, dirty tree), SDK-enabled `make qnx` reports `BLOCKED: QNX license directory is on a read-only filesystem; qcc cannot acquire its license lock` and exits **2** promptly. Log: `.local/evidence/build-preflight.log`. The preflight checks environment and directory metadata only; it neither invokes the compiler nor validates a license.
+- A QEMU launch with `-netdev user,id=net0,restrict=on,hostfwd=tcp:127.0.0.1:22220-:22` failed to set up the forwarding rule (exit **1**). An independent Python `socket.socket()` probe failed with `PermissionError: [Errno 1] Operation not permitted` before binding. No SSH connection/transfer was tested.
+- `git add Makefile scripts/check-qnx-build.py` failed with `Unable to create .../.git/index.lock: Read-only file system` (exit **128**). `os.statvfs('.git')` confirmed `ST_RDONLY`. The subsequent commit command was not reached. No checkpoint commit exists; final changes remain uncommitted at E002's HEAD.
+
+Resume in an authorized context allowing normal SDK license-lock writes, Git metadata updates, and loopback sockets. Do not infer a passing Phase 1 gate from this preflight, the prior operator smoke program, or the copied-image inventory. Phases 2–10 remain not run.
+
+## E005: Phase 1 gate passed after Full Access, 2026-11-06
+
+**Provenance:** commands and real target execution performed by the agent after the user restored Full Access. Supersedes the active restrictions of E002–E004; their historical outcomes remain unchanged.
+
+Initial SDK-enabled `make qnx` exited **0**; `qcc -V` exited **0** and reported GCC 12.2.0 / `gcc_ntox86_64` default. This establishes normal license acquisition without inspecting/changing license contents. A write/remove probe under `.git` and an actual loopback socket bind/listen both passed. The account's existing `kvm` membership was applied by `sg kvm`; no host permission changes were made.
+
+Native sources and Makefile were committed as **`11f7729fcb73c73b9ca7d29c8ec7aed818b14c57`** before `make -B qnx` and target execution. Only documentation/evidence changes were uncommitted during that run. Both native targets built with `qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror` (exit **0**). The executable interpreter is `/usr/lib/ldqnx-64.so.2`, x86_64 PIE.
+
+| Artifact | SHA256 |
+| --- | --- |
+| `native/spikes/hello.c` | `7ef116b3ddb0f829a290887c4cee28df182d0a06d8aeb5cc84386e5cd9904947` |
+| `native/spikes/capabilities.c` | `89cf812da21766d33a40f066a451a55c4e50c98e9923e7cf1a8cfc30aeefc8f7` |
+| `build/qnx-x86_64/hello` | `5bc69f792a46fd07327e2f509ef7f6143e24a4e2324a9254a6a43628ebce587c` |
+| `build/qnx-x86_64/capabilities` | `17b53ea44dbbdee33e72daf327a302f0670701a91a8e194f703cd816116373f4` |
+| Dedicated `output/ifs.bin` | `6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f` |
+
+The original image/log were preserved. The dedicated image at ignored `.local/qnx-lab` reuses the existing client public key and bootstrap host keys, includes `sshd-auth` plus helper links, and built with the exact recipe in [setup-qnx.md](setup-qnx.md), exit **0**. No credentials were regenerated. The IFS snippet SHA256 is `6d782c9a611863d94787395820fd3087718ff8f98b220f41a0902c4da036c9c7`; helper system snippet SHA256 is `31c68afd510e6114e8e9437bc3b9f3d1623aa98293f776886d2da67561ae20ad`. These ignored snippets contain only the documented local paths/recipe, not licensed code.
+
+QEMU 8.2.2 launched under KVM with `-cpu host`, one CPU and 1 GiB. An explicit qcow2 overlay contains guest writes. User networking uses `restrict=on` and `hostfwd=tcp:127.0.0.1:22220-:22`; no public listener or host firewall change. SSH uses BatchMode, IdentitiesOnly, and StrictHostKeyChecking with an exact host/port entry derived from the existing image's public host key. An initial connection before startup completed timed out during banner exchange; after startup, command execution and transfer succeeded.
+
+Actual target identity: `QNX resmgrcheck 8.0.0 2026/06/05-16:26:03EDT x86pc x86_64`. The embedded repository hello exited **0**. `/proc/boot/capabilities` exited **0**, with these real checks:
+
+- Resource-manager dispatch creation, function-table setup, pathname attachment, dispatch context allocation/free, detach/destroy.
+- Fork/wait and an actual child-to-parent native Channel/Connect/MsgSend/MsgReceive/MsgReply exchange.
+- Bounded pipe/poll transfer, CLOCK_MONOTONIC progression, TimerTimeout receive cancellation with **ETIMEDOUT**.
+- posix_spawn of the repository hello and bounded wait/reap.
+
+`pidin ar` recorded no running `server-monitor` or `slm`, and this recipe's generated startup contains no monitor launch. `sshd` remained running; no SSH memory fault was observed in this KVM image. This is not an explanation or qualification of the earlier TCG fault.
+
+The agent created `/data/resmgrcheck`, transferred `hello` using `scp -F .local/ssh_config` (OpenSSH's SFTP path), and executed the transferred binary twice through SSH. Both outputs were `QNX smoke test: hello`, with **run1_exit=0**, **run2_exit=0**, and SSH exit **0**. Upload and download each exited **0**. The returned binary's SHA256 matches the built hello above; `cmp` exited **0**. Commands used explicit 15-second host deadlines.
+
+Reviewed actual logs: [build](evidence/phase1-build.txt), [toolchain](evidence/phase1-toolchain.txt), [QNX capability/inventory run](evidence/phase1-guest.txt), [two transferred runs](evidence/phase1-transferred.txt). Original raw local logs are `.local/evidence/phase1-*.log` and `.local/qnx-lab/console-phase1.log`; VM/runtime/key files stay ignored. These source-level primitive checks do not establish the Phase 2 deferred-cancellation contract.

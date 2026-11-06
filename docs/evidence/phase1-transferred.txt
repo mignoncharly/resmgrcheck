@@ -1,0 +1,5 @@
+QNX resmgrcheck 8.0.0 2026/06/05-16:26:03EDT x86pc x86_64
+QNX smoke test: hello
+run1_exit=0
+QNX smoke test: hello
+run2_exit=0

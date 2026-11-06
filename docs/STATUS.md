@@ -6,31 +6,25 @@ Updated: 2026-11-06.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 1: establish the workspace and prove QNX execution |
-| Phase state | `in_progress` |
-| Repository | New project bootstrap; no Windows workspace migration is required |
-| Native environment | The operator built a QNX executable and ran it twice successfully on QNX 8.0 |
-| Repository revision tested on QNX | None yet; the successful runs preceded this repository seed |
-| Phases 2–10 | Pending, not run |
+| Current phase | Phase 2: cancellation problem end to end |
+| Phase 1 state | `passed`; E005 records actual repository build, SSH/SFTP, two runs, native capabilities, and monitor inventory |
+| Phase 2 state | `in_progress`; cancellation implementation and evidence are next |
+| Tested native source | `11f7729fcb73c73b9ca7d29c8ec7aed818b14c57`; documentation-only dirty tree during testing |
+| Target | QNX 8.0.0, `2026/06/05-16:26:03EDT`, x86pc x86_64; QEMU 8.2.2/KVM, one CPU, 1 GiB |
+| Phases 3–10 | Not started |
 
-The earlier environment blocker is resolved. This does not establish that all Phase 1 deliverables or any cancellation tests have passed.
+## Phase 1 completion
 
-## Verified bootstrap observations
+The user restored Full Access. Actual QNX compilation succeeded, proving normal license acquisition. Git metadata writes and a loopback listener succeeded. No SDK reinstall or credential regeneration was needed.
 
-The operator supplied terminal evidence from Ubuntu 24.04.3 x86_64 with QNX Software Center 2.0.4, the QNX SDP environment at `$HOME/qnx800`, and `qcc` reporting GCC 12.2.0 with the `gcc_ntox86_64` variant. QEMU 8.2.2 reported working KVM acceleration after the operator's shell acquired its `kvm` group membership.
+The native hello and capability probe build with `qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror`. The transferred hello ran twice via SSH with exit zero, and its SFTP round-trip hash matches. The native capability probe passed resource-manager attach/detach, dispatch allocation, monotonic clock and TimerTimeout receive cancellation, fork/wait, posix_spawn/wait, bounded pipe/poll, and Channel/Connect/MsgSend/Receive/Reply.
 
-A one-CPU, 1 GiB QNX guest reported release 8.0.0, build `2026/06/05-16:26:03EDT`, platform `x86pc`, and architecture `x86_64`. The original smoke executable printed its greeting twice; each execution returned zero. The saved host console log was checked. The guest was then stopped and the Ubuntu prompt returned. See [TEST_EVIDENCE.md](TEST_EVIDENCE.md) for provenance and limits.
+A dedicated image at ignored `.local/qnx-lab/` preserves the operator image. It reuses existing SSH keys, includes the missing authentication helper and helper links, and forwards SSH only on `127.0.0.1:22220`. SSH uses strict host-key checking against the existing image's public host key. No `server-monitor` or `slm` runs in this lab image. The earlier TCG SSH fault was not reproduced under KVM with this image.
 
-## Remaining Phase 1 work
-
-1. Inspect this checkout and its applicable instructions. Record the actual source revision and working-tree state.
-2. Build and execute the repository-owned smoke target, linking source, build command, target identity, output, and exit statuses to a retained evidence record.
-3. Establish and test the planned OpenSSH command and file-transfer route with local authentication and host-key verification. The bootstrap used image inclusion and a console with guest networking disabled.
-4. Confirm the required native APIs and facilities. Inventory `server-monitor` and other target service-management behavior that could affect the fixtures.
-5. Finish the reproducible setup record and Phase 1 checkpoint. Proceed to Phase 2 only when the complete Phase 1 gate passes.
+Evidence: [TEST_EVIDENCE.md](TEST_EVIDENCE.md), E005, and reviewed files in `docs/evidence/phase1-*.txt`. No cancellation success is inferred from this gate.
 
 ## Next executable step
 
-On the existing Ubuntu development host, inspect the checkout, load `$HOME/qnx800/qnxsdp-env.sh`, and build with `make qnx`. Reuse the working licensed environment. Do not reinstall it or restart the setup investigation. Follow [setup-qnx.md](setup-qnx.md) to validate the repository build without overwriting the existing operator VM or its log.
+Implement Phase 2's single-threaded deferred sensor fixture, visibly named `ignore-unblock` mode, disposable worker, and independent bounded supervisor. Record pending timestamps before the absolute operation deadline, live unblock ownership checks, corrected ETIMEDOUT completion, post-cancel state and new-client health, and actual cleanup of a reply-blocked child.
 
-No repository-native cancellation implementation, lifecycle test result, host transport automation, or performance result is claimed at this checkpoint.
+Current lab VM is running as a project-owned QEMU process with its console in the active tool session. Use `ssh -F .local/ssh_config resmgrcheck-qnx`; check target readiness before use. Logs and generated binaries remain ignored. No publication or submission has been performed.

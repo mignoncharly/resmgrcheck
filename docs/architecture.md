@@ -29,4 +29,4 @@ Source, profiles, recipes, and reviewed evidence belong in version control. Gene
 
 ## Current boundary
 
-The operator's original hello program compiled and ran twice on a real QNX guest. This establishes the development environment. The repository-owned smoke checkpoint, OpenSSH transfer route, native API inventory, and service-monitor inventory remain Phase 1 work. The first cancellation fixture and independent supervisor begin in Phase 2.
+Phase 1 passed with actual repository compilation and QNX execution through SSH/SFTP. A native capability probe exercised the required primitives. The dedicated KVM lab contains no running server-monitor/slm; see E005. The earlier execution restrictions are resolved. The cancellation fixture and independent supervisor begin in Phase 2; no cancellation result is implied by the smoke/capability probe.

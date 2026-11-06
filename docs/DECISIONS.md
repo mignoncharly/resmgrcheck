@@ -37,3 +37,19 @@ The catalog baseline `com.qnx.qnx800/8.0.0.00141T202311271501L` identifies the s
 Use C11 with required QNX extensions, `qcc`, and a small Make build for native code. Use Python 3.10 or newer and its standard library for the host application. Pin and vendor cJSON with its license when Phase 3 requires it. Original project code uses MIT licensing by default.
 
 Publish original source and reproduction instructions. Keep SDK contents, proprietary runtime images, credentials, license material, and machine-local authenticated configuration outside the repository.
+
+## D006: Diagnose execution restrictions before changing the SDK
+
+**Date:** 2026-11-06. **State:** observed blocker; see E002–E004.
+
+The current agent context mounts the installed QNX license directory and Git metadata read-only and prohibits socket creation. The actual compiler failed to acquire its license lock. Preserve the working SDK and credentials; resume with authorized access to those normal operations instead of reinstalling or copying license data. A metadata-only Make preflight now explains the build blocker promptly. It does not validate a license or establish native execution.
+
+Inspect the operator image through a copy and explicit writable qcow2 overlay. This worked under TCG without modifying the original image or log. Absence of `server-monitor`/`slm` in this run is evidence about this image only. Missing `sshd-auth` and an SSH startup memory fault remain unresolved; do not claim a tested transport until actual authentication and transfer pass.
+
+## D007: Qualify a dedicated KVM/SSH lab with existing identities
+
+**Date:** 2026-11-06. **State:** verified in E005; supersedes D006's active blocker.
+
+Full Access restored normal license-lock/Git writes and sockets. The SDK compiled normally without reinstallation. Apply the account's existing kvm membership using `sg kvm`; preserve host services and original images. Build a dedicated ignored image that includes `sshd-auth` and runtime helper links. Reuse existing client and bootstrap host keys locally, pin the public host key to the exact loopback port, and use strict verification and restricted user-mode forwarding. SSH commands and SFTP round-trip transfer passed. The old TCG fault was not reproduced; TCG remains unqualified.
+
+Phase 1's compiled capability probe establishes availability of the needed primitives, not deferred-I/O cancellation correctness. That proof remains Phase 2.
