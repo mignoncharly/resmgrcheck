@@ -6,7 +6,7 @@ static const char *control="none";
 int rmc_lab_set(const char *name) {
     const char *valid[]={"none","worker_stuck","worker_crash","worker_start_failed","service_unavailable",
         "readiness_blocked","health_blocked","malformed","truncated","oversize","event_overflow","channel_full",
-        "sink_unavailable","sink_quota","cleanup_failure","ownership_lost","manager_interference","late_malformed"};
+        "sink_unavailable","sink_quota","cleanup_failure","ownership_lost","manager_interference","manager_pending","late_malformed","fixture_evidence_loss"};
     for (unsigned i=0;i<sizeof(valid)/sizeof(valid[0]);++i) if (!strcmp(name,valid[i])) {
         control=valid[i];return setenv("RMC_LAB_CONTROL",control,1)==0;
     }

@@ -1,0 +1,1056 @@
+{
+  "kind": "phase4-native-matrix",
+  "binary_readback_sha256": {
+    "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+    "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+    "sensor-v1-fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+    "job-v1-fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1"
+  },
+  "cases": [
+    {
+      "case": "normal",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "host_elapsed_s": 1.0039157057181,
+      "event_count": 139,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "102039578",
+        "102047768",
+        "102060055",
+        "102064151",
+        "102068247",
+        "102076439",
+        "102080535",
+        "102080540",
+        "102088727",
+        "102092823",
+        "102236183",
+        "102240279",
+        "102244375"
+      ],
+      "reaped": [
+        "102039578",
+        "102047768",
+        "102060055",
+        "102064151",
+        "102068247",
+        "102076439",
+        "102080535",
+        "102080540",
+        "102088727",
+        "102092823",
+        "102236183",
+        "102240279",
+        "102244375"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "6509810e15eb767068a732af2888e6df80702f0d977fdee4dd1e69eaebebcd03"
+    },
+    {
+      "case": "normal_read",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "host_elapsed_s": 0.9925285298377275,
+      "event_count": 126,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "102465562",
+        "102473752",
+        "102486039",
+        "102490135",
+        "102498327",
+        "102502423",
+        "102502428",
+        "102510615",
+        "102514711",
+        "102658071",
+        "102662167",
+        "102666263"
+      ],
+      "reaped": [
+        "102465562",
+        "102473752",
+        "102486039",
+        "102490135",
+        "102498327",
+        "102502423",
+        "102502428",
+        "102510615",
+        "102514711",
+        "102658071",
+        "102662167",
+        "102666263"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "94d5ec81fdf2fc34647c0209b194172b0d061de9081c6d9ff9bb6bf05c0d4cc9"
+    },
+    {
+      "case": "stuck",
+      "lab_control": "worker_stuck",
+      "verdict": "ERROR",
+      "reasons": [
+        "worker_timeout"
+      ],
+      "host_elapsed_s": 2.257857732940465,
+      "event_count": 31,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "102887450",
+        "102895640",
+        "102907927"
+      ],
+      "reaped": [
+        "102887450",
+        "102895640",
+        "102907927"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "dc044adf67f23e31485d49b760d6555179e365be01f8a7464a61593271082d9a"
+    },
+    {
+      "case": "crash",
+      "lab_control": "worker_crash",
+      "verdict": "ERROR",
+      "reasons": [
+        "worker_crashed"
+      ],
+      "host_elapsed_s": 0.31814646115526557,
+      "event_count": 30,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "103604250",
+        "103612440",
+        "103624727"
+      ],
+      "reaped": [
+        "103604250",
+        "103612440",
+        "103624727"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "ec9a93c539af7ddabdbde69a1bdbb8ab27fcbe8368912e61d8784e2e8efadc34"
+    },
+    {
+      "case": "start",
+      "lab_control": "worker_start_failed",
+      "verdict": "ERROR",
+      "reasons": [
+        "worker_start_failed"
+      ],
+      "host_elapsed_s": 0.2974278861656785,
+      "event_count": 15,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "103841818"
+      ],
+      "reaped": [
+        "103841818"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "2edeae317e9fb9cb090485fdcbc81b364a6d04c69a1c7bfdf29a908d1ab028da"
+    },
+    {
+      "case": "unavailable",
+      "lab_control": "service_unavailable",
+      "verdict": "ERROR",
+      "reasons": [
+        "service_unavailable"
+      ],
+      "host_elapsed_s": 0.30699072033166885,
+      "event_count": 21,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "104075290",
+        "104091671"
+      ],
+      "reaped": [
+        "104075290",
+        "104091671"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "75f04a58f1da9647d2deac2ab5c495c9abf9eb8554aeed40b8bd668ed8530bf1"
+    },
+    {
+      "case": "readiness",
+      "lab_control": "readiness_blocked",
+      "verdict": "ERROR",
+      "reasons": [
+        "probe_timeout"
+      ],
+      "host_elapsed_s": 2.2508010491728783,
+      "event_count": 23,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "104308762",
+        "104316952"
+      ],
+      "reaped": [
+        "104308762",
+        "104316952"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "013f2627440d2b8eb9be719f072b3b71221b99b2e45244e25e00a7289355e709"
+    },
+    {
+      "case": "health",
+      "lab_control": "health_blocked",
+      "verdict": "ERROR",
+      "reasons": [
+        "probe_timeout"
+      ],
+      "host_elapsed_s": 3.009590503759682,
+      "event_count": 125,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "105021466",
+        "105033751",
+        "105041943",
+        "105046039",
+        "105050135",
+        "105058327",
+        "105058332",
+        "105066519",
+        "105070615",
+        "105213975",
+        "105218071",
+        "105222167"
+      ],
+      "reaped": [
+        "105021466",
+        "105033751",
+        "105041943",
+        "105046039",
+        "105050135",
+        "105058327",
+        "105058332",
+        "105066519",
+        "105070615",
+        "105213975",
+        "105218071",
+        "105222167"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "d2d3bfa849f93b71eb873f731cf12041d7eb85d1b374ce1e39f6e4eeb9f6ede0"
+    },
+    {
+      "case": "malformed",
+      "lab_control": "malformed",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_invalid",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 1.0044868527911603,
+      "event_count": 117,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "105922586",
+        "105934871",
+        "105943063",
+        "105947159",
+        "105951255",
+        "105959447",
+        "105963543",
+        "105963548",
+        "105971735",
+        "105975831",
+        "106119191"
+      ],
+      "reaped": [
+        "105922586",
+        "105934871",
+        "105943063",
+        "105947159",
+        "105951255",
+        "105959447",
+        "105963543",
+        "105963548",
+        "105971735",
+        "105975831",
+        "106119191"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "4bff9bb3eba0c25d7cb7775bdeab1fb99103f369e56938f6a70176e14d94ccb7"
+    },
+    {
+      "case": "truncated",
+      "lab_control": "truncated",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 0.9876654031686485,
+      "event_count": 105,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "106340378",
+        "106348568",
+        "106360855",
+        "106364951",
+        "106369047",
+        "106377239",
+        "106377244",
+        "106385431",
+        "106389527",
+        "106512407"
+      ],
+      "reaped": [
+        "106340378",
+        "106348568",
+        "106360855",
+        "106364951",
+        "106369047",
+        "106377239",
+        "106377244",
+        "106385431",
+        "106389527",
+        "106512407"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "8f7b31cad58f49e299635e13c7a08c52c56d08f354031d6d3f5704b38375b9c0"
+    },
+    {
+      "case": "oversize",
+      "lab_control": "oversize",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_invalid",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 0.9933626530691981,
+      "event_count": 117,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "106754074",
+        "106762264",
+        "106774551",
+        "106778647",
+        "106782743",
+        "106790935",
+        "106795031",
+        "106795036",
+        "106803223",
+        "106807319",
+        "106950679"
+      ],
+      "reaped": [
+        "106754074",
+        "106762264",
+        "106774551",
+        "106778647",
+        "106782743",
+        "106790935",
+        "106795031",
+        "106795036",
+        "106803223",
+        "106807319",
+        "106950679"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "3a5fc4fec23afbb1e838ab52256bc2909071a4c6ad6b2f67bf835fcad25e8227"
+    },
+    {
+      "case": "capacity",
+      "lab_control": "event_overflow",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_capacity_exceeded",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 1.6524320892058313,
+      "event_count": 313,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "107171866",
+        "107184151",
+        "107192343",
+        "107196439",
+        "107200535",
+        "107208727",
+        "107208732",
+        "107216919",
+        "107221015",
+        "107364375"
+      ],
+      "reaped": [
+        "107171866",
+        "107184151",
+        "107192343",
+        "107196439",
+        "107200535",
+        "107208727",
+        "107208732",
+        "107216919",
+        "107221015",
+        "107364375"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "8d497f9ad6adf957cc9c2f960273713dfd21802b10608f0d8493348712510fcc"
+    },
+    {
+      "case": "channel",
+      "lab_control": "channel_full",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_capacity_exceeded",
+        "evidence_loss",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 1.1603548610582948,
+      "event_count": 319,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "107733018",
+        "107741208",
+        "107753495",
+        "107757591",
+        "107765783",
+        "107769879",
+        "107773975",
+        "107773980",
+        "107782167",
+        "107786263",
+        "107929623"
+      ],
+      "reaped": [
+        "107733018",
+        "107741208",
+        "107753495",
+        "107757591",
+        "107765783",
+        "107769879",
+        "107773975",
+        "107773980",
+        "107782167",
+        "107786263",
+        "107929623"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "54ff811abb3cff46b24c0a17aec3779dc25825b6c08bad933433592a31567d42"
+    },
+    {
+      "case": "sink",
+      "lab_control": "sink_unavailable",
+      "verdict": "ERROR",
+      "reasons": [
+        "event_sink_failed",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 0.9528593020513654,
+      "event_count": 99,
+      "event_file": "recovery.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "108187674",
+        "108195864",
+        "108208151",
+        "108212247",
+        "108216343",
+        "108224535",
+        "108224540",
+        "108232727",
+        "108236823"
+      ],
+      "reaped": [
+        "108187674",
+        "108195864",
+        "108208151",
+        "108212247",
+        "108216343",
+        "108224535",
+        "108224540",
+        "108232727",
+        "108236823"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "2c2ce7af9f614549afc23f8eeb7baec68d986a3d358538645d99fc7db34478cf"
+    },
+    {
+      "case": "quota",
+      "lab_control": "sink_quota",
+      "verdict": "ERROR",
+      "reasons": [
+        "event_sink_failed",
+        "cancellation_not_completed",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 3.1881643310189247,
+      "event_count": 111,
+      "event_file": "recovery.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "108597274",
+        "108609559",
+        "108617751",
+        "108621847",
+        "108630039",
+        "108634135",
+        "108638231",
+        "108638236",
+        "108646423",
+        "108650519"
+      ],
+      "reaped": [
+        "108597274",
+        "108609559",
+        "108617751",
+        "108621847",
+        "108630039",
+        "108634135",
+        "108638231",
+        "108638236",
+        "108646423",
+        "108650519"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "b57cdf0cd35cb7b42b80820f5e1fa47faaa3819142a08711c7eb98544fe0f5f1"
+    },
+    {
+      "case": "manager",
+      "lab_control": "manager_interference",
+      "verdict": "ERROR",
+      "reasons": [
+        "service_interference"
+      ],
+      "host_elapsed_s": 0.3140683132223785,
+      "event_count": 15,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "109527066",
+        "109535256"
+      ],
+      "reaped": [
+        "109527066",
+        "109535256"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "49bdf17bf4a3eebd376a8855c49baff488690fac0340512dfb2c7e7932aaa36f"
+    },
+    {
+      "case": "manager_pending",
+      "lab_control": "manager_pending",
+      "verdict": "ERROR",
+      "reasons": [
+        "service_interference",
+        "worker_close_failed"
+      ],
+      "host_elapsed_s": 0.34704831102862954,
+      "event_count": 74,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "109760538",
+        "109768728",
+        "109781015",
+        "109785111",
+        "109789207",
+        "109797399",
+        "109801495",
+        "109801500"
+      ],
+      "reaped": [
+        "109760538",
+        "109768728",
+        "109781015",
+        "109785111",
+        "109789207",
+        "109797399",
+        "109801495",
+        "109801500"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "a66562d419f7fbb4053ceed3dc4b6a06428b509cdaca94ec37813daae791e5ad"
+    },
+    {
+      "case": "fixture_sink",
+      "lab_control": "fixture_evidence_loss",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_loss",
+        "service_interference",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 0.26460829796269536,
+      "event_count": 12,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "110018586"
+      ],
+      "reaped": [
+        "110018586"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "5a71b48b364d9ae56b283de9ffc8e0fc9565fa16c6fffbadc418c9a83fda008c"
+    },
+    {
+      "case": "late",
+      "lab_control": "late_malformed",
+      "verdict": "ERROR",
+      "reasons": [
+        "evidence_invalid",
+        "cancellation_not_completed",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 3.1204178468324244,
+      "event_count": 117,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [
+        "110247962",
+        "110256152",
+        "110268439",
+        "110272535",
+        "110280727",
+        "110284823",
+        "110288919",
+        "110288924",
+        "110297111",
+        "110301207",
+        "110919705"
+      ],
+      "reaped": [
+        "110247962",
+        "110256152",
+        "110268439",
+        "110272535",
+        "110280727",
+        "110284823",
+        "110288919",
+        "110288924",
+        "110297111",
+        "110301207",
+        "110919705"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "2d1d942ab51ca3c428992c77222d5b90880563c882c0d812c0302833a97a3ec0"
+    },
+    {
+      "case": "cleanup",
+      "lab_control": "cleanup_failure",
+      "verdict": "ERROR",
+      "reasons": [
+        "cleanup_failed",
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "host_elapsed_s": 5.057736156042665,
+      "event_count": 103,
+      "event_file": "events.jsonl",
+      "cleanup_ok": false,
+      "spawned": [
+        "111181850",
+        "111190040",
+        "111202327",
+        "111206423",
+        "111210519",
+        "111218711",
+        "111218716",
+        "111226903",
+        "111230999",
+        "111824925"
+      ],
+      "reaped": [
+        "111190040",
+        "111202327",
+        "111206423",
+        "111210519",
+        "111218711",
+        "111218716",
+        "111226903",
+        "111824925"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "11437003403a46a586925dcb0b2785c216cd4c532ac075219ae0270dd3fdc1ee"
+    },
+    {
+      "case": "dependent",
+      "lab_control": "none",
+      "verdict": "NOT_RUN",
+      "reasons": [
+        "prior_cleanup_failed"
+      ],
+      "host_elapsed_s": 0.3496155207976699,
+      "event_count": 7,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [],
+      "reaped": [],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "a9e54c1c56aa6a02f0f9b2b4d279cc50932bc99cffad257af2572074270c16b3"
+    },
+    {
+      "case": "ownership",
+      "lab_control": "ownership_lost",
+      "verdict": "ERROR",
+      "reasons": [
+        "cleanup_failed",
+        "ownership_unknown",
+        "evidence_incomplete"
+      ],
+      "host_elapsed_s": 0.34627449279651046,
+      "event_count": 23,
+      "event_file": "events.jsonl",
+      "cleanup_ok": false,
+      "spawned": [
+        "112853018",
+        "112861208"
+      ],
+      "reaped": [
+        "112853018"
+      ],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "a568a1ed9d3636ce422b2b7387371804feb56aa5432e9eefe39470b66765e8e0"
+    },
+    {
+      "case": "owned_dep",
+      "lab_control": "none",
+      "verdict": "NOT_RUN",
+      "reasons": [
+        "prior_cleanup_failed"
+      ],
+      "host_elapsed_s": 0.3024435290135443,
+      "event_count": 7,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [],
+      "reaped": [],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "e640e5004be7d6afb539e13589dbdfb882a4b2178257b35524c4d5409094de14"
+    },
+    {
+      "case": "unsupported",
+      "lab_control": "none",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "required_capability_missing"
+      ],
+      "host_elapsed_s": 0.27810830576345325,
+      "event_count": 6,
+      "event_file": "events.jsonl",
+      "cleanup_ok": true,
+      "spawned": [],
+      "reaped": [],
+      "source_builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": true,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d1b4536db63e1c8c83bc51f97548cbde8b41f8bc",
+        "source_tree_sha256": "ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888"
+      },
+      "event_sha256": "07855fec2d42a4f75338c89b5fffb7d34f041d95f3d781edb5b66e3a605bf1f9"
+    }
+  ],
+  "support_binary_readback_sha256": {
+    "fill-storage": "4be87284b0635cba67900f692846a9eb32c40cd400385c8870c26baf33cbfe15",
+    "mkqnx6fs": "4f52c59e5e1b91a3b8d57ea26ccee1d652096cc5225ab1310732d1afa0786ff3"
+  },
+  "qualification_sources_sha256": {
+    "tests/qnx/fill-storage.c": "e95c9cf748a342b02122e8ebaf56955d15086e5d487d788fdb6ec2ab75613706",
+    "tests/qnx/full-storage.sh": "f0a0f46620c51c944ae3fc20c8fe2a280cd93a0311e8f0326c40c20d12a86de6",
+    "tests/qnx/qualify-phase4.py": "536524650e0f07ee7cdf9c0cac1fca55cb7f4575be3c7259cbba1347ba5d0251"
+  }
+}

@@ -7,6 +7,13 @@
 #include <stdio.h>
 #include <string.h>
 int main(int argc,char **argv) {
+    if (argc==2 && !strcmp(argv[1],"--preflight")) {
+        struct statvfs v;
+        if (statvfs("/data",&v)) return 2;
+        unsigned long long available=(unsigned long long)v.f_bavail*v.f_frsize;
+        printf("{\"data_available_bytes\":%llu,\"minimum_bytes\":16777216}\n",available);
+        return available>=16U*1024U*1024U ? 0 : 2;
+    }
     if (argc!=2 || strcmp(argv[1],"/data/resmgrcheck/phase4-full")) return 2;
     struct statvfs before,after;struct stat a,b;
     if (stat(argv[1],&a) || stat("/data/resmgrcheck",&b) || a.st_dev==b.st_dev || statvfs(argv[1],&before)) return 2;

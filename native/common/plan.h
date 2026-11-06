@@ -5,10 +5,10 @@ typedef struct {
     cJSON *root;
     const cJSON *profile;
     const rmc_adapter_v1 *adapter;
-    const char *mode, *path;
+    const char *mode, *path, *scenario;
     unsigned setup_ms, operation_ms, cancellation_ms, probe_ms, execution_ms, cleanup_ms;
     unsigned required_caps;
-    int external;
+    int external, signal_unsupported;
 } rmc_plan;
 int json_tree(const cJSON *value, unsigned depth);
 int json_keys(const cJSON *object, const char *keys);

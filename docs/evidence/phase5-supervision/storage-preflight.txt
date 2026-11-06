@@ -1,0 +1,1 @@
+{"data_available_bytes":39092224,"minimum_bytes":16777216}

@@ -48,6 +48,12 @@ void event_json(const char *producer, const char *name, cJSON *data) {
     add_number(o, "seq", (int)++seq); add_decimal(o, "ns", (int64_t)mono_ns());
     add_string(o, "event", name);
     if (!cJSON_AddItemToObject(o, "data", data)) _exit(120);
+#ifdef RMC_EVENT_V1
+    /* Explicit owned-lab fault: exercise a real failed fixture producer write.
+     * Exit 120 remains independent evidence loss as well as fixture death. */
+    const char *lab=getenv("RMC_LAB_CONTROL");
+    if (lab && !strcmp(lab,"fixture_evidence_loss") && !strcmp(producer,"fixture") && !strcmp(name,"ready")) close(STDOUT_FILENO);
+#endif
     json_write(o); cJSON_Delete(o);
 }
 /* Compatibility for the already proven fixture observations. Format strings are

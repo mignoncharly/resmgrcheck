@@ -513,3 +513,137 @@ were restored, and final inventory found no project executable. Full reviewed
 plans/manifests, events/status/results, commands, build log, readback identities
 and index are retained in evidence/phase4-clean. This confirms the implemented
 checkpoint itself; it does not relabel the earlier dirty-source experiment.
+
+## E010: Phase 5 non-restart signal-family subgate
+
+**Date:** 2026-11-06. **Outcome:** signal subgate PASS; **full Phase 5 remains
+in progress**. Departure, repetition and directed ordering have not passed.
+
+Actual source was base `d1b4536db63e1c8c83bc51f97548cbde8b41f8bc`, dirty=true, digest
+`ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888`. The plans/manifests and index retain source,
+recipe/profile/suite and all artifact identities. Actual qcc builds passed with
+C11/QNX extensions and warnings as errors; all four deployed generic binaries
+matched SFTP readback. This is the same qualified QNX 8.0.0 x86_64 KVM lab, with
+policy 2 / priority 10. No fixture cancellation implementation was changed for
+this signal family; both use their reviewed current-owned-unblock MsgError(-1)
+path and never return ERESTART.
+
+```bash
+source /home/mignon/qnx800/qnxsdp-env.sh
+make qnx
+python3 tests/qnx/qualify-signal.py --prefix p5signal6
+python3 -m unittest discover -s tests/host -v
+```
+
+| Actual native case | Verdict | Exact reason set | Host elapsed seconds |
+| --- | --- | --- | --- |
+| sensor-signal-fixed | PASS | all_obligations_satisfied | 0.540 |
+| sensor-signal-defect | FAIL | cancellation_not_completed, pending_state_not_released | 2.814 |
+| job-signal-fixed | PASS | all_obligations_satisfied | 0.553 |
+| job-signal-defect | FAIL | cancellation_not_completed, pending_state_not_released | 2.769 |
+| sensor-timeout-fixed | PASS | all_obligations_satisfied | 1.069 |
+| sensor-timeout-defect | FAIL | cancellation_not_completed, pending_state_not_released | 3.316 |
+| job-timeout-fixed | PASS | all_obligations_satisfied | 1.105 |
+| job-timeout-defect | FAIL | cancellation_not_completed, pending_state_not_released | 3.316 |
+| sensor-auto-fixed | UNSUPPORTED | signal_mode_unsupported | 0.401 |
+| job-auto-fixed | UNSUPPORTED | signal_mode_unsupported | 0.407 |
+| job-missing-fixed | UNSUPPORTED | required_capability_missing | 0.412 |
+
+The worker source creates no application thread and installs one SIGUSR1 handler.
+The handler only sets volatile sig_atomic_t. Ordinary-context setup records
+configured flags=0, retry=0, timeout_armed=0, actual queried masked=0 and error=0.
+The actual QNX header/manifest signal number was 16; no host signal constants were
+used to infer it. After actual matching fixture pending, the supervisor recorded
+its trigger request and separate successful kill result for that exact owned PID.
+No deadline/TimerTimeout event exists in the signal cases; the independent 2 s
+cancellation allowance starts at the signal request.
+
+Both corrected services recorded a live matching unblock, successful cancellation
+reply/removal, handler seen=1 and MsgSendv raw_return=-1, raw_errno=4, api_error=4,
+normalized INTERRUPTED/EINTR. Source trigger-to-result observations were 121,393 ns
+(sensor) and 130,340 ns (job). These are observed runs, not worst-case bounds.
+Post-state showed pending zero; the job still existed and was not ready. Completion
+of that retained job and fresh-client retrieval succeeded. Health preceded stopping
+the same fixture; no restart supplied a health result. All owned children were
+actually reaped and final status was complete with no unresolved PID.
+
+The two ignore-unblock cases confirmed actual pending and successful SIGUSR1 send,
+then live ignored unblock and no completion past the original allowance. Each
+retained cancellation_not_completed and pending_state_not_released as FAIL. Absence
+of a handler observation while the operation remained blocked was not used to guess
+a root cause. Emergency fixture cleanup was recorded separately; no restart or
+cleanup result satisfied original-instance health. The changed common scenario
+selection/process notification path specifically rechecked both timeout profiles
+and both existing defect controls, preserving their ETIMEDOUT semantics/results.
+No earlier full phase suite was restarted.
+
+Both known automatic-restart requests returned UNSUPPORTED/signal_mode_unsupported
+before any child launch. A missing required departure capability remained
+UNSUPPORTED/required_capability_missing. Five new native malformed requests
+(unknown signal mode, wrong expected cancellation error, mismatched case ID,
+missing required signal observer and an undeclared retry key) returned 2, with
+empty stdout and no run storage created. Every rejection had a fresh run ID to
+avoid confusing duplicate protection with schema rejection.
+
+Forty-six host tests passed, including eight new signal tests over these actual
+vectors and explicitly synthetic mutations: flags/mask/retry/timer configuration,
+missing handler, mismatched target signal number, signal-send failure, unrelated
+timeout error and simultaneous operation timeout. These host mutations are not
+additional QNX experiments. The native matrix and rejection helper check exact
+outcome/reason sets and empty ownership ledgers. Final target inventory contained
+no project process and no server-monitor/slm.
+
+Reviewed plans, native manifests/events, starts/status/results, input rejections,
+commands, build/host logs, inventory and the readback index are retained in
+[phase5-signal](evidence/phase5-signal/index.json). Original binaries/raw local
+state remain ignored in .local/evidence/phase5-signal-p5signal6. The remaining
+Phase 5 gate must prove forced client departure, callback/OCB lifetime, 20-cycle
+same-instance repetition and the two directed completion/cancellation orders on
+both services, including their targeted negative controls.
+
+### Shared producer follow-up during Phase 5
+
+Review found that a fixture exiting with the reserved producer-write failure status
+120 establishes both fixture interference and producer evidence loss. Both are now
+retained. An added explicit fixture_evidence_loss control closes only the fixture's
+own event descriptor before its readiness write; the real failed write exits 120.
+The parent recorded raw wait status 30720, independent service_interference and
+evidence_loss, plus required evidence_incomplete. It launched no worker and made no
+service FAIL claim. Cleanup/reaping were complete. A ninth new host regression
+checks that neither independent reason disappears.
+
+Because the shared producer path changed, the expanded 24-case supervision matrix
+was executed successfully at the same final source digest with
+`python3 tests/qnx/qualify-phase4.py --prefix p5supervise5`, before the final signal
+matrix. Its exact per-case outcomes, artifacts and support-tool readback/source
+hashes are in evidence/phase5-supervision. The prior Phase 4 checkpoint and its
+clean qualification remain preserved; this is an affected-path follow-up.
+
+Two setup attempts were explicitly rejected before any scenario: accumulated old
+lab images prevented creating the isolated image, and an attempted RAM-backed
+loopback mount reported read-only filesystem. Neither counted as a native case or
+passed gate. The six known generated temporary images were copied to ignored local
+archives, verified with matching POSIX cksum/length, then removed from the guest.
+Original VM/SDK images, all test logs/status and binary readbacks were preserved.
+The helper retains the qualified file-backed filesystem, now preflights at least
+16 MiB main-volume free space, cleans its exact temporary image after unmount and
+owned-driver wait, and retains partial setup output on failure. Final checks
+confirmed its image, mount directory and pseudo-device absent; the guest main
+volume had ample free space. Setup errors and archive inventory are retained as
+text, with no image or SDK binary committed.
+
+The additional manager_pending case terminated the fixture while its baseline
+ordinary devctl was actually pending. The worker recorded devctl return 3/errno 0,
+close -1/errno 9 and declared exit 2; the parent recorded actual reaping. This is
+ERROR/service_interference plus worker_close_failed, with no service FAIL and no
+claim that the complete event stream was truncated. A native process_exit record
+now provides WIFEXITED/WEXITSTATUS/WTERMSIG observations, avoiding host decoding of
+QNX raw wait status. Known fixture interference invalidates transport-style
+baseline errors; an independently returned bad payload remains a separate FAIL.
+Explicit close failure and unexplained nonzero worker exit are execution errors,
+not missing evidence. The complete 24-case matrix passed after this correction.
+
+Current-host synthetic tests also verify that a later manager error cannot erase an
+earlier successful-but-forbidden payload and that a recorded nonzero worker exit
+cannot become PASS. This last host-only guard does not change native binaries;
+the original native source identities above remain unchanged in retained plans.

@@ -14,8 +14,10 @@ int rmc_child_signal(rmc_child *c,int sig,int *error) {
     int state=rmc_child_poll(c);*error=0;
     if (state==1) return 1;
     if (state<0) { *error=ECHILD;return -1; }
-    c->expected_stop=1;
-    if (sig>0 && sig<32) c->termination_mask |= 1U << sig;
+    if (sig==SIGTERM || sig==SIGKILL) {
+        c->expected_stop=1;
+        c->termination_mask |= 1U << sig;
+    }
     int rc=kill(c->pid,sig);*error=rc==-1 ? errno : 0;
     return rc;
 }

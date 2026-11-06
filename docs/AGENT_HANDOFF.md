@@ -50,3 +50,27 @@ bookkeeping and OCB lifetime. Repeat against one instance, 20 cycles by default;
 stop after unknown contamination. Directed ordering must record the actual order,
 not claim exhaustive concurrency coverage. Test both corrected and targeted
 negative controls on real QNX before the Phase 5 gate.
+
+## Phase 5 signal subgate completed
+
+E010 / docs/evidence/phase5-signal records eleven real native cases and five new
+native input rejections from p5signal6. New profiles sensor-signal.json and
+job-signal.json select one explicit signal family, expected EINTR, required signal
+capability and signal_mode non-restart-no-retry. Auto-restart is parsed as a known
+request but becomes UNSUPPORTED before child launch. Required cycles still equal
+one in this milestone. Existing timeout profiles keep their original expectations.
+
+The worker's handler only changes volatile sig_atomic_t. Flags 0 and actual mask
+are recorded outside the handler; no TimerTimeout is armed in signal role and no
+retry occurs. The parent waits for operation_armed plus fixture pending, then records
+trigger_requested and the separate actual signal-send result. Raw MsgSendv errno
+is captured before logging the handler flag. Signal number is bound to the QNX
+manifest signal_codes, rather than Python/Linux constants. Both corrected paths
+PASSed; both ignored-unblock paths FAILed specifically. The affected timeout paths
+also retained their outcomes. Forty-six host tests pass.
+
+Continue with Phase 5 departure, repeated cancellation/reconnect and ordering.
+Do not call this partial scenario milestone a Phase 5 gate. Generic runner/evaluator
+still contain no service-name conditions. Existing close_dup code is not a native
+proof of departure, duplicate-FD or OCB lifetime correctness. Use the installed
+QNX documentation and actual callback/termination observations for that next step.

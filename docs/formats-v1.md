@@ -16,8 +16,8 @@ are 1–64 ASCII letters/digits/underscore/hyphen, starting with a letter or dig
 SHA256 is exactly 64 lowercase hex digits; a source revision is 40 lowercase hex.
 
 Run-bound documents/events share `run_id`, `case_id`, `attempt_id`, `cycle` (1–200),
-and `service_instance_id`. The first expansion currently selects one timeout
-case, attempt1, cycle1. Run IDs must be unique within the owned lab; uncertain
+and `service_instance_id`. Expansion currently selects the one explicit timeout or signal family required
+by the profile, attempt1, cycle1. Run IDs must be unique within the owned lab; uncertain
 transport does not authorize starting another copy. Phase 4 owns persistent
 reconnection/contamination handling.
 
@@ -43,17 +43,17 @@ Exact top-level fields: `kind`, `schema_version`, `id`, `version`, `adapter`,
 | Identity | id; version integer 1–1000000; adapter `{id, abi}` selects a compiled registration, ABI 1 |
 | Service | `{mode, device}`; mode managed-fixture or external-attach; device is a single `/dev/resmgrcheck-...` lab pathname component, bounded to 96 suffix characters |
 | Operation | `{id, parameters, result_shape, convention}`; all service-specific fields are checked against the registration; result shape is integer-record; convention is errno or devctl |
-| Capabilities | `{required, optional}` distinct bounded lists of known IDs; no overlap. Pending, state, health and timeout are required for strict timeout evaluation. require_unblock also requires unblock capability |
-| Expectations | `{cancel_error, pending_after, require_unblock, health, state_after}`; ETIMEDOUT, pending zero, boolean observer requirement, exact registered typed fact predicates |
+| Capabilities | `{required, optional}` distinct bounded lists of known IDs; no overlap. Pending, state, health and the selected timeout/signal capability are required for strict evaluation. require_unblock also requires unblock capability |
+| Expectations | `{cancel_error, pending_after, require_unblock, health, state_after}`; ETIMEDOUT for timeout / EINTR for signal, pending zero, boolean observer requirement, exact registered typed fact predicates |
 | Timing | setup_ms, operation_ms, cancellation_ms, probe_ms, execution_ms, cleanup_ms; 100–5000 ms except execution up to 30000; execution must accommodate operation+cancellation+setup+probe bounds |
-| Suite | `{required, optional, cycles, reset}`; required timeout; optional known later scenarios signal/departure/repeat; cycles 1–200; reset new-instance |
+| Suite | `{required, optional, cycles, reset}`; required exactly one timeout or signal family; optional known signal/departure/repeat without overlap; cycles 1–200; reset new-instance; signal family also requires signal_mode |
 
 Profiles cannot select fixture defects, shell commands, executable paths, scripts,
 Python expressions or arbitrary operation IDs. Defect mode is a separate expanded
 plan setting; it never relaxes the corrected-service contract. The supplied
 profiles use the same 500/2000 ms timeout/allowance and 10 s case bound as Phase 2.
 
-Current expansion supports only one timeout cycle; a profile requesting multiple
+Current expansion supports only one cycle; a profile requesting multiple
 cycles is rejected at expansion rather than silently running one. Optional scenario
 names do not imply those cases executed. External attach is validated as a mode
 but currently becomes UNSUPPORTED before any process launch.
@@ -93,12 +93,15 @@ binaries execute every registration.
 The native supervisor writes exactly one manifest as the first NDJSON record.
 Exact fields: kind/version; shared identities; tool_version; adapter_id;
 adapter_abi; capabilities; profile_sha256; suite_sha256; builds; target;
-fixture_mode; error_codes.
+fixture_mode; error_codes; recognized optional signal_codes.
 
 `target` is exactly `{sysname, release, version, machine, scheduling_policy,
 priority}`. These are captured with native uname/scheduling calls. Error codes
 EOK, ETIMEDOUT, EINTR and ENOENT are captured from the QNX build. The host never
-imports Linux errno numbers to evaluate QNX results. Capabilities are the actual
+imports Linux errno numbers to evaluate QNX results. New manifests also declare
+signal_codes exactly {SIGUSR1: integer}, captured from the actual QNX header.
+Signal evaluation requires that map; historical timeout manifests without it remain
+readable. No Python/Linux signal-number substitution is permitted. Capabilities are the actual
 compiled registration's declarations, not a copy of the requested list.
 
 A missing required capability produces an explicit unsupported event, no child
@@ -276,3 +279,42 @@ The evaluator retains a trustworthy prefix when later evidence is malformed or
 truncated, preserving independent earlier FAIL assertions while returning ERROR.
 No incomplete flow or required evidence loss can become PASS. Reason meanings are
 documented in [reason-codes.md](reason-codes.md).
+
+## Phase 5 explicit signal family
+
+Profiles sensor-signal.json and job-signal.json use suite.required=[signal],
+expected cancel_error EINTR and required signal capability. The suite adds the
+exact signal_mode field: non-restart-no-retry is implemented; auto-restart is a
+recognized UNSUPPORTED request. Unknown modes/keys, retry fields, mismatched case
+IDs/errors and missing required signal observers are rejected. Plan case_id must
+match its profile's one required family. Timeout profiles retain their prior shape
+and ETIMEDOUT expectation; a signal profile does not relax those checks.
+
+The worker records signal_setup (name, target number, configured flags, retry,
+timeout_armed, queried masked bit and error), operation_armed, and after return
+signal_handler_observed. The minimal handler only changes a sig_atomic_t flag;
+these are ordinary-context events. The supervisor records trigger_requested with
+owned child PID, signal and absolute completion bound, then signal_sent with the
+actual syscall outcome. Pending must precede the trigger. Server-mediated unblock
+can occur before the signal_sent log is written; source times and the pre-send
+trigger marker determine conditions, not merged line order.
+
+Signal evaluation requires SIGUSR1 bound to the native manifest, flags/retry/mask/
+operation-timer all zero, successful send after matching pending, no timeout deadline
+event, a live matching unblock, MsgSendv -1 with target EINTR, observed handler,
+terminal ownership removal, post-state and original-instance fresh health. The
+completion bound starts at the recorded signal request, not a kernel operation
+timeout. A later unrelated error cannot satisfy EINTR. An absent handler while
+ignored cancellation remains blocked does not by itself identify a root cause.
+The original observed bound violation remains a service FAIL. E010 is the native
+proof; departure/repetition/ordering are still open.
+
+Native process_exit adds exact child_pid, exited (0/1), exit_code (0–255) and signal
+(0–255). Native wait macros populate it; raw reaped status is retained separately.
+Historical successful zero-status records remain readable. New nonzero natural
+worker exits require consistent worker-final/native exit facts. A recorded close
+failure or nonzero exit is execution ERROR; it does not by itself mean evidence
+was lost. Missing/inconsistent required observations still invalidate completeness.
+Fixture interference invalidates transport-style baseline errors while preserving
+independently returned forbidden payloads. E010 includes both native failure facts
+and explicitly synthetic preservation/nonzero-exit checks.

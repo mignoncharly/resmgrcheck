@@ -157,3 +157,36 @@ This is not independent storage redundancy or power-loss attestation. A stalled
 owned lab VM produced an actual bounded host transport timeout, infrastructure
 ERROR and remote cleanup NOT_RUN. Reconnection/collection uses the original run
 ID; neither a closed SSH session nor successful kill syscall proves remote cleanup.
+
+## D015: Prove one explicit non-restart signal mode
+
+**Date:** 2026-11-06. **State:** Phase 5 signal-family subgate passed E010; the
+full Phase 5 gate remains open.
+
+Use a dedicated single-thread worker with SIGUSR1, sigaction flags 0, queried
+unblocked mask, no retry and no simultaneous operation timer. The handler changes
+only volatile sig_atomic_t. Record trigger request, successful signal syscall,
+server unblock, ordinary-context handler observation and actual operation return
+separately. Bind the signal number and errno to target manifest/header values,
+never host constants. Both services returned MsgSendv -1/EINTR 4 with SIGUSR1 16.
+The existing current-owned-unblock MsgError(-1) path preserves the kernel reason;
+no ERESTART or fabricated SA_RESTART compatibility definition is used.
+
+Signal profiles declare EINTR and one explicit scenario family; timeout profiles
+retain ETIMEDOUT. Known auto-restart requests become UNSUPPORTED before launch.
+Strict native rejection and host mutations verify that wrong errors, missing
+handler evidence, retry/mask/flags or simultaneous timeout cannot become PASS.
+Client departure, repetition and ordering still require their separate native gates.
+
+## D016: Keep execution errors separate from evidence loss
+
+**Date:** 2026-11-06. **State:** native follow-up passed in E010.
+
+A failed producer write can establish fixture death and evidence loss independently;
+retain both. A manager terminating a pending fixture can instead produce complete
+observations of devctl ESRCH, close EBADF and nonzero worker exit. Classify those
+as interference/worker_close_failed, not a service contract FAIL or log truncation.
+Record native exit/signal facts with QNX wait macros so Python need not decode raw
+wait bits using host assumptions. Successfully returned forbidden payloads remain
+independent FAIL assertions even if later interference occurs. No unexplained
+nonzero worker exit can satisfy a PASS.

@@ -1,0 +1,1 @@
+mkqnx6fs: unable to resize file - No space left on device

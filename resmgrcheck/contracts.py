@@ -152,20 +152,27 @@ class Profile:
         enum(o['id'], {reg.operation}); enum(o['convention'], {reg.convention}); enum(o['result_shape'], {'integer-record'})
         require(type(o['parameters']) is dict and set(o['parameters']) == set(reg.parameters), 'wrong operation parameters')
         for k, bounds in reg.parameters.items(): integer(o['parameters'][k], *bounds)
+        suite = obj(d['suite'], 'required optional cycles reset'+(' signal_mode' if type(d['suite']) is dict and 'signal_mode' in d['suite'] else ''), 'suite')
+        scenarios=strings(suite['required'],{'timeout','signal'})
+        require(len(scenarios)==1,'one explicit scenario family required')
+        scenario=scenarios[0]
+        optional_scenarios=strings(suite['optional'], {'signal', 'departure', 'repeat'})
+        require(not set(scenarios)&set(optional_scenarios),'scenario required/optional overlap')
+        if scenario=='signal':
+            require('signal_mode' in suite,'signal mode required')
+            enum(suite['signal_mode'],{'non-restart-no-retry','auto-restart'})
+        else:require('signal_mode' not in suite,'unexpected signal mode')
+        integer(suite['cycles'], 1, 200); enum(suite['reset'], {'new-instance'})
         c = obj(d['capabilities'], 'required optional')
         required = strings(c['required'], CAPABILITIES); optional = strings(c['optional'], CAPABILITIES)
         require(not set(required) & set(optional), 'required/optional overlap')
-        require({'pending', 'state', 'health', 'timeout'} <= set(required), 'strict timeout profile must require its observers')
+        require({'pending', 'state', 'health', scenario} <= set(required), 'strict scenario profile must require its observers')
         e = obj(d['expectations'], 'cancel_error pending_after require_unblock health state_after')
-        enum(e['cancel_error'], {'ETIMEDOUT'}); integer(e['pending_after'], 0, 0); boolean(e['require_unblock'])
+        enum(e['cancel_error'], {'ETIMEDOUT' if scenario=='timeout' else 'EINTR'}); integer(e['pending_after'], 0, 0); boolean(e['require_unblock'])
         require(not e['require_unblock'] or 'unblock' in required, 'unblock observation must be required')
         facts(e['health'], reg.result_facts); require(set(e['health']) == reg.result_facts, 'incomplete result predicate')
         facts(e['state_after'], reg.state_facts); require(set(e['state_after']) == reg.state_facts, 'incomplete state predicate')
         timing = Timing.parse(d['timing'])
-        suite = obj(d['suite'], 'required optional cycles reset')
-        require(strings(suite['required'], {'timeout'}) == ('timeout',), 'timeout scenario required')
-        strings(suite['optional'], {'signal', 'departure', 'repeat'})
-        integer(suite['cycles'], 1, 200); enum(suite['reset'], {'new-instance'})
         return cls(loads(canonical(d)), timing)
 
 IDENTITY = 'run_id case_id attempt_id cycle service_instance_id'
@@ -193,6 +200,7 @@ class Plan:
         obj(d, 'kind schema_version '+IDENTITY+' profile profile_sha256 suite_sha256 fixture_mode builds', 'plan')
         version(d, 'scenario-plan'); identity(d)
         profile = Profile.parse(d['profile'])
+        require(d['case_id']==profile.data['suite']['required'][0],'case/scenario mismatch')
         text(d['profile_sha256'], HASH); require(d['profile_sha256'] == digest(profile.data), 'profile hash mismatch')
         text(d['suite_sha256'], HASH); require(d['suite_sha256'] == digest(profile.data['suite']), 'suite hash mismatch')
         enum(d['fixture_mode'], {'corrected', 'ignore-unblock'}); builds(d['builds'])
@@ -219,7 +227,7 @@ class TargetManifest:
 
     @classmethod
     def parse(cls, d):
-        obj(d, 'kind schema_version '+IDENTITY+' tool_version adapter_id adapter_abi capabilities profile_sha256 suite_sha256 builds target fixture_mode error_codes', 'manifest')
+        obj(d, 'kind schema_version '+IDENTITY+' tool_version adapter_id adapter_abi capabilities profile_sha256 suite_sha256 builds target fixture_mode error_codes'+(' signal_codes' if type(d) is dict and 'signal_codes' in d else ''), 'manifest')
         version(d, 'target-run-manifest'); identity(d)
         require(d['tool_version'] == '0.3.0', 'unknown tool version')
         enum(d['adapter_id'], REGISTRY); integer(d['adapter_abi'], 1, 1)
@@ -233,6 +241,8 @@ class TargetManifest:
         obj(d['error_codes'], 'EOK ETIMEDOUT EINTR ENOENT')
         integer(d['error_codes']['EOK'],0,0)
         for k in ('ETIMEDOUT','EINTR','ENOENT'): integer(d['error_codes'][k],1,65535)
+        if 'signal_codes' in d:
+            obj(d['signal_codes'],'SIGUSR1');integer(d['signal_codes']['SIGUSR1'],1,255)
         return cls(d)
 
 @dataclass(frozen=True)
@@ -263,6 +273,7 @@ class EvaluatedResult:
         require(d['verdict'] != 'PASS' or (d['completion'] == 'complete' and d['assertions'] and all(a['verdict'] == 'PASS' for a in d['assertions'])), 'inconsistent PASS')
         required={'baseline_validity','pending_precondition','cancellation_completion','terminal_reply_observation',
                   'state_observation','pending_state_cleanup','state_facts','fresh_client_health','owned_process_cleanup','evidence_completeness'}
+        if d['case_id']=='signal':required.add('signal_handler_observation')
         require(d['verdict']!='PASS' or required<=set(ids), 'missing PASS obligations')
         return cls(d)
 
@@ -300,6 +311,7 @@ EVENT_FIELDS = {
  'settings': {'mode':_word,'timeout_ms':_count,'allowance_ms':_count,'path':_runtime_device,'case_ms':_count,'cleanup_ms':_count},
  'spawned': {'binary':_word,'child_pid':decimal,'operation':_word},
  'reaped': {'child_pid':decimal,'raw_status':_count},
+ 'process_exit': {'child_pid':decimal,'exited':_flag,'exit_code':_count,'signal':_count},
  'lab_discarded_wait': {'child_pid':decimal,'raw_status':_count},
  'ready': {'path':_runtime_device,'mode':_word},
  'started': {'operation':_word},
@@ -311,6 +323,10 @@ EVENT_FIELDS = {
  'open_error': {'error':_count},
  'arm_error': {'error':_count},
  'deadline': {'operation':_word,'deadline_ns':decimal,'timeout_ms':_count},
+ 'signal_setup': {'name':_word,'signal':_count,'flags':_count,'retry':_flag,'timeout_armed':_flag,'masked':_flag,'error':_count},
+ 'operation_armed': {'operation':_word,'timeout_armed':_flag},
+ 'signal_handler_observed': {'signal':_count,'seen':_flag},
+ 'trigger_requested': {'child_pid':decimal,'signal':_count,'completion_bound_ns':decimal},
  'received': {'logical':decimal,'generation':decimal,'rcvid':decimal,'client_pid':decimal},
  'sample': {'logical':decimal,'generation':decimal,'bytes':_count},
  'pending': {'logical':decimal,'generation':decimal,'rcvid':decimal,'client_pid':decimal,'pending':_count},
@@ -342,6 +358,11 @@ def event_payload(d):
     require(d['producer'] == EVENT_PRODUCERS[d['event']], 'event producer role mismatch')
     obj(d['data'], ' '.join(fields), 'event payload')
     for key, check in fields.items(): check(d['data'][key])
+    if d['event']=='closed':
+        r=d['data'];require((r['rc']==0 and r['error']==0) or (r['rc']==-1 and r['error']>0),'invalid close convention')
+    if d['event']=='process_exit':
+        r=d['data'];integer(r['exit_code'],0,255);integer(r['signal'],0,255)
+        require((r['exited']==1 and r['signal']==0) or (r['exited']==0 and r['exit_code']==0),'invalid native exit observation')
     if d['event'] == 'result':
         r=d['data']
         enum(r['api'], {'read','devctl','MsgSendv'})
@@ -360,7 +381,7 @@ def event_payload(d):
 EVENT_PRODUCERS = {name:'supervisor' for name in EVENT_FIELDS}
 for _name in ('ready','received','sample','pending','released','removed','unblock','ignored_unblock','cancel_completed','obsolete_unblock','unmatched_unblock','state_changed'):
     EVENT_PRODUCERS[_name]='fixture'
-for _name in ('started','result','control_result','closed','worker_final','open_error','arm_error','deadline','lab_injection','lab_noise'):
+for _name in ('started','result','control_result','closed','worker_final','open_error','arm_error','deadline','lab_injection','lab_noise','signal_setup','operation_armed','signal_handler_observed'):
     EVENT_PRODUCERS[_name]='worker'
 
 

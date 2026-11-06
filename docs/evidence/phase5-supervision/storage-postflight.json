@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "ssh",
+    "-F",
+    ".local/ssh_config",
+    "resmgrcheck-qnx",
+    "test ! -e /data/resmgrcheck/p5supervise5/storage/volume.img && test ! -e /data/resmgrcheck/phase4-full && test ! -e /dev/rmcfull0 && df /data"
+  ],
+  "exit": 0,
+  "stdout": "/dev/hd0t179              125192     54736     70456      44%  /data/          \n",
+  "stderr": ""
+}

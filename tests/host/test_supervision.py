@@ -73,5 +73,36 @@ class Supervision(unittest.TestCase):
         self.assertEqual(result['verdict'],'ERROR')
         self.assertEqual(result['completion'],'incomplete')
         self.assertEqual(next(a for a in result['assertions'] if a['id']=='remote_cleanup')['verdict'],'NOT_RUN')
+    def test_fixture_death_and_producer_loss_remain_independent(self):
+        root=ROOT.parent/'phase5-supervision';tag='fixture_sink'
+        plan=load(root/(tag+'-plan.json'));raw=(root/(tag+'-events.jsonl')).read_bytes();status=load(root/(tag+'-status.json'))
+        result=evaluate_persistent(plan,raw,status).data
+        self.assertEqual(result['verdict'],'ERROR')
+        self.assertEqual(set(result['reasons']),{'service_interference','evidence_loss','evidence_incomplete'})
+        self.assertFalse(any(a['verdict']=='FAIL' for a in result['assertions']))
+        self.assertTrue(status['cleanup_ok']);self.assertFalse(status['unresolved'])
+    def test_manager_interference_invalidates_transport_error_but_keeps_bad_reply(self):
+        root=ROOT.parent/'phase5-supervision';tag='manager_pending'
+        plan=load(root/(tag+'-plan.json'));raw=(root/(tag+'-events.jsonl')).read_bytes();status=load(root/(tag+'-status.json'))
+        result=evaluate_persistent(plan,raw,status).data
+        self.assertEqual(result['verdict'],'ERROR');self.assertEqual(set(result['reasons']),{'service_interference','worker_close_failed'})
+        self.assertFalse(any(a['verdict']=='FAIL' for a in result['assertions']))
+        # Explicitly synthetic: an earlier successfully returned bad payload is
+        # independently a contract failure, even with later manager interference.
+        records=[loads(s) for s in raw.splitlines()]
+        value=next(r for r in records if r.get('event')=='result' and r['data']['operation']=='normal' and r['data']['normalized']=='OK')
+        value['data']['facts']['value']+=1
+        result=evaluate(plan,b''.join(canonical(r)+b'\n' for r in records)).data
+        self.assertEqual(result['verdict'],'ERROR')
+        self.assertIn('unexpected_operation_result',result['reasons']);self.assertIn('service_interference',result['reasons'])
+    def test_synthetic_unexplained_nonzero_exit_cannot_pass(self):
+        root=ROOT.parent/'phase5-supervision'
+        plan=load(root/'normal-plan.json');records=[loads(s) for s in (root/'normal-events.jsonl').read_bytes().splitlines()]
+        worker=next(r['pid'] for r in records if r.get('event')=='result' and r['data']['operation']=='normal')
+        next(r for r in records if r.get('event')=='worker_final' and r['pid']==worker)['data']['exit_code']=2
+        next(r for r in records if r.get('event')=='process_exit' and r['data']['child_pid']==worker)['data']['exit_code']=2
+        next(r for r in records if r.get('event')=='reaped' and r['data']['child_pid']==worker)['data']['raw_status']=512
+        result=evaluate(plan,b''.join(canonical(r)+b'\n' for r in records)).data
+        self.assertEqual(result['verdict'],'ERROR');self.assertIn('worker_exit_failed',result['reasons'])
 
 if __name__=='__main__':unittest.main()

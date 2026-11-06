@@ -76,9 +76,13 @@ static void reap_all(void) {
         if (!c->reaped || c->reported) continue;
         c->reported=1;
         event("supervisor","reaped","child_pid=%ld raw_status=%d",(long)c->pid,c->status);
+        event("supervisor","process_exit","child_pid=%ld exited=%d exit_code=%d signal=%d",(long)c->pid,WIFEXITED(c->status)!=0,WIFEXITED(c->status) ? WEXITSTATUS(c->status) : 0,WIFSIGNALED(c->status) ? WTERMSIG(c->status) : 0);
         int expected_signal=WIFSIGNALED(c->status) && WTERMSIG(c->status)<32 && (c->termination_mask & (1U << WTERMSIG(c->status)));
         if (!c->expected_stop || (WIFSIGNALED(c->status) && !expected_signal)) {
-            if (!strcmp(c->producer,"fixture")) problem("service_interference",c,0);
+            if (!strcmp(c->producer,"fixture")) {
+                problem("service_interference",c,0);
+                if (!c->bad && WIFEXITED(c->status) && WEXITSTATUS(c->status)==120) problem("evidence_loss",c,0);
+            }
             else if (!c->bad && WIFEXITED(c->status) && WEXITSTATUS(c->status)==120) problem("evidence_loss",c,0);
             else if (WIFSIGNALED(c->status) || !WIFEXITED(c->status)) problem("worker_crashed",c,0);
         }
@@ -197,7 +201,11 @@ static int worker(const char *op,int *index_out) {
     int result=find_event(c->pid,(!strcmp(op,"normal") || !strcmp(op,"message") || !strcmp(op,"health") || !strcmp(op,"negative")) ? "result" : "control_result",after);
     if (index_out) *index_out=result;
     if (find_event(c->pid,"open_error",after)>=0) problem("service_unavailable",c,0);
-    if (!run_error && (result<0 || !c->reaped || !WIFEXITED(c->status) || WEXITSTATUS(c->status))) problem("evidence_incomplete",c,0);
+    if (!run_error && (result<0 || !c->reaped || !WIFEXITED(c->status) || WEXITSTATUS(c->status))) {
+        int closed=find_event(c->pid,"closed",after);
+        if (closed>=0 && field(events[closed],"rc")==-1) problem("worker_close_failed",c,(int)field(events[closed],"error"));
+        else problem(result<0 ? "evidence_incomplete" : "worker_exit_failed",c,c->status);
+    }
     return !run_error;
 }
 static void signal_owned(rmc_child *c,int sig) {
@@ -207,7 +215,8 @@ static void signal_owned(rmc_child *c,int sig) {
     if (rc==1) { reap_all();return; }
     event("supervisor","signal_sent","child_pid=%ld signal=%d rc=%d error=%d",(long)c->pid,sig,rc,error);
     if (error==ECHILD) problem("ownership_unknown",c,error);
-    else if (rc<0 && error!=ESRCH) problem("cleanup_signal_failed",c,error);
+    else if (rc<0 && error!=ESRCH) problem(sig==SIGUSR1 ? "scenario_trigger_failed" : "cleanup_signal_failed",c,error);
+    else if (rc<0 && sig==SIGUSR1) problem("scenario_trigger_failed",c,error);
     reap_all();
 }
 static int cleanup(rmc_child *fixture,rmc_child *timed) {
@@ -310,8 +319,8 @@ int main(int argc,char **argv) {
         event("supervisor","dependency","predecessor_id=%s state=%s",after,clean==1 ? "clean" : clean==0 ? "contaminated" : "unestablished");
         if (clean!=1) { event("supervisor","case_not_run","predecessor_id=%s reason=%s",after,clean==0 ? "prior_cleanup_failed" : "predecessor_unestablished");early=4; }
     }
-    if (!early && (plan.external || (plan.required_caps & ~plan.adapter->capabilities))) {
-        event("supervisor","unsupported","reason=%s",plan.external ? "external_attach_not_implemented" : "missing_capability");early=3;
+    if (!early && (plan.external || plan.signal_unsupported || (plan.required_caps & ~plan.adapter->capabilities))) {
+        event("supervisor","unsupported","reason=%s",plan.external ? "external_attach_not_implemented" : plan.signal_unsupported ? "signal_mode_not_implemented" : "missing_capability");early=3;
     }
     rmc_child *fixture=NULL,*timed=NULL;int flow_complete=0,cleaned=1;
     if (early) {
@@ -328,14 +337,24 @@ int main(int argc,char **argv) {
     if ((plan.adapter->capabilities & RMC_CAP_ERROR_PROBE) && !worker("negative",NULL)) goto done;
     if (!worker("hold",NULL)) goto done;
     unsigned after_events=count;rmc_child *released=spawn_child(0,"normal");
-    if (!released || await_event(fixture,"pending",after_events,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL)<0 || !worker("release",NULL)) goto done;
+    if (!released || await_event(fixture,"pending",after_events,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL)<0) goto done;
+    if (rmc_lab_is("manager_pending")) { manager_injection(fixture);await_child(released,mono_ns()+500000000ULL);goto done; }
+    if (!worker("release",NULL)) goto done;
     await_child(released,mono_ns()+(uint64_t)plan.probe_ms*1000000ULL);
     if (!released->reaped || find_event(released->pid,"result",after_events)<0 || !worker("hold",NULL)) { if (!run_error) problem("evidence_incomplete",released,0);goto done; }
     event("supervisor","stage","name=deferred_release_complete");
-    after_events=count;timed=spawn_child(0,"timed");if (!timed) goto done;
-    int deadline_index=await_event(timed,"deadline",after_events,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL);
+    int is_signal=!strcmp(plan.scenario,"signal");
+    after_events=count;timed=spawn_child(0,is_signal ? "signal" : "timed");if (!timed) goto done;
+    int deadline_index=await_event(timed,is_signal ? "operation_armed" : "deadline",after_events,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL);
     if (deadline_index<0) { if (!run_error) problem("evidence_incomplete",timed,0);goto done; }
-    uint64_t deadline=(uint64_t)field(events[deadline_index],"deadline_ns"),completion_bound=deadline+(uint64_t)plan.cancellation_ms*1000000ULL;
+    uint64_t completion_bound;
+    if (is_signal) {
+        int pending=await_event(fixture,"pending",after_events,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL);
+        if (pending<0 || field(events[pending],"client_pid")!=timed->pid) { if (!run_error) problem("precondition_not_established",timed,0);goto done; }
+        completion_bound=mono_ns()+(uint64_t)plan.cancellation_ms*1000000ULL;
+        event("supervisor","trigger_requested","child_pid=%ld signal=%d completion_bound_ns=%" PRIu64,(long)timed->pid,SIGUSR1,completion_bound);
+        signal_owned(timed,SIGUSR1);
+    } else completion_bound=(uint64_t)field(events[deadline_index],"deadline_ns")+(uint64_t)plan.cancellation_ms*1000000ULL;
     int result_index;
     do { pump(completion_bound);result_index=find_event(timed->pid,"result",after_events);if (result_index>=0 && timed->reaped) break; }
     while (!run_error && mono_ns()<completion_bound && mono_ns()<execution_end);

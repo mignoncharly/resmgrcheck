@@ -1,0 +1,51 @@
+test_bad_suite_and_abi (test_contracts.Contracts.test_bad_suite_and_abi) ... ok
+test_json_ambiguities_and_bounds (test_contracts.Contracts.test_json_ambiguities_and_bounds) ... ok
+test_parameters_and_facts_are_registered (test_contracts.Contracts.test_parameters_and_facts_are_registered) ... ok
+test_plain_valid_json_boolean_is_not_integer (test_contracts.Contracts.test_plain_valid_json_boolean_is_not_integer) ... ok
+test_required_observers_and_relaxed_defect_expectation (test_contracts.Contracts.test_required_observers_and_relaxed_defect_expectation) ... ok
+test_reviewed_profiles (test_contracts.Contracts.test_reviewed_profiles) ... ok
+test_unsafe_paths_and_identifiers (test_contracts.Contracts.test_unsafe_paths_and_identifiers) ... ok
+test_versions_types_and_unknown_fields (test_contracts.Contracts.test_versions_types_and_unknown_fields) ... ok
+test_vendored_files_match_reviewed_revision (test_contracts.DependencyPin.test_vendored_files_match_reviewed_revision) ... ok
+test_deleted_service_state_is_failure (test_evaluator.Evaluation.test_deleted_service_state_is_failure) ... ok
+test_devctl_errno_confusion_is_error (test_evaluator.Evaluation.test_devctl_errno_confusion_is_error) ... ok
+test_generic_cores_do_not_branch_on_service_names (test_evaluator.Evaluation.test_generic_cores_do_not_branch_on_service_names) ... ok
+test_late_pending_is_error (test_evaluator.Evaluation.test_late_pending_is_error) ... ok
+test_missing_required_capability_cannot_pass (test_evaluator.Evaluation.test_missing_required_capability_cannot_pass) ... ok
+test_missing_worker_final_cannot_pass (test_evaluator.Evaluation.test_missing_worker_final_cannot_pass) ... ok
+test_recorded_matrix (test_evaluator.Evaluation.test_recorded_matrix) ... ok
+test_replay_and_hash_validation (test_evaluator.Evaluation.test_replay_and_hash_validation) ... ok
+test_retained_state_is_failure (test_evaluator.Evaluation.test_retained_state_is_failure) ... ok
+test_sequence_identity_types_unknown_fields (test_evaluator.Evaluation.test_sequence_identity_types_unknown_fields) ... ok
+test_truncation_and_duplicate_keys (test_evaluator.Evaluation.test_truncation_and_duplicate_keys) ... ok
+test_wrong_health_and_cleanup_cannot_pass (test_evaluator.Evaluation.test_wrong_health_and_cleanup_cannot_pass) ... ok
+test_cleanup_failure_cannot_pass (test_persistence.Persistence.test_cleanup_failure_cannot_pass) ... ok
+test_disconnected_run_keeps_service_failures_visible (test_persistence.Persistence.test_disconnected_run_keeps_service_failures_visible) ... ok
+test_reconnected_native_outcomes (test_persistence.Persistence.test_reconnected_native_outcomes) ... ok
+test_running_status_cannot_validate_complete_events (test_persistence.Persistence.test_running_status_cannot_validate_complete_events) ... ok
+test_stale_owner_run_or_build_cannot_pass (test_persistence.Persistence.test_stale_owner_run_or_build_cannot_pass) ... ok
+test_status_validation_rejects_ambiguous_data (test_persistence.Persistence.test_status_validation_rejects_ambiguous_data) ... ok
+test_actual_signal_and_affected_timeout_matrix (test_signal.Signals.test_actual_signal_and_affected_timeout_matrix) ... ok
+test_flags_mask_retry_or_timer_cannot_be_ignored (test_signal.Signals.test_flags_mask_retry_or_timer_cannot_be_ignored) ... ok
+test_missing_handler_observation_invalidates_conclusion (test_signal.Signals.test_missing_handler_observation_invalidates_conclusion) ... ok
+test_signal_number_is_bound_to_target_header_value (test_signal.Signals.test_signal_number_is_bound_to_target_header_value) ... ok
+test_signal_send_failure_cannot_establish_stimulus (test_signal.Signals.test_signal_send_failure_cannot_establish_stimulus) ... ok
+test_simultaneous_kernel_timeout_invalidates_signal_case (test_signal.Signals.test_simultaneous_kernel_timeout_invalidates_signal_case) ... ok
+test_strict_signal_profile_and_plan (test_signal.Signals.test_strict_signal_profile_and_plan) ... ok
+test_unrelated_timeout_is_a_specific_service_failure (test_signal.Signals.test_unrelated_timeout_is_a_specific_service_failure) ... ok
+test_fixture_death_and_producer_loss_remain_independent (test_supervision.Supervision.test_fixture_death_and_producer_loss_remain_independent) ... ok
+test_manager_interference_invalidates_transport_error_but_keeps_bad_reply (test_supervision.Supervision.test_manager_interference_invalidates_transport_error_but_keeps_bad_reply) ... ok
+test_native_matrix_exact_outcomes (test_supervision.Supervision.test_native_matrix_exact_outcomes) ... ok
+test_primary_evidence_loss_cannot_pass (test_supervision.Supervision.test_primary_evidence_loss_cannot_pass) ... ok
+test_service_failure_survives_later_malformed_or_truncated_evidence (test_supervision.Supervision.test_service_failure_survives_later_malformed_or_truncated_evidence) ... ok
+test_service_failures_survive_cleanup_error (test_supervision.Supervision.test_service_failures_survive_cleanup_error) ... ok
+test_synthetic_incomplete_final_or_status_control_cannot_pass (test_supervision.Supervision.test_synthetic_incomplete_final_or_status_control_cannot_pass) ... ok
+test_synthetic_restarted_instance_cannot_satisfy_health (test_supervision.Supervision.test_synthetic_restarted_instance_cannot_satisfy_health) ... ok
+test_synthetic_unexplained_nonzero_exit_cannot_pass (test_supervision.Supervision.test_synthetic_unexplained_nonzero_exit_cannot_pass) ... ok
+test_target_wide_failure_never_claims_cleanup (test_supervision.Supervision.test_target_wide_failure_never_claims_cleanup) ... ok
+test_unknown_ownership_never_signalled_and_dependent_not_run (test_supervision.Supervision.test_unknown_ownership_never_signalled_and_dependent_not_run) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 0.703s
+
+OK

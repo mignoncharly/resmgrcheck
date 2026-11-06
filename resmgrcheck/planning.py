@@ -20,7 +20,7 @@ def expand(profile, run_id, mode='corrected', root=Path('.')):
     require(all(binaries[k]==build['binaries'][n] for k,n in names.items()), 'build artifact mismatch: run make qnx')
     revision=build['source_revision']; dirty=build['dirty']
     recipe=root/'.local/qnx-lab/output/ifs.bin'
-    data={'kind':'scenario-plan','schema_version':1,'run_id':run_id,'case_id':'timeout', 'attempt_id':'attempt1',
+    data={'kind':'scenario-plan','schema_version':1,'run_id':run_id,'case_id':profile.data['suite']['required'][0], 'attempt_id':'attempt1',
           'cycle':1,'service_instance_id':run_id,'profile':profile.data,
           'profile_sha256':digest(profile.data),'suite_sha256':digest(profile.data['suite']),
           'fixture_mode':mode,'builds':{'source_revision':revision,'dirty':dirty,'source_tree_sha256':build['source_tree_sha256'],'compiler_variant':'gcc_ntox86_64',

@@ -1,0 +1,44 @@
+[
+  {
+    "remote_path": "/data/resmgrcheck/p4storage1/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p4storage1-volume.img",
+    "crc": "3777907443",
+    "bytes": "8404992",
+    "verified_before_removal": true
+  },
+  {
+    "remote_path": "/data/resmgrcheck/p4storage2/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p4storage2-volume.img",
+    "crc": "1630523233",
+    "bytes": "8404992",
+    "verified_before_removal": true
+  },
+  {
+    "remote_path": "/data/resmgrcheck/p4trial3/storage/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p4trial3-storage-volume.img",
+    "crc": "3521314064",
+    "bytes": "8404992",
+    "verified_before_removal": true
+  },
+  {
+    "remote_path": "/data/resmgrcheck/p4gate3/storage/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p4gate3-storage-volume.img",
+    "crc": "3269044336",
+    "bytes": "8404992",
+    "verified_before_removal": true
+  },
+  {
+    "remote_path": "/data/resmgrcheck/p4clean1/storage/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p4clean1-storage-volume.img",
+    "crc": "186108710",
+    "bytes": "8404992",
+    "verified_before_removal": true
+  },
+  {
+    "remote_path": "/data/resmgrcheck/p5supervise1/storage/volume.img",
+    "archive_path": ".local/evidence/retired-phase4-storage/p5supervise1-storage-volume.img",
+    "crc": "4294967295",
+    "bytes": "0",
+    "verified_before_removal": true
+  }
+]

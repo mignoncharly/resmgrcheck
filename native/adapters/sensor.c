@@ -39,5 +39,5 @@ static void finish(const rmc_prepared *p, int raw, int error, rmc_result *r) {
 const rmc_adapter_v1 sensor_adapter_v1 = {
     .abi=RMC_ADAPTER_ABI, .struct_size=sizeof(rmc_adapter_v1), .id="sensor-v1", .operation_id="sample",
     .fixture_binary="sensor-v1-fixture", .convention="errno", .result_fact_keys="value", .state_fact_keys="",
-    .capabilities=RMC_BASE_CAPS, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
+    .capabilities=RMC_BASE_CAPS | RMC_CAP_SIGNAL, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
 };

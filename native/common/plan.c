@@ -4,6 +4,7 @@
 #include <math.h>
 #include <sys/utsname.h>
 #include <sched.h>
+#include <signal.h>
 
 int json_keys(const cJSON *o, const char *keys) {
     if (!cJSON_IsObject(o)) return 0;
@@ -86,6 +87,8 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     NEED(json_integer(p->root,"schema_version",1,1,NULL));
     const char *ids[] = {"run_id","case_id","attempt_id","service_instance_id"};
     for (unsigned i=0; i<4; ++i) NEED(ident(json_string(p->root,ids[i]),64));
+    p->scenario=json_string(p->root,"case_id");
+    NEED(!strcmp(p->scenario,"timeout") || !strcmp(p->scenario,"signal"));
     NEED(json_integer(p->root,"cycle",1,200,NULL));
     NEED(hash(json_string(p->root,"profile_sha256"),64) && hash(json_string(p->root,"suite_sha256"),64));
     p->mode = json_string(p->root,"fixture_mode");
@@ -114,7 +117,7 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     NEED(json_string(operation,"convention") && !strcmp(json_string(operation,"convention"),p->adapter->convention));
     const cJSON *expect = cJSON_GetObjectItemCaseSensitive(p->profile,"expectations");
     NEED(json_keys(expect,"cancel_error pending_after require_unblock health state_after"));
-    NEED(json_string(expect,"cancel_error") && !strcmp(json_string(expect,"cancel_error"),"ETIMEDOUT"));
+    NEED(json_string(expect,"cancel_error") && !strcmp(json_string(expect,"cancel_error"),!strcmp(p->scenario,"signal") ? "EINTR" : "ETIMEDOUT"));
     NEED(json_integer(expect,"pending_after",0,0,NULL));
     const cJSON *requires_unblock = cJSON_GetObjectItemCaseSensitive(expect,"require_unblock");
     NEED(cJSON_IsBool(requires_unblock));
@@ -145,17 +148,24 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     }
     NEED(!(masks[0] & masks[1])); p->required_caps=masks[0];
     NEED(!cJSON_IsTrue(requires_unblock) || (masks[0] & RMC_CAP_UNBLOCK));
-    NEED((masks[0] & (RMC_CAP_PENDING|RMC_CAP_STATE|RMC_CAP_HEALTH|RMC_CAP_TIMEOUT)) == (RMC_CAP_PENDING|RMC_CAP_STATE|RMC_CAP_HEALTH|RMC_CAP_TIMEOUT));
+    unsigned needed=RMC_CAP_PENDING|RMC_CAP_STATE|RMC_CAP_HEALTH|(!strcmp(p->scenario,"signal") ? RMC_CAP_SIGNAL : RMC_CAP_TIMEOUT);
+    NEED((masks[0] & needed)==needed);
     const cJSON *suite = cJSON_GetObjectItemCaseSensitive(p->profile,"suite");
-    NEED(json_keys(suite,"required optional cycles reset") && json_integer(suite,"cycles",1,1,NULL));
+    NEED(json_keys(suite,!strcmp(p->scenario,"signal") ? "required optional cycles reset signal_mode" : "required optional cycles reset") && json_integer(suite,"cycles",1,1,NULL));
+    if (!strcmp(p->scenario,"signal")) {
+        const char *mode=json_string(suite,"signal_mode");
+        NEED(mode && (!strcmp(mode,"non-restart-no-retry") || !strcmp(mode,"auto-restart")));
+        p->signal_unsupported=strcmp(mode,"non-restart-no-retry")!=0;
+    }
     NEED(json_string(suite,"reset") && !strcmp(json_string(suite,"reset"),"new-instance"));
     const cJSON *required = cJSON_GetObjectItemCaseSensitive(suite,"required");
-    NEED(cJSON_IsArray(required) && cJSON_GetArraySize(required)==1 && cJSON_IsString(required->child) && !strcmp(required->child->valuestring,"timeout"));
+    NEED(cJSON_IsArray(required) && cJSON_GetArraySize(required)==1 && cJSON_IsString(required->child) && !strcmp(required->child->valuestring,p->scenario));
     const cJSON *optional = cJSON_GetObjectItemCaseSensitive(suite,"optional");
     NEED(cJSON_IsArray(optional) && cJSON_GetArraySize(optional)<=3);
     unsigned optional_mask = 0;
     for (const cJSON *c=optional->child; c; c=c->next) {
         NEED(cJSON_IsString(c));
+        NEED(strcmp(c->valuestring,p->scenario));
         unsigned mask = !strcmp(c->valuestring,"signal") ? 1 : !strcmp(c->valuestring,"departure") ? 2 : !strcmp(c->valuestring,"repeat") ? 4 : 0;
         NEED(mask && !(optional_mask & mask)); optional_mask |= mask;
     }
@@ -200,5 +210,7 @@ void rmc_manifest(const rmc_plan *p) {
     add_number(errors,"EOK",0); add_number(errors,"ETIMEDOUT",ETIMEDOUT);
     add_number(errors,"EINTR",EINTR); add_number(errors,"ENOENT",ENOENT);
     if (!cJSON_AddItemToObject(m,"error_codes",errors)) _exit(120);
+    cJSON *signals=json_object();add_number(signals,"SIGUSR1",SIGUSR1);
+    if (!cJSON_AddItemToObject(m,"signal_codes",signals)) _exit(120);
     add_string(m,"fixture_mode",p->mode); json_write(m); cJSON_Delete(m);
 }

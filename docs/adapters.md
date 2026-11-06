@@ -22,7 +22,7 @@ layouts live exclusively in adapter/fixture files.
 | prepare | Prepare installed-header messages, buffers and iovs in owned aligned storage before timer arming; no retained dispatch context |
 | finish | Decode the reply after the generic worker's MsgSendv, retaining raw return/errno and normalization; reject malformed replies |
 
-The core exclusively owns the timed send. After a logged absolute monotonic
+The core exclusively owns timed and signal-driven sends. After a logged absolute monotonic
 deadline and successful TimerTimeout(send|reply|TIMER_ABSTIME), the next call is
 MsgSendv on prepared buffers. No callback/logging/allocation/clock call intervenes.
 Prepared native structures are not serialized as portable JSON.
@@ -34,8 +34,9 @@ pids/rcvids/timestamps use decimal JSON strings in observations.
 
 Capabilities: pending, unblock, state, release, health, timeout, signal, departure,
 error-probe. The last three do not imply supported scenarios merely by being known
-IDs. Current services declare pending/unblock/state/release/health/timeout; only
-the job adapter declares error-probe. Signal and departure are not yet qualified.
+IDs. Current services declare pending/unblock/state/release/health/timeout/signal; only
+the job adapter declares error-probe. Non-restart signal interruption is qualified
+in E010; departure remains unqualified.
 Missing required capabilities produce native preflight and host UNSUPPORTED,
 with no service process launch. Absence of a pending observer cannot be replaced
 with a delay or a long-looking call.
@@ -97,7 +98,7 @@ QNX baselines, confirmed pending cancellation, post-state and new-client results
 plus negative/error/capability validation. See E007 for actual commands/artifacts.
 
 External attach, multiple-job scheduling/consumption policies, dynamic adapters,
-full signal/departure/repetition coverage and application transport commands remain later
+departure/repetition/ordering coverage and application transport commands remain later
 scope. Adding a service with a different operation requires an adapter, registered
 typed facts and real observation hooks; it is not automatically supported by a
 new device path alone.
@@ -108,3 +109,14 @@ One native execution path qualified both adapters in E009. Per-child framed
 channels isolate malformed producers, and exact owned-process wait status remains
 separate from service results. Original-instance health must precede fixture stop;
 a restart/recovery publication invalidates that health conclusion.
+
+Phase 5 signal profiles use the same prepared message and adapter finish callbacks.
+The generic worker installs SIGUSR1 with flags 0, verifies its unblocked mask, and
+calls MsgSendv without arming TimerTimeout or retrying. Both existing fixtures use
+their current live-owned-unblock MsgError(-1) path; actual results were -1/errno 4
+(EINTR) and handler flag seen. No fixture ERESTART path was introduced. See QNX's
+[MsgError contract](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/m/msgerror.html)
+and [sigaction flags](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/s/sigaction_struct.html).
+E010 retains both normal results and specific ignored-unblock failures. The
+job remains present after waiter cancellation and is completed/retrieved by a
+fresh client without restarting the service. This does not establish departure.

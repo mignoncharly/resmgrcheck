@@ -60,6 +60,8 @@ matrix=[
  ('sink','sink_unavailable','sensor','corrected','ERROR',{'event_sink_failed','evidence_incomplete'}),
  ('quota','sink_quota','job','ignore-unblock','ERROR',{'event_sink_failed','cancellation_not_completed','evidence_incomplete'}),
  ('manager','manager_interference','sensor','corrected','ERROR',{'service_interference'}),
+ ('manager_pending','manager_pending','job','corrected','ERROR',{'service_interference','worker_close_failed'}),
+ ('fixture_sink','fixture_evidence_loss','job','corrected','ERROR',{'service_interference','evidence_loss','evidence_incomplete'}),
  ('late','late_malformed','job','ignore-unblock','ERROR',{'evidence_invalid','cancellation_not_completed','evidence_incomplete'}),
  ('cleanup','cleanup_failure','sensor','ignore-unblock','ERROR',{'cleanup_failed','cancellation_not_completed','pending_state_not_released'}),
  ('dependent','none','sensor','corrected','NOT_RUN',{'prior_cleanup_failed'}),
@@ -84,6 +86,7 @@ try:
         support=remote+'/storage';ssh('mkdir '+shlex.quote(support))
         call(['scp','-F','.local/ssh_config','.local/fill-storage','tests/qnx/full-storage.sh','/home/mignon/qnx800/target/qnx/x86_64/sbin/mkqnx6fs','resmgrcheck-qnx:'+support+'/'])
         ssh('chmod 755 '+support+'/fill-storage '+support+'/mkqnx6fs')
+        (out/'storage-preflight.txt').write_bytes(ssh(support+'/fill-storage --preflight').stdout)
         storage=subprocess.Popen(['ssh','-F','.local/ssh_config','resmgrcheck-qnx','sh '+support+'/full-storage.sh '+support],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,bufsize=0)
         sel=selectors.DefaultSelector();sel.register(storage.stdout,selectors.EVENT_READ)
         end=time.monotonic()+10;buffer=b''
@@ -92,13 +95,14 @@ try:
             if sel.select(.1):
                 chunk=os.read(storage.stdout.fileno(),4096)
                 assert chunk,'storage setup exited early'
+                storage_lines.append(chunk)
                 buffer+=chunk
-        sel.close();storage_lines.append(buffer)
+        sel.close()
         filled=next(loads(line) for line in buffer.splitlines() if line.startswith(b'{'))
         assert filled['write_errno']==filled['enospc']==28
     for tag,control,service,mode,verdict,reasons in matrix:
         profile=load('profiles/'+service+'.json')
-        if tag=='unsupported':profile['capabilities']['required'].append('signal')
+        if tag=='unsupported':profile['capabilities']['required'].append('departure')
         plan=expand(profile,args.prefix+'-'+tag,mode).data;run=plan['run_id']
         assert plan['builds']['source_tree_sha256']==source_hash()
         path=out/(tag+'-plan.json');path.write_bytes(canonical(plan)+b'\n')
@@ -163,11 +167,14 @@ try:
         if len(tokens)>1:assert Path(tokens[1]).name not in {'runner','worker','sensor-v1-fixture','job-v1-fixture'}
     (out/'index.json').write_text(json.dumps({'kind':'phase4-native-matrix','binary_readback_sha256':hashes,'cases':cases},indent=2)+'\n')
 finally:
+    try:
+        if storage:
+            stdout,stderr=storage.communicate(b'finish\n',timeout=10)
+            storage_lines.extend([stdout,stderr]);(out/'storage-lifecycle.txt').write_bytes(b''.join(storage_lines))
+    finally:
+        (out/'commands.json').write_text(json.dumps(commands,indent=2)+'\n')
+        (out/'partial-index.json').write_text(json.dumps(cases,indent=2)+'\n')
     if storage:
-        stdout,stderr=storage.communicate(b'finish\n',timeout=10)
-        storage_lines.extend([stdout,stderr]);(out/'storage-lifecycle.txt').write_bytes(b''.join(storage_lines))
         assert storage.returncode==0,'isolated storage cleanup failed'
         assert b'storage_driver_reaped=' in stdout,'driver reaping not recorded'
-    (out/'commands.json').write_text(json.dumps(commands,indent=2)+'\n')
-    (out/'partial-index.json').write_text(json.dumps(cases,indent=2)+'\n')
 print('Native failure matrix saved in',out)

@@ -1,0 +1,32 @@
+[
+  {
+    "case": "mode",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "error",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "case",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "observer",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "retry",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  }
+]

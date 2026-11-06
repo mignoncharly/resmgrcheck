@@ -1,0 +1,2 @@
+mount: Can't mount /data/resmgrcheck/phase4-full (type qnx6) 
+mount: Possible reason: Read-only file system 
