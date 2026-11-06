@@ -18,12 +18,11 @@ struct sensor_state { unsigned pending, unblocks, completed, generation; };
 #define SENSOR_RELEASE __DIOF(_DCMD_MISC, 0x82, struct sensor_state)
 #define SENSOR_STATE __DIOF(_DCMD_MISC, 0x83, struct sensor_state)
 
-static inline uint64_t mono_ns(void) {
-    struct timespec t;
-    if (clock_gettime(CLOCK_MONOTONIC, &t)) _exit(120);
-    return (uint64_t)t.tv_sec * 1000000000ULL + (uint64_t)t.tv_nsec;
-}
+#include "../common/clock.h"
 
+#ifdef RMC_EVENT_V1
+#include "../common/event.h"
+#else
 /* One bounded write per producer event. Supervisor sets producer pipes nonblocking.
  * A missing event is an evidence error, never an implicit success. */
 static inline void event(const char *producer, const char *name, const char *fmt, ...) {
@@ -40,4 +39,5 @@ static inline void event(const char *producer, const char *name, const char *fmt
     line[n++] = '\n';
     if (write(STDOUT_FILENO, line, (size_t)n) != n) _exit(120);
 }
+#endif /* RMC_EVENT_V1 */
 #endif

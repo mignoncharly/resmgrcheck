@@ -1,0 +1,7 @@
+python3 scripts/check-qnx-build.py
+QNX build prerequisites available; compiler licensing and native execution still require their own checks.
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/runner.c native/common/event.c native/common/plan.c native/common/result.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/runner
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/worker.c native/common/event.c native/common/plan.c native/common/result.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/worker
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/sensor.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/sensor-v1-fixture
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/job.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/job-v1-fixture
+python3 scripts/record-build.py

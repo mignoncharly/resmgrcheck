@@ -6,35 +6,27 @@ Updated: 2026-11-06.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 2: prove the cancellation problem end to end |
-| Phase state | `passed`; E006 records two real defect/correction replays |
-| Phase 1 | `passed`, checkpoint `554823b`; E005 records the native build, SSH/SFTP and capabilities |
-| Tested Phase 2 source | `8583071886adc4d2df9c8b4e7d1eae47feeab251`, clean at build/run |
-| Target | QNX 8.0.0, `2026/06/05-16:26:03EDT`, x86pc x86_64; QEMU 8.2.2/KVM, one CPU, 1 GiB |
-| Next gate | Phase 3: versioned contracts, host evaluator, adapter boundary and job-service proof |
-| Phases 3–10 | Not implemented or validated yet |
-| Active blocker | None in the qualified lab |
+| Current gate | Phase 3 passed; Phase 4 is next |
+| Phase 3 source | Qualification at base 55b6d3232d436234c4503af53e2c175435493733 plus the exact source digest in E007/index; checkpoint commit follows passing gate |
+| Phase 1 / Phase 2 | Previously passed; not repeated except the affected sensor path through the new generic adapter regression |
+| Target | Same qualified QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86pc x86_64, KVM, one CPU / 1 GiB |
+| Active blocker | None |
+| Phases 4–10 | Not passed |
 
-## Completed deliverables
+## Phase 3 deliverables and evidence
 
-- Full Access restored normal compiler license-lock writes, Git metadata writes and loopback sockets. Actual qcc builds succeed; no SDK reinstall or credential regeneration.
-- Dedicated ignored lab image reuses the existing identities, includes the missing authentication helper, and uses strict host-key verification with SSH forwarding only on 127.0.0.1:22220.
-- Repository hello transferred through SFTP and ran twice with exit zero. Compiled capability probe passed the resource-manager/dispatch, monotonic timer, IPC, process and bounded-channel checks. No server-monitor/slm runs in the recorded lab inventory.
-- Single-threaded deferred sensor fixture with bounded pending table, logical IDs/generations, explicit release/state hooks, corrected default and opt-in `ignore-unblock` defect.
-- Disposable workers for every service-facing operation; independent native supervisor with absolute timeout/precondition checks, bounded producer pipe, evidence sequence checks, watchdog, exact child ownership and bounded cleanup.
-- Two saved-input replay invocations at the committed native revision. Each recorded FAIL for the deliberate defect and PASS for the correction. Corrected MsgSendv returned -1 / QNX ETIMEDOUT 260, pending state cleared and a fresh client read succeeded.
-- In both defect cases the client stayed unreaped after termination signals until the owned fixture stopped. All four cases then recorded complete reaping, no evidence error and a final writer marker. No residual sensor fixture/client/supervisor appeared in post-run inventory.
+- Explicit versioned profile/plan/event/manifest/result/replay contracts, typed Python records and strict bounded validation. Profiles cannot execute commands or relax the planted-defect expectations.
+- Pinned cJSON 1.7.19 / c859b25 with original license, file hashes and review scope. Compiled with actual qcc, C11/QNX extensions, warnings as errors, nesting limit 12 and libm.
+- Public adapter ABI 1, capability vocabulary, typed results/facts, generic worker command roles and registration outside core files.
+- Sensor integrated behind the adapter with the proven pending/unblock/default-handler semantics and 500/2000 ms timeout/allowance retained.
+- Original job fixture: one bounded lab job slot and eight waiters; SUBMIT/COMPLETE/WAIT_RESULT, waiter-only cancellation, non-consuming retrieval by a fresh client. Ordinary devctl and explicit _IO_DEVCTL results match. The actual ENOENT probe returned 2 with errno 0; timeout returned MsgSendv -1 / errno 260.
+- One generic runner/worker path and one deterministic Python evaluator, with no service-name conditions in the core. Both corrected profiles PASS; both ignore-unblock cases FAIL for cancellation/pending cleanup; a missing required capability is UNSUPPORTED before child launch.
+- Twenty-one host validation/evidence-mutation tests pass. Nine malformed native command variants are rejected on QNX before collection/process launch. All four deployed binaries matched SFTP readback hashes; all owned children were reaped; no residual fixture/worker/runner was found.
 
-## Validation and evidence
-
-Build: `source /home/mignon/qnx800/qnxsdp-env.sh && make -B qnx`, exit 0. Native execution: `timeout 25s ssh -F .local/ssh_config resmgrcheck-qnx 'cd /data/resmgrcheck && sh phase2-replay.sh'`, twice, exit 0 after verifying the expected individual supervisor statuses 1/0.
-
-See [TEST_EVIDENCE.md](TEST_EVIDENCE.md), E005/E006, [phase2-native.md](phase2-native.md), and reviewed `docs/evidence/phase2-*` logs/index. The host audit checked these actual native streams; it is not a separate native scenario or synthetic result.
-
-The Phase 2 text protocol and C outcome classifier are a spike. They do not complete the versioned adapter, deterministic Python evaluator, full lifecycle suite, replay product, host CLI or reports. No signal-interruption/client-departure obligation or job-service claim is made.
+See E007 in [TEST_EVIDENCE.md](TEST_EVIDENCE.md), [formats-v1.md](formats-v1.md), [adapters.md](adapters.md), and the retained plans, native streams, evaluated results, commands and index in `docs/evidence/phase3/`. Host mutation tests remain labeled synthetic; native claims come from actual QNX execution.
 
 ## Next executable step
 
-Read Phase 3. Define the bounded versioned formats/validators and adapter interface, pin cJSON with its license and hashes, move service-specific behavior behind the sensor adapter, then prove the job WAIT_RESULT cancellation and next-client retrieval on this same native path. Keep the demonstrated Phase 2 regression intact while refactoring.
+Proceed into Phase 4: dependable common state machine, structured-channel and sink failures, exact owned-process cleanup, explicit crash/start/probe classification, contamination handling, and remote interruption/reconnection status. Qualify normal, stuck, crashed and unavailable workers/services, blocked probes, malformed events, lost transport and cleanup failure independently. Do not call the existing Phase 3 runner production supervision merely because the happy path and planted defect pass.
 
-The qualified lab VM is currently running; check `ssh -F .local/ssh_config resmgrcheck-qnx` before use. Preserve its overlay/logs and the original operator image. Keep keys, SDK/runtime files, generated binaries and raw local state ignored. No publication or submission has been performed.
+The lab VM remains running. SSH uses the existing ignored `.local/ssh_config`; preserve original images, keys, overlays and logs. Phase 3 qualification used the owned target directory `/data/resmgrcheck/p3gate1` and fresh run IDs. No credentials were regenerated, host services changed, or publication performed.

@@ -1,0 +1,59 @@
+#include "common/plan.h"
+#include <sys/neutrino.h>
+#include <fcntl.h>
+#include <errno.h>
+
+int main(int argc, char **argv) {
+    if (argc != 3) return 2;
+    rmc_plan plan;
+    if (!rmc_plan_load(argv[1], &plan)) { fputs("invalid worker plan\n",stderr); return 2; }
+    rmc_plan_environment(&plan);
+    const char *op=argv[2];
+    const char *roles[] = {"normal","message","hold","release","state","timed","health","negative"};
+    int valid=0; for (unsigned i=0; i<sizeof(roles)/sizeof(roles[0]); ++i) if (!strcmp(op,roles[i])) valid=1;
+    if (!valid) { cJSON_Delete(plan.root); return 2; }
+    event("worker","started","operation=%s",op);
+    char path[256];
+    snprintf(path,sizeof(path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
+    int fd=open(path,O_RDWR);
+    if (fd == -1) { event("worker","open_error","error=%d",errno); event("worker","worker_final","exit_code=2"); cJSON_Delete(plan.root); return 2; }
+    int exit_code=0;
+    if (!strcmp(op,"hold") || !strcmp(op,"release") || !strcmp(op,"state")) {
+        rmc_state state={0};
+        int error=plan.adapter->control(fd,op,&state);
+        rmc_emit_state(op,error,&state); if (error) exit_code=2;
+    } else {
+        rmc_result result={0};
+        if (!strcmp(op,"normal") || !strcmp(op,"health") || !strcmp(op,"negative")) {
+            if (!strcmp(op,"negative") && !(plan.adapter->capabilities & RMC_CAP_ERROR_PROBE)) exit_code=3;
+            else plan.adapter->ordinary(fd,!strcmp(op,"negative"),&result);
+        } else {
+            rmc_prepared prepared;
+            plan.adapter->prepare(&prepared);
+            int raw, captured;
+            if (!strcmp(op,"timed")) {
+                uint64_t deadline=mono_ns()+(uint64_t)plan.operation_ms*1000000ULL;
+                event("worker","deadline","operation=timed deadline_ns=%" PRIu64 " timeout_ms=%u",deadline,plan.operation_ms);
+                errno=0;
+                if (TimerTimeout(CLOCK_MONOTONIC,TIMER_ABSTIME|_NTO_TIMEOUT_SEND|_NTO_TIMEOUT_REPLY,NULL,&deadline,NULL)==-1) {
+                    event("worker","arm_error","error=%d",errno); exit_code=2; goto close_worker;
+                }
+                raw=MsgSendv(fd,prepared.send,prepared.send_parts,prepared.receive,prepared.receive_parts);
+            } else {
+                errno=0;
+                raw=MsgSendv(fd,prepared.send,prepared.send_parts,prepared.receive,prepared.receive_parts);
+            }
+            captured=errno;
+            plan.adapter->finish(&prepared,raw,captured,&result);
+        }
+        if (!exit_code) rmc_emit_result(op,&result);
+    }
+close_worker:
+    ;
+    int rc=close(fd), error=rc==-1 ? errno : 0;
+    event("worker","closed","rc=%d error=%d",rc,error);
+    if (rc==-1) exit_code=2;
+    event("worker","worker_final","exit_code=%d",exit_code);
+    cJSON_Delete(plan.root);
+    return exit_code;
+}

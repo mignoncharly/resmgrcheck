@@ -183,3 +183,91 @@ In both defect cases, the pending count remained **1** with **unblocks=1, comple
 Reviewed complete target event streams: [run 1 defect](evidence/phase2-run1-ignore-unblock.txt), [run 1 corrected](evidence/phase2-run1-corrected.txt), [run 2 defect](evidence/phase2-run2-ignore-unblock.txt), [run 2 corrected](evidence/phase2-run2-corrected.txt). [Evidence index](evidence/phase2-index.json) retains source/binary/log hashes and key original timestamps. Raw target logs were downloaded before the next replay; local copies are `.local/evidence/phase2-run*.log`. Build log: `.local/evidence/phase2-build.log`; post-inventory: `.local/evidence/phase2-post-inventory.log`. The build log and final inventory also have reviewed text copies.
 
 A host-only audit parsed these actual streams and asserted timestamp ordering, matching request/generation, final markers, expected error results and complete cleanup. That audit is a consistency check of real native evidence, not an additional QNX scenario or synthetic native result. See [native semantics and replay guide](phase2-native.md). Signal-interruption, client-departure obligations, repetition suites, adapter reuse, JSON contracts, and production supervision are later gates and are not claimed here.
+
+## E007: Phase 3 contracts, generic adapters and job proof, 2026-11-06
+
+**State:** Phase 3 acceptance gate passed. No Phase 4 production-supervision claim.
+
+The initial checkpoint was clean at 55b6d3232d436234c4503af53e2c175435493733.
+Phase 1 was not rerun. The sensor's changed adapter/observation path was specifically
+requalified because Phase 3 refactored it. The same qualified QNX/KVM lab and
+existing SSH identities were reused; no credentials or SDK were recreated.
+
+The precommit qualification identifies that base plus dirty source digest
+`ac642b507b1d21de0714cdb7c36d8bd86eb58fb9a46b4829ca7bc63d1f75e968`.
+The Make-owned build record binds the relevant project source inputs, revision /
+dirty state and actual binary hashes. The retained plans and index contain those
+identities; source/digest equality was checked after qualification. This is an
+actual dirty-source run, not a claim that the parent commit alone contained the
+new implementation. A clean committed-source confirmation is recorded below when
+performed.
+
+Commands actually executed:
+
+```bash
+source /home/mignon/qnx800/qnxsdp-env.sh
+make qnx
+python3 tests/qnx/qualify-phase3.py --prefix p3gate1
+python3 -m unittest discover -s tests/host -v
+```
+
+All exited zero. Native compile used qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra
+-Werror, RMC_EVENT_V1, CJSON_NESTING_LIMIT=12, pinned cJSON.c and libm. Early debug
+compiles exposed missing explicit errno includes and libm linkage; both were fixed
+before qualification. cJSON is pinned at 1.7.19 / c859b25 with exact file/license
+hashes in third_party/cjson/REVISION.json; no build downloads occur.
+
+Each case ran `./runner CASE-plan.json` inside the owned target directory
+`/data/resmgrcheck/p3gate1`, with a 20-second outer SSH deadline. Each original
+native stream was collected and evaluated offline by the same Python evaluator.
+The full argv/status transcript is [commands.json](evidence/phase3/commands.json).
+The native collector deliberately has no service verdict classifier.
+
+| Case | Native exit | Host outcome | Native observations |
+| --- | --- | --- | --- |
+| sensor-corrected | 0 | PASS | ordinary/read-message parity; deferred release; live timeout; queue clear; fresh sample |
+| sensor-defect | 0 | FAIL | pending/live unblock before original bound, then cancellation_not_completed and pending_state_cleanup |
+| job-corrected | 0 | PASS | devctl/message parity; deferred WAIT_RESULT release; timeout removes waiter; job preserved; new client retrieves result |
+| job-defect | 0 | FAIL | identical generic rules detect ignored unblock and retained waiter |
+| unsupported | 3 | UNSUPPORTED | required signal capability absent; explicit preflight skip, no child launch |
+
+All use the original 500 ms timeout / 2000 ms completion allowance, 10 s case bound
+and 2 s cleanup bound. Source-stamped pending, deadline and matching unblock IDs
+are in the native streams. Corrected results are raw MsgSendv -1 / QNX errno 260
+ETIMEDOUT. Job post-cancel facts are job_exists=1, job_ready=0 with pending=0;
+release completes that retained job, then a different client PID retrieves job_id=1,
+value=420 on the same fixture instance. Its ordinary negative probe of nonexistent
+job ID 2 returned raw devctl=2, captured errno=0, normalized ENOENT; both successful
+ordinary devctl and explicit _IO_DEVCTL returned the same typed facts.
+
+The same runner and worker binaries were used for both registrations. Core runner,
+worker, plan/result logic and evaluator were checked for service-name branches;
+the host test preserves that check. Only adapter/fixture/registration/profile files
+contain the service-specific message layouts/facts.
+
+All four uploaded binaries were downloaded by SFTP and matched SHA256 before
+execution. Exact hashes are in [index.json](evidence/phase3/index.json). The native
+manifest captured QNX 8.0.0 / build 2026/06/05-16:26:03EDT / x86_64, scheduling
+policy 2 and priority 10; no explicit priority boost was requested. Defect cleanup
+retained the measured owned-fixture stop escape; all cases reaped their exact
+children. Post-run inventory found no residual generic worker/runner/fixture.
+
+Nine invalid native commands (version, boolean timing, unknown operation, unsafe
+path, ABI, duplicate keys, leading-zero number, trailing data and nesting) each
+exited 2 with empty stdout, before manifest/event collection or child launch.
+Their raw inputs, stderr and statuses are retained in the bundle. A host-invalid
+profile (boolean job_id) was rejected with exit 2 before plan output or any target
+invocation from that CLI. Missing capabilities were not reclassified as success.
+
+Twenty-one host tests passed: strict profile/parser checks, replay/hash consistency,
+mutations of the recorded QNX streams (truncation, keys/types/sequence/identity,
+late pending, retained state, deleted job, wrong API convention, bad health,
+missing worker-final, cleanup errors), original native outcomes, and generic-core
+separation. Mutated cases are synthetic host tests, not additional native scenarios.
+
+Reviewed bundle: [formats](formats-v1.md), [adapter guide](adapters.md), and
+`docs/evidence/phase3/` containing full profile/plan snapshots, raw native JSONL,
+evaluated results, build/command/rejection logs, readback hashes and final inventory.
+Raw local originals, including downloaded executables, remain ignored under
+`.local/evidence/phase3-p3gate1`. No binaries, SDK/runtime contents or private keys
+were added to Git.

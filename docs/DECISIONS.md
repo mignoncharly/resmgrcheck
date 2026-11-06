@@ -61,3 +61,42 @@ Phase 1's compiled capability probe establishes availability of the needed primi
 Use the installed `_IO_READ` structure and MsgSendv for the timed read; ordinary read and this message path returned the same sample. Arm an absolute monotonic send/reply timeout directly before the send. Check source-stamped pending/unblock ownership before classifying completion. Corrected handling delegates default bookkeeping and uses MsgError(rcvid, -1) only for a current owned unblock. The recorded QNX ETIMEDOUT value is 260; do not import Linux error-number assumptions.
 
 The client remained unreaped after termination signals while the deliberate ignore-unblock fixture retained its read. Stopping the owned fixture released it. Therefore cleanup must independently track exact children, record escalation and fixture intervention, and wait for actual reaping. A successful kill call alone is not a cleanup result. The Phase 2 C classifier/text stream is a native spike; the versioned adapter and deterministic host evaluator remain Phase 3 work.
+
+## D009: Versioned bounded contracts and pinned cJSON
+
+**Date:** 2026-11-06. **State:** Phase 3 verified in E007.
+
+Use explicit v1 dataclasses/validators rather than a schema engine or expression
+language. Snapshot hashes bind the profile/suite; defect mode remains a separate
+plan field and never changes expected corrected behavior. Require typed facts,
+source-stamped events, exact producer sequences and final/cleanup evidence. Actual
+QNX errno codes are recorded by the native manifest; Linux errno values are not
+substituted.
+
+Pin cJSON 1.7.19 to c859b25da02955fef659d658b8f324b5cde87be3 (official
+[release](https://github.com/DaveGamble/cJSON/releases/tag/v1.7.19)); preserve its
+license and exact file hashes. Review scope/caveats are in third_party/cjson/REVIEW.md.
+The QNX toolchain requires libm for this build. Use bounded full-consumption parse,
+case-sensitive lookup, duplicate checks, depth 12 and the host-produced canonical
+ASCII command subset. This is not an upstream security audit or cryptographic
+attestation by the guest. Qualification verifies actual deployment by SFTP readback.
+
+## D010: Reuse the execution core through typed adapters
+
+**Date:** 2026-11-06. **State:** two-service QNX proof passed in E007.
+
+Adapters own service message preparation/decoding and control/state facts; the core
+owns every timed send, process, wait and cleanup. Fact serialization is generic.
+Registration is outside runner/evaluator. The same runner/worker hashes qualified
+both services without a service-name branch in core files.
+
+The job fixture owns one lab job slot separately from its eight possible waiters.
+Cancellation removes a waiter, not the job. Results remain readable until explicit
+resubmission; completion after cancellation and fresh-client retrieval were tested.
+Ordinary devctl error return 2/errno 0 and _IO_DEVCTL MsgSendv timeout -1/errno 260
+were recorded independently. Do not normalize devctl as an errno-style API.
+
+The Phase 3 native path is an observation collector, not a second verdict engine.
+All service verdicts come from one host evaluator. A fully collected planted
+failure can have native exit zero and host FAIL; missing capabilities have native
+preflight exit 3 and host UNSUPPORTED. Required evidence loss remains ERROR.
