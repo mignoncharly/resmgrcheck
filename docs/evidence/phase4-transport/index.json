@@ -1,0 +1,42 @@
+{
+  "kind": "phase4-persistence-subgate",
+  "builds": {
+    "binaries": {
+      "adapter": "d3dff0f8c778e8804e15e050f6498eb564164f796c3c707e437253f34deeded9",
+      "fixture": "70b2dbbd378187a3d2a9c9ee79a82686e716a9c9ff07de818f4ffe86de6e1656",
+      "runner": "b8eccb9c3ddac9d91a9ad96107113e32663e3684f706618d5a6a97399f35fa0d",
+      "worker": "d3dff0f8c778e8804e15e050f6498eb564164f796c3c707e437253f34deeded9"
+    },
+    "compiler_variant": "gcc_ntox86_64",
+    "dirty": true,
+    "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+    "source_revision": "175a6af24ca336ca091d9b08725db785fbdd2e2d",
+    "source_tree_sha256": "ee3f95b47f01f0d447c768f57f41f3a44cd3f386f3fef0b888b5fa8e2f409e9e"
+  },
+  "binary_readback_sha256": {
+    "runner": "b8eccb9c3ddac9d91a9ad96107113e32663e3684f706618d5a6a97399f35fa0d",
+    "worker": "d3dff0f8c778e8804e15e050f6498eb564164f796c3c707e437253f34deeded9",
+    "sensor-v1-fixture": "4e2203631e6f0edb6bc182750cfac441e17a458e31c0d92691076c675c29e1cb",
+    "job-v1-fixture": "70b2dbbd378187a3d2a9c9ee79a82686e716a9c9ff07de818f4ffe86de6e1656"
+  },
+  "cases": [
+    {
+      "case": "normal",
+      "verdict": "PASS",
+      "target_status": "complete",
+      "declared_collector_exit": 0,
+      "cleanup_ok": true,
+      "event_sha256": "68616ea5c5b9837a85ea94da7a2be1e14b2c0a6793d3b32afe54ff8c61eee9af",
+      "duplicate_launch_exit": 2
+    },
+    {
+      "case": "disconnect",
+      "verdict": "FAIL",
+      "target_status": "complete",
+      "declared_collector_exit": 0,
+      "cleanup_ok": true,
+      "event_sha256": "3e727ccf141cd4f9f256bba19a61c7c7a7e5c2c642b10bb0542df479fd49e44c",
+      "duplicate_launch_exit": 2
+    }
+  ]
+}

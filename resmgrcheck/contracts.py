@@ -287,10 +287,20 @@ def _runtime_device(v):
 def _facts(v): return facts(v)
 
 EVENT_FIELDS = {
+ 'lab_control': {'name':_word},
+ 'lab_injection': {'name':_word,'operation':_word},
+ 'lab_noise': {'index':_count},
+ 'phase': {'name':_word},
+ 'problem': {'reason':_word,'child_pid':decimal,'operation':_word,'error':_count},
+ 'wait_bound': {'child_pid':decimal,'operation':_word,'deadline_ns':decimal,'timed_out':_flag},
+ 'invalid_frame': {'child_pid':decimal,'reason':_word,'size':_count,'prefix_hex':lambda v: text(v,re.compile(r'[0-9a-f]{0,128}\Z'))},
+ 'dependency': {'predecessor_id':_word,'state':_word},
+ 'case_not_run': {'predecessor_id':_word,'reason':_word},
  'run_storage': {'run_id':_word},
  'settings': {'mode':_word,'timeout_ms':_count,'allowance_ms':_count,'path':_runtime_device,'case_ms':_count,'cleanup_ms':_count},
  'spawned': {'binary':_word,'child_pid':decimal,'operation':_word},
  'reaped': {'child_pid':decimal,'raw_status':_count},
+ 'lab_discarded_wait': {'child_pid':decimal,'raw_status':_count},
  'ready': {'path':_runtime_device,'mode':_word},
  'started': {'operation':_word},
  'result': {'operation':_word,'api':_word,'raw_return':_number,'raw_errno':_count,'api_error':_count,
@@ -350,7 +360,7 @@ def event_payload(d):
 EVENT_PRODUCERS = {name:'supervisor' for name in EVENT_FIELDS}
 for _name in ('ready','received','sample','pending','released','removed','unblock','ignored_unblock','cancel_completed','obsolete_unblock','unmatched_unblock','state_changed'):
     EVENT_PRODUCERS[_name]='fixture'
-for _name in ('started','result','control_result','closed','worker_final','open_error','arm_error','deadline'):
+for _name in ('started','result','control_result','closed','worker_final','open_error','arm_error','deadline','lab_injection','lab_noise'):
     EVENT_PRODUCERS[_name]='worker'
 
 
@@ -371,17 +381,20 @@ class RunStatus:
 
     @classmethod
     def parse(cls, d):
-        obj(d, 'kind schema_version '+IDENTITY+' supervisor_pid started_ns state cleanup_ok exit_code unresolved profile_sha256 source_tree_sha256', 'run status')
+        obj(d, 'kind schema_version '+IDENTITY+' supervisor_pid started_ns state cleanup_ok exit_code unresolved profile_sha256 source_tree_sha256'+(' event_file lab_control' if type(d) is dict and 'event_file' in d else ''), 'run status')
         version(d,'run-status'); identity(d); decimal(d['supervisor_pid']); decimal(d['started_ns'])
         require(int(d['supervisor_pid'])>0,'zero supervisor pid')
-        enum(d['state'],{'running','complete','incomplete'}); boolean(d['cleanup_ok']); integer(d['exit_code'],-1,255)
+        enum(d['state'],{'running','complete','incomplete','not-run'}); boolean(d['cleanup_ok']); integer(d['exit_code'],-1,255)
         text(d['profile_sha256'],HASH); text(d['source_tree_sha256'],HASH)
         require(type(d['unresolved']) is list and len(d['unresolved'])<=16,'invalid unresolved process list')
         seen=set()
         for process in d['unresolved']:
-            obj(process,'pid role'); decimal(process['pid']); enum(process['role'],{'worker','fixture'})
+            obj(process,'pid role'); decimal(process['pid']); enum(process['role'],{'worker','fixture','manager'})
             require(int(process['pid'])>0 and process['pid'] not in seen,'invalid/duplicate unresolved pid')
             seen.add(process['pid'])
+        if 'event_file' in d:
+            enum(d['event_file'],{'events.jsonl','recovery.jsonl'});text(d['lab_control'])
+        if d['state']=='not-run': require(d['cleanup_ok'] and not d['unresolved'] and d['exit_code']==4,'inconsistent withheld status')
         if d['state']=='running': require(d['exit_code']==-1,'running status cannot declare an exit')
         if d['state']=='complete': require(d['cleanup_ok'] and not d['unresolved'] and d['exit_code'] in (0,3),'inconsistent complete status')
         return cls(d)

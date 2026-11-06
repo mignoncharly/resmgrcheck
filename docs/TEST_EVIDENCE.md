@@ -361,3 +361,143 @@ unresponsive target and failed cleanup/contamination. Persistent status and the
 existing bounded collector do not by themselves pass those cases. The event sink's
 fatal failure/cleanup path still needs containment work; no native sink-failure
 cleanup success is claimed.
+
+## E009: Phase 4 native failure matrix and containment gate
+
+**Date:** 2026-11-06. **Outcome:** PASS for the Phase 4 exit gate. Individual
+negative cases retain their actual ERROR, FAIL, NOT_RUN or UNSUPPORTED outcomes.
+
+Qualification used base revision `175a6af24ca336ca091d9b08725db785fbdd2e2d`
+with the explicitly dirty source digest
+`ee3f95b47f01f0d447c768f57f41f3a44cd3f386f3fef0b888b5fa8e2f409e9e`.
+The retained plans/manifests bind this exact source, profile/suite, recipe and
+artifact hashes; this is not a claim that the parent revision contains the change.
+Actual qcc/C11 builds with warnings as errors passed. All four generic binaries
+matched SFTP readback. Target remained QNX 8.0.0 / 2026/06/05-16:26:03EDT,
+x86pc x86_64, KVM, one CPU / 1 GiB, scheduling policy 2 / priority 10.
+No explicit priority boost or busy-spin watchdog was used.
+
+Actual commands, all successful at the qualified gate:
+
+```bash
+source /home/mignon/qnx800/qnxsdp-env.sh
+make qnx
+python3 tests/qnx/qualify-phase4.py --prefix p4gate3
+python3 tests/qnx/qualify-target-loss.py --prefix p4gate3
+python3 tests/qnx/qualify-persistence.py --prefix p4gate4
+python3 -m unittest discover -s tests/host -v
+```
+
+The matrix requires exact equality of observed verdict/reason sets. The following
+are actual target observations, not synthetic host result fixtures:
+
+| Case / explicit lab control | Verdict | Exact reason set | Host elapsed seconds |
+| --- | --- | --- | --- |
+| normal / none | PASS | all_obligations_satisfied | 0.976 |
+| normal_read / none | PASS | all_obligations_satisfied | 1.011 |
+| stuck / worker_stuck | ERROR | worker_timeout | 2.263 |
+| crash / worker_crash | ERROR | worker_crashed | 0.315 |
+| start / worker_start_failed | ERROR | worker_start_failed | 0.294 |
+| unavailable / service_unavailable | ERROR | service_unavailable | 0.301 |
+| readiness / readiness_blocked | ERROR | probe_timeout | 2.238 |
+| health / health_blocked | ERROR | probe_timeout | 2.884 |
+| malformed / malformed | ERROR | evidence_invalid, evidence_incomplete | 0.964 |
+| truncated / truncated | ERROR | evidence_incomplete | 0.981 |
+| oversize / oversize | ERROR | evidence_invalid, evidence_incomplete | 0.970 |
+| capacity / event_overflow | ERROR | evidence_capacity_exceeded, evidence_incomplete | 1.555 |
+| channel / channel_full | ERROR | evidence_capacity_exceeded, evidence_loss, evidence_incomplete | 1.051 |
+| sink / sink_unavailable | ERROR | event_sink_failed, evidence_incomplete | 0.973 |
+| quota / sink_quota | ERROR | event_sink_failed, cancellation_not_completed, evidence_incomplete | 3.113 |
+| manager / manager_interference | ERROR | service_interference | 0.266 |
+| late / late_malformed | ERROR | evidence_invalid, cancellation_not_completed, evidence_incomplete | 3.174 |
+| cleanup / cleanup_failure | ERROR | cleanup_failed, cancellation_not_completed, pending_state_not_released | 4.863 |
+| dependent / none | NOT_RUN | prior_cleanup_failed | 0.275 |
+| ownership / ownership_lost | ERROR | cleanup_failed, ownership_unknown, evidence_incomplete | 0.309 |
+| owned_dep / none | NOT_RUN | prior_cleanup_failed | 0.268 |
+| unsupported / none | UNSUPPORTED | required_capability_missing | 0.264 |
+
+The case execution bound was 10 s, cleanup 2 s, setup/probe 2 s, operation timeout
+500 ms and cancellation allowance 2 s. The helper's independent outer bound was
+16 s. Observed matrix launch-to-final-status times were 0.264–4.863 s. Every
+recorded timed-out wait was checked against the target's own absolute monotonic
+bound. Case and cleanup are separate deadlines. A stalled VM is not covered by a
+promise that native waits will make progress.
+
+Each producer owns a separate nonblocking, bounded framed pipe. Malformed JSON,
+a mid-frame EOF, an overlong frame, accepted-event capacity overflow and an actual
+full producer channel were exercised. Invalid input is rejected before forwarding;
+the bounded diagnostic retains its byte prefix. Producer exit 120 and raw wait
+status establish channel evidence loss. The supervisor performed no blocking
+service operation: readiness and health both blocked in disposable workers when
+the owned fixture was stopped, and returned probe_timeout within their bounds.
+The crash case was an actual SIGSEGV with core output disabled; start failure was
+an actual missing executable; service-unavailable was a real failed worker open
+after stopping only the owned fixture.
+
+The unavailable primary sink produced actual EBADF (9). The full-storage control
+used an isolated 8 MiB Power-Safe image through devb-loopback, not the main guest
+filesystem. Native writes filled 8,290,304 bytes and returned ENOSPC (28); the
+subsequent supervisor log write also returned 28. Its separate in-memory journal
+and reserved recovery descriptor preserved the prior observations, original
+written prefix, failure reason and cleanup/reaping. Both sink cases remain ERROR;
+recovery does not make their evidence obligations PASS. The storage driver was a
+child of a live test shell, which unmounted only its lab filesystem, terminated
+that exact child and waited for it. Its spawn/reap PID and fill outcome are retained.
+An earlier RLIMIT_FSIZE experiment did **not** cause a write error on this build;
+its test rejected the missing error. It was replaced, not counted as passing or
+used to relax the expected result. Debug originals remain ignored in p4trial2.
+
+The cleanup-failure control deliberately withheld the fixture-stop escape for the
+ignore-unblock fixture. TERM/KILL requests did not reap the reply-blocked worker;
+the original 2 s cleanup bound expired with two genuinely unresolved children.
+The original result retains cancellation_not_completed and pending_state_not_released
+as FAIL assertions alongside cleanup_failed ERROR. Original status is incomplete,
+cleanup_ok false, exit 2 with those PIDs. Only after sealing it did the same live
+parent separately kill/reap its still-owned children in lab recovery (2.806 ms,
+within its separate 2 s bound). Original status bytes remained unchanged. The
+explicit dependent case still returned NOT_RUN/prior_cleanup_failed with zero
+child launches. This is a policy-fault experiment, not a claim that QNX SIGKILL
+cannot terminate every kind of process.
+
+The ownership-loss control deliberately waited a ready worker outside the ownership
+tracker and recorded that discarded wait. The tracker's actual subsequent ECHILD
+(10) established ownership_unknown. No signal was sent to that uncertain PID;
+cleanup remained unestablished for the tracker, and its dependent was NOT_RUN.
+Inventory separately showed no residual project process. Persistent status was
+never used as PID cleanup authority. The lab-manager control was a separately
+owned child that terminated the fixture; its own wait status and unexpected
+fixture death yielded service_interference, not successful service cancellation.
+No server-monitor/slm was present in before/after inventories, and no unrelated
+manager was disabled. This does not claim a real server-monitor policy was tested.
+
+The target-wide experiment verified the exact owned QEMU PID, UID, command-line
+lab image/loopback port and /proc start identity while no project operation was
+running. It temporarily stopped only that VM, with a separate resume guardian.
+An actual SSH command timed out in 0.802 s (0.8 s host timeout), producing
+ERROR/target_unreachable and remote_cleanup NOT_RUN. The exact same VM was resumed
+and SSH/inventory succeeded. No target-side cleanup or service assertion was
+invented during the pause; the host and unrelated services were untouched.
+
+Because the supervisor writer changed, the previously passed persistence subgate
+was specifically rechecked. Normal job PASSed. A real active SSH client was
+terminated after the sensor's timed pending barrier; reconnect by the original run
+ID collected the preserved service FAIL, complete status and all owned reaps.
+Active/completed duplicate launches were rejected without changing sealed bytes.
+Original partial events/running status and transport exit are retained.
+
+Thirty-five focused host tests passed: original 27 plus actual-matrix evaluation
+and explicitly synthetic mutations for late malformed/truncated evidence,
+independent FAIL plus cleanup ERROR, incomplete final flow/status, recovery-primary
+loss, restart/health invalidation, ownership quarantine and target-wide ERROR with
+no cleanup claim. Host mutations are not additional native executions.
+
+Reviewed artifacts: [matrix index](evidence/phase4/index.json), plans, source-stamped
+streams, starts/status/results, raw primary prefixes for sink tests, exact commands,
+[storage lifecycle](evidence/phase4/storage-lifecycle.txt), separate recovery,
+build/test logs and inventories in evidence/phase4; target pause records in
+evidence/phase4-target; changed-writer SSH-loss regression in evidence/phase4-transport.
+Raw originals and binary readbacks remain in .local/evidence. No SDK material,
+VM image, compiled binary or credential is committed. The final inventory found no
+residual project executable; all normal-cleanup cases had exact spawned=reaped
+sets and empty unresolved status. The two deliberately failed-cleanup statuses
+remain quarantined despite the separately observed lab restoration.

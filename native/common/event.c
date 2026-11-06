@@ -26,7 +26,10 @@ void add_identity(cJSON *o) {
     if (!cycle) _exit(120);
     add_number(o, "cycle", atoi(cycle));
 }
+static int (*custom_writer)(const cJSON *);
+void rmc_set_writer(int (*writer)(const cJSON *)) { custom_writer=writer; }
 void json_write(const cJSON *o) {
+    if (custom_writer) { (void)custom_writer(o); return; }
     char *line = cJSON_PrintUnformatted(o);
     if (!line) _exit(120);
     size_t size = strlen(line);

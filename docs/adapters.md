@@ -17,7 +17,7 @@ layouts live exclusively in adapter/fixture files.
 | Callback | Contract |
 | --- | --- |
 | validate_parameters | Validate the exact registered bounded parameter object; no execution/expression parsing |
-| control | Supervised worker only; hold/release/state into common counters plus typed facts; devctl errors returned directly |
+| control | Supervised worker only; ready/hold/release/state into common counters plus typed facts; ready performs the same real state query; devctl errors returned directly |
 | ordinary | Ordinary API baseline/health or optional negative diagnostic; preserve raw return, captured errno, API error, typed outcome/facts |
 | prepare | Prepare installed-header messages, buffers and iovs in owned aligned storage before timer arming; no retained dispatch context |
 | finish | Decode the reply after the generic worker's MsgSendv, retaining raw return/errno and normalization; reject malformed replies |
@@ -97,7 +97,14 @@ QNX baselines, confirmed pending cancellation, post-state and new-client results
 plus negative/error/capability validation. See E007 for actual commands/artifacts.
 
 External attach, multiple-job scheduling/consumption policies, dynamic adapters,
-full signal/departure/repetition coverage and transport recovery remain later
+full signal/departure/repetition coverage and application transport commands remain later
 scope. Adding a service with a different operation requires an adapter, registered
 typed facts and real observation hooks; it is not automatically supported by a
 new device path alone.
+
+Phase 4 keeps all readiness, operation, control, state and health callbacks in
+disposable supervised workers. The supervisor calls no service operation itself.
+One native execution path qualified both adapters in E009. Per-child framed
+channels isolate malformed producers, and exact owned-process wait status remains
+separate from service results. Original-instance health must precede fixture stop;
+a restart/recovery publication invalidates that health conclusion.

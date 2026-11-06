@@ -11,6 +11,7 @@
 void event(const char *producer, const char *name, const char *format, ...);
 void event_json(const char *producer, const char *name, cJSON *data);
 void json_write(const cJSON *value);
+void rmc_set_writer(int (*writer)(const cJSON *value));
 void add_string(cJSON *obj, const char *key, const char *value);
 void add_number(cJSON *obj, const char *key, int value);
 void add_decimal(cJSON *obj, const char *key, int64_t value);

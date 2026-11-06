@@ -2,46 +2,40 @@
 
 Updated: 2026-11-06.
 
-## Current checkpoint
-
 | Item | State |
 | --- | --- |
-| Current phase | Phase 4: dependable supervision and cleanup |
-| Phase state | `in_progress`; persistence/SSH-loss subgate passed (E008), full failure matrix pending |
-| Phase 3 source | e871ab2, clean committed-source confirmation in E007 / phase3-clean |
-| Phase 1 / Phase 2 | Previously passed; not repeated except the affected sensor path through the new generic adapter regression |
-| Target | Same qualified QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86pc x86_64, KVM, one CPU / 1 GiB |
+| Current phase | Phase 5: complete the native scenario suite |
+| Phase 4 | Passed E009: complete native supervision/failure/transport matrix |
+| Phases 1–3 | Previously passed; not repeated |
+| Phase 4 qualified source | base 175a6af plus explicit dirty digest ee3f95b47f01f0d447c768f57f41f3a44cd3f386f3fef0b888b5fa8e2f409e9e |
+| Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
-| Phases 5–10 | Not started |
+| Phases 6–10 | Not started |
 
-## Phase 3 deliverables and evidence
+Phase 4 now uses a bounded common state machine, per-child nonblocking framed
+channels, strict producer validation, exact live-parent ownership and wait/reap
+tracking, worker-only service-facing probes, independent execution/cleanup/host
+bounds, persistent status and a bounded recovery journal. The complete 22-case
+native matrix passed its exact expected verdict/reason sets. It includes actual
+SIGSEGV, spawn/open/probe faults, malformed/truncated/overfull channels, unavailable
+and genuinely full primary sinks, fixture interference, cleanup failure, unknown
+ownership, dependent NOT_RUN and missing-capability UNSUPPORTED. Both normal
+services PASSed through the same runner/worker.
 
-- Explicit versioned profile/plan/event/manifest/result/replay contracts, typed Python records and strict bounded validation. Profiles cannot execute commands or relax the planted-defect expectations.
-- Pinned cJSON 1.7.19 / c859b25 with original license, file hashes and review scope. Compiled with actual qcc, C11/QNX extensions, warnings as errors, nesting limit 12 and libm.
-- Public adapter ABI 1, capability vocabulary, typed results/facts, generic worker command roles and registration outside core files.
-- Sensor integrated behind the adapter with the proven pending/unblock/default-handler semantics and 500/2000 ms timeout/allowance retained.
-- Original job fixture: one bounded lab job slot and eight waiters; SUBMIT/COMPLETE/WAIT_RESULT, waiter-only cancellation, non-consuming retrieval by a fresh client. Ordinary devctl and explicit _IO_DEVCTL results match. The actual ENOENT probe returned 2 with errno 0; timeout returned MsgSendv -1 / errno 260.
-- One generic runner/worker path and one deterministic Python evaluator, with no service-name conditions in the core. Both corrected profiles PASS; both ignore-unblock cases FAIL for cancellation/pending cleanup; a missing required capability is UNSUPPORTED before child launch.
-- Twenty-one host validation/evidence-mutation tests pass. Nine malformed native command variants are rejected on QNX before collection/process launch. All four deployed binaries matched SFTP readback hashes; all owned children were reaped; no residual fixture/worker/runner was found.
+A failed-cleanup case retained both service FAIL assertions and cleanup ERROR.
+Separate same-parent lab recovery restored the test lab while original status
+remained incomplete and its dependent stayed NOT_RUN. No unknown PID was signalled.
+A temporarily paused owned VM produced target_unreachable with remote cleanup
+NOT_RUN. The changed writer's actual SSH-loss/reconnect and duplicate-start
+regression passed. Thirty-five host tests pass. See E009 in TEST_EVIDENCE.md and
+reason-codes.md for precise outcomes and limits.
 
-See E007 in [TEST_EVIDENCE.md](TEST_EVIDENCE.md), [formats-v1.md](formats-v1.md), [adapters.md](adapters.md), and the retained plans, native streams, evaluated results, commands and index in `docs/evidence/phase3/`. Host mutation tests remain labeled synthetic; native claims come from actual QNX execution.
+Next: commit the passed Phase 4 checkpoint, confirm its clean source identity, then
+implement Phase 5 in plan order: normal/timeout, signal, client departure, 20-cycle
+same-instance repetition and directed ordering on both fixtures. Signal/departure
+remain UNSUPPORTED until actually implemented and qualified. No later gate is
+claimed by the existing timeout results.
 
-## Phase 4 progress
-
-Native --persist runs have exclusive fixed-lab storage, detached session/stdio,
-atomic status updates, separate structured events/diagnostics and duplicate-start
-protection. A real abrupt SSH-client termination after pending-state confirmation
-was followed by successful reconnect/collection and complete owned-child cleanup.
-The intentional service FAIL remained FAIL. A normal persistent job case PASSed.
-Both sealed bundles survived rejected duplicate starts unchanged.
-
-E008 retains exact source digest, readback hashes, commands, native event/status
-records and outcomes. Twenty-seven host tests pass, including explicitly synthetic
-status-error mutations. Status is observation, never PID cleanup authority. The
-full native crash/start/probe/frame/sink/contamination matrix is not yet qualified.
-
-## Next executable step
-
-Continue Phase 4: dependable common state machine, structured-channel and sink failures, exact owned-process cleanup, explicit crash/start/probe classification, contamination handling, and remote interruption/reconnection status. Qualify normal, stuck, crashed and unavailable workers/services, blocked probes, malformed events, lost transport and cleanup failure independently. Do not call the existing Phase 3 runner production supervision merely because the happy path and planted defect pass.
-
-The lab VM remains running. SSH uses the existing ignored `.local/ssh_config`; preserve original images, keys, overlays and logs. Phase 3 clean confirmation used `/data/resmgrcheck/p3clean1`; Phase 4 persistence used `/data/resmgrcheck/p4gate2`, with status/logs in `/data/resmgrcheck/runs/<run_id>`. Use fresh run IDs/directories. No credentials were regenerated, host services changed, or publication performed.
+Preserve the running lab, ignored SDK/configuration and original images/keys.
+Qualified matrix deployment is /data/resmgrcheck/p4gate3; persistence regression
+is p4gate4. Persistent records are /data/resmgrcheck/runs/RUN_ID; use fresh run IDs.

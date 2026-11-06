@@ -1,0 +1,18 @@
+{
+  "owned_qemu_pid": 3715389,
+  "proc_start_ticks": "374272968",
+  "target_idle": true,
+  "ssh_argv": [
+    "ssh",
+    "-F",
+    ".local/ssh_config",
+    "resmgrcheck-qnx",
+    "pidin ar"
+  ],
+  "timeout_s": 0.8,
+  "pause_sent": true,
+  "host_timeout": true,
+  "elapsed_s": 0.8022756460122764,
+  "partial_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "resume_sent": true
+}

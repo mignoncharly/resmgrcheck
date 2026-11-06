@@ -117,3 +117,43 @@ failure assertions survive a later transport/status error in the shared evaluato
 This solves the tested healthy-target SSH-loss path, not arbitrary VM/filesystem
 failure. Phase 4's full crash/probe/channel/sink/cleanup-contamination matrix remains
 open and must retain explicit infrastructure errors and partial evidence.
+
+## D012: Own each process and evidence channel independently
+
+**Date:** 2026-11-06. **State:** Phase 4 gate verified in E009.
+
+The supervisor owns processes, channels and containment deadlines; disposable
+workers own every service-facing open/operation/probe. Each exact child has its
+own framed nonblocking pipe and source/sequence validation. Process creation,
+termination request and actual wait/reap status are separate records. ECHILD loses
+ownership; it never authorizes guessing/signalling a PID. Unexpected fixture exit
+is service_interference with no assumed actor. No monitor/slm was present; a
+separately owned lab injector qualified interference handling without changing
+unrelated managers. Source scheduling stayed modest and polling sleeps are bounded.
+
+## D013: Preserve independent failures and quarantine failed cleanup
+
+**Date:** 2026-11-06. **State:** Phase 4 gate verified in E009.
+
+Keep trustworthy earlier assertions when later evidence/cleanup fails. Overall
+ERROR cannot erase an independently established cancellation/pending-state FAIL.
+Malformed/truncated/missing required evidence never yields PASS. Dependent native
+cases explicitly name their predecessor and become NOT_RUN if clean completion
+cannot be established. A separately recorded lab recovery neither rewrites original
+failure nor supplies health for the original service instance. Status is never
+process cleanup authority. Reason vocabulary is documented in reason-codes.md.
+
+## D014: Contain primary evidence failures without inventing cleanup
+
+**Date:** 2026-11-06. **State:** Phase 4 gate verified in E009.
+
+Use a bounded in-memory journal and reserved recovery descriptor so primary write
+failure does not terminate the supervisor before cleanup. Real EBADF and ENOSPC
+were qualified, including a prior service FAIL and owned reaping. Exhaust only a
+small owned loopback filesystem, never the main guest filesystem. RLIMIT_FSIZE
+failed to establish the desired write error and was rejected as a test setup.
+
+This is not independent storage redundancy or power-loss attestation. A stalled
+owned lab VM produced an actual bounded host transport timeout, infrastructure
+ERROR and remote cleanup NOT_RUN. Reconnection/collection uses the original run
+ID; neither a closed SSH session nor successful kill syscall proves remote cleanup.

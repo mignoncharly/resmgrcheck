@@ -196,7 +196,7 @@ exclusively, preserving prior records. No command here connects to a target or
 executes a profile-supplied program. Deployment remains the qualified manual SSH
 route until Phase 7.
 
-## Phase 4 persistent-run extension (in progress)
+## Phase 4 persistent supervision
 
 `runner PLAN --persist` forks a dedicated session, closes the SSH standard streams
 and acknowledges only after exclusive target storage and initial status succeed.
@@ -213,16 +213,18 @@ independently observed exit status of the detached supervisor.
 
 `kind: run-status`, schema 1, has exact fields: shared identities; supervisor_pid;
 started_ns; state; cleanup_ok; exit_code; unresolved; profile_sha256;
-source_tree_sha256. State is running/complete/incomplete. exit_code is -1 while
+source_tree_sha256; recognized optional pair event_file/lab_control. Current native
+writers always include that pair. State is running/complete/incomplete/not-run. exit_code is -1 while
 running and otherwise the collector's declared exit code. Each unresolved entry is
-exactly `{pid, role}` (worker/fixture). Status replacement uses a separate file,
+exactly `{pid, role}` (worker/fixture/manager). Status replacement uses a separate file,
 file fsync and atomic rename. Complete status is published after event finalization.
 No power-loss/disk-failure durability claim is made by the transport-loss test.
 
 A status file is the last recorded observation, **not proof that its PID is still
 alive or permission to signal that PID**. Internal cleanup still uses exact children
-owned by the live supervisor. Unresolved contamination/status recovery rules and
-sink-failure containment are not yet fully qualified.
+owned by the live supervisor. E009 qualifies contamination and sink containment.
+`event_file` selects events.jsonl or recovery.jsonl; `lab_control` binds the explicit
+qualification control to the stream. Neither field authorizes signalling a PID.
 
 The event vocabulary adds supervisor `run_storage` with exact `{run_id}` payload.
 Offline evaluate accepts `--status STATUS` to bind status identity, source/profile
@@ -234,7 +236,43 @@ assertions remain visible. Complete collector status does not change a planted
 service FAIL into PASS.
 
 A real abrupt SSH-client termination after confirmed pending state, reconnect
-collection and duplicate-start rejection passed in E008. A stalled VM, blocked
-filesystem or fatal supervisor/sink failure may still prevent target progress;
-those remaining Phase 4 faults must not be reported as successful cleanup merely
-because a transport closed or a PID was recorded.
+collection and duplicate-start rejection passed in E008 and again in E009 after
+the writer changed. A stalled VM or blocked filesystem may prevent target progress;
+the host outer bound returns infrastructure ERROR and makes no remote cleanup claim.
+
+Each child has its own nonblocking pipe, bound to its exact PID and producer role.
+No partial bytes from different children are combined. The supervisor validates
+canonical frames, registered field shapes, IDs, sequence and source time before
+forwarding them. The generated native producer field table comes from the host
+contract. Bounded invalid-frame diagnostics include size and up to 64 bytes in hex;
+they are diagnostics, not accepted producer events.
+
+The supervisor keeps at most 512 frames / 2 MiB in an in-memory journal, separate
+from the 256 accepted child-event limit. A primary write failure does not exit the
+supervisor or prevent owned-child cleanup. It records actual errno, continues the
+journal, and seals recovery.jsonl through a reserved independent descriptor. That
+stream preserves original observations and original written prefix. Recovery
+evidence still yields ERROR for the lost primary sink. If both storage paths or
+the journal fail, no complete conclusion is claimed; a stale/missing final status
+also invalidates evaluation. This does not promise durability after power loss.
+
+Supervisor events add lab_control, phase, problem, wait_bound, invalid_frame,
+dependency and case_not_run with exact payloads in EVENT_FIELDS. Explicit lab
+controls require --persist and never occur in profile expectations. --lab=CONTROL
+selects a reviewed qualification fault. The full-storage control uses only the
+isolated /data/resmgrcheck/phase4-full filesystem, prepared/exhausted by the test
+helper; a real ENOSPC is required by the test. lab_discarded_wait records the
+deliberately discarded wait observation in the ownership-loss experiment.
+
+`--after=RUN_ID` requires persistent execution. A bounded, no-follow parse of that
+specific predecessor status must establish clean completion before children launch.
+Failed cleanup leaves the dependent case NOT_RUN/prior_cleanup_failed; missing or
+untrusted completion yields NOT_RUN/predecessor_unestablished. No status-based PID
+cleanup is attempted. The cleanup-failure control separately records lab recovery
+in recovery.json after sealing original failure/status. That recovery uses only
+children still owned by the same live parent and never rewrites the original case.
+
+The evaluator retains a trustworthy prefix when later evidence is malformed or
+truncated, preserving independent earlier FAIL assertions while returning ERROR.
+No incomplete flow or required evidence loss can become PASS. Reason meanings are
+documented in [reason-codes.md](reason-codes.md).

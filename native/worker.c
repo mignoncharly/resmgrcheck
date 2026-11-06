@@ -1,4 +1,5 @@
 #include "common/plan.h"
+#include "common/lab.h"
 #include <sys/neutrino.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -9,16 +10,17 @@ int main(int argc, char **argv) {
     if (!rmc_plan_load(argv[1], &plan)) { fputs("invalid worker plan\n",stderr); return 2; }
     rmc_plan_environment(&plan);
     const char *op=argv[2];
-    const char *roles[] = {"normal","message","hold","release","state","timed","health","negative"};
+    const char *roles[] = {"normal","message","hold","release","state","timed","health","negative","ready"};
     int valid=0; for (unsigned i=0; i<sizeof(roles)/sizeof(roles[0]); ++i) if (!strcmp(op,roles[i])) valid=1;
     if (!valid) { cJSON_Delete(plan.root); return 2; }
     event("worker","started","operation=%s",op);
+    rmc_lab_worker(op);
     char path[256];
     snprintf(path,sizeof(path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
     int fd=open(path,O_RDWR);
     if (fd == -1) { event("worker","open_error","error=%d",errno); event("worker","worker_final","exit_code=2"); cJSON_Delete(plan.root); return 2; }
     int exit_code=0;
-    if (!strcmp(op,"hold") || !strcmp(op,"release") || !strcmp(op,"state")) {
+    if (!strcmp(op,"hold") || !strcmp(op,"release") || !strcmp(op,"state") || !strcmp(op,"ready")) {
         rmc_state state={0};
         int error=plan.adapter->control(fd,op,&state);
         rmc_emit_state(op,error,&state); if (error) exit_code=2;
