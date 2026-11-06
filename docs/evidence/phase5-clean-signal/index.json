@@ -1,0 +1,257 @@
+{
+  "kind": "phase5-signal-native-matrix",
+  "readback_sha256": {
+    "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+    "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+    "sensor-v1-fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+    "job-v1-fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1"
+  },
+  "cases": [
+    {
+      "case": "sensor-signal-fixed",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 0.5442331740632653,
+      "event_sha256": "0ba9d47df45cd554c90ee7b047ba106e03b84cdffba36447eb42fbc3cf377df4"
+    },
+    {
+      "case": "sensor-signal-defect",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 2.8021749639883637,
+      "event_sha256": "65836efe582ff563dc32a564dfdd8b3a9d85cc85e8ca3d384f752f376e8084a1"
+    },
+    {
+      "case": "job-signal-fixed",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 0.5511808209121227,
+      "event_sha256": "fc8a91939c7d35d690e3baec0383e2039ef80b77ec37ef08c6e67fb9b768f831"
+    },
+    {
+      "case": "job-signal-defect",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 2.8649894702248275,
+      "event_sha256": "789130d3f572d40650393c93b05af8124f4621dc3424d1d5f5c10449bf3d5c78"
+    },
+    {
+      "case": "sensor-timeout-fixed",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 1.1821600440889597,
+      "event_sha256": "f06ab3fd8c196f2fd0904655b516d3524e0afec05dc1b1a0a1636be13dd81572"
+    },
+    {
+      "case": "sensor-timeout-defect",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 3.239177086856216,
+      "event_sha256": "2f9c6ecbb80ed043fbd35511bb9dd9e46bf97ebf28d90b58fbe297233058d7d2"
+    },
+    {
+      "case": "job-timeout-fixed",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 1.1458957851864398,
+      "event_sha256": "47c1d2fc3d3c32a0bea7aab37edd720e74b2082bb6dc137fc37780a8115f98e4"
+    },
+    {
+      "case": "job-timeout-defect",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 3.2801424879580736,
+      "event_sha256": "b31a3eda8185a87327c3edc1a243320ecf6a839ba753c4d58fa297f66c9de154"
+    },
+    {
+      "case": "sensor-auto-fixed",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "signal_mode_unsupported"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 0.3971821670420468,
+      "event_sha256": "542060ef89a3ba28ac766d36e931ecf0f78f5833a496da29edb36ba122f29fc5"
+    },
+    {
+      "case": "job-auto-fixed",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "signal_mode_unsupported"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 0.4285407876595855,
+      "event_sha256": "536c11e14616d597c92b87b445124519f1dba5bb3c4bec4b0261e61f59362ed1"
+    },
+    {
+      "case": "job-missing-fixed",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "required_capability_missing"
+      ],
+      "builds": {
+        "binaries": {
+          "adapter": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607",
+          "fixture": "825b73c2802d6e4cb15d83b9882b6435a4b4904e1f0a6e21a7ce4717442900b1",
+          "runner": "134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc",
+          "worker": "70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "e78502ff02555638d5f859e05e30de6ae16ed0cd",
+        "source_tree_sha256": "c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578"
+      },
+      "host_elapsed_s": 0.4126167008653283,
+      "event_sha256": "21746d6309c3f9ec90a4fc98f8ea1e5ea80b971ad08fe5bcc35c28edb419ea22"
+    }
+  ]
+}

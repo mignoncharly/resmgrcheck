@@ -647,3 +647,22 @@ Current-host synthetic tests also verify that a later manager error cannot erase
 earlier successful-but-forbidden payload and that a recorded nonzero worker exit
 cannot become PASS. This last host-only guard does not change native binaries;
 the original native source identities above remain unchanged in retained plans.
+
+### E010 clean committed-source confirmation
+
+After committing source checkpoint `e78502ff02555638d5f859e05e30de6ae16ed0cd`, `make qnx` recorded it with
+dirty=false and source digest `c446676dace9c6de52052d699e551e18f92bf4b252b9867f40d62ca907bcb578`. Actual commands
+`python3 tests/qnx/qualify-signal.py --prefix p5clean1` and
+`python3 tests/qnx/qualify-phase4.py --prefix p5clean2 --case normal --case normal_read --case manager_pending --case fixture_sink`
+passed. The first re-executed all eleven signal/timeout/capability checks plus five
+native rejections. The second confirmed both normal services and both additional
+interference/evidence-loss cases, with their exact distinct reasons. All four
+native artifact readbacks matched. These clean vectors include the final host
+nonzero-exit guard; their actual source identity is not substituted into older
+streams. Full reviewed records are in evidence/phase5-clean-signal and
+evidence/phase5-clean-supervision. Final inventory found no project executable.
+
+Phase 5 remains in progress: client departure, same-instance repetition and directed
+ordering still require their native matrices. The signal subgate and the affected
+supervision/timeout prerequisites are passed; this does not declare the Phase 5
+exit gate complete.

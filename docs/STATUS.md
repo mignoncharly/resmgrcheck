@@ -10,6 +10,7 @@ Updated: 2026-11-06.
 | Phase 4 qualified source | 1d49ad4, dirty=false; complete 22-case confirmation in evidence/phase4-clean |
 | Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
+| Phase 5 source | e78502f, clean native confirmation in E010 |
 | Phases 6–10 | Not started |
 
 Phase 4 now uses a bounded common state machine, per-child nonblocking framed

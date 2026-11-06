@@ -74,3 +74,13 @@ Do not call this partial scenario milestone a Phase 5 gate. Generic runner/evalu
 still contain no service-name conditions. Existing close_dup code is not a native
 proof of departure, duplicate-FD or OCB lifetime correctness. Use the installed
 QNX documentation and actual callback/termination observations for that next step.
+
+Phase 5 source checkpoint e78502f is committed and clean-source confirmed. The full
+11-case signal/timeout/capability matrix, five native rejection checks and a focused
+four-case normal/interference/evidence-loss check passed from that clean source.
+See the two phase5-clean evidence bundles and the closing E010 confirmation.
+The broader affected-path follow-up has 24 native supervision cases. Native
+process_exit facts separate actual exit/signal observations from raw wait bits;
+worker_close_failed and worker_exit_failed are execution ERRORs, not missing
+logs. Preserve earlier independently returned bad payloads under later interference.
+Forty-six host tests pass. Continue the remaining Phase 5 families from this state.
