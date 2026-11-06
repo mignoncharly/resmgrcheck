@@ -1,0 +1,77 @@
+{
+  "kind": "phase2-native-evidence-index",
+  "source_revision": "8583071886adc4d2df9c8b4e7d1eae47feeab251",
+  "source_tree": "clean at build/run",
+  "target": "QNX 8.0.0 2026/06/05-16:26:03EDT x86pc x86_64",
+  "runs": [
+    {
+      "run": 1,
+      "mode": "ignore-unblock",
+      "verdict": "FAIL",
+      "reason": "cancellation_deadline",
+      "deadline_ns": "448368650083",
+      "pending_ns": "447868675029",
+      "unblock_ns": "448369278644",
+      "log_sha256": "0f294ab5c5ff71af519bd425fcfb970010abd6a6dff20e836fabceba01192c14",
+      "termination_observations": [
+        {
+          "signal": "15",
+          "reaped": "0"
+        },
+        {
+          "signal": "9",
+          "reaped": "0"
+        }
+      ]
+    },
+    {
+      "run": 1,
+      "mode": "corrected",
+      "verdict": "PASS",
+      "reason": "cancellation_completed_and_healthy",
+      "deadline_ns": "451201974291",
+      "pending_ns": "450701999427",
+      "unblock_ns": "451202261944",
+      "log_sha256": "5e584a493421b1b1319c9b41afe154c6ebe9132a1ffbbd15de9932689422ce8e",
+      "client_result_ns": "451202445061",
+      "errno": "260"
+    },
+    {
+      "run": 2,
+      "mode": "ignore-unblock",
+      "verdict": "FAIL",
+      "reason": "cancellation_deadline",
+      "deadline_ns": "466065682872",
+      "pending_ns": "465565707427",
+      "unblock_ns": "466066267832",
+      "log_sha256": "901cb24413e1ba8d84bfef28a001ca7b8f7b44a6df113d637b325bf1258e91f7",
+      "termination_observations": [
+        {
+          "signal": "15",
+          "reaped": "0"
+        },
+        {
+          "signal": "9",
+          "reaped": "0"
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "mode": "corrected",
+      "verdict": "PASS",
+      "reason": "cancellation_completed_and_healthy",
+      "deadline_ns": "468873948623",
+      "pending_ns": "468374302464",
+      "unblock_ns": "468874261173",
+      "log_sha256": "c7f18a7bfad214914f4384a050f0e06507c1fee1aaf7522b15aa66e29069d466",
+      "client_result_ns": "468874439401",
+      "errno": "260"
+    }
+  ],
+  "binaries": {
+    "sensor-fixture": "10246ad117dd63c3d2c55e5cc74f6bd0c9707a9d98c6ec9da2859af527481cc2",
+    "sensor-client": "b4c9dc0c4511ab509e2fb644b18ea1e2bd8271185ffdb6bd4454c700e96e6841",
+    "phase2-supervisor": "ab3b5ccd0f13828b148944a3a0d022c1af8de4a02b33c054fad83e31b04af03d"
+  }
+}

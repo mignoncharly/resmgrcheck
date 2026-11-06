@@ -1,0 +1,62 @@
+producer=supervisor pid=1069078 seq=1 ns=447780087739 event=settings mode=ignore-unblock timeout_ms=500 allowance_ms=2000 path=/dev/resmgrcheck-sensor-1069078 case_ms=10000 cleanup_ms=2000
+producer=supervisor pid=1069078 seq=2 ns=447780491271 event=spawned binary=sensor-fixture child_pid=1073175 operation=ignore-unblock
+producer=fixture pid=1073175 seq=1 ns=447781345051 event=ready path=/dev/resmgrcheck-sensor-1069078 mode=ignore-unblock
+producer=supervisor pid=1069078 seq=3 ns=447791434627 event=spawned binary=sensor-client child_pid=1073176 operation=normal
+producer=worker pid=1073176 seq=1 ns=447793631387 event=started operation=normal
+producer=fixture pid=1073175 seq=2 ns=447793739726 event=received logical=1 generation=1 rcvid=4611967497699065857 client_pid=1073176
+producer=fixture pid=1073175 seq=3 ns=447793749685 event=sample logical=1 generation=1 bytes=10
+producer=worker pid=1073176 seq=2 ns=447793763490 event=result operation=normal api=read rc=10 error=0 match=1
+producer=worker pid=1073176 seq=3 ns=447793791001 event=closed rc=0 error=0
+producer=supervisor pid=1069078 seq=4 ns=447794408376 event=reaped child_pid=1073176 raw_status=0
+producer=supervisor pid=1069078 seq=5 ns=447794778767 event=spawned binary=sensor-client child_pid=1077272 operation=message
+producer=worker pid=1077272 seq=1 ns=447795606389 event=started operation=message
+producer=fixture pid=1073175 seq=4 ns=447795706323 event=received logical=2 generation=1 rcvid=4612811922629197825 client_pid=1077272
+producer=fixture pid=1073175 seq=5 ns=447795716822 event=sample logical=2 generation=1 bytes=10
+producer=worker pid=1077272 seq=2 ns=447795729426 event=result operation=message api=MsgSendv rc=10 error=0 match=1
+producer=worker pid=1077272 seq=3 ns=447795752949 event=closed rc=0 error=0
+producer=supervisor pid=1069078 seq=6 ns=447796308511 event=reaped child_pid=1077272 raw_status=0
+producer=supervisor pid=1069078 seq=7 ns=447796695693 event=spawned binary=sensor-client child_pid=1081368 operation=hold
+producer=worker pid=1081368 seq=1 ns=447797557487 event=started operation=hold
+producer=worker pid=1081368 seq=2 ns=447797628328 event=control_result operation=hold error=0 pending=0 unblocks=0 completed=0 generation=2
+producer=supervisor pid=1069078 seq=8 ns=447823409582 event=reaped child_pid=1081368 raw_status=0
+producer=supervisor pid=1069078 seq=9 ns=447824223589 event=spawned binary=sensor-client child_pid=1085464 operation=normal
+producer=worker pid=1085464 seq=1 ns=447824802935 event=started operation=normal
+producer=fixture pid=1073175 seq=6 ns=447824874426 event=received logical=3 generation=2 rcvid=4614500772489461761 client_pid=1085464
+producer=fixture pid=1073175 seq=7 ns=447824885537 event=pending logical=3 generation=2 rcvid=4614500772489461761 client_pid=1085464 pending=1
+producer=supervisor pid=1069078 seq=10 ns=447836575706 event=spawned binary=sensor-client child_pid=1085465 operation=release
+producer=worker pid=1085465 seq=1 ns=447838598987 event=started operation=release
+producer=fixture pid=1073175 seq=8 ns=447838741649 event=released logical=3 generation=2 rc=0
+producer=worker pid=1085464 seq=2 ns=447838758120 event=result operation=normal api=read rc=10 error=0 match=1
+producer=fixture pid=1073175 seq=9 ns=447838767647 event=removed logical=3 generation=2 pending=0 reason=release
+producer=worker pid=1085465 seq=2 ns=447838787694 event=control_result operation=release error=0 pending=0 unblocks=0 completed=0 generation=2
+producer=worker pid=1085464 seq=3 ns=447838795418 event=closed rc=0 error=0
+producer=supervisor pid=1069078 seq=11 ns=447839580131 event=reaped child_pid=1085464 raw_status=0
+producer=supervisor pid=1069078 seq=12 ns=447839602773 event=reaped child_pid=1085465 raw_status=0
+producer=supervisor pid=1069078 seq=13 ns=447840453267 event=spawned binary=sensor-client child_pid=1093656 operation=hold
+producer=worker pid=1093656 seq=1 ns=447841024858 event=started operation=hold
+producer=worker pid=1093656 seq=2 ns=447841109915 event=control_result operation=hold error=0 pending=0 unblocks=0 completed=0 generation=3
+producer=supervisor pid=1069078 seq=14 ns=447867273932 event=reaped child_pid=1093656 raw_status=0
+producer=supervisor pid=1069078 seq=15 ns=447867863667 event=spawned binary=sensor-client child_pid=1097752 operation=timed
+producer=worker pid=1097752 seq=1 ns=447868581026 event=started operation=timed
+producer=worker pid=1097752 seq=2 ns=447868650173 event=deadline operation=timed deadline_ns=448368650083 timeout_ms=500
+producer=fixture pid=1073175 seq=10 ns=447868661995 event=received logical=4 generation=3 rcvid=4617034047279857665 client_pid=1097752
+producer=fixture pid=1073175 seq=11 ns=447868675029 event=pending logical=4 generation=3 rcvid=4617034047279857665 client_pid=1097752 pending=1
+producer=fixture pid=1073175 seq=12 ns=448369278644 event=unblock logical=4 generation=3 rcvid=4617034047279857665 live=1 mode=ignore-unblock
+producer=fixture pid=1073175 seq=13 ns=448369360815 event=ignored_unblock logical=4 generation=3 pending=1
+producer=supervisor pid=1069078 seq=16 ns=450370340496 event=precondition established=1 pending_ns=447868675029 deadline_ns=448368650083 unblock_ns=448369278644
+producer=supervisor pid=1069078 seq=17 ns=450371935850 event=spawned binary=sensor-client child_pid=1097753 operation=state
+producer=worker pid=1097753 seq=1 ns=450372906705 event=started operation=state
+producer=worker pid=1097753 seq=2 ns=450373110130 event=control_result operation=state error=0 pending=1 unblocks=1 completed=0 generation=3
+producer=supervisor pid=1069078 seq=18 ns=450373624045 event=reaped child_pid=1097753 raw_status=0
+producer=supervisor pid=1069078 seq=19 ns=450373706707 event=watchdog responsive=1 completion_bound_ns=450368650083 pending=1
+producer=supervisor pid=1069078 seq=20 ns=450373726704 event=signal_sent child_pid=1097752 signal=15 rc=0 error=0
+producer=supervisor pid=1069078 seq=21 ns=450475364265 event=termination_observation child_pid=1097752 signal=15 reaped=0
+producer=supervisor pid=1069078 seq=22 ns=450475473546 event=signal_sent child_pid=1097752 signal=9 rc=0 error=0
+producer=supervisor pid=1069078 seq=23 ns=450577334927 event=termination_observation child_pid=1097752 signal=9 reaped=0
+producer=supervisor pid=1069078 seq=24 ns=450577426997 event=fixture_stop child_pid=1073175 blocked_worker_reaped=0
+producer=supervisor pid=1069078 seq=25 ns=450577454748 event=signal_sent child_pid=1073175 signal=15 rc=0 error=0
+producer=supervisor pid=1069078 seq=26 ns=450603379246 event=reaped child_pid=1073175 raw_status=15
+producer=supervisor pid=1069078 seq=27 ns=450603488186 event=reaped child_pid=1097752 raw_status=15
+producer=supervisor pid=1069078 seq=28 ns=450603639424 event=cleanup all_reaped=1 evidence_error=0
+producer=supervisor pid=1069078 seq=29 ns=450603653961 event=verdict result=FAIL reason=cancellation_deadline
+producer=supervisor pid=1069078 seq=30 ns=450603662206 event=final complete=1

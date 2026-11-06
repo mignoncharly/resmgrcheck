@@ -29,4 +29,6 @@ Source, profiles, recipes, and reviewed evidence belong in version control. Gene
 
 ## Current boundary
 
-Phase 1 passed with actual repository compilation and QNX execution through SSH/SFTP. A native capability probe exercised the required primitives. The dedicated KVM lab contains no running server-monitor/slm; see E005. The earlier execution restrictions are resolved. The cancellation fixture and independent supervisor begin in Phase 2; no cancellation result is implied by the smoke/capability probe.
+Phase 1 passed with actual repository compilation and QNX execution through SSH/SFTP. A native capability probe exercised the required primitives. The dedicated KVM lab contains no running server-monitor/slm; see E005. The earlier execution restrictions are resolved.
+
+Phase 2's sensor fixture, disposable worker and independent supervisor passed the actual cancellation defect/correction gate; see E006 and [native semantics](phase2-native.md). The spike uses bounded text events and a small native outcome classifier. The versioned adapter boundary, second service and deterministic Python evaluator are Phase 3 work. The production supervision/failure matrix and complete lifecycle suite remain later gates.

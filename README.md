@@ -6,9 +6,9 @@ The intended workflow exercises deferred I/O, records what happened on the QNX t
 
 ## Current state
 
-**Phase 1 has passed; Phase 2 is in progress.** The repository smoke program builds with qcc, transfers through SSH/SFTP, and ran twice on QNX with exit zero. A compiled native capability probe also passed. See [current status](docs/STATUS.md) and E005 in [test evidence](docs/TEST_EVIDENCE.md).
+**Phases 1 and 2 have passed their native gates.** The repository smoke program builds with qcc, transfers through SSH/SFTP, and ran twice on QNX with exit zero. The deferred sensor cancellation slice distinguishes an explicit ignored-unblock defect from corrected handling, with two real before/after replays and observed cleanup. See [current status](docs/STATUS.md) and E005/E006 in [test evidence](docs/TEST_EVIDENCE.md).
 
-The resource-manager cancellation fixture and independent supervisor are next. The scenario suite, evaluator, CLI, and reports remain planned work.
+The native fixture, disposable clients and independent supervisor are a Phase 2 spike. Versioned adapters, the second service, complete lifecycle suite, host evaluator, CLI and reports remain planned work. Use the [native reproduction guide](docs/phase2-native.md) to run the current slice; the intentional defect remains a FAIL in its evidence.
 
 An operator has already built the smoke program with QNX's compiler and run it twice inside an x86_64 QNX 8.0 QEMU guest, with exit status zero both times. Those bootstrap results are recorded as operator-provided evidence, separately from validation of this repository checkout. See [test evidence](docs/TEST_EVIDENCE.md).
 

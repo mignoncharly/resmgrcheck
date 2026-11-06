@@ -145,3 +145,41 @@ Actual target identity: `QNX resmgrcheck 8.0.0 2026/06/05-16:26:03EDT x86pc x86_
 The agent created `/data/resmgrcheck`, transferred `hello` using `scp -F .local/ssh_config` (OpenSSH's SFTP path), and executed the transferred binary twice through SSH. Both outputs were `QNX smoke test: hello`, with **run1_exit=0**, **run2_exit=0**, and SSH exit **0**. Upload and download each exited **0**. The returned binary's SHA256 matches the built hello above; `cmp` exited **0**. Commands used explicit 15-second host deadlines.
 
 Reviewed actual logs: [build](evidence/phase1-build.txt), [toolchain](evidence/phase1-toolchain.txt), [QNX capability/inventory run](evidence/phase1-guest.txt), [two transferred runs](evidence/phase1-transferred.txt). Original raw local logs are `.local/evidence/phase1-*.log` and `.local/qnx-lab/console-phase1.log`; VM/runtime/key files stay ignored. These source-level primitive checks do not establish the Phase 2 deferred-cancellation contract.
+
+## E006: Phase 2 defect, correction, replay and cleanup, 2026-11-06
+
+**State:** Phase 2 gate passed on real QNX. The individual deliberately defective service results remain FAIL.
+
+Native source and saved replay script were committed as **`8583071886adc4d2df9c8b4e7d1eae47feeab251`**, then rebuilt with `make -B qnx` in a clean source tree (exit **0**). Compiler/target/image are E005's qualified environment; the three new binaries were transferred through its verified SFTP route. The fixture defaults to corrected mode; `ignore-unblock` is an explicit regression mode. Initial debug runs exposed the SDK header-order requirement (`sys/iofunc.h` before `sys/dispatch.h` for typed OCB handlers); that compile error was fixed before the recorded revision. Debug runs first demonstrated both outcomes, then the final committed revision was replayed twice.
+
+| Final binary | SHA256 |
+| --- | --- |
+| `sensor-fixture` | `10246ad117dd63c3d2c55e5cc74f6bd0c9707a9d98c6ec9da2859af527481cc2` |
+| `sensor-client` | `b4c9dc0c4511ab509e2fb644b18ea1e2bd8271185ffdb6bd4454c700e96e6841` |
+| `phase2-supervisor` | `ab3b5ccd0f13828b148944a3a0d022c1af8de4a02b33c054fad83e31b04af03d` |
+
+Actual execution for each of the two replay invocations:
+
+```bash
+timeout 25s ssh -F .local/ssh_config resmgrcheck-qnx \
+ 'cd /data/resmgrcheck && sh phase2-replay.sh'
+```
+
+The first invocation also applied executable permissions after upload. Each replay script and SSH process exited **0** after observing the defective supervisor exit **1** and corrected supervisor exit **0**. The same inputs were used every time: 500 ms operation timeout, 2000 ms cancellation allowance, 10 s case execution bound, 2 s cleanup bound. No limits were increased to make a result pass.
+
+Every case first verified ten matching bytes via ordinary read and native `_IO_READ`/MsgSendv, then established and released a deferred ordinary read. For the timed read, matching logical request/generation and source monotonic timestamps established the pending-before-deadline and live-unblock preconditions:
+
+| Run/mode | Pending ns | Intended deadline ns | Observed unblock ns | Outcome |
+| --- | --- | --- | --- | --- |
+| 1 / ignore-unblock | 447868675029 | 448368650083 | 448369278644 | FAIL cancellation_deadline |
+| 1 / corrected | 450701999427 | 451201974291 | 451202261944 | PASS cancellation_completed_and_healthy |
+| 2 / ignore-unblock | 465565707427 | 466065682872 | 466066267832 | FAIL cancellation_deadline |
+| 2 / corrected | 468374302464 | 468873948623 | 468874261173 | PASS cancellation_completed_and_healthy |
+
+These are all target CLOCK_MONOTONIC values in decimal nanoseconds, not host wall time. The unblock timestamp is when the fixture handled the notification, not exact kernel timer expiry. Corrected client result times were `451202445061` and `468874439401`, both within the original deadline plus allowance. Both returned raw **-1**, captured QNX errno **260 / ETIMEDOUT**. Post-case state reported **pending=0, unblocks=1, completed=1**; a new ordinary client read succeeded on the same fixture instance before cleanup.
+
+In both defect cases, the pending count remained **1** with **unblocks=1, completed=0** after the bound, and no client result had returned. The supervisor stayed responsive and recorded the intended failure. SIGTERM and SIGKILL each returned success when sent to its exact owned client PID, but the client remained unreaped at both 100 ms observation points. Stopping the owned fixture allowed both processes to be reaped (raw status 15). All four cases ended with **all_reaped=1, evidence_error=0**, followed by their actual verdict and final writer marker. A subsequent target `pidin ar` inventory found no sensor fixture/client/supervisor processes. No broad kill or host service change was used.
+
+Reviewed complete target event streams: [run 1 defect](evidence/phase2-run1-ignore-unblock.txt), [run 1 corrected](evidence/phase2-run1-corrected.txt), [run 2 defect](evidence/phase2-run2-ignore-unblock.txt), [run 2 corrected](evidence/phase2-run2-corrected.txt). [Evidence index](evidence/phase2-index.json) retains source/binary/log hashes and key original timestamps. Raw target logs were downloaded before the next replay; local copies are `.local/evidence/phase2-run*.log`. Build log: `.local/evidence/phase2-build.log`; post-inventory: `.local/evidence/phase2-post-inventory.log`. The build log and final inventory also have reviewed text copies.
+
+A host-only audit parsed these actual streams and asserted timestamp ordering, matching request/generation, final markers, expected error results and complete cleanup. That audit is a consistency check of real native evidence, not an additional QNX scenario or synthetic native result. See [native semantics and replay guide](phase2-native.md). Signal-interruption, client-departure obligations, repetition suites, adapter reuse, JSON contracts, and production supervision are later gates and are not claimed here.
