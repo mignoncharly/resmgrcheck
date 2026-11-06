@@ -1,0 +1,7 @@
+{
+  "kind": "planned-openssh-lab-target",
+  "ssh_alias": "resmgrcheck-qnx",
+  "architecture": "x86_64",
+  "remote_work_directory": "/data/resmgrcheck"
+}
+
