@@ -6,12 +6,13 @@ Updated: 2026-11-06.
 
 | Item | State |
 | --- | --- |
-| Current gate | Phase 3 passed; Phase 4 is next |
+| Current phase | Phase 4: dependable supervision and cleanup |
+| Phase state | `in_progress`; persistence/SSH-loss subgate passed (E008), full failure matrix pending |
 | Phase 3 source | e871ab2, clean committed-source confirmation in E007 / phase3-clean |
 | Phase 1 / Phase 2 | Previously passed; not repeated except the affected sensor path through the new generic adapter regression |
 | Target | Same qualified QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86pc x86_64, KVM, one CPU / 1 GiB |
 | Active blocker | None |
-| Phases 4–10 | Not passed |
+| Phases 5–10 | Not started |
 
 ## Phase 3 deliverables and evidence
 
@@ -25,8 +26,22 @@ Updated: 2026-11-06.
 
 See E007 in [TEST_EVIDENCE.md](TEST_EVIDENCE.md), [formats-v1.md](formats-v1.md), [adapters.md](adapters.md), and the retained plans, native streams, evaluated results, commands and index in `docs/evidence/phase3/`. Host mutation tests remain labeled synthetic; native claims come from actual QNX execution.
 
+## Phase 4 progress
+
+Native --persist runs have exclusive fixed-lab storage, detached session/stdio,
+atomic status updates, separate structured events/diagnostics and duplicate-start
+protection. A real abrupt SSH-client termination after pending-state confirmation
+was followed by successful reconnect/collection and complete owned-child cleanup.
+The intentional service FAIL remained FAIL. A normal persistent job case PASSed.
+Both sealed bundles survived rejected duplicate starts unchanged.
+
+E008 retains exact source digest, readback hashes, commands, native event/status
+records and outcomes. Twenty-seven host tests pass, including explicitly synthetic
+status-error mutations. Status is observation, never PID cleanup authority. The
+full native crash/start/probe/frame/sink/contamination matrix is not yet qualified.
+
 ## Next executable step
 
-Proceed into Phase 4: dependable common state machine, structured-channel and sink failures, exact owned-process cleanup, explicit crash/start/probe classification, contamination handling, and remote interruption/reconnection status. Qualify normal, stuck, crashed and unavailable workers/services, blocked probes, malformed events, lost transport and cleanup failure independently. Do not call the existing Phase 3 runner production supervision merely because the happy path and planted defect pass.
+Continue Phase 4: dependable common state machine, structured-channel and sink failures, exact owned-process cleanup, explicit crash/start/probe classification, contamination handling, and remote interruption/reconnection status. Qualify normal, stuck, crashed and unavailable workers/services, blocked probes, malformed events, lost transport and cleanup failure independently. Do not call the existing Phase 3 runner production supervision merely because the happy path and planted defect pass.
 
-The lab VM remains running. SSH uses the existing ignored `.local/ssh_config`; preserve original images, keys, overlays and logs. Phase 3 qualification used the owned target directory `/data/resmgrcheck/p3gate1` and fresh run IDs. No credentials were regenerated, host services changed, or publication performed.
+The lab VM remains running. SSH uses the existing ignored `.local/ssh_config`; preserve original images, keys, overlays and logs. Phase 3 clean confirmation used `/data/resmgrcheck/p3clean1`; Phase 4 persistence used `/data/resmgrcheck/p4gate2`, with status/logs in `/data/resmgrcheck/runs/<run_id>`. Use fresh run IDs/directories. No credentials were regenerated, host services changed, or publication performed.

@@ -29,6 +29,15 @@ Source, profiles, recipes, and reviewed evidence belong in version control. Gene
 
 ## Current boundary
 
-Phase 1 passed with actual repository compilation and QNX execution through SSH/SFTP. A native capability probe exercised the required primitives. The dedicated KVM lab contains no running server-monitor/slm; see E005. The earlier execution restrictions are resolved.
+Phases 1–3 passed with actual QNX execution. The sensor and job fixtures use the
+same generic native runner/worker, registered adapter ABI and one deterministic
+Python evaluator. Strict versioned contracts, pinned cJSON, typed facts, missing-
+capability UNSUPPORTED and native parser rejections are qualified in E007. The
+Phase 2 text/C-classified slice is retained separately as a spike reference.
 
-Phase 2's sensor fixture, disposable worker and independent supervisor passed the actual cancellation defect/correction gate; see E006 and [native semantics](phase2-native.md). The spike uses bounded text events and a small native outcome classifier. The versioned adapter boundary, second service and deterministic Python evaluator are Phase 3 work. The production supervision/failure matrix and complete lifecycle suite remain later gates.
+Phase 4 is in progress. Explicit --persist launches have exclusive target storage,
+separate sessions/logs, atomic status, reconnect binding and duplicate guards. The
+real SSH-loss subgate passed in E008, preserving the deliberate service FAIL and
+observed child cleanup. The full crash/probe/channel/sink/contamination matrix is
+still open; persistent status is never PID cleanup authority or service PASS.
+Complete lifecycle suites, replay, deployment CLI and reports remain later gates.

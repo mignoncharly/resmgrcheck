@@ -283,3 +283,81 @@ digest/binary hashes. [Clean-revision bundle](evidence/phase3-clean/index.json)
 retains full revision identity, plans, raw observations, evaluated results and
 command statuses. This confirms the actual checkpoint revision, not only the
 precommit source snapshot. No prerequisite Phase 1/2 suite was restarted.
+
+## E008: Phase 4 persistence and SSH-loss subgate, 2026-11-06
+
+**State:** persistent-run/transport-loss subgate passed; Phase 4 remains in progress.
+This is not the complete Phase 4 failure matrix.
+
+Native/Python changes were tested at base revision b0f737a plus the exact dirty
+source digest and artifact hashes in [index.json](evidence/phase4-persistence/index.json).
+The current source digest was compared to that recorded digest after testing.
+The new native persistence module built with the same actual qcc toolchain. No
+SDK, credentials, image or host services were changed. Earlier direct debug runs
+used fresh p4persist1/p4gate1 directories; the retained final qualification used
+p4gate2 after stricter identifier/frame scalar checks were added.
+
+Actual final commands:
+
+```bash
+source /home/mignon/qnx800/qnxsdp-env.sh
+make qnx
+python3 tests/qnx/qualify-persistence.py --prefix p4gate2
+python3 -m unittest discover -s tests/host -v
+```
+
+All exited zero. The test helper uploaded the four generic-path binaries to
+`/data/resmgrcheck/p4gate2` and verified their SFTP readback SHA256 values. The
+native `--persist` launch creates an exclusive run directory, detaches its session,
+redirects stdin to /dev/null and events/diagnostics to owned files, writes initial
+status and acknowledges the supervisor PID. SIGCHLD disposition preserves child
+reaping. Status uses file fsync plus atomic rename; complete status follows final
+native events. Foreground operation and ABI 1 remain available.
+
+| Actual QNX case | Transport observation | Collected result |
+| --- | --- | --- |
+| normal job | successful launch acknowledgement, later reconnect | PASS, complete target status, cleanup_ok true, no unresolved children |
+| intentional sensor defect | pending timed request confirmed; active host SSH client terminated with SIGTERM (local exit -15); reconnect | FAIL cancellation_not_completed / pending_state_cleanup; complete collection, preserved failure, cleanup_ok true, no unresolved children |
+
+The second case kept an SSH channel open with a harmless stdin reader after the
+start acknowledgement. The helper observed matching timed/pending events and a
+running status, then terminated only its own SSH process. It did not signal any
+remote PID or change the network/firewall. The detached supervisor continued the
+original bounded attempt and reaped all its children through the measured fixture
+escape. The returned status PID matched the native producer, and the source/profile
+identities matched the original plan. Status exit code zero is the collector's
+recorded declaration, not an independently waited daemon exit or a service PASS.
+
+A duplicate launch was rejected with exit 2 while the interrupted attempt was
+active. Both cases also rejected duplicate launch after completion; sealed event
+and status bytes were checked unchanged. The start acknowledgement has no service
+verdict. A stale status/PID is never used as cleanup authority or as proof of
+liveness.
+
+Two new invalid native inputs (identifier starting underscore and invalid device
+suffix) were rejected with exit 2 and empty stdout before persistent storage / test
+execution. Frame PID/time scalars and sequence/cycle integer types were tightened
+on the native reader. Actual malformed-producer fault injection is still a
+remaining Phase 4 test, not established by these command-input rejections.
+
+Twenty-seven host tests passed, including six new **synthetic status mutation**
+checks: wrong owner/run/build/profile, running status over otherwise complete
+events, unresolved cleanup, ambiguous types/versions/fields, and preservation of
+service FAIL assertions under later incomplete status. These are host tests, not
+native cleanup-failure or crash experiments. Exact executable-token review of
+retained target inventory found no residual project runner/worker/fixture.
+
+Reviewed complete plans, native streams, partial-before-disconnect observations,
+start/running/final status records, evaluated results, host SSH termination and
+duplicate command statuses, readback hashes, native rejection records and inventory
+are in `docs/evidence/phase4-persistence/`. Raw originals/downloaded binaries remain
+ignored under `.local/evidence/phase4-p4gate2`. No compiled/runtime or private
+material is in the reviewed bundle.
+
+**Remaining Phase 4 gate:** focused actual-QNX checks and dependable classification
+for worker start/crash/stall, unavailable service, blocked diagnostic call,
+malformed/truncated/overflowed producer events, sink/full-storage failures,
+unresponsive target and failed cleanup/contamination. Persistent status and the
+existing bounded collector do not by themselves pass those cases. The event sink's
+fatal failure/cleanup path still needs containment work; no native sink-failure
+cleanup success is claimed.

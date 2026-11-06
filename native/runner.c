@@ -1,4 +1,5 @@
 #include "common/plan.h"
+#include "common/persistence.h"
 #include <errno.h>
 #include <sys/wait.h>
 #include <fcntl.h>
@@ -21,6 +22,18 @@ static char directory[1024], service_path[256];
 static rmc_plan plan;
 static const char *plan_path;
 
+static int status_snapshot(const char *state, int cleanup_ok, int exit_code) {
+    cJSON *list=cJSON_CreateArray(); if (!list) _exit(120);
+    for (unsigned i=0; i<child_count; ++i) {
+        if (children[i].reaped) continue;
+        cJSON *c=json_object(); add_decimal(c,"pid",children[i].pid); add_string(c,"role",children[i].producer);
+        if (!cJSON_AddItemToArray(list,c)) _exit(120);
+    }
+    int ok=rmc_status_write(&plan,state,cleanup_ok,exit_code,list);
+    if (!ok) { evidence_error=1; event("supervisor","evidence_error","reason=status_write_failed"); }
+    return ok;
+}
+
 static uint64_t bounded(uint64_t deadline) {
     return execution_end && execution_end < deadline ? execution_end : deadline;
 }
@@ -33,6 +46,13 @@ static int64_t field(const cJSON *record, const char *key) {
     char *end; errno=0;
     long long n=strtoll(v->valuestring,&end,10);
     return !errno && *v->valuestring && !*end ? n : -1;
+}
+static int decimal_field(const cJSON *o, const char *key) {
+    const char *s=json_string(o,key);
+    if (!s || !*s || strlen(s)>19 || (s[0]=='0' && s[1])) return 0;
+    for (const char *p=s; *p; ++p) if (*p<'0' || *p>'9') return 0;
+    errno=0; char *end; strtoll(s,&end,10);
+    return !errno && !*end;
 }
 static int named(const cJSON *record, const char *name) {
     const char *v=json_string(record,"event");
@@ -73,6 +93,8 @@ static void receive_line(void) {
         if (!json_string(o,ids[i]) || strcmp(json_string(o,ids[i]),json_string(plan.root,ids[i]))) goto invalid;
     const cJSON *cycle=cJSON_GetObjectItemCaseSensitive(o,"cycle");
     if (!cJSON_IsNumber(cycle) || cycle->valuedouble!=cJSON_GetObjectItemCaseSensitive(plan.root,"cycle")->valuedouble) goto invalid;
+    if (!decimal_field(o,"pid") || !decimal_field(o,"ns") ||
+        !json_integer(o,"seq",1,2048,NULL) || !json_integer(o,"cycle",1,200,NULL)) goto invalid;
     int known=0;
     const char *producer=json_string(o,"producer");
     for (unsigned i=0; i<child_count; ++i)
@@ -134,6 +156,7 @@ static struct child *spawn_child(int fixture, const char *argument) {
     c->producer=fixture ? "fixture" : "worker";
     ++child_count;
     event("supervisor", "spawned", "binary=%s child_pid=%ld operation=%s", binary, (long)c->pid, argument);
+    status_snapshot("running",0,-1);
     return c;
 }
 
@@ -156,6 +179,7 @@ static void await_child(struct child *c, uint64_t deadline) {
 }
 
 static int worker(const char *op, int *event_index) {
+    if (evidence_error) return 0;
     unsigned after = count;
     struct child *c = spawn_child(0, op);
     if (!c) return 0;
@@ -209,18 +233,27 @@ static int cleanup(struct child *fixture, struct child *timed) {
 }
 
 int main(int argc, char **argv) {
-    if (argc!=2 || !rmc_plan_load(argv[1],&plan)) { fputs("invalid scenario plan\n",stderr); return 2; }
+    if ((argc!=2 && argc!=3) || (argc==3 && strcmp(argv[2],"--persist")) || !rmc_plan_load(argv[1],&plan)) { fputs("invalid scenario plan\n",stderr); return 2; }
     plan_path=argv[1]; rmc_plan_environment(&plan);
     const char *slash=strrchr(argv[0],'/');
     if (!slash || (size_t)(slash-argv[0])>=sizeof(directory)) return 2;
     memcpy(directory,argv[0],(size_t)(slash-argv[0]));
     snprintf(service_path,sizeof(service_path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
+    struct sigaction child_action={0}; child_action.sa_handler=SIG_DFL;
+    sigemptyset(&child_action.sa_mask);
+    if (sigaction(SIGCHLD,&child_action,NULL)) return 2;
+    if (argc==3) {
+        int detached=rmc_detach_run(&plan);
+        if (detached<0) { perror("persistent start uncertain/rejected; inspect the run directory before retrying"); cJSON_Delete(plan.root); return 2; }
+        if (detached>0) { cJSON_Delete(plan.root); return 0; }
+    }
     rmc_manifest(&plan);
+    if (rmc_is_persistent()) event("supervisor","run_storage","run_id=%s",json_string(plan.root,"run_id"));
     if (plan.external || (plan.required_caps & ~plan.adapter->capabilities)) {
         event("supervisor","unsupported","reason=%s",plan.external ? "external_attach_not_implemented" : "missing_capability");
         event("supervisor","cleanup","all_reaped=1 evidence_error=0");
         event("supervisor","run_final","flow_complete=1 cleanup_ok=1 evidence_error=0");
-        cJSON_Delete(plan.root); return 3;
+        status_snapshot("complete",1,3); cJSON_Delete(plan.root); return 3;
     }
     if (pipe2(channel,O_NONBLOCK|O_CLOEXEC)==-1) { perror("pipe2"); return 2; }
     execution_end=mono_ns()+(uint64_t)plan.execution_ms*1000000ULL;
@@ -265,9 +298,16 @@ int main(int argc, char **argv) {
  done:
     if (!flow_complete) event("supervisor","execution_error","reason=%s",mono_ns()>=execution_end ? "case_deadline" : error);
     int cleaned=cleanup(fixture,timed);
+    int exit_code=flow_complete && cleaned && !evidence_error ? 0 : 2;
+    if (rmc_is_persistent() && fsync(STDOUT_FILENO)) { evidence_error=1; event("supervisor","evidence_error","reason=event_fsync_failed"); exit_code=2; }
     event("supervisor","run_final","flow_complete=%d cleanup_ok=%d evidence_error=%d",flow_complete,cleaned,evidence_error);
+    if (rmc_is_persistent() && fsync(STDOUT_FILENO)) {
+        exit_code=2; evidence_error=1;
+        event("supervisor","evidence_error","reason=final_fsync_failed");
+    }
+    status_snapshot(exit_code==0 ? "complete" : "incomplete",cleaned,exit_code);
     close(channel[0]); close(channel[1]);
     for (unsigned i=0; i<count; ++i) cJSON_Delete(events[i]);
     cJSON_Delete(plan.root);
-    return flow_complete && cleaned && !evidence_error ? 0 : 2;
+    return evidence_error ? 2 : exit_code;
 }

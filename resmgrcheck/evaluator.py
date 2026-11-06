@@ -159,3 +159,27 @@ def evaluate(plan, raw):
     else: result['verdict']='ERROR'
     result['reasons']=[a['id'] for a in result['assertions'] if a['verdict'] in {'FAIL','ERROR','UNSUPPORTED'}] or ['all_obligations_satisfied']
     return EvaluatedResult.parse(result)
+
+
+def evaluate_persistent(plan, raw, status):
+    """Bind a reconnect snapshot; a PID/status file is never cleanup authority."""
+    from .contracts import RunStatus, digest
+    if not isinstance(plan,Plan): plan=Plan.parse(plan)
+    result=evaluate(plan,raw).data
+    try:
+        if not isinstance(status,RunStatus): status=RunStatus.parse(status)
+        d=status.data
+        require(all(d[k]==plan.data[k] for k in IDENTITY.split()),'status identity mismatch')
+        require(d['profile_sha256']==plan.data['profile_sha256'] and d['source_tree_sha256']==plan.data['builds']['source_tree_sha256'],'status build/profile mismatch')
+        evidence=Evidence(raw,plan)
+        supervisor={e['pid'] for e in evidence.events if e['producer']=='supervisor'}
+        require(supervisor=={d['supervisor_pid']},'status owner mismatch')
+        finalized=(d['state']=='complete' and d['cleanup_ok'] and not d['unresolved'] and d['exit_code'] in (0,3))
+        result['status_sha256']=digest(d)
+    except (Invalid,KeyError,TypeError,ValueError):
+        finalized=False
+    result['assertions'].append({'id':'target_completion_status','verdict':'PASS' if finalized else 'ERROR','event_refs':[]})
+    if not finalized:
+        result['verdict']='ERROR'; result['completion']='incomplete'
+        result['reasons']=[r for r in result['reasons'] if r!='all_obligations_satisfied']+['target_completion_unestablished']
+    return EvaluatedResult.parse(result)

@@ -48,7 +48,7 @@ def enum(value, choices):
     return value
 
 def device(value):
-    require(type(value) is str and re.fullmatch(r'/dev/resmgrcheck-[A-Za-z0-9_-]{1,96}', value) is not None, 'unsafe lab device path')
+    require(type(value) is str and re.fullmatch(r'/dev/resmgrcheck-[A-Za-z0-9][A-Za-z0-9_-]{0,95}', value) is not None, 'unsafe lab device path')
     return value
 
 def strings(value, allowed):
@@ -241,7 +241,11 @@ class EvaluatedResult:
 
     @classmethod
     def parse(cls, d):
-        obj(d, 'kind schema_version '+IDENTITY+' verdict reasons completion assertions profile_sha256 event_sha256 fixture_mode', 'result')
+        keys='kind schema_version '+IDENTITY+' verdict reasons completion assertions profile_sha256 event_sha256 fixture_mode'
+        if type(d) is dict and 'status_sha256' in d:
+            keys+=' status_sha256'
+            text(d['status_sha256'],HASH)
+        obj(d, keys, 'result')
         version(d, 'evaluated-result'); identity(d); enum(d['verdict'], VERDICTS)
         enum(d['fixture_mode'], {'corrected', 'ignore-unblock'})
         enum(d['completion'], {'complete', 'incomplete', 'aborted'})
@@ -283,6 +287,7 @@ def _runtime_device(v):
 def _facts(v): return facts(v)
 
 EVENT_FIELDS = {
+ 'run_storage': {'run_id':_word},
  'settings': {'mode':_word,'timeout_ms':_count,'allowance_ms':_count,'path':_runtime_device,'case_ms':_count,'cleanup_ms':_count},
  'spawned': {'binary':_word,'child_pid':decimal,'operation':_word},
  'reaped': {'child_pid':decimal,'raw_status':_count},
@@ -347,3 +352,36 @@ for _name in ('ready','received','sample','pending','released','removed','unbloc
     EVENT_PRODUCERS[_name]='fixture'
 for _name in ('started','result','control_result','closed','worker_final','open_error','arm_error','deadline'):
     EVENT_PRODUCERS[_name]='worker'
+
+
+@dataclass(frozen=True)
+class RunStarted:
+    data: dict
+
+    @classmethod
+    def parse(cls, d):
+        obj(d, 'kind schema_version '+IDENTITY+' supervisor_pid', 'start acknowledgement')
+        version(d,'run-started'); identity(d); decimal(d['supervisor_pid'])
+        require(int(d['supervisor_pid'])>0,'zero supervisor pid')
+        return cls(d)
+
+@dataclass(frozen=True)
+class RunStatus:
+    data: dict
+
+    @classmethod
+    def parse(cls, d):
+        obj(d, 'kind schema_version '+IDENTITY+' supervisor_pid started_ns state cleanup_ok exit_code unresolved profile_sha256 source_tree_sha256', 'run status')
+        version(d,'run-status'); identity(d); decimal(d['supervisor_pid']); decimal(d['started_ns'])
+        require(int(d['supervisor_pid'])>0,'zero supervisor pid')
+        enum(d['state'],{'running','complete','incomplete'}); boolean(d['cleanup_ok']); integer(d['exit_code'],-1,255)
+        text(d['profile_sha256'],HASH); text(d['source_tree_sha256'],HASH)
+        require(type(d['unresolved']) is list and len(d['unresolved'])<=16,'invalid unresolved process list')
+        seen=set()
+        for process in d['unresolved']:
+            obj(process,'pid role'); decimal(process['pid']); enum(process['role'],{'worker','fixture'})
+            require(int(process['pid'])>0 and process['pid'] not in seen,'invalid/duplicate unresolved pid')
+            seen.add(process['pid'])
+        if d['state']=='running': require(d['exit_code']==-1,'running status cannot declare an exit')
+        if d['state']=='complete': require(d['cleanup_ok'] and not d['unresolved'] and d['exit_code'] in (0,3),'inconsistent complete status')
+        return cls(d)

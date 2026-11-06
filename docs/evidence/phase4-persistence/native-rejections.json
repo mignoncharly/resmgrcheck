@@ -1,0 +1,12 @@
+[
+  {
+    "case": "identifier",
+    "native_exit": 2,
+    "stdout_bytes": 0
+  },
+  {
+    "case": "device",
+    "native_exit": 2,
+    "stdout_bytes": 0
+  }
+]

@@ -99,6 +99,9 @@ try:
     inventory=ssh('pidin ar').stdout
     (out/'post-inventory.txt').write_bytes(inventory)
     for line in inventory.decode().splitlines():
+        tokens=line.split()
+        if len(tokens)>1:
+            assert Path(tokens[1]).name not in {'runner','worker','sensor-v1-fixture','job-v1-fixture'}
         assert remote+'/runner' not in line and remote+'/worker' not in line
         assert 'sensor-v1-fixture' not in line and 'job-v1-fixture' not in line
     summary={'kind':'phase3-qualification-index','source_builds':original['builds'],'binary_readback_sha256':hashes,

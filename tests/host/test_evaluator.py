@@ -70,7 +70,7 @@ class Evaluation(unittest.TestCase):
         with self.assertRaises(Invalid): ReplayInput.parse(replay)
     def test_generic_cores_do_not_branch_on_service_names(self):
         project=ROOT.parents[2]
-        for name in ('native/runner.c','native/worker.c','native/common/plan.c','native/common/result.c','resmgrcheck/evaluator.py'):
+        for name in ('native/runner.c','native/worker.c','native/common/plan.c','native/common/result.c','native/common/persistence.c','resmgrcheck/evaluator.py'):
             text=(project/name).read_text().lower()
             self.assertNotIn('sensor',text);self.assertNotIn('job',text)
 

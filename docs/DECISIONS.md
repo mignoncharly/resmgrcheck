@@ -100,3 +100,20 @@ The Phase 3 native path is an observation collector, not a second verdict engine
 All service verdicts come from one host evaluator. A fully collected planted
 failure can have native exit zero and host FAIL; missing capabilities have native
 preflight exit 3 and host UNSUPPORTED. Required evidence loss remains ERROR.
+
+## D011: Persist before acknowledging a detached run
+
+**Date:** 2026-11-06. **State:** Phase 4 persistence subgate verified in E008.
+
+An explicit --persist launch creates exclusive fixed-lab storage and initial
+status, then acknowledges a separate supervisor session. The run retains owned
+children and deadlines after SSH loss. Reconnection reads its exact run identity,
+source/profile, producer and finalized status; it does not start another attempt
+or trust a stored PID as cleanup authority. Both active and completed duplicate
+starts are rejected without overwriting evidence. Complete status follows native
+event finalization and means collection/cleanup, not a service pass. Native
+failure assertions survive a later transport/status error in the shared evaluator.
+
+This solves the tested healthy-target SSH-loss path, not arbitrary VM/filesystem
+failure. Phase 4's full crash/probe/channel/sink/cleanup-contamination matrix remains
+open and must retain explicit infrastructure errors and partial evidence.

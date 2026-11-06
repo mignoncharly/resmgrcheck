@@ -43,7 +43,7 @@ int json_tree(const cJSON *o, unsigned depth) {
     return 1;
 }
 static int ident(const char *s, size_t max) {
-    if (!s || !*s || strlen(s) > max) return 0;
+    if (!s || !*s || strlen(s) > max || !isalnum((unsigned char)*s)) return 0;
     for (; *s; ++s) if (!isalnum((unsigned char)*s) && *s != '-' && *s != '_') return 0;
     return 1;
 }

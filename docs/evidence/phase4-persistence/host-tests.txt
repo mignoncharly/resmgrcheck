@@ -1,0 +1,32 @@
+test_bad_suite_and_abi (test_contracts.Contracts.test_bad_suite_and_abi) ... ok
+test_json_ambiguities_and_bounds (test_contracts.Contracts.test_json_ambiguities_and_bounds) ... ok
+test_parameters_and_facts_are_registered (test_contracts.Contracts.test_parameters_and_facts_are_registered) ... ok
+test_plain_valid_json_boolean_is_not_integer (test_contracts.Contracts.test_plain_valid_json_boolean_is_not_integer) ... ok
+test_required_observers_and_relaxed_defect_expectation (test_contracts.Contracts.test_required_observers_and_relaxed_defect_expectation) ... ok
+test_reviewed_profiles (test_contracts.Contracts.test_reviewed_profiles) ... ok
+test_unsafe_paths_and_identifiers (test_contracts.Contracts.test_unsafe_paths_and_identifiers) ... ok
+test_versions_types_and_unknown_fields (test_contracts.Contracts.test_versions_types_and_unknown_fields) ... ok
+test_vendored_files_match_reviewed_revision (test_contracts.DependencyPin.test_vendored_files_match_reviewed_revision) ... ok
+test_deleted_service_state_is_failure (test_evaluator.Evaluation.test_deleted_service_state_is_failure) ... ok
+test_devctl_errno_confusion_is_error (test_evaluator.Evaluation.test_devctl_errno_confusion_is_error) ... ok
+test_generic_cores_do_not_branch_on_service_names (test_evaluator.Evaluation.test_generic_cores_do_not_branch_on_service_names) ... ok
+test_late_pending_is_error (test_evaluator.Evaluation.test_late_pending_is_error) ... ok
+test_missing_required_capability_cannot_pass (test_evaluator.Evaluation.test_missing_required_capability_cannot_pass) ... ok
+test_missing_worker_final_cannot_pass (test_evaluator.Evaluation.test_missing_worker_final_cannot_pass) ... ok
+test_recorded_matrix (test_evaluator.Evaluation.test_recorded_matrix) ... ok
+test_replay_and_hash_validation (test_evaluator.Evaluation.test_replay_and_hash_validation) ... ok
+test_retained_state_is_failure (test_evaluator.Evaluation.test_retained_state_is_failure) ... ok
+test_sequence_identity_types_unknown_fields (test_evaluator.Evaluation.test_sequence_identity_types_unknown_fields) ... ok
+test_truncation_and_duplicate_keys (test_evaluator.Evaluation.test_truncation_and_duplicate_keys) ... ok
+test_wrong_health_and_cleanup_cannot_pass (test_evaluator.Evaluation.test_wrong_health_and_cleanup_cannot_pass) ... ok
+test_cleanup_failure_cannot_pass (test_persistence.Persistence.test_cleanup_failure_cannot_pass) ... ok
+test_disconnected_run_keeps_service_failures_visible (test_persistence.Persistence.test_disconnected_run_keeps_service_failures_visible) ... ok
+test_reconnected_native_outcomes (test_persistence.Persistence.test_reconnected_native_outcomes) ... ok
+test_running_status_cannot_validate_complete_events (test_persistence.Persistence.test_running_status_cannot_validate_complete_events) ... ok
+test_stale_owner_run_or_build_cannot_pass (test_persistence.Persistence.test_stale_owner_run_or_build_cannot_pass) ... ok
+test_status_validation_rejects_ambiguous_data (test_persistence.Persistence.test_status_validation_rejects_ambiguous_data) ... ok
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.193s
+
+OK

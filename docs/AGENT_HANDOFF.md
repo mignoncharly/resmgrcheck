@@ -1,4 +1,4 @@
-# Continue into Phase 4
+# Continue Phase 4
 
 Read AGENTS.md, STATUS.md, the relevant implementation plan, E007 in
 TEST_EVIDENCE.md, DECISIONS.md, formats-v1.md and adapters.md. Inspect the actual
@@ -12,7 +12,7 @@ native runner/worker against both services, real job cancellation/retention/fres
 retrieval, strict input validation, pinned cJSON compilation, shared evaluator,
 missing-capability UNSUPPORTED and native parser rejection checks. The qualification
 index records the actual revision/dirty state/source digest and deployment hashes.
-Do not infer a clean-source run unless the evidence says it was executed.
+The clean-source confirmation at e871ab2 is retained in docs/evidence/phase3-clean; b0f737a records it.
 
 Native code lives in native/runner.c, worker.c, adapter_v1.h, common/, adapters/
 and fixtures/. The Phase 2 spike is retained separately. Generic core files have
@@ -39,6 +39,27 @@ There are no host deployment/report/replay product commands yet.
 - QNX target: 8.0.0 / 2026/06/05-16:26:03EDT / x86pc x86_64, one CPU / 1 GiB.
   Recorded scheduling policy 2 / priority 10; no explicit priority boost. No
   server-monitor/slm in this image. Reinventory if the recipe changes.
+
+## Phase 4 work already performed
+
+Persistence/SSH-loss subgate E008 passed with actual QNX execution. --persist
+launches a separate supervisor session only after exclusive /data/resmgrcheck/runs/
+RUN_ID storage and initial status. Structured logs and stderr are separate; atomic
+status contains identity, source/profile hashes, exact supervisor PID and unreaped
+children. Reconnect/offline evaluation binds those records. Duplicate active or
+completed run IDs are rejected without truncation. A real SSH-client termination
+after pending state did not stop target cleanup or alter the planted service FAIL.
+The normal persistent job passed. No native PID was killed by the host test helper.
+
+Use tests/qnx/qualify-persistence.py --prefix UNIQUE after make qnx for this focused
+manual-lab regression. Existing artifacts are in /data/resmgrcheck/p4gate2 and
+/data/resmgrcheck/runs/p4gate2-{normal,disconnect}; preserve them. The Phase 3
+qualification and 27 host tests remain passing. Current Phase 4 native claims use
+the exact precommit source digest in the E008 index, not the parent commit alone.
+
+A stored running status is not proof of liveness; never kill by a stale PID file or
+blindly restart on transport uncertainty. The supervisor still owns/reaps its own
+children internally. Complete collector status is not the service verdict.
 
 ## Phase 4 objective
 

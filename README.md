@@ -8,7 +8,7 @@ The intended workflow exercises deferred I/O, records what happened on the QNX t
 
 **Phases 1–3 have passed their native gates.** Both sensor and job fixtures use the same generic QNX runner/worker and deterministic host evaluator. Corrected timeout cases PASS; explicit ignored-unblock defects FAIL; missing required capabilities become UNSUPPORTED. See [status](docs/STATUS.md), [formats](docs/formats-v1.md), [adapters](docs/adapters.md) and E007 in [evidence](docs/TEST_EVIDENCE.md).
 
-The current tools validate/expand profiles and evaluate downloaded native observations. Dependable failure/transport supervision, complete lifecycle suites, replay, host deployment CLI and reports remain later gates. The [Phase 2 guide](docs/phase2-native.md) is retained as a spike reference.
+The current tools validate/expand profiles and evaluate downloaded native observations. Phase 4 is in progress: native persistent logging/status and a real SSH-loss/reconnect subgate passed, while the complete failure/contamination matrix remains open. Complete lifecycle suites, replay, host deployment CLI and reports remain later gates. The [Phase 2 guide](docs/phase2-native.md) is retained as a spike reference.
 
 An operator has already built the smoke program with QNX's compiler and run it twice inside an x86_64 QNX 8.0 QEMU guest, with exit status zero both times. Those bootstrap results are recorded as operator-provided evidence, separately from validation of this repository checkout. See [test evidence](docs/TEST_EVIDENCE.md).
 

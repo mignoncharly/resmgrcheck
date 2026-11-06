@@ -195,3 +195,46 @@ codes are PASS=0, FAIL=1, ERROR=2, UNSUPPORTED=3, NOT_RUN=4. Output files are cr
 exclusively, preserving prior records. No command here connects to a target or
 executes a profile-supplied program. Deployment remains the qualified manual SSH
 route until Phase 7.
+
+## Phase 4 persistent-run extension (in progress)
+
+`runner PLAN --persist` forks a dedicated session, closes the SSH standard streams
+and acknowledges only after exclusive target storage and initial status succeed.
+It uses `/data/resmgrcheck/runs/<run_id>/`, never a profile-supplied output path.
+The run directory, events.jsonl and stderr.log are created exclusively with
+no-follow opens; a repeated run ID is rejected without truncating earlier data.
+Target operations and cleanup retain their own deadlines after the launch channel
+closes. Startup failure/timeout is uncertain until the known run directory is
+inspected; it does not authorize blind retry or PID-based cleanup.
+
+New control record `kind: run-started`, schema 1: shared identity fields plus
+supervisor_pid (decimal string). This acknowledges launch, not service PASS or an
+independently observed exit status of the detached supervisor.
+
+`kind: run-status`, schema 1, has exact fields: shared identities; supervisor_pid;
+started_ns; state; cleanup_ok; exit_code; unresolved; profile_sha256;
+source_tree_sha256. State is running/complete/incomplete. exit_code is -1 while
+running and otherwise the collector's declared exit code. Each unresolved entry is
+exactly `{pid, role}` (worker/fixture). Status replacement uses a separate file,
+file fsync and atomic rename. Complete status is published after event finalization.
+No power-loss/disk-failure durability claim is made by the transport-loss test.
+
+A status file is the last recorded observation, **not proof that its PID is still
+alive or permission to signal that PID**. Internal cleanup still uses exact children
+owned by the live supervisor. Unresolved contamination/status recovery rules and
+sink-failure containment are not yet fully qualified.
+
+The event vocabulary adds supervisor `run_storage` with exact `{run_id}` payload.
+Offline evaluate accepts `--status STATUS` to bind status identity, source/profile
+hashes, supervisor PID and cleanup/finalization to the native stream. Its result
+adds the recognized optional `status_sha256` (canonical status digest) and
+`target_completion_status` assertion. Running, stale or inconsistent status makes
+ERROR/incomplete even if a copied event stream otherwise passes. Existing FAIL
+assertions remain visible. Complete collector status does not change a planted
+service FAIL into PASS.
+
+A real abrupt SSH-client termination after confirmed pending state, reconnect
+collection and duplicate-start rejection passed in E008. A stalled VM, blocked
+filesystem or fatal supervisor/sink failure may still prevent target progress;
+those remaining Phase 4 faults must not be reported as successful cleanup merely
+because a transport closed or a PID was recorded.
