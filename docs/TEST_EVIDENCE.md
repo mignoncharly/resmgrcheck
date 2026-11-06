@@ -501,3 +501,15 @@ VM image, compiled binary or credential is committed. The final inventory found 
 residual project executable; all normal-cleanup cases had exact spawned=reaped
 sets and empty unresolved status. The two deliberately failed-cleanup statuses
 remain quarantined despite the separately observed lab restoration.
+
+### E009 clean committed-source confirmation
+
+After the passing precommit gate, checkpoint `1d49ad4` was committed. A fresh
+`make qnx` recorded that actual revision with dirty=false and the identical source
+digest. `python3 tests/qnx/qualify-phase4.py --prefix p4clean1` then re-executed all
+22 native cases successfully with the same exact verdict/reason sets. All four
+artifact readbacks matched; the isolated full filesystem and separate lab recovery
+were restored, and final inventory found no project executable. Full reviewed
+plans/manifests, events/status/results, commands, build log, readback identities
+and index are retained in evidence/phase4-clean. This confirms the implemented
+checkpoint itself; it does not relabel the earlier dirty-source experiment.

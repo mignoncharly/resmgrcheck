@@ -1,0 +1,4 @@
+storage_driver_spawned=38846486
+{"bytes_written":8290304,"write_errno":28,"enospc":28,"fsync_rc":0,"blocks":2048,"free_blocks":1}
+STORAGE_READY
+storage_driver_reaped=38846486

@@ -7,7 +7,7 @@ Updated: 2026-11-06.
 | Current phase | Phase 5: complete the native scenario suite |
 | Phase 4 | Passed E009: complete native supervision/failure/transport matrix |
 | Phases 1–3 | Previously passed; not repeated |
-| Phase 4 qualified source | base 175a6af plus explicit dirty digest ee3f95b47f01f0d447c768f57f41f3a44cd3f386f3fef0b888b5fa8e2f409e9e |
+| Phase 4 qualified source | 1d49ad4, dirty=false; complete 22-case confirmation in evidence/phase4-clean |
 | Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
 | Phases 6–10 | Not started |
@@ -30,8 +30,7 @@ NOT_RUN. The changed writer's actual SSH-loss/reconnect and duplicate-start
 regression passed. Thirty-five host tests pass. See E009 in TEST_EVIDENCE.md and
 reason-codes.md for precise outcomes and limits.
 
-Next: commit the passed Phase 4 checkpoint, confirm its clean source identity, then
-implement Phase 5 in plan order: normal/timeout, signal, client departure, 20-cycle
+Next: implement Phase 5 in plan order: normal/timeout, signal, client departure, 20-cycle
 same-instance repetition and directed ordering on both fixtures. Signal/departure
 remain UNSUPPORTED until actually implemented and qualified. No later gate is
 claimed by the existing timeout results.

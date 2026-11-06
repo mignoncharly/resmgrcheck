@@ -4,7 +4,7 @@ Read AGENTS.md, STATUS.md, Phase 5 in IMPLEMENTATION_PLAN.md, E009 in
 TEST_EVIDENCE.md, DECISIONS.md, KNOWN_LIMITATIONS.md and reason-codes.md first.
 Preserve unrelated changes. Branch remains implementation/phase-1.
 
-Phases 1–4 have passed. Phase 4's 22 native fault cases, actual paused-target
+Phases 1–4 have passed. Phase 4 checkpoint 1d49ad4 was requalified clean with all 22 cases (p4clean1). Phase 4's 22 native fault cases, actual paused-target
 infrastructure bound and changed-writer SSH-loss/reconnect regression are retained
 in docs/evidence/phase4*, against explicit source digest/artifact identities. The
 same generic binaries normal-PASSed both profiles. Thirty-five host tests pass.
