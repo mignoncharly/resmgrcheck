@@ -26,7 +26,7 @@ fixed=Path(a.fixed_source).resolve();source=evaluator_identity();assert not sour
 assert subprocess.check_output(['git','-C',str(fixed),'status','--porcelain'])==b''
 commands=[];observations={};passed=False;page=None;start=None;stage=0;title='';caption='';history=[]
 HTML='''<!doctype html><html lang="en"><meta charset="utf-8"><style>
-*{box-sizing:border-box}body{margin:0;background:#0b1d2c;color:#e9f2f8;font-family:system-ui,sans-serif}header{padding:22px 32px 8px;font-size:32px;font-weight:750}#scene{color:#91d4eb;font-size:23px;padding:0 32px 12px}#terminal{margin:0 32px;height:390px;padding:18px;background:#122c40;border:1px solid #36536a;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;font:16px/1.4 ui-monospace,monospace}#caption{margin:18px 32px 0;font-size:20px;line-height:1.4}footer{position:fixed;bottom:10px;left:32px;color:#acc1d0;font-size:13px}</style><header>ResMgrCheck · actual QNX lab</header><div id="scene"></div><pre id="terminal"></pre><p id="caption"></p><footer>Intentional fixture defects are labelled · Actual output; full evidence preserved · No simulated transport</footer></html>'''
+*{box-sizing:border-box}body{margin:0;background:#0b1d2c;color:#e9f2f8;font-family:system-ui,sans-serif}header{padding:22px 32px 8px;font-size:32px;font-weight:750}#scene{color:#91d4eb;font-size:23px;padding:0 32px 12px}#terminal{margin:0 32px;height:400px;padding:18px;background:#122c40;border:1px solid #36536a;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;font:15px/1.4 ui-monospace,monospace}#caption{margin:18px 32px 0;font-size:20px;line-height:1.4}footer{position:fixed;bottom:10px;left:32px;color:#acc1d0;font-size:13px}</style><header>ResMgrCheck · actual QNX lab</header><div id="scene"></div><pre id="terminal"></pre><p id="caption"></p><footer>Intentional fixture defects are labelled · Actual output; full evidence preserved · No simulated transport</footer></html>'''
 
 def display():
     if page is None:return
@@ -75,12 +75,19 @@ def evidence(name):
     root=Path(observations[name]['location']);case=next(root.glob('cases/*/bundle'))
     result=load(case/'result.json');records=[loads(line) for line in (case/'observations.jsonl').read_bytes().splitlines()]
     selected={'baseline_validity','pending_precondition','cancellation_completion','cancellation_not_completed','pending_state_cleanup','fresh_client_health','client_departure','ocb_lifetime','owned_process_cleanup'}
-    keys={'operation','pending','live','raw_return','raw_errno','error_name','facts','completed','all_reaped','child_pid','signal','exit_code','exited','signaled','ocb','synthetic','status','client_pid','rc','error','kind'}
+    keys={'operation','pending','live','raw_return','raw_errno','error_name','facts','completed','all_reaped','child_pid','signal','exit_code','exited','signaled','ocb','synthetic','status','client_pid','rc','error','kind','api','expired','result_observed','worker_reaped'}
     lines=['Actual saved assertions and selected source records; full raw stream preserved:']
     for assertion in result['assertions']:
         if assertion['id'] not in selected:continue
         refs=assertion['event_refs'];shown=[]
-        for ref in refs[:4 if assertion['id']=='client_departure' else 1]:
+        preferred={'pending_precondition':['pending','unblock'], 'ocb_lifetime':['close_dup_default','close_ocb_default'], 'client_departure':['process_exit','reaped']}.get(assertion['id'],[])
+        if preferred:
+            picked=[]
+            for event_name in preferred:
+                picked.extend([ref for ref in refs if records[ref].get('event')==event_name][:1])
+            refs=picked or refs[:1]
+        else:refs=refs[:1]
+        for ref in refs:
             event=records[ref]
             shown.append({'record':ref,'event':event.get('event'),**{k:v for k,v in event.get('data',{}).items() if k in keys}})
         lines.append(assertion['id']+' = '+assertion['verdict']+' '+json.dumps(shown,separators=(',',':')))
@@ -112,7 +119,8 @@ try:
         page.screenshot(path=str(out/'broken-report.png'));wait_until(80)
         terminal(4,'4 / 7 · Source correction and explicit candidate replay','Actual handler correction; saved contract, timing and ignore-unblock setting stay unchanged. Candidate hashes are verified before launch.')
         call(['git','-C',fixed,'show','--format=short','HEAD','--','native/fixtures/sensor.c','native/fixtures/job.c'])
-        call(['make','-C',fixed,'qnx','QNX_VARIANT=gcc_ntox86_64'],timeout=120)
+        page.wait_for_timeout(6000)
+        call(['make','-B','-C',fixed,'qnx','QNX_VARIANT=gcc_ntox86_64'],timeout=120)
         cli('deploy','--target','lab','--build',fixed/'build/qnx-x86_64')
         manifest=fixed/'build/qnx-x86_64/manifest.json';(out/'candidate-deployment.json').write_bytes(manifest.read_bytes())
         after=Path('runs')/(a.prefix+'-after')
@@ -126,6 +134,7 @@ try:
         terminal(6,'6 / 7 · Job adapter, same generic engine','Waiter state and service-owned jobs are distinct. The same runner/worker checks cancellation, job retention and fresh-client result420.')
         job=run('job','profiles/job.json');evidence('job')
         assert observations['job']['request']['cases'][0]['builds']['binaries']['worker']==observations['after']['request']['cases'][0]['builds']['binaries']['worker']
+        history.append('Shared native worker SHA256: '+observations['job']['request']['cases'][0]['builds']['binaries']['worker']);display()
         assert time.monotonic()-start<165,'job scene exceeded its allotted recording time'
         wait_until(165)
         terminal(7,'7 / 7 · Reproduce from source','README · docs/codelab.md · versioned contracts · immutable raw/JSON/JUnit/HTML. Qualified lab scope; unsupported and incomplete coverage remain visible.')
