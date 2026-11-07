@@ -1,0 +1,1516 @@
+{
+  "kind": "web-p4-browser-qualification",
+  "schema_version": 1,
+  "passed": true,
+  "browser": "156.0.8078.4",
+  "playwright": "1.64.1",
+  "axe_core": "4.14.0",
+  "checks": [
+    {
+      "document": "home",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-before",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-after",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-playback",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "partial-playback",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "docs",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "scope",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "privacy",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "login",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "signup",
+      "audience": "public",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "overview",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "projects",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "targets",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "history",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "project",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "target-settings",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "new-run",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "fixed-run",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "failed-run",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "source-replay",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-run",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "transfer-error",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "compare",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "account",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "team",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "audit",
+      "audience": "authorized",
+      "viewport": [
+        1440,
+        1000
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "home",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-before",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-after",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-playback",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "partial-playback",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "docs",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "scope",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "privacy",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "login",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "signup",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "overview",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "projects",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "targets",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "history",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "project",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "target-settings",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "new-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "fixed-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "failed-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "source-replay",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "transfer-error",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "compare",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "account",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "team",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "audit",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": true,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "home",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-before",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-after",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-playback",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "partial-playback",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "docs",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "scope",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "privacy",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "login",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "signup",
+      "audience": "public",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "overview",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "projects",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "targets",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "history",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "project",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "target-settings",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "new-run",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "fixed-run",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "failed-run",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "source-replay",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-run",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "transfer-error",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "compare",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "account",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "team",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "audit",
+      "audience": "authorized",
+      "viewport": [
+        1280,
+        900
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "home",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-before",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "sensor-after",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-playback",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "partial-playback",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "docs",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "scope",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "privacy",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "login",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "signup",
+      "audience": "public",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "overview",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "projects",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "targets",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "history",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "project",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "target-settings",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "new-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "fixed-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "failed-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "source-replay",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "job-run",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "transfer-error",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "compare",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "account",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "team",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    },
+    {
+      "document": "audit",
+      "audience": "authorized",
+      "viewport": [
+        390,
+        844
+      ],
+      "javascript": false,
+      "http_status": 200,
+      "no_page_overflow": true,
+      "page_errors": [],
+      "external_requests": []
+    }
+  ],
+  "accessibility": [
+    {
+      "document": "home",
+      "passes": 14,
+      "violations": []
+    },
+    {
+      "document": "sensor-before",
+      "passes": 19,
+      "violations": []
+    },
+    {
+      "document": "sensor-after",
+      "passes": 19,
+      "violations": []
+    },
+    {
+      "document": "job-playback",
+      "passes": 19,
+      "violations": []
+    },
+    {
+      "document": "partial-playback",
+      "passes": 16,
+      "violations": []
+    },
+    {
+      "document": "docs",
+      "passes": 14,
+      "violations": []
+    },
+    {
+      "document": "scope",
+      "passes": 14,
+      "violations": []
+    },
+    {
+      "document": "privacy",
+      "passes": 14,
+      "violations": []
+    },
+    {
+      "document": "login",
+      "passes": 21,
+      "violations": []
+    },
+    {
+      "document": "signup",
+      "passes": 23,
+      "violations": []
+    },
+    {
+      "document": "overview",
+      "passes": 19,
+      "violations": []
+    },
+    {
+      "document": "projects",
+      "passes": 14,
+      "violations": []
+    },
+    {
+      "document": "targets",
+      "passes": 16,
+      "violations": []
+    },
+    {
+      "document": "history",
+      "passes": 21,
+      "violations": []
+    },
+    {
+      "document": "project",
+      "passes": 24,
+      "violations": []
+    },
+    {
+      "document": "target-settings",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "new-run",
+      "passes": 21,
+      "violations": []
+    },
+    {
+      "document": "fixed-run",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "failed-run",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "source-replay",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "job-run",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "transfer-error",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "compare",
+      "passes": 22,
+      "violations": []
+    },
+    {
+      "document": "account",
+      "passes": 19,
+      "violations": []
+    },
+    {
+      "document": "team",
+      "passes": 20,
+      "violations": []
+    },
+    {
+      "document": "audit",
+      "passes": 16,
+      "violations": []
+    }
+  ],
+  "screenshots": [
+    "screenshots/home-desktop.png",
+    "screenshots/sensor-before-desktop.png",
+    "screenshots/signup-desktop.png",
+    "screenshots/overview-desktop.png",
+    "screenshots/targets-desktop.png",
+    "screenshots/failed-run-desktop.png",
+    "screenshots/compare-desktop.png",
+    "screenshots/home-mobile.png",
+    "screenshots/sensor-before-mobile.png",
+    "screenshots/signup-mobile.png",
+    "screenshots/overview-mobile.png",
+    "screenshots/targets-mobile.png",
+    "screenshots/failed-run-mobile.png",
+    "screenshots/compare-mobile.png"
+  ],
+  "native_execution_performed": false,
+  "data_scope": "Actual staging user requests/native QNX evidence and explicitly labelled public recorded playback; no seed activity or simulated native execution.",
+  "limitations": [
+    "Chromium only; not assistive-technology certification",
+    "Public production HTTPS and OS isolation not qualified here"
+  ]
+}

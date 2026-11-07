@@ -21,6 +21,7 @@ import json
 from .models import Target,BuildRelease
 from resmgrcheck.deployment import Deployment
 from resmgrcheck.contracts import Profile,load
+from resmgrcheck.workflow import suite_profiles
 from django.conf import settings
 
 class TargetRequestForm(forms.ModelForm):
@@ -48,10 +49,15 @@ class RunForm(forms.Form):
         if data.get('fixture_mode')=='retain-third' and data.get('suite')=='profile':self.add_error('suite','Choose lifecycle to exercise the third reconnect cycle.')
         if target and data.get('profile'):
             external=target.kind=='external-health'
-            profile=Profile.parse(load(settings.ENGINE_ROOT/'profiles'/(data['profile']+('-external' if external else '')+'.json')))
+            profile=Profile.parse(load(settings.REPO_ROOT/'profiles'/(data['profile']+('-external' if external else '')+'.json')))
             caps=target.inventory.get('compiled_adapters',{}).get(profile.data['adapter']['id'])
             if caps is None:self.add_error('target','Capabilities are UNKNOWN. Request a private inventory first.')
-            elif not set(profile.data['capabilities']['required'])<=set(caps):self.add_error('profile','UNSUPPORTED: required compiled capabilities are unavailable.')
+            elif data.get('suite'):
+                try:expanded=suite_profiles(profile,data['suite'])
+                except ValueError:self.add_error('suite','This suite is unavailable for the selected attachment mode.')
+                else:
+                    required=set().union(*(set(p.data['capabilities']['required']) for p in expanded))
+                    if not required<=set(caps):self.add_error('profile','UNSUPPORTED: required compiled capabilities are unavailable for the full suite.')
         return data
 
 class BuildImportForm(forms.Form):

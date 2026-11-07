@@ -34,6 +34,7 @@ class Organization(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     active=models.BooleanField(default=True)
     retention_days=models.PositiveIntegerField(default=30)
+    def __str__(self):return self.name
 
 class Membership(models.Model):
     class Role(models.TextChoices):
@@ -55,6 +56,7 @@ class Project(models.Model):
     active=models.BooleanField(default=True)
     ai_enabled=models.BooleanField(default=False)
     ai_daily_budget_microusd=models.PositiveBigIntegerField(default=0)
+    def __str__(self):return self.name
     class Meta:
         constraints=[models.UniqueConstraint(fields=['organization','name'],name='unique_project_name')]
 
@@ -109,6 +111,7 @@ class Target(models.Model):
     last_seen=models.DateTimeField(null=True)
     quarantine_reason=models.CharField(max_length=100,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
+    def __str__(self):return self.name
 
 class BuildRelease(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
@@ -118,6 +121,7 @@ class BuildRelease(models.Model):
     approved=models.BooleanField(default=False)
     binding=models.CharField(max_length=64,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
+    def __str__(self):return self.label+' · '+self.manifest.get('build',{}).get('source_revision','unverified')[:12]
 
 class Run(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)

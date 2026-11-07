@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "queued_job_id": "a8f69abe-0cd3-4c12-a076-96114c61fcb1",
+  "checks": [
+    {
+      "state": "queued",
+      "width": 390,
+      "javascript": true,
+      "native_verdict_established": false
+    },
+    {
+      "state": "queued",
+      "width": 1440,
+      "javascript": true,
+      "native_verdict_established": false
+    },
+    {
+      "state": "queued",
+      "width": 390,
+      "javascript": false,
+      "native_verdict_established": false
+    },
+    {
+      "state": "queued",
+      "width": 1280,
+      "javascript": false,
+      "native_verdict_established": false
+    }
+  ],
+  "actual_form_errors": true,
+  "actual_unsupported_target_request": true,
+  "cancel_intent_observed": true,
+  "native_execution_performed": false,
+  "dispatcher_cancel_outcome": {
+    "state": "cancelled",
+    "reason": "cancelled_before_launch",
+    "native_started": false,
+    "cleanup_claimed": false
+  }
+}

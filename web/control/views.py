@@ -150,7 +150,7 @@ def project_member(request,project_id):
 
 @secure_account
 def account_settings(request):
-    return render(request,'control/account.html',{'form':PasswordConfirmation()})
+    return render(request,'control/account.html',{'sessions_form':PasswordConfirmation(auto_id='sessions_%s'),'deletion_form':PasswordConfirmation(auto_id='deletion_%s')})
 
 @secure_account
 @require_POST

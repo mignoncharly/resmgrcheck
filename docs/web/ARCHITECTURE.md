@@ -7,6 +7,13 @@ The public control plane is Django 5.2 LTS on Python 3.12, server-rendered HTML,
 PostgreSQL and a dedicated Gunicorn service behind Nginx. Optional browser behavior
 enhances server-rendered states. No frontend framework or duplicate evaluator.
 
+The P4 dashboard renders original engine obligations, event references and observed
+monotonic offsets through the canonical bundle verifier. All20 recorded reconnect
+cycles remain visible. Required-evidence corruption withholds a passing conclusion
+and the derived report. Inline offline HTML uses a script-disabled sandbox/CSP;
+raw downloads are authenticated and tenant scoped. Public playback is a fixed
+allowlist of genuine saved QNX evidence, isolated from the execution queue.
+
 Organization/project membership scopes every object lookup, download, comparison
 and AI retrieval. UUIDs are identifiers, never authorization. Delayed jobs recheck
 current user membership, project, target and immutable build approval before use.

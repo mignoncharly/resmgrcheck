@@ -56,7 +56,7 @@ stream=io.StringIO();call_command('approve_target',**options,target=target_id,ma
 candidate_build=json.loads(stream.getvalue().strip())['build_id']
 http=HTTP();http.post('/accounts/login/',{'login':user.email,'password':password})
 code=format_hotp_value(hotp_value(secret,int(time.time())//30));http.post('/accounts/2fa/authenticate/',{'code':code})
-url,html=http.get('/app/');assert 'Your workspace' in html
+url,html=http.get('/app/');assert 'Recent activity' in html and 'Overview' in html
 observed=[]
 def dispatch(identifier):
  initial=json.loads(http.get('/api/runs/'+identifier+'/')[1]);assert initial['state']=='queued'

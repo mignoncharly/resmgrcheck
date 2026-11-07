@@ -149,3 +149,42 @@ Raw private web acceptance/transport evidence is preserved under .local/web, not
 made public as customer activity. These sanitized indexes contain no credentials.
 P3 passes private staging integration; SMTP, public HTTPS, dedicated production OS
 isolation and optional real AI provider remain unverified/downstream gates.
+
+## W004 — P4 dashboard
+
+Private staging source over7a3d030. [All64 PG-backed host tests](evidence/p4/host-tests.txt)
+passed in16.494s, including genuine archived six-case lifecycle/20-cycle rendering,
+unaltered native FAIL obligations/event references, source-fixed comparison,
+cross-tenant denial, public playback without enqueue, invalid identifiers and
+tampered required evidence withholding PASS and the derived HTML report.
+
+[Actual Chromium qualification](evidence/p4/browser.json) passed104 HTTP browser
+views:1440/390px with JavaScript and1280/390px without JavaScript. All26 desktop
+pages were scanned by axe-core; no serious/critical WCAG2A/AA/2.1AA findings.
+Native disclosure keyboard activation and exact event anchors passed. No page
+overflow, browser errors or external network requests were observed. Fourteen
+private screenshots were retained; desktop overview/mobile failed-run views were
+visually inspected. This is Chromium qualification, not assistive-technology or
+all-browser certification. No screenshot includes credentials or MFA inputs.
+
+[Actual UI state qualification](evidence/p4/states.json) added four queued views
+across desktop/mobile/JS-disabled modes, actual field errors and a dedicated-runner
+request shown UNSUPPORTED. Browser POST recorded cancellation intent; the separate
+dispatcher then observed that exact queued identity as cancelled_before_launch.
+No CLI/native process started and no cleanup was claimed. This is not another
+native case. The unsupported customer request did not connect to any host.
+
+Checks found and corrected narrow-grid overflow, insufficient accent contrast,
+text-link underlining and the installed-allauth template override precedence.
+Two earlier host runs exposed only a test client stream-close/database-transaction
+interaction; consuming its wrapped stream fixed the test without weakening the
+production integrity checks. A queued-inventory browser assertion was corrected
+to its distinct factual inventory label. Earlier private logs are retained.
+
+Dashboard counts are actual authorized requests, not seeded traffic. Partial demo
+uses the preserved initial P3 transport-loss summary and states no final native
+bundle existed. Fixed/broken/job playback uses original Phase10 evidence. Native
+engine/build/evaluator files are unchanged; no expensive QNX matrix was repeated.
+P4 passes private staging; P5–P10, SMTP delivery and production deployment remain
+separate outstanding work. The code will receive a clean-release qualification
+at P9; this WIP evidence does not pretend to be that final revision.

@@ -114,3 +114,5 @@ import sys
 if str(REPO_ROOT) not in sys.path: sys.path.insert(0,str(REPO_ROOT))
 ENGINE_EXECUTION_TIMEOUT = 600
 MAX_QUEUED_JOBS = 30
+TEMPLATES[0]['OPTIONS']['context_processors'].append('control.context.product')
+MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'allauth.usersessions.middleware.UserSessionsMiddleware')

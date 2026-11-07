@@ -6,7 +6,7 @@ from django.db import transaction
 from resmgrcheck.artifacts import inspect_bundle
 from resmgrcheck.workflow import inspect_execution,compare_executions
 from resmgrcheck.reports import report
-from resmgrcheck.contracts import canonical
+from resmgrcheck.contracts import canonical,ProducerEvent,loads
 from .engine import run_path,PolicyError
 from .models import Artifact
 
@@ -75,3 +75,45 @@ def seal(run):
             mime='text/html' if name.endswith('.html') else 'application/json' if name.endswith('.json') else 'text/plain'
             Artifact.objects.update_or_create(run=run,relative_path=name,defaults={'sha256':entry['sha256'],'byte_count':entry['bytes'],'content_type':mime})
     return summary,bool(cleanup)
+
+
+def run_directory_fd(run,relative=()):
+    parts=(*run_path(run).relative_to(settings.MEDIA_ROOT).parts,*relative)
+    descriptor=os.open(settings.MEDIA_ROOT,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+    try:
+        for component in parts:
+            child=os.open(component,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=descriptor)
+            os.close(descriptor);descriptor=child
+        return descriptor
+    except BaseException:os.close(descriptor);raise
+
+
+def detail_cases(run):
+    """Use the existing canonical verifier; never invent a verdict in Django."""
+    import json
+    cases=[]
+    for row in run.summary.get('cases',[]):
+        name=row['case_id']
+        if not row.get('bundle_id'):
+            artifact=Artifact.objects.filter(run=run,relative_path='cases/'+name+'/result.json').first()
+            if not artifact:
+                cases.append({'name':name,'result':row,'events':[],'sealed':False});continue
+            with open_artifact(artifact) as source:result=json.load(source)
+            cases.append({'name':name,'result':result,'events':[],'sealed':False});continue
+        descriptor=run_directory_fd(run,('cases',name,'bundle'))
+        try:bundle=inspect_bundle(Path('/proc/self/fd')/str(descriptor))
+        finally:os.close(descriptor)
+        if bundle.manifest.data['bundle_id']!=row['bundle_id']:raise PolicyError('case_bundle_binding_changed')
+        events=[];first=None
+        for index,line in enumerate(bundle.raw.splitlines(keepends=True)):
+            if not line.endswith(b'\n'):break
+            try:event=loads(line,16384)
+            except ValueError:break
+            if event.get('kind')!='producer-event':continue
+            try:ProducerEvent.parse(event)
+            except ValueError:break
+            ns=int(event['ns']);first=ns if first is None else first
+            events.append({'index':index,'event':event['event'],'producer':event['producer'],'offset_ms':round((ns-first)/1000000,3),'data':event['data']})
+        cases.append({'name':name,'result':bundle.result.data,'events':events,'sealed':True,'plan':bundle.plan.data,
+                      'manifest':bundle.manifest.data,'target':json.loads(bundle.raw.splitlines()[0])})
+    return cases

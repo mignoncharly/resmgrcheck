@@ -1,1 +1,1 @@
-{% extends 'control/base.html' %}{% block content %}<h1>{{ title }}</h1><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save</button></form>{% endblock %}
+{% extends 'control/base.html' %}{% block content %}<div class="page-head"><div><p class="eyebrow">Workspace configuration</p><h1>{{ title }}</h1></div></div><section class="panel form-panel"><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save</button></form></section>{% endblock %}

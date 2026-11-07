@@ -22,3 +22,17 @@ urlpatterns += [path('app/projects/<uuid:project_id>/targets/',execution.targets
  path('app/projects/<uuid:project_id>/runs/new/',execution.new_run,name='new_run'),
  path('app/runs/<uuid:run_id>/',execution.run_detail,name='run_detail'),path('api/runs/<uuid:run_id>/',execution.run_status,name='run_status'),
  path('app/runs/<uuid:run_id>/cancel/',execution.cancel,name='cancel'),path('app/runs/<uuid:run_id>/replay/',execution.replay_run,name='replay_run')]
+from control import dashboard
+# Existing path names remain stable; route implementations now render verified detail.
+urlpatterns=[p for p in urlpatterns if getattr(p,'name',None) not in {'home','overview','project','run_detail'}]
+urlpatterns += [path('',dashboard.home,name='home'),path('app/',dashboard.overview,name='overview'),
+ path('app/projects/',dashboard.projects,name='projects'),path('app/targets/',dashboard.target_list,name='target_list'),
+ path('app/runs/',dashboard.run_history,name='run_history'),path('app/compare/',dashboard.compare,name='compare'),
+ path('app/projects/<uuid:project_id>/',dashboard.project,name='project'),path('app/runs/<uuid:run_id>/',dashboard.run_detail,name='run_detail'),
+ path('demo/',dashboard.demo,name='demo'),path('demo/<str:selection>/',dashboard.demo,name='demo_case'),
+ path('demo/<str:selection>/evidence/<str:member>/',dashboard.demo_file,name='demo_file'),path('about/<str:section>/',dashboard.public_page,name='public_page')]
+from django.conf import settings
+if settings.ENVIRONMENT=='staging':
+ from django.views.static import serve
+ urlpatterns += [path('static/<path:path>',serve,{'document_root':settings.STATIC_ROOT})]
+urlpatterns += [path('app/runs/<uuid:run_id>/report/<path:member>',dashboard.report_file,name='report_file')]

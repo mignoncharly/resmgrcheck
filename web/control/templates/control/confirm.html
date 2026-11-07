@@ -1,1 +1,1 @@
-{% extends 'control/base.html' %}{% block content %}<h1>{{ title }}</h1><p>{{ message }}</p><form method="post">{% csrf_token %}<button type="submit">{{ button }}</button></form>{% endblock %}
+{% extends 'control/base.html' %}{% block content %}<section class="panel form-panel"><p class="eyebrow">Review an explicit change</p><h1>{{ title }}</h1><p>{{ message }}</p><form method="post">{% csrf_token %}<button type="submit">{{ button }}</button></form></section>{% endblock %}
