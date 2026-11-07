@@ -11,7 +11,7 @@ from .models import Project,Run,Target,Membership,Artifact
 from .security import secure_account,visible_projects,project_access,audit
 from .execution_views import authorized_run
 from .engine import run_path,PolicyError
-from .storage import detail_cases,open_artifact,run_directory_fd
+from .storage import detail_cases,open_artifact,run_directory_fd,verify_inventory
 from resmgrcheck.artifacts import inspect_bundle
 from resmgrcheck.workflow import compare_executions
 
@@ -59,8 +59,8 @@ def project(request,project_id):
 def run_detail(request,run_id):
     run,role=authorized_run(request,run_id)
     cases=[];integrity_error=False
-    if run.state in {'completed','blocked'}:
-        try:cases=detail_cases(run)
+    if run.state in {'completed','blocked'} and run.operation!='inventory' and not run.purged_at:
+        try:verify_inventory(run);cases=detail_cases(run)
         except (ValueError,OSError,PolicyError):integrity_error=True
     context={'run':run,'project':run.project,'role':role,'cases':cases,'integrity_error':integrity_error,
              'artifacts':Artifact.objects.filter(run=run).order_by('relative_path'),'page':'runs'}
@@ -78,7 +78,7 @@ def compare(request):
         if left.project_id!=right.project_id:error='Choose two runs from the same authorized project.'
         else:
             try:
-                detail_cases(left);detail_cases(right)
+                verify_inventory(left);verify_inventory(right);detail_cases(left);detail_cases(right)
                 first=run_directory_fd(left);second=run_directory_fd(right)
                 try:result=compare_executions(Path('/proc/self/fd')/str(first),Path('/proc/self/fd')/str(second))
                 finally:os.close(first);os.close(second)
@@ -131,6 +131,7 @@ def report_file(request,run_id,member='report.html'):
     if parts.is_absolute() or '..' in parts.parts or '\\' in member or run.purged_at:raise Http404
     artifact=get_object_or_404(Artifact,run=run,relative_path=parts.as_posix())
     try:
+        verify_inventory(run)
         detail_cases(run) # An intact report alone cannot vouch for damaged required raw evidence.
         stream=open_artifact(artifact)
     except (ValueError,OSError,PolicyError):return render(request,'control/message.html',{'title':'Evidence integrity error','message':'This artifact cannot be served because its identity or safe path no longer verifies.'},status=409)

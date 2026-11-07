@@ -10,8 +10,9 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P2 identity/authorization | PASS (staging protocol) | 34 PG-backed tests incl. real verification/TOTP/reset flows, tenant denial, CSRF, session revocation; SMTP delivery not production-verified |
 | P3 engine integration | PASS (private staging) | 55 host tests, five actual QNX cases, bounded transport loss/same-ID recovery and real failed-SFTP preflight |
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
-| P5 evidence/sharing | IN PROGRESS | Integrity-bound exports, retention, immutable web artifact inventory |
-| P6–P10 | NOT_RUN | Must satisfy each gate in order |
+| P5 evidence/sharing | PASS (private staging) | 82 host tests; five HTTP downloads/ten offline views/209 references; immutable inventory and bounded retention |
+| P6 AI analysis | IN PROGRESS | Opt-in provider, consent/redaction/citations/budget controls; real provider not configured |
+| P7–P10 | NOT_RUN | Must satisfy each gate in order |
 
 Actually running production web features: none. No production hostname/TLS or
 ResMgrCheck vhost currently exists. Original engine runtime digest remains

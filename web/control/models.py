@@ -155,6 +155,7 @@ class Run(models.Model):
     target_cleanup_verified=models.BooleanField(default=False)
     purged_at=models.DateTimeField(null=True)
     retention_hold=models.BooleanField(default=False)
+    purge_error=models.CharField(max_length=100,blank=True)
     class Meta:
         constraints=[models.UniqueConstraint(fields=['project','actor','idempotency_key'],name='run_request_dedup')]
         ordering=['-created_at']

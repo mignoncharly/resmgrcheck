@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "downloads": [
+    {
+      "label": "fixed",
+      "web_run_id": "d7e5b48a-7d5f-4685-8b41-130d735e5b86",
+      "native_run_id": "wd7e5b48a7d5f46858b",
+      "sha256": "e7ce38d33eba4a7f9cc785b13fe174c369ec967dec6475eed656853d5097a736",
+      "verified_files": 18,
+      "preserved_history_files": 0
+    },
+    {
+      "label": "broken",
+      "web_run_id": "580171c8-01dd-40b0-bb5c-34e209e4dbcf",
+      "native_run_id": "w580171c801dd40b0bb",
+      "sha256": "e354811abb13d3ac486976de3a6065ef2f9670fb1ba36b6e44b3dea124c1eeeb",
+      "verified_files": 23,
+      "preserved_history_files": 5
+    },
+    {
+      "label": "replay",
+      "web_run_id": "cc1f5e2e-baae-4138-b625-754fcd4a596e",
+      "native_run_id": "wcc1f5e2ebaae4138b6",
+      "sha256": "eaad288e0da5db7eee8bb7dc42f89968c2303c581df8b9ae8376222303319d83",
+      "verified_files": 21,
+      "preserved_history_files": 0
+    },
+    {
+      "label": "job",
+      "web_run_id": "6a64c3c7-217b-4c34-a929-3039650f06b5",
+      "native_run_id": "w6a64c3c7217b4c34a9",
+      "sha256": "b6a71b11f29b6d095ee7f651c3f568d89b00baa8dd07c0071ac0a0ca49a824d6",
+      "verified_files": 18,
+      "preserved_history_files": 0
+    },
+    {
+      "label": "transfer",
+      "web_run_id": "e6358ee9-82cd-4636-a8c3-2f789b904925",
+      "native_run_id": "we6358ee982cd4636a8",
+      "sha256": "dacbcac099777688a2d113c778a04ff9b5889e327eff7ddc1f7565646c7efedd",
+      "verified_files": 8,
+      "preserved_history_files": 0
+    }
+  ],
+  "offline_views": [
+    {
+      "label": "fixed",
+      "width": 1440,
+      "javascript": true,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "fixed",
+      "width": 390,
+      "javascript": false,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "broken",
+      "width": 1440,
+      "javascript": true,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "broken",
+      "width": 390,
+      "javascript": false,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "replay",
+      "width": 1440,
+      "javascript": true,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "replay",
+      "width": 390,
+      "javascript": false,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "job",
+      "width": 1440,
+      "javascript": true,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "job",
+      "width": 390,
+      "javascript": false,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "transfer",
+      "width": 1440,
+      "javascript": true,
+      "offline": true,
+      "external_requests": []
+    },
+    {
+      "label": "transfer",
+      "width": 390,
+      "javascript": false,
+      "offline": true,
+      "external_requests": []
+    }
+  ],
+  "local_references_checked": 209,
+  "native_execution_performed": false
+}

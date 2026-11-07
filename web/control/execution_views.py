@@ -76,8 +76,15 @@ def run_detail(request,run_id):
 @require_GET
 def run_status(request,run_id):
     run,role=authorized_run(request,run_id)
+    summary=run.summary;integrity='not_finalized';cleanup=run.target_cleanup_verified
+    if run.purged_at:summary=None;cleanup=False;integrity='expired'
+    elif run.state in {'completed','blocked'} and run.operation!='inventory':
+        from .storage import detail_cases,verify_inventory
+        from .engine import PolicyError
+        try:verify_inventory(run);detail_cases(run);integrity='verified'
+        except (ValueError,OSError,PolicyError):summary=None;cleanup=False;integrity='failed'
     return JsonResponse({'id':str(run.pk),'native_run_id':run.native_run_id,'state':run.state,'progress':run.progress,'error_code':run.error_code,
-        'cancel_requested':run.cancel_requested,'summary':run.summary,'incidents':run.incidents,'cleanup_verified':run.target_cleanup_verified})
+        'cancel_requested':run.cancel_requested,'summary':summary,'incidents':run.incidents,'cleanup_verified':cleanup,'evidence_integrity':integrity})
 
 @secure_account(strong=True,recent=900)
 @require_POST

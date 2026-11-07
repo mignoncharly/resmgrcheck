@@ -188,3 +188,46 @@ engine/build/evaluator files are unchanged; no expensive QNX matrix was repeated
 P4 passes private staging; P5–P10, SMTP delivery and production deployment remain
 separate outstanding work. The code will receive a clean-release qualification
 at P9; this WIP evidence does not pretend to be that final revision.
+
+## W005 — P5 evidence and authorized sharing
+
+Source over3a33c78. [All82 PostgreSQL-backed host tests](evidence/p5/host-tests.txt)
+passed in20.734s. A final focused27-test run after tightening retention against the
+original cleanup observations passed in12.409s. Tests cover actual sealed native
+bytes, inventory graph closure/immutability enforced by PostgreSQL, traversal,
+symlink/hardlink rejection, hash corruption, status API withholding stale PASS,
+tenant denial for exports/policy/holds, offline references, exact owned dry-run/apply
+retention, unknown-file refusal, replay dependencies, policy bounds, hold audit,
+due-only account personal-data erasure and pseudonymous audit preservation.
+
+[Actual HTTP/export qualification](evidence/p5/browser.json) downloaded five real
+private staging collections: sensor fixed, broken/recovered, source replay, job and
+failed-transfer NOT_RUN. All package hashes/identities verified. Ten offline
+Chromium views passed (1440px/JS and390px/no-JS);209 local references resolved,
+no external requests or page overflow. These are genuine previously executed
+QNX collections, not five new native executions. The recovered package retains
+its exact earlier partial bytes and summary alongside the final FAIL result.
+
+[Six exact existing collection inventories](evidence/p5/inventories.jsonl) were
+extended with a v2 web inventory. Five contain real QNX cases; one is the actual
+failed-transfer/no-native-launch collection. Original v1 marker/native bundle
+bytes were verified and preserved. No target command, build or service change.
+Downloads are project-member authorized and audited, with a literal UUID filename;
+there is no anonymous/private-link sharing bypass. ZIPs contain original evidence,
+manifests, report, SHA256SUMS and offline/verdict explanations, never SDK/executables,
+SSH configuration or diagnostic command logs.
+
+Earlier tests correctly stopped retention on the collector's redundant
+cases/CASE/events.jsonl file. Only after verifying its exact creation in
+resmgrcheck.workflow.collect_case was that exact known auxiliary name admitted.
+Unknown directories/files still stop removal before mutation. A real PostgreSQL
+nullable-join row-lock error in the local inventory command was corrected with
+select_for_update(of=('self',)); six actual collections then verified. Public
+test logs retain truthful results; private failed attempts are not erased.
+
+`check --deploy` on intentional loopback HTTP staging reported four expected
+HSTS/HTTPS/secure-cookie warnings. They are not suppressed or represented as a
+production pass. Secure production settings/HTTPS/OS separation, backup restore,
+SMTP delivery and real AI provider remain downstream unverified requirements.
+P5 passes local evidence/sharing/retention qualification, not hardware WORM storage
+or third-party security certification. Raw packages/screenshots remain private.

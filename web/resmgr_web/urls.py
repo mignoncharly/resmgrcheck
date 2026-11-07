@@ -36,3 +36,7 @@ if settings.ENVIRONMENT=='staging':
  from django.views.static import serve
  urlpatterns += [path('static/<path:path>',serve,{'document_root':settings.STATIC_ROOT})]
 urlpatterns += [path('app/runs/<uuid:run_id>/report/<path:member>',dashboard.report_file,name='report_file')]
+from control import evidence,retention_views
+urlpatterns += [path('app/runs/<uuid:run_id>/evidence.zip',evidence.download,name='evidence_download'),
+ path('app/organizations/<uuid:organization_id>/retention/',retention_views.settings_page,name='retention'),
+ path('app/runs/<uuid:run_id>/retention-hold/',retention_views.hold,name='retention_hold')]
