@@ -110,3 +110,7 @@ ACCOUNT_ADAPTER = 'control.auth.AccountAdapter'
 MFA_ADAPTER = 'control.auth.MFAAdapter'
 REGISTRATION_OPEN = os.environ.get('RMC_WEB_REGISTRATION_OPEN','1') == '1'
 MIDDLEWARE.append('control.middleware.PolicyMiddleware')
+import sys
+if str(REPO_ROOT) not in sys.path: sys.path.insert(0,str(REPO_ROOT))
+ENGINE_EXECUTION_TIMEOUT = 600
+MAX_QUEUED_JOBS = 30

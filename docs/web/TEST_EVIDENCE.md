@@ -86,3 +86,66 @@ failed logs remain private under .local/web/evidence.
 P2 passed the protocol/negative gate. Actual production SMTP, OS isolation and public
 HTTPS remain NOT_RUN/downstream blockers. No live QNX job has been launched through
 this foundation yet; P3 must prove it. No AI provider functionality is asserted.
+
+## W003 — P3 real engine integration
+
+[All55 PG/host tests](evidence/p3/host-tests.txt) passed in9.004s. Cases cover
+intent-bound deduplication, queue quotas, serialized leases, expired-lease same-ID
+recovery, worker permission/password/session reauthorization, tenant-bound targets,
+immutable PostgreSQL run intents, signed preview confirmation, unsupported external
+lifecycle, unknown capabilities, target-request mass-assignment rejection, exact
+owned local process bounds/output/reaping, including callback failure containment.
+No target result is fabricated by those host tests.
+
+The actual CLI is a frozen ca4f74e worktree under .local/web/engine. Existing actual
+QNX binaries, original deploymentd9d2a1a and source-corrected39b99d7 were reused.
+No native C/build/evaluator change or reinstallation. The executor uses fixed argv,
+a private0600 target/build registry, bounded subprocess resources and exact run IDs.
+Public request handlers enqueue only; target commands occur in separate private
+management workers. Production account/OS isolation is still a downstream gate.
+
+[Actual HTTP qualification](evidence/p3/native-http.json): real loopback HTTP forms,
+CSRF, real password/TOTP login, DB queue, private dispatcher and actual QNX produced
+sensor fixed PASS, explicit ignore-unblock FAIL, unchanged-setting candidate replay
+PASS/fixed, and job fixed PASS. Reposting the same signed request returned the same
+job. Native bundle/build/fixture/runner/worker hashes are retained. Every case has
+observed native cleanup and a reaped local CLI child. This used a local operator-
+provisioned private acceptance identity, not an externally mail-verified customer.
+
+Actual doctor target/architecture/SSH/SFTP/compiled-capability checks passed. Its
+overall exit remained2: SDK ERROR/compiler UNKNOWN in the deliberately restricted
+executor environment. Runtime target reachability is recorded separately; no doctor
+PASS or private service-instance capability is inferred. No qcc process runs from
+a public web request. Builds are operator-approved offline inputs.
+
+[Actual connection-loss recovery](evidence/p3/recovery.json): confirmed the timed
+worker's native pending event, then SIGSTOP only the exact owned local collection
+SSH child (pidfd plus verified ancestry). The existing transport deadline killed/
+reaped it. Initial job remained launch_uncertain with ERROR/partial evidence; no
+cleanup PASS. After actual30-second lease expiry, the private worker collected the
+same run ID and same supervisor, never relaunched. Original partial bytes and the
+transport incident remained. Final canonical service FAIL retains both independent
+cancellation reasons; native cleanup was separately observed. This adds one actual
+QNX case, bringing the staging exercise to five native cases.
+
+[Actual SFTP failure](evidence/p3/transfer-failure.json): killed only a verified owned
+SSH child of the active readback SCP process. Parent SCP/CLI exit was observed.
+Canonical exit2 and all required cases NOT_RUN were preserved. Normal CLI exit plus
+bound finalized state before any native launch intent established no native launch;
+no native cleanup was claimed. Slot was released, target marked unavailable, and
+there was no automatic retry. This is real failed transport, not another native
+service execution or simulated test result.
+
+Gunicorn26's default per-user control socket was discovered during staging and
+disabled in the dedicated configuration. Only this task's verified Gunicorn master
+was stopped/restarted; unrelated services were untouched. The default socket was
+observed gone. Production must use the dedicated configuration and service accounts.
+
+Source [observation](evidence/p3/source-observation.json) records gate-close WIP
+web files over49e9690. Initial four-case batch preceded recovery/failure-path fixes;
+it is not relabelled clean final-web execution. All actual native source identities
+are unchanged in sealed bundles. P9 final clean release qualification is NOT_RUN.
+Raw private web acceptance/transport evidence is preserved under .local/web, not
+made public as customer activity. These sanitized indexes contain no credentials.
+P3 passes private staging integration; SMTP, public HTTPS, dedicated production OS
+isolation and optional real AI provider remain unverified/downstream gates.

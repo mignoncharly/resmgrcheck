@@ -1,0 +1,181 @@
+{
+  "kind": "real-web-qnx-staging-qualification",
+  "schema_version": 1,
+  "passed": true,
+  "native_cases": 4,
+  "transport": "actual loopback HTTP with CSRF/session/real TOTP; private subprocess CLI to existing real QNX guest",
+  "identity_provisioning": "local operator test identity; external SMTP delivery not claimed",
+  "inventory": {
+    "checks": {
+      "sdk": "ERROR",
+      "host": "PASS",
+      "transfer": "PASS",
+      "compiler_variant": "UNKNOWN",
+      "ssh_command_path": "PASS",
+      "target_reachable": "PASS",
+      "target_capabilities": "PASS",
+      "target_compatibility": "PASS",
+      "service_instance_capabilities": "UNKNOWN"
+    },
+    "doctor_exit": 2,
+    "cleanup_scope": "not_applicable_inventory",
+    "runtime_target_ready": true
+  },
+  "runs": [
+    {
+      "operation": "run",
+      "profile": "sensor",
+      "mode": "fixed",
+      "run_id": "d7e5b48a-7d5f-4685-8b41-130d735e5b86",
+      "native_run_id": "wd7e5b48a7d5f46858b",
+      "states_observed": [
+        "queued",
+        "claimed",
+        "running",
+        "completed"
+      ],
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "f346fbd2ec88d3266f0c4f9dc94e9b6ba2066cb96d8aebf4680f4b4bb32916ef"
+      ],
+      "native_builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "cleanup_verified": true,
+      "host_child_reaped": true
+    },
+    {
+      "operation": "run",
+      "profile": "sensor",
+      "mode": "ignore-unblock",
+      "run_id": "fd7cdebb-4961-4046-b707-262ce375747f",
+      "native_run_id": "wfd7cdebb49614046b7",
+      "states_observed": [
+        "queued",
+        "claimed",
+        "running",
+        "completed"
+      ],
+      "execution_exit": 1,
+      "case_verdicts": [
+        "FAIL"
+      ],
+      "bundle_ids": [
+        "202db9bfbb9c047c2f605429db3ad7437713d1a35a3a0d39d5c402582c235f1b"
+      ],
+      "native_builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "cleanup_verified": true,
+      "host_child_reaped": true
+    },
+    {
+      "operation": "replay",
+      "profile": "sensor",
+      "mode": "ignore-unblock",
+      "run_id": "cc1f5e2e-baae-4138-b625-754fcd4a596e",
+      "native_run_id": "wcc1f5e2ebaae4138b6",
+      "states_observed": [
+        "queued",
+        "claimed",
+        "running",
+        "collecting",
+        "completed"
+      ],
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "14c205af467b059625cd5950bd94229bdc4eed5caa00821cb8ce509f8875dd2b"
+      ],
+      "native_builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "99a511d86617ab807efc3ec1ac9b4d100b8c42fec8a4c358bff908562a48078e",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+          "source_tree_sha256": "08b20033edf22f6e0427b75b754a96d8f9fcdb358b8bbea51d224a4cc9e7e041"
+        }
+      ],
+      "cleanup_verified": true,
+      "host_child_reaped": true
+    },
+    {
+      "operation": "run",
+      "profile": "job",
+      "mode": "fixed",
+      "run_id": "6a64c3c7-217b-4c34-a929-3039650f06b5",
+      "native_run_id": "w6a64c3c7217b4c34a9",
+      "states_observed": [
+        "queued",
+        "claimed",
+        "running",
+        "collecting",
+        "completed"
+      ],
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "eda8af0998a4c23af74c0b0d8e58a10cddbfb956114cb6d4a2c40c5e8a081d86"
+      ],
+      "native_builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "cleanup_verified": true,
+      "host_child_reaped": true
+    }
+  ],
+  "comparison_label": "fixed",
+  "same_contract_settings": true,
+  "fixture_hash_changed": true,
+  "existing_native_engine_changed": false,
+  "production": false
+}

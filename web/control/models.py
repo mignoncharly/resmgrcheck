@@ -96,3 +96,77 @@ class AccountDeletion(models.Model):
     requested_at=models.DateTimeField(auto_now_add=True)
     due_at=models.DateTimeField()
     completed_at=models.DateTimeField(null=True)
+
+class Target(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    project=models.ForeignKey(Project,on_delete=models.PROTECT)
+    name=models.CharField(max_length=100)
+    kind=models.CharField(max_length=24,choices=[('managed-lab','Approved managed fixtures'),('external-health','External read-only health'),('customer-request','Dedicated customer runner request')],default='customer-request')
+    state=models.CharField(max_length=20,default='unknown',choices=[(s,s) for s in ['unknown','available','unavailable','unsupported','quarantined']])
+    approved=models.BooleanField(default=False)
+    binding=models.CharField(max_length=64,blank=True)
+    inventory=models.JSONField(default=dict)
+    last_seen=models.DateTimeField(null=True)
+    quarantine_reason=models.CharField(max_length=100,blank=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+class BuildRelease(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    target=models.ForeignKey(Target,on_delete=models.PROTECT)
+    label=models.CharField(max_length=100)
+    manifest=models.JSONField(default=dict)
+    approved=models.BooleanField(default=False)
+    binding=models.CharField(max_length=64,blank=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+class Run(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    project=models.ForeignKey(Project,on_delete=models.PROTECT)
+    target=models.ForeignKey(Target,on_delete=models.PROTECT)
+    build=models.ForeignKey(BuildRelease,null=True,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    actor_auth_hash=models.CharField(max_length=64)
+    mfa_at=models.DateTimeField()
+    native_run_id=models.CharField(max_length=40,unique=True)
+    operation=models.CharField(max_length=16,choices=[('run','Run'),('replay','Replay'),('inventory','Inventory')])
+    original=models.ForeignKey('self',null=True,on_delete=models.PROTECT)
+    profile=models.CharField(max_length=16,choices=[('sensor','Sensor'),('job','Job')],default='sensor')
+    suite=models.CharField(max_length=16,choices=[('profile','Timeout family'),('lifecycle','Complete lifecycle'),('health','Read-only external health')],default='profile')
+    fixture_mode=models.CharField(max_length=24,default='fixed')
+    idempotency_key=models.CharField(max_length=64)
+    intent_sha256=models.CharField(max_length=64)
+    state=models.CharField(max_length=24,default='queued',db_index=True)
+    lease_token=models.UUIDField(null=True)
+    lease_expires=models.DateTimeField(null=True)
+    heartbeat_at=models.DateTimeField(null=True)
+    cancel_requested=models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+    started_at=models.DateTimeField(null=True)
+    finished_at=models.DateTimeField(null=True)
+    summary=models.JSONField(default=dict)
+    incidents=models.JSONField(default=list)
+    error_code=models.CharField(max_length=100,blank=True)
+    process_facts=models.JSONField(default=dict)
+    progress=models.CharField(max_length=300,blank=True)
+    target_cleanup_verified=models.BooleanField(default=False)
+    purged_at=models.DateTimeField(null=True)
+    retention_hold=models.BooleanField(default=False)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['project','actor','idempotency_key'],name='run_request_dedup')]
+        ordering=['-created_at']
+
+class ExecutorSlot(models.Model):
+    name=models.CharField(max_length=64,primary_key=True)
+    run=models.ForeignKey(Run,null=True,on_delete=models.PROTECT)
+    token=models.UUIDField(null=True)
+    expires_at=models.DateTimeField(null=True)
+
+class Artifact(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    run=models.ForeignKey(Run,on_delete=models.PROTECT)
+    relative_path=models.CharField(max_length=500)
+    sha256=models.CharField(max_length=64)
+    byte_count=models.PositiveBigIntegerField()
+    content_type=models.CharField(max_length=80)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['run','relative_path'],name='artifact_path_per_run')]

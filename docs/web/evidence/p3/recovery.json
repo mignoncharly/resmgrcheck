@@ -1,0 +1,75 @@
+{
+  "kind": "real-qnx-web-recovery",
+  "schema_version": 1,
+  "passed": true,
+  "run_id": "580171c8-01dd-40b0-bb5c-34e209e4dbcf",
+  "native_run_id": "w580171c801dd40b0bb",
+  "fault": "SIGSTOP to exact owned local collection SSH child after actual native timed pending; engine timeout kills/reaps it",
+  "pending": {
+    "event_ref": 110,
+    "event": {
+      "kind": "producer-event",
+      "schema_version": 1,
+      "run_id": "w580171c801dd40b0bb-timeout",
+      "case_id": "timeout",
+      "attempt_id": "attempt1",
+      "service_instance_id": "w580171c801dd40b0bb-timeout",
+      "cycle": 1,
+      "producer": "fixture",
+      "pid": "790462487",
+      "seq": 42,
+      "ns": "56975997557519",
+      "event": "pending",
+      "data": {
+        "logical": "4",
+        "generation": "3",
+        "rcvid": "4617878472209989633",
+        "client_pid": "790544386",
+        "pending": 1
+      }
+    }
+  },
+  "local_transport_timeout_and_reap_observed": true,
+  "initial_state": "launch_uncertain",
+  "initial_summary": {
+    "kind": "execution-summary",
+    "cases": [
+      {
+        "run_id": "w580171c801dd40b0bb-timeout",
+        "case_id": "timeout",
+        "reasons": [
+          "target_completion_unestablished"
+        ],
+        "verdict": "ERROR",
+        "bundle_id": null,
+        "completion": "incomplete"
+      }
+    ],
+    "run_id": "w580171c801dd40b0bb",
+    "completion": "incomplete",
+    "host_error": "TransportError",
+    "execution_exit": 2,
+    "request_sha256": "321dd80243f7c2b014b7ea19a93657d8b0682a61263fb79a6bfb7b8d2b882632",
+    "schema_version": 1
+  },
+  "initial_partial_sha256": "ee2f010fe9977359ce3319f4501d37f4838d5609ffe3a5e260946b69372db3fe",
+  "initial_partial_bytes_preserved": true,
+  "automatic_relaunch": false,
+  "recovery_operation": "collect same run ID after real lease expiry",
+  "same_supervisor_pid": "790458392",
+  "final_bundle_id": "8720ad6e3c3fe4b817d84f9f26866bea80418f7eea2f219a435da73af95fe8ac",
+  "final_verdict": "FAIL",
+  "final_reasons": [
+    "cancellation_not_completed",
+    "pending_state_not_released"
+  ],
+  "final_cleanup_ok": true,
+  "incidents_retained": [
+    {
+      "code": "transport_or_engine_error",
+      "cli_exit": 2,
+      "service_conclusion": "withheld_pending_collection"
+    }
+  ],
+  "production": false
+}

@@ -1,0 +1,42 @@
+{
+  "kind": "real-web-sftp-failure",
+  "schema_version": 1,
+  "passed": true,
+  "run_id": "e6358ee9-82cd-4636-a8c3-2f789b904925",
+  "native_run_id": "we6358ee982cd4636a8",
+  "fault": "SIGKILL to exact owned local SSH child of the active SFTP readback process; parent SCP/CLI exits observed",
+  "canonical_summary": {
+    "cases": [
+      {
+        "bundle_id": null,
+        "case_id": "timeout",
+        "completion": "aborted",
+        "reasons": [
+          "host_sequence_interrupted"
+        ],
+        "run_id": "we6358ee982cd4636a8-timeout",
+        "verdict": "NOT_RUN"
+      }
+    ],
+    "completion": "incomplete",
+    "execution_exit": 2,
+    "host_error": "TransportError",
+    "kind": "execution-summary",
+    "request_sha256": "85d28ff88131046772b0356ed9c930eb0a8007459b6744981eeaf5a3c7ebe1d5",
+    "run_id": "we6358ee982cd4636a8",
+    "schema_version": 1
+  },
+  "host_process_facts": {
+    "basis": "normal CLI exit and bound finalized state before any native launch intent",
+    "local_elapsed_ms": 926,
+    "local_child_returncode": 2,
+    "local_child_exit_observed": true,
+    "no_native_launch_observed": true
+  },
+  "native_test_launched": false,
+  "native_cleanup_claimed": false,
+  "required_cases_not_run": true,
+  "slot_released_without_cleanup_claim": true,
+  "automatic_retry": false,
+  "production": false
+}
