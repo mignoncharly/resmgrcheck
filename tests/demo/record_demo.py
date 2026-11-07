@@ -75,7 +75,7 @@ def evidence(name):
     root=Path(observations[name]['location']);case=next(root.glob('cases/*/bundle'))
     result=load(case/'result.json');records=[loads(line) for line in (case/'observations.jsonl').read_bytes().splitlines()]
     selected={'baseline_validity','pending_precondition','cancellation_completion','cancellation_not_completed','pending_state_cleanup','fresh_client_health','client_departure','ocb_lifetime','owned_process_cleanup'}
-    keys={'operation','pending','live','raw_return','raw_errno','error_name','facts','completed','all_reaped','child_pid','signal','exit_code','exited','signaled'}
+    keys={'operation','pending','live','raw_return','raw_errno','error_name','facts','completed','all_reaped','child_pid','signal','exit_code','exited','signaled','ocb','synthetic','status','client_pid','rc','error','kind'}
     lines=['Actual saved assertions and selected source records; full raw stream preserved:']
     for assertion in result['assertions']:
         if assertion['id'] not in selected:continue
@@ -101,6 +101,7 @@ try:
         page=context.new_page();video=page.video;page.set_content(HTML);start=time.monotonic()
         terminal(1,'1 / 7 · Real target and corrected sensor','Actual QNX8.0 target. Corrected baselines and fresh-client health use supervised native workers.')
         call(['ssh','-F','.local/ssh_config','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','resmgrcheck-qnx','uname -a && uname -p'])
+        page.wait_for_timeout(3000)
         cli('doctor','--target','lab')
         normal=run('normal','profiles/sensor.json');evidence('normal');wait_until(20)
         terminal(2,'2 / 7 · Intentional fixture defect','The fixture deliberately ignores a current unblock. Cancellation completion and pending cleanup remain separate failures; cleanup is a separate fact.')
@@ -128,7 +129,8 @@ try:
         assert time.monotonic()-start<165,'job scene exceeded its allotted recording time'
         wait_until(165)
         terminal(7,'7 / 7 · Reproduce from source','README · docs/codelab.md · versioned contracts · immutable raw/JSON/JUnit/HTML. Qualified lab scope; unsupported and incomplete coverage remain visible.')
-        history.extend(['python3 -m resmgrcheck --help','python3 -m resmgrcheck verify --target lab --suite release','docs/codelab.md','docs/TEST_EVIDENCE.md','Native run IDs and original/candidate source/build hashes are preserved in this recording manifest.']);display();wait_until(170)
+        cli('--help')
+        history.extend(['Reproduction reference (release execution is recorded in E015):','python3 -m resmgrcheck verify --target lab --suite release','docs/codelab.md','docs/TEST_EVIDENCE.md','Native run IDs and original/candidate source/build hashes are preserved in this recording manifest.']);display();wait_until(170)
         raw_video=video.path();context.close();browser.close();page=None
     call(['ffmpeg','-hide_banner','-loglevel','error','-y','-i',raw_video,'-c:v','libx264','-preset','fast','-crf','20','-pix_fmt','yuv420p','-movflags','+faststart',out/'demo.mp4'])
     info=json.loads(call(['ffprobe','-v','error','-show_entries','format=duration:stream=codec_name,width,height','-of','json',out/'demo.mp4']))
