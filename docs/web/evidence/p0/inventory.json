@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-07T13:07:11.815810+00:00",
+  "baseline": "ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0",
+  "specification_revision": "3d9048a0ad53046f2df20f3737f4e5dd7c80a4fa",
+  "runtime_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b",
+  "working_tree_clean": true,
+  "python": "3.12.3",
+  "nginx": "1.24.0",
+  "existing_postgres_ports": [
+    5432,
+    5433,
+    5434,
+    55432,
+    55435
+  ],
+  "new_stage_postgres_socket_only": true,
+  "proposed_stage_port": 8431,
+  "sudo_noninteractive": false,
+  "existing_nginx_sites": 12,
+  "resmgrcheck_vhost_exists": false,
+  "production_dns": "not_resolved",
+  "unrelated_services_changed": false,
+  "native_tests_repeated": false
+}
