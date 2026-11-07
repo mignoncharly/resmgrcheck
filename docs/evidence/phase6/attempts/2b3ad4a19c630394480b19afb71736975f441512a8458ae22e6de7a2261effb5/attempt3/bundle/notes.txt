@@ -1,0 +1,4 @@
+Run p6gate3-job-fixed, case timeout, attempt3.
+PASS / complete: all_obligations_satisfied.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

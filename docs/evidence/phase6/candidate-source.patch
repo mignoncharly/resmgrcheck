@@ -1,0 +1,73 @@
+commit c26365e91f8f0810a531726937c6b2c4bd923837
+Author:     Codex <codex@openai.com>
+AuthorDate: Sat Nov 7 05:37:13 2026 +0000
+Commit:     Codex <codex@openai.com>
+CommitDate: Sat Nov 7 05:37:13 2026 +0000
+
+    Fix ignored unblock in dedicated before-after replay candidate
+
+diff --git a/native/fixtures/job.c b/native/fixtures/job.c
+index 41f6c28..25f38b5 100644
+--- a/native/fixtures/job.c
++++ b/native/fixtures/job.c
+@@ -13,7 +13,6 @@ static struct pending queue[MAX_PENDING];
+  * owns the job; short-lived submitters/waiters do not own its lifetime. */
+ static struct job_state state = {.generation=1, .job_exists=1, .job_ready=1};
+ static unsigned next_request;
+-static int ignore_unblock;
+ static int job_value=420;
+ static int owner(const struct pending *p, const struct _msg_info *info) {
+     return p->pid == info->pid && p->tid == info->tid &&
+@@ -49,11 +48,6 @@ static int job_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *ocb
+             event("fixture","barrier_wait","logical=%u generation=%u rcvid=%" PRId64,p->logical,p->generation,(int64_t)p->rcvid);
+             return _RESMGR_NOREPLY;
+         }
+-        if (ignore_unblock) {
+-            event("fixture", "ignored_unblock", "logical=%u generation=%u pending=%u",
+-                  p->logical, p->generation, state.pending);
+-            return _RESMGR_NOREPLY;
+-        }
+         /* -1 is valid only here: a live, owned, current unblock request. */
+         int rc = MsgError(p->rcvid, -1);
+         int error = rc == -1 ? errno : 0;
+@@ -144,7 +138,6 @@ int main(int argc, char **argv) {
+     const char *mode = argc == 2 ? "corrected" : argv[2];
+     if (strcmp(mode,"corrected") && strcmp(mode,"ignore-unblock") && strcmp(mode,"retain-waiter") && strcmp(mode,"retain-third") && strcmp(mode,"duplicate-terminal") && strcmp(mode,"drop-job")) return 2;
+     fixture_mode=mode;
+-    ignore_unblock = !strcmp(mode, "ignore-unblock");
+     dispatch_t *dpp = dispatch_create();
+     if (!dpp) { perror("dispatch_create"); return 2; }
+     resmgr_connect_funcs_t connect_funcs;
+diff --git a/native/fixtures/sensor.c b/native/fixtures/sensor.c
+index cec21ed..8e06b99 100644
+--- a/native/fixtures/sensor.c
++++ b/native/fixtures/sensor.c
+@@ -16,7 +16,7 @@ struct pending {
+ static struct pending queue[MAX_PENDING];
+ static struct sensor_state state = {.generation = 1};
+ static unsigned next_request;
+-static int hold, ignore_unblock;
++static int hold;
+ static int sample_value=42;
+ static char sample[64]=SAMPLE;
+ 
+@@ -83,11 +83,6 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *
+             event("fixture","barrier_wait","logical=%u generation=%u rcvid=%" PRId64,p->logical,p->generation,(int64_t)p->rcvid);
+             return _RESMGR_NOREPLY;
+         }
+-        if (ignore_unblock) {
+-            event("fixture", "ignored_unblock", "logical=%u generation=%u pending=%u",
+-                  p->logical, p->generation, state.pending);
+-            return _RESMGR_NOREPLY;
+-        }
+         /* -1 is valid only here: a live, owned, current unblock request. */
+         int rc = MsgError(p->rcvid, -1);
+         int error = rc == -1 ? errno : 0;
+@@ -146,7 +141,6 @@ int main(int argc, char **argv) {
+     const char *mode = argc == 2 ? "corrected" : argv[2];
+     if (strcmp(mode,"corrected") && strcmp(mode,"ignore-unblock") && strcmp(mode,"retain-waiter") && strcmp(mode,"retain-third") && strcmp(mode,"duplicate-terminal")) return 2;
+     fixture_mode=mode;
+-    ignore_unblock = !strcmp(mode, "ignore-unblock");
+     dispatch_t *dpp = dispatch_create();
+     if (!dpp) { perror("dispatch_create"); return 2; }
+     resmgr_connect_funcs_t connect_funcs;

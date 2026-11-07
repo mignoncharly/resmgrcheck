@@ -11,4 +11,5 @@ def infrastructure_error(plan,reason,partial=b''):
       'assertions':[{'id':reason,'verdict':'ERROR','event_refs':[]},
                     {'id':'scenario_execution','verdict':'NOT_RUN','event_refs':[]},
                     {'id':'remote_cleanup','verdict':'NOT_RUN','event_refs':[]}]}
-    return EvaluatedResult.parse(data)
+    from .assertions import explain
+    return EvaluatedResult.parse(explain(data,plan,partial))

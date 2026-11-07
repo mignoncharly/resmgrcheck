@@ -1,10 +1,10 @@
-# Continue into Phase 6
+# Continue into Phase 7
 
-Read AGENTS.md, STATUS.md, Phase 6 in IMPLEMENTATION_PLAN.md, E011 in
+Read AGENTS.md, STATUS.md, Phase 7 in IMPLEMENTATION_PLAN.md, E011/E012 in
 TEST_EVIDENCE.md, DECISIONS.md, KNOWN_LIMITATIONS.md, formats-v1.md and reason-codes.md.
 Branch remains implementation/phase-1. Preserve unrelated changes.
 
-Phases 1–5 have passed their native gates. Do not repeat passed phases without a
+Phases 1–6 have passed their native gates. Do not repeat passed phases without a
 specific changed prerequisite. E011 retains the full 40-case Phase 5 matrix and
 14 affected supervision cases, with exact source digests and SFTP artifact readback
 hashes. Sixty-three host tests include actual QNX vectors and explicitly synthetic
@@ -47,11 +47,33 @@ are uploaded/read back and verified; all 40 cases retain raw/status/result evide
 Native rejection cases create no run storage. Use --case for focused checks.
 --raw is debugging only and cannot establish a gate.
 
-Phase 6 must implement immutable bundle identities, atomic final marker/partial
+Phase6 implemented immutable bundle identities, atomic final marker/partial
 artifacts, one evaluator with expected/observed values and event references, exact
 replay inputs and attempt preservation, explicit --candidate-manifest selection,
 architecture/version rejection, comparison, JUnit and execution exit precedence.
-Saved PIDs/rcvids are observations, never replay commands. Real source fixes with
-changed fixture hashes and unchanged contracts are required for both before/after
-replay gates; changing defect switches within one binary is insufficient. Product
+Saved PIDs/rcvids are observations, never replay commands. E012 passed both before/after replay gates with real source fixes, changed fixture
+hashes and unchanged contracts; changing defect switches within one binary is insufficient. Product
 transport automation is Phase 7. No frontend before its phase.
+
+
+## Phase6 checkpoint
+
+E012 records actual same-build FAIL replay and explicitly selected changed-build
+PASS replay for both services. Candidate source c26365e removes the ignored-unblock
+early return; same profile/settings/timing/inputs remain. Fixed-source worktree is
+.local/phase6-fixed-source, branch qualification/phase6-fixed-unblock. Keep main's
+intentional defect controls. qcc build metadata and exact source patch are retained
+in evidence/phase6; binaries/readbacks stay local. No push was performed.
+
+New host modules: artifacts.py (atomic/sealed bundles), assertions.py (canonical
+expected/observed details), exports.py (JUnit/exit precedence/comparison), replay.py
+(explicit candidate manifest, actual hash verification, preserved attempts). CLI:
+python3 -m resmgrcheck --help. Every current expanded case/cycle is required; never
+waive coverage in exports. Offline processing success is distinct from test outcome.
+Eighty host tests pass. Phase6 current qualified host/source digest is in index.json;
+clean committed-source confirmation is recorded separately after its checkpoint.
+
+For Phase7, reuse/refactor the tested replay lab transport without weakening
+native owned-process rules. Add full target config/check/deploy/run/status/collect/
+inspect/replay/report workflow, clear help and bounded cancellation/SSH recovery.
+Read the exact Phase7 gate before editing. Do not add a frontend until Phase8.

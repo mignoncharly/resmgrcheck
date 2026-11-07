@@ -1,0 +1,15 @@
+make: Entering directory '/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source'
+python3 scripts/check-qnx-build.py
+QNX build prerequisites available; compiler licensing and native execution still require their own checks.
+mkdir -p "build/qnx-x86_64"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/spikes/hello.c" -o "build/qnx-x86_64/hello"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/spikes/capabilities.c" -o "build/qnx-x86_64/capabilities"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/fixtures/sensor.c" -o "build/qnx-x86_64/sensor-fixture"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/spikes/sensor_client.c" -o "build/qnx-x86_64/sensor-client"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror "native/spikes/phase2_supervisor.c" -o "build/qnx-x86_64/phase2-supervisor"
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/runner.c native/common/event.c native/common/plan.c native/common/result.c native/common/persistence.c native/common/lab.c native/common/journal.c native/common/process.c native/common/protocol.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/runner
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/worker.c native/common/event.c native/common/plan.c native/common/result.c native/common/persistence.c native/common/lab.c native/common/journal.c native/common/process.c native/common/protocol.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/worker
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/sensor.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/sensor-v1-fixture
+qcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/job.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/job-v1-fixture
+python3 scripts/record-build.py
+make: Leaving directory '/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source'

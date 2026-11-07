@@ -72,7 +72,7 @@ class Evidence:
     def refs(self,records):return [self.index[id(d)] for d in records]
 
 
-def evaluate(plan,raw):
+def _evaluate(plan,raw):
     if not isinstance(plan,Plan):plan=Plan.parse(plan)
     if type(raw) is str:raw=raw.encode()
     require(type(raw) is bytes,'evidence bytes required')
@@ -210,12 +210,22 @@ def evaluate(plan,raw):
     return EvaluatedResult.parse(result)
 
 
+def evaluate(plan,raw):
+    from .assertions import explain
+    if not isinstance(plan,Plan):plan=Plan.parse(plan)
+    if type(raw) is str:raw=raw.encode()
+    return EvaluatedResult.parse(explain(_evaluate(plan,raw).data,plan,raw))
+
+
 def evaluate_persistent(plan,raw,status):
     if not isinstance(plan,Plan):plan=Plan.parse(plan)
+    if type(raw) is str:raw=raw.encode()
     result=evaluate(plan,raw).data
+    observed_status=None
     try:
         if not isinstance(status,RunStatus):status=RunStatus.parse(status)
         d=status.data
+        observed_status=d
         require(all(d[k]==plan.data[k] for k in IDENTITY.split()),'status identity')
         require(d['profile_sha256']==plan.data['profile_sha256'] and d['source_tree_sha256']==plan.data['builds']['source_tree_sha256'],'status binding')
         ev=Evidence(raw,plan);require(ev.supervisors=={d['supervisor_pid']},'status owner')
@@ -234,4 +244,5 @@ def evaluate_persistent(plan,raw,status):
     if not finalized:
         result['verdict']='ERROR';result['completion']='incomplete'
         result['reasons']=[r for r in result['reasons'] if r!='all_obligations_satisfied']+['target_completion_unestablished']
-    return EvaluatedResult.parse(result)
+    from .assertions import explain
+    return EvaluatedResult.parse(explain(result,plan,raw,observed_status))

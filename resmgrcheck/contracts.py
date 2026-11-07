@@ -254,6 +254,25 @@ class TargetManifest:
         return cls(d)
 
 @dataclass(frozen=True)
+class Assertion:
+    data: dict
+
+    @classmethod
+    def parse(cls, d):
+        detailed = type(d) is dict and 'reason' in d
+        obj(d, 'id verdict event_refs' + (' reason expected observed' if detailed else ''), 'assertion')
+        text(d['id']); enum(d['verdict'], VERDICTS)
+        require(type(d['event_refs']) is list and len(d['event_refs']) <= 512, 'assertion references')
+        for ref in d['event_refs']: integer(ref, 0, MAX_EVENTS)
+        if detailed:
+            text(d['reason']); require(type(d['expected']) is dict, 'expected predicate')
+            obj(d['observed'], 'events status', 'observed assertion')
+            require(type(d['observed']['events']) is list and len(d['observed']['events']) <= 512, 'observed events')
+            require(d['observed']['status'] is None or type(d['observed']['status']) is dict, 'observed status')
+            _tree(d['expected']); _tree(d['observed'])
+        return cls(d)
+
+@dataclass(frozen=True)
 class CycleResult:
     data: dict
 
@@ -265,9 +284,7 @@ class CycleResult:
         for value in d['reasons']:text(value)
         require(type(d['assertions']) is list and len(d['assertions'])<=32,'cycle assertions')
         for a in d['assertions']:
-            obj(a,'id verdict event_refs');text(a['id']);enum(a['verdict'],VERDICTS)
-            require(type(a['event_refs']) is list and len(a['event_refs'])<=512,'cycle refs')
-            for ref in a['event_refs']:integer(ref,0,MAX_EVENTS)
+            Assertion.parse(a)
         require(len({a['id'] for a in d['assertions']})==len(d['assertions']),'duplicate cycle assertion')
         mandatory={'pending_precondition','cancellation_completion','terminal_reply_observation','pending_state_cleanup','state_facts','fresh_client_health','worker_cleanup','cycle_boundary','counter_continuity'}
         require(d['verdict']!='PASS' or (d['completion']=='complete' and mandatory<={a['id'] for a in d['assertions']} and all(a['verdict']=='PASS' for a in d['assertions'])),'inconsistent cycle PASS')
@@ -298,9 +315,7 @@ class EvaluatedResult:
         text(d['profile_sha256'], HASH); text(d['event_sha256'], HASH)
         require(type(d['assertions']) is list and len(d['assertions']) <= 32, 'invalid assertions')
         for a in d['assertions']:
-            obj(a, 'id verdict event_refs'); text(a['id']); enum(a['verdict'], VERDICTS)
-            require(type(a['event_refs']) is list and len(a['event_refs']) <= 512, 'invalid evidence references')
-            for ref in a['event_refs']: integer(ref, 0, MAX_EVENTS)
+            Assertion.parse(a)
         ids=[a['id'] for a in d['assertions']]
         require(len(set(ids))==len(ids), 'duplicate assertion')
         require(d['verdict'] != 'PASS' or (d['completion'] == 'complete' and d['assertions'] and all(a['verdict'] == 'PASS' for a in d['assertions'])), 'inconsistent PASS')
@@ -325,6 +340,7 @@ class ReplayInput:
         obj(d, 'kind schema_version original_plan original_event_sha256 selected_builds', 'replay')
         version(d, 'replay-input'); Plan.parse(d['original_plan']); text(d['original_event_sha256'], HASH)
         builds(d['selected_builds'])
+        require(d['selected_builds']==d['original_plan']['builds'],'changed replay build requires explicit candidate selection')
         return cls(d)
 
 # Exact per-event payloads. Service-specific values are typed facts, not code.

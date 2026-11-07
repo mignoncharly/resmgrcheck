@@ -4,12 +4,13 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 5 gate passed E011; continue into Phase 6 |
+| Current phase | Phase 6 gate passed E012; Phase 7 next |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
 | Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
+| Phase 6 | Immutable bundles, explicit changed-build replay on both services, comparison/JUnit passed |
 | Phases 7–10 | Not started |
 
 Both services use the same generic runner, worker, scenario machinery and Python
@@ -43,7 +44,21 @@ unknown ownership and dependent quarantine. Existing legacy bounds stay fixed;
 repeat runs have separately bounded larger ledgers/journals. See E011, the
 supported-scenario matrix and reason-code documentation.
 
-Next: Phase 6 immutable evidence bundles, atomic finalization, assertion details,
-replay/candidate identity, comparison and JUnit. The changed-build replay exit gate
-has not passed. Preserve the existing lab, SDK, images and local authentication.
-Use fresh run IDs; target records remain /data/resmgrcheck/runs/RUN_ID.
+Phase6 now preserves immutable, hashed raw bundles and partial artifacts, with
+atomic finalization, source/profile/build/replay snapshots and one canonical
+evaluator exposing expected/observed assertion details. Explicit candidate manifests
+select deployed executables; actual uname and SFTP readback hashes are checked
+before one launch. All attempts, including failed preflight, are preserved.
+
+E012 reproduces both saved failures against the original build, then PASSes the
+identical contracts/settings against committed source-fixed fixtures c26365e with
+changed binary hashes. Main retains its intentional negative controls. Mixed JUnit
+contains32 tests /6 failures /4 errors /18 skipped and required-coverage errors;
+regenerating views leaves raw bytes unchanged. Eighty host tests pass. Full Phase6
+exit gate is passed; native/host source identities are recorded separately.
+
+Next: Phase7 host workflow (target config/check/deploy/run/status/collect/inspect/
+report), owned lab cleanup boundaries and help. Replay currently supports the
+reviewed lab deployment route; full product transport commands are not complete.
+Preserve SDK, images and local authentication. Use fresh run IDs; target records
+remain /data/resmgrcheck/runs/RUN_ID.

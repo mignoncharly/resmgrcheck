@@ -168,7 +168,10 @@ completion; assertions; profile_sha256; event_sha256 (hash of original stream
 bytes). Verdict is PASS/FAIL/ERROR/UNSUPPORTED/NOT_RUN. Completion is separate:
 complete/incomplete/aborted.
 
-Assertions contain exactly `{id, verdict, event_refs}`. References are ordinal
+New canonical assertions contain exactly `{id, verdict, reason, expected, observed, event_refs}`. Historical v1 triples `{id, verdict, event_refs}` remain readable.
+Expected is a typed contract predicate; observed contains only supporting raw events
+and, for status binding, the actual validated status. Missing evidence is not
+filled with inferred private state. References are ordinal
 record indices in the original stream (manifest index 0). A PASS requires every
 mandatory baseline, pending, cancellation, terminal reply, state, health, cleanup
 and completeness obligation, with all assertions PASS. Missing evidence cannot
@@ -354,3 +357,80 @@ supplied shell text, PIDs or rcvids. State/health still come from supervised wor
 A distinct next_health predicate is mandatory for ordering. Required barrier/start/
 result timings establish the observed order; normal-result-before-trigger is also
 required for complete-first. Missing evidence cannot be replaced by a delay.
+
+
+## Phase 6 immutable run bundle
+
+`run-bundle` schema1 is the final `bundle.json` marker. Exact fields are kind,
+schema_version, bundle_id, the five shared identities, evaluator, files. evaluator
+is {source_revision,dirty,source_tree_sha256}, separate from the native build's
+source identity. files maps exactly these names to {sha256,bytes}:
+
+- observations.jsonl (original immutable bytes)
+- plan.json and status.json (original validated input bytes)
+- profile.json, builds.json, target-manifest.json (validated snapshots)
+- result.json (one canonical evaluator)
+- replay.json (exact replay input)
+- notes.txt (human-readable identity/outcome)
+
+bundle_id is SHA256 of canonical marker content excluding bundle_id. File hashes
+cover actual bytes. A new exclusive directory first gets partial.json. Raw inputs
+are preserved before semantic validation. Finished files use a temporary same-
+filesystem file, fsync and atomic replacement; the final marker follows complete
+cross-validation. Collection failure retains a separate partial-run artifact and
+no final marker. A sealed bundle can correctly contain FAIL, ERROR or UNSUPPORTED;
+sealing is artifact finalization, never a service verdict. Members become read-only.
+Integrity verification rejects missing, additional, symlinked, truncated, changed
+or inconsistently bound members and rechecks canonical evaluation. Read-only mode
+and hashes are not protection against a malicious owner/target or power-loss proof.
+Reports are generated outside the source bundle.
+
+`replay-input` schema1 retains original_plan, original_event_sha256 and
+selected_builds. selected_builds must equal the original build; changing it silently
+is invalid. Original plan snapshots profile/inputs, family order, cycles, timing,
+triggers, reset policy and fixture setting. It contains no executable snippets or
+live PIDs/receive IDs to execute. Runtime identifiers in observations stay evidence.
+An explicit candidate-build document is a separate selected input to replay.
+
+## Candidate build and attempts
+
+`candidate-build` schema1 has exactly kind/schema_version/build_id/builds/adapter/
+architecture/target_machine/directory/executables. ABI1, gcc_ntox86_64, architecture
+x86_64 and machine x86pc are currently supported. directory is one reviewed
+/data/resmgrcheck/NAME deployment; executable names are registered runner, worker
+and fixture basenames in that directory. Adapter is statically part of worker.
+build_id hashes {builds,adapter,architecture,target_machine}; deployment location
+is resolved separately and target bytes must match every hash before launch.
+Recipe/architecture/adapter incompatibility is rejected. No arbitrary command path
+or string is accepted from profiles/replay files.
+
+Replay requires --candidate-manifest even for a same-build selection. The tool
+queries actual uname -p/-m, downloads/hashes deployed binaries, reserves one new
+attempt directory and a fresh native run ID, then launches once. Attempt numbers
+include original attempt1; all preflight failures/partial attempts remain recorded.
+launch_requested and acknowledged are separate facts. Lost acknowledgement does
+not prove absence of a target process and never authorizes an automatic relaunch.
+Target PID observations never authorize host-side process killing. Lab fault
+injection controls are explicitly not portable replay inputs.
+
+Comparisons retain original/candidate bundle and build IDs, contract equality,
+original/candidate reasons/failure obligations, new obligations and reproduction.
+Labels: fixed, still-failing, newly-failing, still-passing, unsupported, incomparable,
+incomplete. Different profile/expectations/settings or architecture are incomparable.
+Any incomplete candidate remains incomplete, never fixed. Reproduction refers to
+established original FAIL obligations, not merely any red result. Identical replay
+inputs do not guarantee identical scheduler interleavings.
+
+JUnit is a deterministic derived XML view serialized with ElementTree. Stable
+suite/case/cycle names retain assertion details and bundle references. FAIL creates
+failure, ERROR creates error, UNSUPPORTED/NOT_RUN creates skipped. Every current
+expanded case is required; unavailable or incomplete coverage additionally creates
+required-coverage/error, so an all-skipped suite cannot appear green. Optional
+scenario names do not create executed optional cases or waive required coverage.
+
+Execution CLI precedence is130 (interrupted),2 (input/environment/harness/evidence/
+cleanup error),3 (required unavailable/NOT_RUN/no qualifying cases),1 (valid
+completed contract FAIL),0 (complete required PASS). Offline bundle/inspect/junit/
+compare return0 when valid failed evidence was successfully processed. Their
+success never changes the recorded test result. Legacy native collector code4
+still means withheld dependent execution; host test execution maps it to3.

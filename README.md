@@ -6,7 +6,7 @@ The intended workflow exercises deferred I/O, records what happened on the QNX t
 
 ## Current state
 
-**Phases 1–5 have passed their native gates.** Both sensor and job fixtures use the
+**Phases 1–6 have passed their native gates.** Both sensor and job fixtures use the
 same generic QNX runner/worker and deterministic host evaluator. Phase 4 includes
 the real crash/probe/channel/sink/full-storage/cleanup-contamination matrix and
 SSH-loss recovery. Corrected cases PASS, explicit defects FAIL, infrastructure
@@ -18,9 +18,10 @@ Phase 5 completed all six native families on both services, including actual
 forced departure/OCB lifetime, 20-cycle same-instance reconnect, and explicit
 completion/cancellation ordering. Its 40-case regression preserves targeted FAILs,
 infrastructure ERRORs and withheld NOT_RUN cycles. See the
-[supported matrix](docs/supported-scenarios.md) and E011. Phase 6 evidence/replay/
-exports is next; product transport automation remains Phase 7. Current host tools
-validate/expand profiles and evaluate collected observations. The
+[supported matrix](docs/supported-scenarios.md) and E011. Phase6 adds immutable bundles, explicit deployed-build replay, comparison and JUnit.
+Both saved failures reproduced against their original builds and passed against
+source-fixed candidates with changed hashes (E012). Product transport automation
+remains Phase7. Host tools validate/expand, evaluate, bundle, inspect, replay and export. The
 [Phase 2 guide](docs/phase2-native.md) remains a spike reference.
 
 An operator has already built the smoke program with QNX's compiler and run it twice inside an x86_64 QNX 8.0 QEMU guest, with exit status zero both times. Those bootstrap results are recorded as operator-provided evidence, separately from validation of this repository checkout. See [test evidence](docs/TEST_EVIDENCE.md).

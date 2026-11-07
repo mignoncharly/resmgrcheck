@@ -827,3 +827,107 @@ new run; its old contents were preserved and a fresh prefix was used.
 The remaining63 host tests pass. Raw inventory trailing spaces are retained as
 observed bytes. Phase6 now begins; its changed-build replay/export gate is still
 open. No earlier phase was reopened without the specific affected-path reasons above.
+
+## E012: Phase 6 immutable evidence, actual changed-build replay and exports
+
+**Date:** 2026-11-07. **Outcome:** Phase6 exit gate PASS. This gate reuses the
+qualified Phase5 observations; it does not reopen/repeat earlier native matrices.
+New native executions are the required original/candidate replays on both services.
+
+Host evaluator source: base9c06190280bc37de35ae2ce49d11c931b4a889a5, dirty=true,
+source digest95a99f6e46db01ae1bd97f794f57e046bdb7593304ff1092f9066189dd779e9e.
+The final gate is **p6gate3**. Native original build remains clean9d4a10d with the
+E011 hashes; host/evaluator identity is stored separately in every sealed marker.
+No original observation was relabelled with the new evaluator's revision.
+
+### Real behavior fix and explicit selection
+
+Created an isolated Git worktree in ignored local storage from9c06190, preserving
+main's intentional defect controls and all uncommitted host implementation.
+Qualification branch `qualification/phase6-fixed-unblock` commits actual source
+fix **c26365e91f8f0810a531726937c6b2c4bd923837**. Its patch removes the ignored-
+unblock early return from both fixtures; it does not change a comment, stamp,
+expectation or runtime setting. The exact patch is `evidence/phase6/candidate-source.patch`.
+
+`source /home/mignon/qnx800/qnxsdp-env.sh` and `make -C .local/phase6-fixed-source qnx`
+used real qcc gcc_ntox86_64/C11/warnings-as-errors. Committed candidate source is
+clean, digest99bc12092592dc0f0cf80bfd2b6fa5257f6a18c4a52e719fb24c4a7672e37c16.
+The candidate keeps the generic runner/worker hashes from E011 and changes the
+actual service binaries:
+
+| Fixture | Original SHA256 | Fixed-source candidate SHA256 |
+| --- | --- | --- |
+| Sensor | 822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3 | 2018ef2ec63fbbc34f7c428d80f1bcd552c43255b794b1d46aee03353418d18c |
+| Job | 377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967 | 955bf528e9567c128fc12859365752810efa49c8e63f7cbd8779d785ec99fcd4 |
+
+Executed `python3 tests/qnx/qualify-phase6.py --prefix p6gate3 --fixed-source .local/phase6-fixed-source`.
+It invokes the product CLI with **--candidate-manifest** for every replay, uploads
+the fixed executables to an exclusive owned deployment, then queries actual uname
+(-p x86_64, -m x86pc) and independently SFTP-downloads/hashes runner/worker/fixture
+before launch. The statically linked adapter hash must equal worker. Build IDs
+are immutable content identities; actual deployment paths are resolved separately.
+
+| Service / attempt | Explicit selection | Actual outcome | Comparison | Execution exit |
+| --- | --- | --- | --- | --- |
+| Sensor /2 | Original deployed build | FAIL: cancellation_not_completed, pending_state_not_released | still-failing; original obligations reproduced |1|
+| Sensor /3 | Source-fixed candidate | PASS | fixed; original obligations not reproduced |0|
+| Job /2 | Original deployed build | FAIL: cancellation_not_completed, pending_state_not_released | still-failing; original obligations reproduced |1|
+| Job /3 | Source-fixed candidate | PASS | fixed; original obligations not reproduced |0|
+
+The exact profile, operation parameters, scenario/reset/cycle settings, time bounds,
+expectations and **fixture_mode=ignore-unblock** are unchanged. Each fresh run has
+new run/attempt/instance identity, explicit original/candidate build identity and
+actual target evidence. Switching corrected/defect flags within one binary was
+not used to satisfy this gate. Each service's attempt4 deliberately selects an
+internally consistent manifest with a wrong fixture hash: actual target readback
+detects it, exit2, launch_requested=false, acknowledged=false and no target run
+storage. Expected/observed hashes and both failed attempts remain preserved.
+There is no automatic retry. Native inventory contains no residual project process.
+
+### Artifacts and canonical evaluator
+
+Reviewed text in `evidence/phase6/` retains original and replayed immutable bundles,
+attempts, selected candidate manifests, actual hash checks, commands, comparisons,
+patch/build records, mixed XML and inventories. Readback binaries/SDK/images/keys
+stay local and ignored. Every bundle seals original raw bytes, plan/profile/build/
+target snapshots, status, evaluated result, replay input, notes and hash marker.
+Original and candidate source identities are explicit; clean/dirty is not guessed.
+
+An exclusive directory preserves partial raw inputs before validation. Atomic
+same-filesystem writes/fsync publish completed members; the final marker follows
+cross-validation and read-only sealing. No final marker means incomplete evidence.
+A complete artifact may correctly contain FAIL/ERROR/UNSUPPORTED. Integrity checks
+reject unknown/missing/symlinked/corrupt members, duplicate keys or inconsistent
+plan/result/replay/hash binding. They re-run the same canonical evaluator, whose
+assertions now include reason, expected predicate, observed raw event/status values
+and ordinal references. No private state is invented for missing probes.
+
+### Export and negative validation
+
+Parsed actual mixed JUnit: **32 cases /6 failures /4 errors /18 skipped**. This
+includes original/reproduced failures, both source-fixed PASSes, an actual departure
+ERROR, required unsupported capability and repeated retained-state failure with
+17 NOT_RUN cycles. Three synthetic required-coverage/error cases prevent incomplete
+or all-skipped suites from appearing green. XML is serialized by ElementTree;
+case names are stable and retain bundle/assertion references.
+
+Regenerating derived views and offline inspect left every sealed member's SHA256
+unchanged. Offline inspect returned0 for valid red evidence without changing its
+FAIL. Execution precedence130 >2 >3 >1 >0 is checked, including required unavailable
+coverage taking precedence over FAIL. Comparisons distinguish fixed/still-failing/
+newly-failing/still-passing/unsupported/incomparable/incomplete. Changed contract
+or architecture is incomparable; an incomplete candidate cannot be fixed. Original
+FAIL obligations determine reproduction, not any unrelated red result.
+
+80 host tests pass, retaining the complete Phase5 outcome matrix. New checks cover
+atomic publication failure, partial/raw preservation, missing final markers,
+truncation/duplicate keys/symlinks/tampering, actual assertion-reference contents,
+changed expectations unable to relabel saved native evidence, candidate ABI/version/
+architecture/path/hash validation, comparison outcomes and mixed/all-unsupported
+JUnit structure. Synthetic mutations are explicitly labelled; the new four native
+replays and two actual target hash rejection checks are recorded independently.
+
+The specialized replay transport reuses the intended lab and local authentication.
+It does not yet implement Phase7's full target/deploy/run/status/collect/report
+workflow or packaging outside a repository. No frontend, web service, database,
+monitor changes, host reboot or broad process kill was introduced.

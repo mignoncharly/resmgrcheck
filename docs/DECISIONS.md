@@ -252,3 +252,48 @@ terminal-attempt control remains FAIL even if the kernel rejects the second call
 it is not evidence of two delivered replies. These are directed checks, without
 exhaustive concurrency claims. All fixture controls are typed reviewed packets
 inside registered adapters; core scenario/evaluator files contain no service names.
+
+
+## D020: Seal evidence separately from the service conclusion
+
+**Date:** 2026-11-07. **State:** Phase6 gate verified in E012.
+
+Reserve an exclusive bundle directory, preserve raw inputs, write finished files
+atomically and publish the hashed final marker only after cross-validation. Keep
+partial.json on collection failure. A finalized ERROR or FAIL bundle is useful
+evidence; finalization never means service PASS. Store native source/build identity
+and host evaluator source identity separately. Re-evaluation and exports leave raw
+bytes unchanged. Canonical assertions expose reason, contract expected value,
+actual observed records/status and event references; no missing private state is
+inferred. Read-only files and hashes establish identity/integrity, not attestation.
+
+## D021: Replay one preserved contract against an explicitly selected build
+
+**Date:** 2026-11-07. **State:** Phase6 gate verified in E012.
+
+Require --candidate-manifest for original and changed builds. Resolve only reviewed
+lab executable paths, query actual processor/machine, verify all deployed hashes
+with SFTP readback, then request exactly one persistent launch. Distinguish request,
+acknowledgement and collected outcome. Reserve/preserve each attempt including
+preflight failure; never rerun until pass. Original profile, operation inputs,
+fixture setting, bounds/reset/order stay identical. Changed expectation/profile
+means incomparable; incomplete candidate means incomplete. Retain non-reproduction
+honestly and original/candidate identities in every comparison.
+
+The native gate uses committed qualification branch c26365e: actual source removal
+of the ignored-unblock early return in both fixtures. It preserves the saved
+ignore-unblock setting and fixes the demonstrated behavior with different binary
+hashes. It does not alter main's intentional negative controls or merely change a
+stamp/comment/flag. The exact patch/build metadata are retained. This specialized
+replay transport reuses the intended lab; full target/deploy/collect workflow is
+Phase7.
+
+## D022: Keep export success separate from test execution success
+
+**Date:** 2026-11-07. **State:** Phase6 gate verified in E012.
+
+Use ElementTree for deterministic JUnit, stable family/cycle names and bundle
+references. Required UNSUPPORTED/NOT_RUN remains skipped plus a synthetic coverage
+error; all-skipped required coverage cannot look green. Keep every failed assertion
+under later errors. Test-execution exit precedence is130 >2 >3 >1 >0. Offline
+inspect/bundle/export/compare may succeed while processing valid red evidence.

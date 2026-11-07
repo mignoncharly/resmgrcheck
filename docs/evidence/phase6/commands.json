@@ -1,0 +1,378 @@
+[
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "mkdir /data/resmgrcheck/p6gate3-fixed"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/runner",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/worker",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/sensor-v1-fixture",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/job-v1-fixture",
+      "resmgrcheck-qnx:/data/resmgrcheck/p6gate3-fixed/"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "chmod 755 /data/resmgrcheck/p6gate3-fixed/*"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source",
+      "show",
+      "--format=fuller",
+      "--no-ext-diff",
+      "HEAD",
+      "--",
+      "native/fixtures/sensor.c",
+      "native/fixtures/job.c"
+    ],
+    "exit": 0,
+    "stdout": "commit c26365e91f8f0810a531726937c6b2c4bd923837\nAuthor:     Codex <codex@openai.com>\nAuthorDate: Sat Nov 7 05:37:13 2026 +0000\nCommit:     Codex <codex@openai.com>\nCommitDate: Sat Nov 7 05:37:13 2026 +0000\n\n    Fix ignored unblock in dedicated before-after replay candidate\n\ndiff --git a/native/fixtures/job.c b/native/fixtures/job.c\nindex 41f6c28..25f38b5 100644\n--- a/native/fixtures/job.c\n+++ b/native/fixtures/job.c\n@@ -13,7 +13,6 @@ static struct pending queue[MAX_PENDING];\n  * owns the job; short-lived submitters/waiters do not own its lifetime. */\n static struct job_state state = {.generation=1, .job_exists=1, .job_ready=1};\n static unsigned next_request;\n-static int ignore_unblock;\n static int job_value=420;\n static int owner(const struct pending *p, const struct _msg_info *info) {\n     return p->pid == info->pid && p->tid == info->tid &&\n@@ -49,11 +48,6 @@ static int job_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *ocb\n             event(\"fixture\",\"barrier_wait\",\"logical=%u generation=%u rcvid=%\" PRId64,p->logical,p->generation,(int64_t)p->rcvid);\n             return _RESMGR_NOREPLY;\n         }\n-        if (ignore_unblock) {\n-            event(\"fixture\", \"ignored_unblock\", \"logical=%u generation=%u pending=%u\",\n-                  p->logical, p->generation, state.pending);\n-            return _RESMGR_NOREPLY;\n-        }\n         /* -1 is valid only here: a live, owned, current unblock request. */\n         int rc = MsgError(p->rcvid, -1);\n         int error = rc == -1 ? errno : 0;\n@@ -144,7 +138,6 @@ int main(int argc, char **argv) {\n     const char *mode = argc == 2 ? \"corrected\" : argv[2];\n     if (strcmp(mode,\"corrected\") && strcmp(mode,\"ignore-unblock\") && strcmp(mode,\"retain-waiter\") && strcmp(mode,\"retain-third\") && strcmp(mode,\"duplicate-terminal\") && strcmp(mode,\"drop-job\")) return 2;\n     fixture_mode=mode;\n-    ignore_unblock = !strcmp(mode, \"ignore-unblock\");\n     dispatch_t *dpp = dispatch_create();\n     if (!dpp) { perror(\"dispatch_create\"); return 2; }\n     resmgr_connect_funcs_t connect_funcs;\ndiff --git a/native/fixtures/sensor.c b/native/fixtures/sensor.c\nindex cec21ed..8e06b99 100644\n--- a/native/fixtures/sensor.c\n+++ b/native/fixtures/sensor.c\n@@ -16,7 +16,7 @@ struct pending {\n static struct pending queue[MAX_PENDING];\n static struct sensor_state state = {.generation = 1};\n static unsigned next_request;\n-static int hold, ignore_unblock;\n+static int hold;\n static int sample_value=42;\n static char sample[64]=SAMPLE;\n \n@@ -83,11 +83,6 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *\n             event(\"fixture\",\"barrier_wait\",\"logical=%u generation=%u rcvid=%\" PRId64,p->logical,p->generation,(int64_t)p->rcvid);\n             return _RESMGR_NOREPLY;\n         }\n-        if (ignore_unblock) {\n-            event(\"fixture\", \"ignored_unblock\", \"logical=%u generation=%u pending=%u\",\n-                  p->logical, p->generation, state.pending);\n-            return _RESMGR_NOREPLY;\n-        }\n         /* -1 is valid only here: a live, owned, current unblock request. */\n         int rc = MsgError(p->rcvid, -1);\n         int error = rc == -1 ? errno : 0;\n@@ -146,7 +141,6 @@ int main(int argc, char **argv) {\n     const char *mode = argc == 2 ? \"corrected\" : argv[2];\n     if (strcmp(mode,\"corrected\") && strcmp(mode,\"ignore-unblock\") && strcmp(mode,\"retain-waiter\") && strcmp(mode,\"retain-third\") && strcmp(mode,\"duplicate-terminal\")) return 2;\n     fixture_mode=mode;\n-    ignore_unblock = !strcmp(mode, \"ignore-unblock\");\n     dispatch_t *dpp = dispatch_create();\n     if (!dpp) { perror(\"dispatch_create\"); return 2; }\n     resmgr_connect_funcs_t connect_funcs;\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "candidate",
+      ".local/evidence/phase6-p6gate3/sensor-original/plan.json",
+      "--directory",
+      "/data/resmgrcheck/p5life-clean1",
+      "--output",
+      ".local/evidence/phase6-p6gate3/sensor-same-manifest.json"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "candidate",
+      ".local/evidence/phase6-p6gate3/sensor-original/plan.json",
+      "--directory",
+      "/data/resmgrcheck/p6gate3-fixed",
+      "--build-record",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/build-info.json",
+      "--output",
+      ".local/evidence/phase6-p6gate3/sensor-fixed-manifest.json"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/sensor-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/sensor-same-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-sensor-same"
+    ],
+    "exit": 1,
+    "stdout": ".local/evidence/phase6-p6gate3/attempts/70b80f2dadb3359854a6969a22f12d504460587d4a5f3ace4aadbb53d8af5ac8/attempt2: FAIL / still-failing\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/sensor-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/sensor-fixed-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-sensor-fixed"
+    ],
+    "exit": 0,
+    "stdout": ".local/evidence/phase6-p6gate3/attempts/70b80f2dadb3359854a6969a22f12d504460587d4a5f3ace4aadbb53d8af5ac8/attempt3: PASS / fixed\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/sensor-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/sensor-wrong-hash-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-sensor-bad-hash"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: deployed artifact hash mismatch: fixture\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "test ! -e /data/resmgrcheck/runs/p6gate3-sensor-bad-hash"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "candidate",
+      ".local/evidence/phase6-p6gate3/job-original/plan.json",
+      "--directory",
+      "/data/resmgrcheck/p5life-clean1",
+      "--output",
+      ".local/evidence/phase6-p6gate3/job-same-manifest.json"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "candidate",
+      ".local/evidence/phase6-p6gate3/job-original/plan.json",
+      "--directory",
+      "/data/resmgrcheck/p6gate3-fixed",
+      "--build-record",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/build-info.json",
+      "--output",
+      ".local/evidence/phase6-p6gate3/job-fixed-manifest.json"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/job-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/job-same-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-job-same"
+    ],
+    "exit": 1,
+    "stdout": ".local/evidence/phase6-p6gate3/attempts/2b3ad4a19c630394480b19afb71736975f441512a8458ae22e6de7a2261effb5/attempt2: FAIL / still-failing\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/job-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/job-fixed-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-job-fixed"
+    ],
+    "exit": 0,
+    "stdout": ".local/evidence/phase6-p6gate3/attempts/2b3ad4a19c630394480b19afb71736975f441512a8458ae22e6de7a2261effb5/attempt3: PASS / fixed\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      ".local/evidence/phase6-p6gate3/job-original",
+      "--candidate-manifest",
+      ".local/evidence/phase6-p6gate3/job-wrong-hash-manifest.json",
+      "--attempts",
+      ".local/evidence/phase6-p6gate3/attempts",
+      "--run-id",
+      "p6gate3-job-bad-hash"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: deployed artifact hash mismatch: fixture\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "test ! -e /data/resmgrcheck/runs/p6gate3-job-bad-hash"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/sensor-original"
+    ],
+    "exit": 0,
+    "stdout": "FAIL: cancellation_not_completed, pending_state_not_released\nbundle 70b80f2dadb3359854a6969a22f12d504460587d4a5f3ace4aadbb53d8af5ac8\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/job-original"
+    ],
+    "exit": 0,
+    "stdout": "FAIL: cancellation_not_completed, pending_state_not_released\nbundle 2b3ad4a19c630394480b19afb71736975f441512a8458ae22e6de7a2261effb5\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/sensor-unsupported-capability-corrected"
+    ],
+    "exit": 0,
+    "stdout": "UNSUPPORTED: required_capability_missing\nbundle 19e017bf72d62eb640db124a836763601f0afbcb1f68ee90967ca66dcec1953c\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/job-departure-ignore-unblock"
+    ],
+    "exit": 0,
+    "stdout": "ERROR: departure_unobserved\nbundle 0f101134e969ef235f46eb3c8363ce96b6862e9ac5ac735bc11932a28451d507\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/job-repeat-retain-third"
+    ],
+    "exit": 0,
+    "stdout": "FAIL: repetition_incomplete, pending_state_not_released\nbundle d275851e9616fb68c4db9c8e605fe85b6517a454baa7d2e2dcd9723b39628594\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/attempts/70b80f2dadb3359854a6969a22f12d504460587d4a5f3ace4aadbb53d8af5ac8/attempt2/bundle"
+    ],
+    "exit": 0,
+    "stdout": "FAIL: cancellation_not_completed, pending_state_not_released\nbundle b65ed4cb9807f7733bd52c43a4cb062dfa92992b0972242f33a7f6170d908093\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/attempts/70b80f2dadb3359854a6969a22f12d504460587d4a5f3ace4aadbb53d8af5ac8/attempt3/bundle"
+    ],
+    "exit": 0,
+    "stdout": "PASS: all_obligations_satisfied\nbundle 8860e2a8baf1c0c44a50e5d431ab2b4bbade0b6cde37c0ca7f3aad58cf33577c\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/attempts/2b3ad4a19c630394480b19afb71736975f441512a8458ae22e6de7a2261effb5/attempt2/bundle"
+    ],
+    "exit": 0,
+    "stdout": "FAIL: cancellation_not_completed, pending_state_not_released\nbundle 667942301625f1edf26f8883a2448cc3a20477fc988bd5c05beb55f9a6206000\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      ".local/evidence/phase6-p6gate3/attempts/2b3ad4a19c630394480b19afb71736975f441512a8458ae22e6de7a2261effb5/attempt3/bundle"
+    ],
+    "exit": 0,
+    "stdout": "PASS: all_obligations_satisfied\nbundle 780f8d18cd39fa2806cfddfa71bd424ff80af6f9bf17347d189742a1bbee9289\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "pidin ar"
+    ],
+    "exit": 0,
+    "stdout": "     pid Arguments\n       1 procnto-smp-instr -mr -d 0777 -u 0777 \n   16387 slogger2 -U 21:21 \n   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg \n   49157 devc-ser8250 -e \n   57351 ksh ksh \n   61446 fsevmgr \n   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low \n  131081 random -U 22:22 -s /data/var/random/rnd-seed \n  143370 pipe -U 24:24 \n  155659 devc-pty -U 37:37 \n  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores \n  163853 io-sock -m phy -m pci -m usb -d vtnet_pci \n  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks \n  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config \n  253966 qconn \n  258063 mqueue \n  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci \n245121026 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n245133330 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n245133332 sh -c sh \n245137429 pidin ar \n",
+    "stderr": ""
+  }
+]

@@ -46,8 +46,9 @@ result. Cleanup, collection completion and recovery are separate observations.
 Native exit 0 means the collector completed, including a fully observed service
 FAIL. Native 2 declares execution/evidence/cleanup error, 3 unsupported, and 4 a
 withheld dependent case. A detached status exit code is a declaration, not a host
-wait of that process. Host evaluation exits PASS=0, FAIL=1, ERROR=2,
-UNSUPPORTED=3, NOT_RUN=4.
+wait of that process. Phase6 host test-execution precedence is130,2,3,1,0: PASS=0,
+completed FAIL=1, ERROR=2, required UNSUPPORTED/NOT_RUN=3, interruption=130.
+Offline inspect/report command success does not change service verdicts.
 
 An unavailable sink can also establish evidence_incomplete. A demonstrated service
 failure followed by a sink or cleanup error retains both reasons. Successful
@@ -77,3 +78,10 @@ Phase 5 extends the same evaluator vocabulary:
 A known retained-state failure with later NOT_RUN cycles is overall FAIL/aborted;
 an infrastructure or cleanup error makes the overall result ERROR/incomplete while
 retaining earlier service FAILs. Separate recovery cannot complete original coverage.
+
+Phase6 assertion details use `prerequisite_unavailable` for a withheld obligation;
+its overall cause remains in the result. Artifact corruption, incompatible schema/
+ABI/architecture, mismatched candidate hashes or invalid replay selection are input/
+evidence ERROR with execution exit2. No candidate launch occurs after preflight
+hash failure. JUnit required-coverage/error denotes incomplete required obligations;
+its skipped cases retain their original capability/contamination explanation.
