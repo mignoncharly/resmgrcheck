@@ -3,7 +3,17 @@
 Read AGENTS.md, STATUS.md, E013–E016 in TEST_EVIDENCE.md, KNOWN_LIMITATIONS.md and
 docs/submission/publication-handoff.md. Branch remains implementation/phase-1.
 Preserve unrelated work, SDK, images, private credentials/configuration and all
-actual evidence. No remote push/upload/submission is authorized or performed.
+actual evidence. The current jury task authorizes reviewed documentation publication
+to mignoncharly/resmgrcheck; video/YouTube changes and Devpost submission are excluded.
+
+E017 adds docs/JURY_START_HERE.md, jury identities/index/actual patch and a portable
+ZIP at .local/submission/jury-final/resmgrcheck-jury.zip. It copies existing reports
+and sealed QNX evidence unchanged and includes the actual170s MP4. Fresh extraction,
+24 offline browser views,178 local references,78 checksums,3 canonical bundles and
+107 host tests passed. Runtime SHA remains02b34132...; no build/QNX matrix repeated.
+The product checkpoint7d8326a was verified on public main and implementation/phase-1.
+See current STATUS/E017/publication-handoff for the newer documentation publication;
+the earlier local-preparation observations below are historical.
 
 Phases1–9 passed. Phase7 checkpoint965c816:75 native IDs/36 release expectations/
 95 host tests. Phase8 checkpoint73e8bea:15 reports/45 browser views/105 tests.
@@ -29,8 +39,8 @@ are default. Product cleanup acts only on exact live owned children; status PIDs
 are observations. External-health is readonly with unknown running build/instance;
 full external lifecycle/candidate identity remains unsupported.
 
-The existing public repository was verified read-only, but the completed candidate
-was not pushed. Public video/codelab/new source/license verification and operator
+At E016 preparation time, the completed candidate had not been pushed. Product
+7d8326a is now published; final public video verification and operator
 identity/eligibility/ownership attestations remain pending. Check the actual current
 form/rules before operator-authorized publication/submission and preserve a real
 confirmation. No submission-ready/published/submitted claim yet. Public deadline

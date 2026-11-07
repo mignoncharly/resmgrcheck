@@ -1,0 +1,424 @@
+{
+  "kind": "jury-existing-qnx-evidence-index",
+  "schema_version": 1,
+  "product_checkpoint": "7d8326a454ecf6a1c190413cb9695395c8d2d5cd",
+  "native_execution_performed_for_packaging": false,
+  "recording": {
+    "duration_seconds": 170,
+    "sha256": "65a9bcaca896bc9da39a965d5c3de127c9b1f3ec7a3c801ef46eb65e84ab06e7",
+    "public_url": null
+  },
+  "cases": {
+    "broken": {
+      "location": "docs/evidence/phase10/executions/p10demo2-broken",
+      "bundle_id": "58db59fec146ed83b1a56cf422c7c9f3be02abb111a347a9cfb9273a25d49b96",
+      "run_id": "p10demo2-broken-timeout",
+      "attempt_id": "attempt1",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "profile_sha256": "668f601283e81ef470adbb4ac2e105872851d82002848f299ce949c72e621f70",
+      "fixture_mode": "ignore-unblock",
+      "builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+        "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+      },
+      "target": {
+        "machine": "x86pc",
+        "processor": "x86_64",
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "release": "8.0.0",
+        "root": "/data/resmgrcheck",
+        "uid": 0
+      },
+      "assertions": [
+        {
+          "id": "baseline_validity",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            28,
+            76,
+            43
+          ]
+        },
+        {
+          "id": "pending_precondition",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            111,
+            110,
+            112
+          ]
+        },
+        {
+          "id": "cancellation_not_completed",
+          "verdict": "FAIL",
+          "reason": "cancellation_not_completed",
+          "event_refs": [
+            114
+          ]
+        },
+        {
+          "id": "state_observation",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            122
+          ]
+        },
+        {
+          "id": "pending_state_cleanup",
+          "verdict": "FAIL",
+          "reason": "pending_state_not_released",
+          "event_refs": [
+            122
+          ]
+        },
+        {
+          "id": "state_facts",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            122
+          ]
+        },
+        {
+          "id": "fresh_client_health",
+          "verdict": "NOT_RUN",
+          "reason": "prerequisite_unavailable",
+          "event_refs": [
+            128
+          ]
+        },
+        {
+          "id": "owned_process_cleanup",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            140,
+            16,
+            31,
+            46,
+            59,
+            82,
+            84,
+            102,
+            125,
+            136,
+            138
+          ]
+        },
+        {
+          "id": "evidence_completeness",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            141
+          ]
+        },
+        {
+          "id": "target_completion_status",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": []
+        }
+      ],
+      "cleanup_ok": true,
+      "unresolved": []
+    },
+    "after": {
+      "location": "docs/evidence/phase10/executions/p10demo2-after",
+      "bundle_id": "f5a1d7c3ee52dd4cb170fe576195539aafc69ec7e53493226f5eee93de07fdc3",
+      "run_id": "p10demo2-after-timeout",
+      "attempt_id": "attempt2",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "profile_sha256": "668f601283e81ef470adbb4ac2e105872851d82002848f299ce949c72e621f70",
+      "fixture_mode": "ignore-unblock",
+      "builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "99a511d86617ab807efc3ec1ac9b4d100b8c42fec8a4c358bff908562a48078e",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+        "source_tree_sha256": "08b20033edf22f6e0427b75b754a96d8f9fcdb358b8bbea51d224a4cc9e7e041"
+      },
+      "target": {
+        "machine": "x86pc",
+        "processor": "x86_64",
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "release": "8.0.0",
+        "root": "/data/resmgrcheck",
+        "uid": 0
+      },
+      "assertions": [
+        {
+          "id": "baseline_validity",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            28,
+            76,
+            43
+          ]
+        },
+        {
+          "id": "pending_precondition",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            111,
+            110,
+            112
+          ]
+        },
+        {
+          "id": "cancellation_completion",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            119
+          ]
+        },
+        {
+          "id": "terminal_reply_observation",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            114,
+            115
+          ]
+        },
+        {
+          "id": "state_observation",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            129
+          ]
+        },
+        {
+          "id": "pending_state_cleanup",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            129
+          ]
+        },
+        {
+          "id": "state_facts",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            129
+          ]
+        },
+        {
+          "id": "fresh_client_health",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            161
+          ]
+        },
+        {
+          "id": "owned_process_cleanup",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            172,
+            16,
+            31,
+            46,
+            59,
+            82,
+            84,
+            102,
+            122,
+            136,
+            149,
+            164,
+            170
+          ]
+        },
+        {
+          "id": "evidence_completeness",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            173
+          ]
+        },
+        {
+          "id": "target_completion_status",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": []
+        }
+      ],
+      "cleanup_ok": true,
+      "unresolved": []
+    },
+    "job": {
+      "location": "docs/evidence/phase10/executions/p10demo2-job",
+      "bundle_id": "d3cc556eff8ecb945c932072db8d4789b020528f9fb48d9eca91895b3ec4fdac",
+      "run_id": "p10demo2-job-timeout",
+      "attempt_id": "attempt1",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "profile_sha256": "511cb8cc217ff0ced3df4d9ddf16e381118210845e120a59e35b205f46e6e438",
+      "fixture_mode": "corrected",
+      "builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "4dcc02efab57872cc654358b4613342bf1c8eda716954da12209ef4813bded7c",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+        "source_tree_sha256": "08b20033edf22f6e0427b75b754a96d8f9fcdb358b8bbea51d224a4cc9e7e041"
+      },
+      "target": {
+        "machine": "x86pc",
+        "processor": "x86_64",
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "release": "8.0.0",
+        "root": "/data/resmgrcheck",
+        "uid": 0
+      },
+      "assertions": [
+        {
+          "id": "baseline_validity",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            25,
+            90,
+            43
+          ]
+        },
+        {
+          "id": "pending_precondition",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            127,
+            126,
+            128
+          ]
+        },
+        {
+          "id": "cancellation_completion",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            135
+          ]
+        },
+        {
+          "id": "terminal_reply_observation",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            130,
+            131
+          ]
+        },
+        {
+          "id": "state_observation",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            145
+          ]
+        },
+        {
+          "id": "pending_state_cleanup",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            145
+          ]
+        },
+        {
+          "id": "state_facts",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            145
+          ]
+        },
+        {
+          "id": "fresh_client_health",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            178
+          ]
+        },
+        {
+          "id": "owned_process_cleanup",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            189,
+            16,
+            31,
+            46,
+            59,
+            73,
+            93,
+            95,
+            118,
+            138,
+            152,
+            166,
+            181,
+            187
+          ]
+        },
+        {
+          "id": "evidence_completeness",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": [
+            190
+          ]
+        },
+        {
+          "id": "target_completion_status",
+          "verdict": "PASS",
+          "reason": "all_obligations_satisfied",
+          "event_refs": []
+        }
+      ],
+      "cleanup_ok": true,
+      "unresolved": []
+    }
+  }
+}

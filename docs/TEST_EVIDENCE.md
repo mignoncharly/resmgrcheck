@@ -1324,3 +1324,78 @@ material remain excluded. The final source review package has independent hashes
 No candidate push, YouTube upload, terms acceptance or contest submission was
 performed. Public candidate/license/video/codelab verification and entrant fields
 must be completed after operator authorization; submission success is not claimed.
+
+
+## E017 — Portable jury review qualification
+
+**Date:** 2026-11-07. **Gate:** passed for documentation/offline packaging.
+Product checkpoint `7d8326a454ecf6a1c190413cb9695395c8d2d5cd` was verified on both
+public `main` and `implementation/phase-1` before editing. No product runtime file
+changed: source fingerprint remains
+`02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.
+This is not a new build, QNX execution, independent developer reproduction or
+fresh-guest qualification. E013–E016 native identities/results remain unchanged.
+
+[The jury guide](JURY_START_HERE.md) provides an approximately five-minute
+no-QNX route and a separate own-licensed-SDK/guest reproduction route. The latter
+covers actual CLI grammar, expected nonzero defect exits, frozen product checkout,
+recorded ten-line source correction, explicit candidate selection, original-build
+restoration, job test and release verification. It does not require the author's
+private VPS/authenticated route. Public YouTube URL remains pending verification.
+
+Dedicated ZIP: `.local/submission/jury-final/resmgrcheck-jury.zip`, 5,204,313 bytes,
+SHA-256 `3b3347113656122216bc9e24de9e49b2db11c95a009a010503288aed74192497`.
+It contains the entry HTML/Markdown, concise evidence/identity index, exact actual
+39b99d7 patch, four existing HTML reports (before/after/comparison/job), three
+complete sealed bundles and their root/case evidence/manifests, actual170s MP4/SRT,
+license, package manifest and SHA256SUMS. Reports and sealed data are byte copies,
+not new synthetic demonstrations or resealed presentation edits. All74 selected
+original files match repository bytes;78 checksums cover everything except the
+checksum file. Transport diagnostics/unrelated histories, private configuration,
+SDK/runtime images and native executables are omitted. No sealed bundle redactions.
+
+Actual commands, from the repository root:
+
+```sh
+python3 tests/jury/prepare_review.py --out .local/submission/jury-final --video .local/submission/demo2/demo.mp4
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.local/browser-binaries" .local/browser-test/bin/python tests/browser/qualify_jury.py --archive .local/submission/jury-final/resmgrcheck-jury.zip --out .local/evidence/jury-qualification-release
+python3 -m unittest discover -s tests/host -q
+```
+
+[Qualification JSON](evidence/jury-review/qualification.json) and
+[browser output](evidence/jury-review/browser-checks.txt) record:
+
+- Fresh temporary ZIP extraction, CRC and all78 SHA-256 checks passed.
+- All178 local HTML/Markdown references and fragments resolved inside extraction.
+  Explicit online source references are distinguished from offline report resources.
+- Three original seals, typed records and canonical evaluations validated; root
+  execution bindings/exits and recomputed comparison matched. Both sensor cases
+  retain profile/ignore-unblock settings and compatible target; fixture hash changed,
+  runner/worker hashes remain shared with job. A disposable tampered extracted
+  stream was rejected; original/archive evidence bytes remained unchanged.
+- Six HTML documents opened offline in24 Chromium views:1440x1000 and390x844,
+  each with JavaScript enabled and disabled. No external requests, load failures,
+  page errors or page overflow. Keyboard disclosure and event navigation (with
+  JS) passed. No-JS native details remain available. Screenshots are reviewed
+  public report/guide content; narrow assertion tables use horizontal scrolling.
+- Eight Bash blocks passed syntax checking;18 CLI commands passed current argparse
+  parsing, two actual profiles validated,13 README links/anchors checked. The
+  archived patch matches the actual39b99d7 commit and applies to the frozen runtime.
+- Video checksum matched the original recording; ffprobe confirmed170.000 seconds
+  and H.264. No video was generated, uploaded or changed in this task.
+- [All107 host tests](evidence/jury-review/host-tests.txt) passed in13.903 seconds.
+- Anonymous checks of all six pinned GitHub source links returned HTTP200;
+  GitHub detected the public baseline's MIT license. The
+  [public-source check](evidence/jury-review/public-source-check.json) preserves
+  only URLs/status/license metadata, without authentication or response headers.
+- All79 extracted files passed the explicit allowlist/content review (no ELF,
+  matched private-key/common-token signatures, private machine paths or route
+  configuration files). This is not an exhaustive secret-detection claim.
+
+No qualification check failed. Native rebuild/integration matrices, fresh guest
+setup, independent juror execution, YouTube changes/upload and Devpost submission
+were **NOT_RUN** in this task. Documentation-only changes invalidate no native
+prerequisite. The archive/MP4 stay outside Git; reviewed docs, patch/identity index,
+small qualification records/screenshots and optional packaging/browser scripts are
+intended public changes. GitHub documentation publication is explicitly authorized;
+publication verification is recorded separately after the push.

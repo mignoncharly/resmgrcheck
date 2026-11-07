@@ -1,0 +1,11 @@
+{
+  "kind": "jury-publication-content-review",
+  "schema_version": 1,
+  "files_reviewed": 27,
+  "bytes_reviewed": 1449474,
+  "findings": [],
+  "runtime_unchanged": true,
+  "historical_review_archive_unchanged": true,
+  "copied_files_match": 74,
+  "scope": "Intended staged docs/test tools only; explicit path/file-size review, ELF/private-key/common-token signatures; allowlisted jury content reviewed separately. Not an exhaustive detector."
+}

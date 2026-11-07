@@ -4,6 +4,13 @@ Test declared cancellation and client-lifecycle contracts on QNX 8.0, preserve
 native evidence, and replay the same inputs against an explicitly selected fix.
 The sensor and job examples use one generic C11 runner/worker and Python evaluator.
 
+## Start Here
+
+- [Five-minute review without QNX](docs/JURY_START_HERE.md#route-a-review-without-qnx-about-five-minutes): real before/after HTML reports, comparison, job evidence and the portable jury ZIP's 170-second demo.
+- [Complete hands-on QNX reproduction](docs/JURY_START_HERE.md#route-b-reproduce-on-qnx): your own licensed SDK/guest, build/deploy, deliberate failure, recorded source patch and candidate replay.
+- [Real QNX evidence and identities](docs/jury/EVIDENCE_INDEX.md), [full test record](docs/TEST_EVIDENCE.md), and [codelab](docs/codelab.md).
+- Final public demonstration video: **URL pending verification**. The actual MP4 is included in the offline jury package; no YouTube URL is invented.
+
 Phases 1–9 have passed their stated gates. Phase 10 local preparation is complete; see
 [current status](docs/STATUS.md) and [actual evidence](docs/TEST_EVIDENCE.md).
 The [implementation plan](docs/IMPLEMENTATION_PLAN.md) defines the gates.

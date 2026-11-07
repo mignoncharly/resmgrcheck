@@ -1,0 +1,36 @@
+{
+  "kind": "anonymous-public-source-check",
+  "schema_version": 1,
+  "source_links": [
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/KNOWN_LIMITATIONS.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/TEST_EVIDENCE.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/cli.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/codelab.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/reports.md",
+      "status": 200
+    },
+    {
+      "url": "https://github.com/mignoncharly/resmgrcheck/blob/7d8326a/docs/setup-qnx.md",
+      "status": 200
+    }
+  ],
+  "license": {
+    "url": "https://github.com/mignoncharly/resmgrcheck/blob/main/LICENSE",
+    "status": 200,
+    "spdx_id": "MIT"
+  },
+  "authenticated": false
+}

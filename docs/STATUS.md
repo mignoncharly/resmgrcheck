@@ -11,8 +11,9 @@ Updated:2026-11-07. Branch:implementation/phase-1.
 | Phase9 | Passed9020e1e/E015: clean source/reused-target workflow,58 native IDs,36 exact release expectations,106 clean host tests |
 | Report follow-up |107 host tests/four browser views; preserves known FAIL with withheld NOT_RUN cycles; native/build/engine equivalence recorded |
 | Phase10 | Local preparation complete E016: actual170s video, native evidence, source/codelab/evidence map, submission/release copy and review package |
-| Submission-ready | No: public candidate/video/codelab verification and operator fields pending |
-| Published/submitted | Completed candidate not pushed/uploaded; no submission confirmation |
+| Jury review | E017: dedicated offline ZIP, two-route guide, 24 browser views/178 local references/78 checksums/3 sealed bundles; 107 host tests passed; no native rebuild |
+| Submission-ready | No: verified final public video URL, operator fields and final submission review pending |
+| Published/submitted | Product checkpoint7d8326a verified on public main and implementation/phase-1; jury documentation publication authorized in this task; video/submission pending |
 | Technical blocker | None |
 
 The existing QNX8.0.0 x86_64/x86pc KVM guest, installed licensed SDP and local
@@ -49,7 +50,13 @@ Four Phase9 source-before/after histories and current demo runs remain on target
 Older archived IDs require their committed/local copies; missing status is not PASS.
 Keep credentials, SDK/images/binaries and machine configuration outside Git.
 
-Next authorized work is operator review of the local package. Public push/video
-upload, entrant attestations and submission need separate authorization/action.
-See docs/submission/publication-handoff.md and readiness.json. Do not invent URLs,
-accept terms or claim publication/submission without observing them.
+The jury entry point is docs/JURY_START_HERE.md. The portable archive is
+.local/submission/jury-final/resmgrcheck-jury.zip; E017 records its checksum and
+exact scope. It contains the actual170s video, unchanged before/after/job reports,
+comparison and evidence. A juror needs no private VPS access for offline review;
+reproduction requires their own licensed SDK and compatible lab.
+
+This task authorizes the reviewed documentation commit's GitHub publication only.
+Video upload/channel changes, entrant attestations and Devpost submission remain
+outside scope. See docs/submission/publication-handoff.md. The historical E016
+readiness snapshot predates product publication; it is preserved as evidence.
