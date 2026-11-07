@@ -5,7 +5,7 @@
 typedef struct {
     pid_t pid;
     int owned,reaped,status,reported,expected_stop;
-    unsigned termination_mask;
+    unsigned termination_mask,cycle;
     const char *producer,*operation;
     int fd,bad,eof;
     size_t used;

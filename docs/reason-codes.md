@@ -54,3 +54,26 @@ failure followed by a sink or cleanup error retains both reasons. Successful
 separate lab recovery never erases original cleanup failure, releases quarantine,
 or supplies original-instance health. See E009 and the exact per-case reason sets
 in evidence/phase4/index.json.
+
+Phase 5 extends the same evaluator vocabulary:
+
+| Code | Meaning / class |
+| --- | --- |
+| departure_unobserved | ERROR: exact owned worker's forced termination/reap was not observed within its original bound; successful kill alone is insufficient |
+| ocb_lifetime_unestablished | ERROR: required shared-descriptor/default/final OCB callback ordering is missing or inconsistent |
+| duplicate_terminal_attempt | FAIL: more than one terminal attempt for the same logical request/generation, including a rejected second call |
+| stale_notification_unsafe | FAIL: saved obsolete notification still matches a live logical request; missing observation is ERROR |
+| stale_result | FAIL: distinct fresh request received forbidden/old result; missing result is ERROR |
+| unmatched_notification_unsafe | FAIL: observed unmatched-control cancellation violates the protocol; missing precondition is ERROR |
+| ordering_unestablished | ERROR: required barrier/order or normal-result-before-trigger cannot be established |
+| ordering_incomplete | required directed-order checks withheld or incomplete; never PASS |
+| counter_reset | FAIL: observed repeat unblock counter does not preserve same-instance continuity |
+| repetition_incomplete | required cycle coverage incomplete; earlier PASS/FAIL/ERROR and later NOT_RUN remain visible |
+| cycle_cleanup_unestablished | ERROR: cycle worker cleanup missing/inconsistent |
+| prior_cycle_contaminated | NOT_RUN: prior cycle left forbidden pending/state; no further service operation allowed |
+| prior_cycle_incomplete | NOT_RUN: prior cycle has unknown state or infrastructure error |
+| baseline_unestablished | NOT_RUN: repeat baseline failed before cycles could begin |
+
+A known retained-state failure with later NOT_RUN cycles is overall FAIL/aborted;
+an infrastructure or cleanup error makes the overall result ERROR/incomplete while
+retaining earlier service FAILs. Separate recovery cannot complete original coverage.

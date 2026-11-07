@@ -7,8 +7,8 @@ typedef struct {
     const rmc_adapter_v1 *adapter;
     const char *mode, *path, *scenario;
     unsigned setup_ms, operation_ms, cancellation_ms, probe_ms, execution_ms, cleanup_ms;
-    unsigned required_caps;
-    int external, signal_unsupported;
+    unsigned required_caps,cycles;
+    int external, signal_unsupported,extended;
 } rmc_plan;
 int json_tree(const cJSON *value, unsigned depth);
 int json_keys(const cJSON *object, const char *keys);

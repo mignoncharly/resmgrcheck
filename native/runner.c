@@ -13,10 +13,11 @@
 #include <ctype.h>
 
 extern char **environ;
-#define MAX_EVENTS 256
-#define MAX_CHILDREN 16
+#define MAX_EVENTS 4096
+#define MAX_CHILDREN 256
 static rmc_child children[MAX_CHILDREN];
-static unsigned child_count,count;
+static unsigned child_count,count,current_cycle=1;
+static int observe_service_errors;
 static cJSON *events[MAX_EVENTS];
 static int evidence_error,run_error,in_cleanup;
 static uint64_t execution_end;
@@ -44,7 +45,10 @@ static int status_snapshot(const char *state,int clean,int code) {
         cJSON *o=json_object();add_decimal(o,"pid",children[i].pid);add_string(o,"role",children[i].producer);
         if (!cJSON_AddItemToArray(list,o)) _exit(120);
     }
+    char saved_cycle[16];snprintf(saved_cycle,sizeof(saved_cycle),"%u",current_cycle);
+    if (setenv("RMC_CYCLE","1",1)) _exit(120);
     int ok=rmc_status_write(&plan,state,clean,code,list);
+    if (setenv("RMC_CYCLE",saved_cycle,1)) _exit(120);
     if (!ok) problem("status_write_failed",NULL,errno);
     return ok;
 }
@@ -108,11 +112,11 @@ static void receive_line(rmc_child *c) {
         !json_string(o,"kind") || strcmp(json_string(o,"kind"),"producer-event") || !json_integer(o,"schema_version",1,1,NULL)) goto invalid;
     const char *ids[]={"run_id","case_id","attempt_id","service_instance_id"};
     for (unsigned i=0;i<4;++i) if (!json_string(o,ids[i]) || strcmp(json_string(o,ids[i]),json_string(plan.root,ids[i]))) goto invalid;
-    if (!json_integer(o,"cycle",1,200,NULL) || cJSON_GetObjectItemCaseSensitive(o,"cycle")->valueint!=cJSON_GetObjectItemCaseSensitive(plan.root,"cycle")->valueint ||
-        !decimal_field(o,"pid") || !decimal_field(o,"ns") || !json_integer(o,"seq",1,2048,NULL) || field(o,"pid")!=c->pid ||
+    if (!json_integer(o,"cycle",1,(int)plan.cycles,NULL) || (!strcmp(c->producer,"worker") && (unsigned)cJSON_GetObjectItemCaseSensitive(o,"cycle")->valueint!=c->cycle) ||
+        !decimal_field(o,"pid") || !decimal_field(o,"ns") || !json_integer(o,"seq",1,4096,NULL) || field(o,"pid")!=c->pid ||
         !json_string(o,"producer") || strcmp(json_string(o,"producer"),c->producer) || field(o,"seq")!=c->last_seq+1 || field(o,"ns")<c->last_ns ||
         !rmc_producer_payload(o,plan.adapter)) goto invalid;
-    if (count==MAX_EVENTS) { cJSON_Delete(o);bad_source(c,"evidence_capacity_exceeded");return; }
+    if (count==(plan.cycles>1 ? MAX_EVENTS : plan.extended ? 1024U : 256U)) { cJSON_Delete(o);bad_source(c,"evidence_capacity_exceeded");return; }
     ++c->last_seq;c->last_ns=field(o,"ns");events[count++]=o;json_write(o);c->used=0;return;
  invalid:
     cJSON_Delete(o);bad_source(c,"evidence_invalid");
@@ -151,12 +155,13 @@ static void pump(uint64_t deadline) {
     }
 }
 static rmc_child *spawn_child(int fixture,const char *operation) {
-    if (child_count==MAX_CHILDREN) { problem("worker_start_failed",NULL,0);return NULL; }
+    if (child_count==(plan.cycles>1 ? MAX_CHILDREN : plan.extended ? 64U : 16U)) { problem("worker_start_failed",NULL,0);return NULL; }
     const char *binary=fixture ? plan.adapter->fixture_binary : "worker";
     char exe[1200];snprintf(exe,sizeof(exe),"%s/%s",directory,binary);
     if (!fixture && rmc_lab_is("worker_start_failed")) snprintf(exe,sizeof(exe),"%s/missing-worker",directory);
     int pipefd[2];if (pipe2(pipefd,O_CLOEXEC|O_NONBLOCK)) { problem("worker_start_failed",NULL,errno);return NULL; }
-    char *args[]={exe,fixture ? service_path : (char *)plan_path,(char *)operation,NULL};
+    char cycle_value[16];snprintf(cycle_value,sizeof(cycle_value),"%u",current_cycle);
+    char *args[]={exe,fixture ? service_path : (char *)plan_path,(char *)operation,fixture ? NULL : cycle_value,NULL};
     posix_spawn_file_actions_t actions;int error=posix_spawn_file_actions_init(&actions);
     if (error) { close(pipefd[0]);close(pipefd[1]);problem("worker_start_failed",NULL,error);return NULL; }
     error=posix_spawn_file_actions_adddup2(&actions,pipefd[1],STDOUT_FILENO);
@@ -166,7 +171,7 @@ static rmc_child *spawn_child(int fixture,const char *operation) {
     if (!error) error=posix_spawn(&c->pid,exe,&actions,NULL,args,environ);
     posix_spawn_file_actions_destroy(&actions);close(pipefd[1]);
     if (error) { close(pipefd[0]);problem("worker_start_failed",NULL,error);return NULL; }
-    c->owned=1;c->fd=pipefd[0];c->producer=fixture ? "fixture" : "worker";c->operation=operation;c->spawned_ns=mono_ns();++child_count;
+    c->cycle=current_cycle;c->owned=1;c->fd=pipefd[0];c->producer=fixture ? "fixture" : "worker";c->operation=operation;c->spawned_ns=mono_ns();++child_count;
     event("supervisor","spawned","binary=%s child_pid=%ld operation=%s",binary,(long)c->pid,operation);
     status_snapshot("running",0,-1);return c;
 }
@@ -198,13 +203,13 @@ static int worker(const char *op,int *index_out) {
     await_child(c,end);
     event("supervisor","wait_bound","child_pid=%ld operation=%s deadline_ns=%" PRIu64 " timed_out=%d",(long)c->pid,op,end,c->owned && !c->reaped);
     if (c->owned && !c->reaped) problem((!strcmp(op,"ready") || !strcmp(op,"health") || !strcmp(op,"state")) ? "probe_timeout" : "worker_timeout",c,0);
-    int result=find_event(c->pid,(!strcmp(op,"normal") || !strcmp(op,"message") || !strcmp(op,"health") || !strcmp(op,"negative")) ? "result" : "control_result",after);
+    int result=find_event(c->pid,(!strcmp(op,"normal") || !strcmp(op,"message") || !strcmp(op,"health") || !strcmp(op,"negative") || !strcmp(op,"dup") || !strcmp(op,"health_next")) ? "result" : "control_result",after);
     if (index_out) *index_out=result;
     if (find_event(c->pid,"open_error",after)>=0) problem("service_unavailable",c,0);
     if (!run_error && (result<0 || !c->reaped || !WIFEXITED(c->status) || WEXITSTATUS(c->status))) {
         int closed=find_event(c->pid,"closed",after);
         if (closed>=0 && field(events[closed],"rc")==-1) problem("worker_close_failed",c,(int)field(events[closed],"error"));
-        else problem(result<0 ? "evidence_incomplete" : "worker_exit_failed",c,c->status);
+        else if (!(observe_service_errors && result>=0 && named(events[result],"control_result") && field(events[result],"error")>0)) problem(result<0 ? "evidence_incomplete" : "worker_exit_failed",c,c->status);
     }
     return !run_error;
 }
@@ -215,8 +220,8 @@ static void signal_owned(rmc_child *c,int sig) {
     if (rc==1) { reap_all();return; }
     event("supervisor","signal_sent","child_pid=%ld signal=%d rc=%d error=%d",(long)c->pid,sig,rc,error);
     if (error==ECHILD) problem("ownership_unknown",c,error);
-    else if (rc<0 && error!=ESRCH) problem(sig==SIGUSR1 ? "scenario_trigger_failed" : "cleanup_signal_failed",c,error);
-    else if (rc<0 && sig==SIGUSR1) problem("scenario_trigger_failed",c,error);
+    else if (rc<0 && error!=ESRCH) problem(in_cleanup ? "cleanup_signal_failed" : "scenario_trigger_failed",c,error);
+    else if (rc<0 && !in_cleanup) problem("scenario_trigger_failed",c,error);
     reap_all();
 }
 static int cleanup(rmc_child *fixture,rmc_child *timed) {
@@ -248,7 +253,7 @@ static int cleanup(rmc_child *fixture,rmc_child *timed) {
 /* A named fault injector is a separately owned child, not an inferred external
  * monitor. Unexpected fixture exit is always interference; actor stays unknown. */
 static void manager_injection(rmc_child *fixture) {
-    if (child_count==MAX_CHILDREN) { problem("worker_start_failed",NULL,0);return; }
+    if (child_count==(plan.cycles>1 ? MAX_CHILDREN : plan.extended ? 64U : 16U)) { problem("worker_start_failed",NULL,0);return; }
     rmc_child *c=&children[child_count];pid_t pid=fork();
     if (pid==0) _exit(kill(fixture->pid,SIGTERM)==0 ? 0 : 2);
     if (pid<0) { problem("worker_start_failed",NULL,errno);return; }
@@ -282,6 +287,8 @@ static void lab_recovery(void) {
     if (fd>=0 && s) { size_t n=strlen(s);(void)write(fd,s,n);(void)write(fd,"\n",1);(void)fsync(fd);close(fd); }
     cJSON_free(s);cJSON_Delete(root);
 }
+#include "common/scenario_v1.h"
+
 static int identifier(const char *s) {
     if (!s || !*s || strlen(s)>64 || !isalnum((unsigned char)*s)) return 0;
     for (;*s;++s) if (!isalnum((unsigned char)*s) && *s!='_' && *s!='-') return 0;
@@ -310,7 +317,7 @@ int main(int argc,char **argv) {
         if (detached>0) { cJSON_Delete(plan.root);return 0; }
     }
     int recovery_fd=rmc_is_persistent() ? rmc_run_file("recovery.jsonl") : -1;
-    rmc_journal_start();rmc_manifest(&plan);
+    rmc_journal_limits(plan.cycles,plan.extended);rmc_journal_start();rmc_manifest(&plan);
     event("supervisor","lab_control","name=%s",lab);
     if (persist) event("supervisor","run_storage","run_id=%s",json_string(plan.root,"run_id"));
     int early=0;
@@ -333,6 +340,9 @@ int main(int argc,char **argv) {
     if (rmc_lab_is("service_unavailable")) { signal_owned(fixture,SIGTERM);await_child(fixture,mono_ns()+500000000ULL); }
     if (rmc_lab_is("manager_interference")) { manager_injection(fixture);goto done; }
     if (rmc_lab_is("readiness_blocked")) { int e;int r=kill(fixture->pid,SIGSTOP);e=r<0 ? errno : 0;event("supervisor","signal_sent","child_pid=%ld signal=%d rc=%d error=%d",(long)fixture->pid,SIGSTOP,r,e); }
+    if (plan.extended) {
+        flow_complete=extended_scenario(fixture,&timed);goto done;
+    }
     if (!worker("ready",NULL) || !worker("normal",NULL) || !worker("message",NULL)) goto done;
     if ((plan.adapter->capabilities & RMC_CAP_ERROR_PROBE) && !worker("negative",NULL)) goto done;
     if (!worker("hold",NULL)) goto done;
@@ -372,6 +382,7 @@ int main(int argc,char **argv) {
     flow_complete=1;
  done:
     if (!flow_complete && !run_error) problem(mono_ns()>=execution_end ? "case_deadline" : "precondition_not_established",NULL,0);
+    current_cycle=1;if (setenv("RMC_CYCLE","1",1)) _exit(120);
     cleaned=cleanup(fixture,timed);
  finish:
     if (persist && !rmc_journal_sink_error() && fsync(STDOUT_FILENO)) rmc_journal_sink_failed(errno);

@@ -1,0 +1,57 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "sensor-repeat",
+  "version": 1,
+  "adapter": {
+    "id": "sensor-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "managed-fixture",
+    "device": "/dev/resmgrcheck-sensor"
+  },
+  "operation": {
+    "id": "sample",
+    "parameters": {},
+    "result_shape": "integer-record",
+    "convention": "errno"
+  },
+  "capabilities": {
+    "required": [
+      "pending",
+      "unblock",
+      "state",
+      "release",
+      "health",
+      "timeout",
+      "repeat"
+    ],
+    "optional": []
+  },
+  "expectations": {
+    "cancel_error": "ETIMEDOUT",
+    "pending_after": 0,
+    "require_unblock": true,
+    "health": {
+      "value": 42
+    },
+    "state_after": {}
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "repeat"
+    ],
+    "optional": [],
+    "cycles": 20,
+    "reset": "same-instance"
+  }
+}

@@ -21,7 +21,8 @@ class Evidence:
             try:
                 require(len(line)<=MAX_FRAME,'oversize')
                 d=ProducerEvent.parse(loads(line,MAX_FRAME)).data
-                require(all(d[k]==plan.data[k] for k in IDENTITY.split()),'cross-run event')
+                require(all(d[k]==plan.data[k] for k in IDENTITY.split() if k!='cycle' or plan.data['case_id']!='repeat'),'cross-run event')
+                require(1<=d['cycle']<=plan.profile.data['suite']['cycles'],'event cycle')
                 key=(d['producer'],d['pid']);seq,ns=seen.get(key,(0,-1))
                 require(d['seq']==seq+1 and int(d['ns'])>=ns,'sequence/time')
                 seen[key]=(d['seq'],int(d['ns']))
@@ -31,7 +32,7 @@ class Evidence:
             except (Invalid,KeyError,TypeError,ValueError,OverflowError):
                 self.read_error='evidence_invalid';break
         self.supervisors=supervisors
-        self.spawned={};self.child_producers={}
+        self.spawned={};self.child_producers={};self.spawn_cycles={}
         controls=self.select('lab_control')
         self.lab_control=controls[0]['data']['name'] if len(controls)==1 else 'none'
         for d in self.select('spawned'):
@@ -41,10 +42,11 @@ class Evidence:
             elif binary==plan.profile.registration.fixture:producer='fixture'
             elif binary=='lab-manager' and self.lab_control in {'manager_interference','manager_pending'}:producer='manager'
             else:self.read_error='evidence_invalid';continue
-            self.spawned[child]=d['data']['operation'];self.child_producers[child]=producer
+            self.spawned[child]=d['data']['operation'];self.child_producers[child]=producer;self.spawn_cycles[child]=d['cycle']
         for d in self.events:
             if d['producer']!='supervisor':
                 if d['pid'] not in self.spawned or d['producer']!=self.child_producers[d['pid']]:self.read_error='evidence_invalid'
+                if d['producer']=='worker' and d['cycle']!=self.spawn_cycles.get(d['pid']):self.read_error='evidence_invalid'
                 if d['event']=='started' and d['data']['operation']!=self.spawned.get(d['pid']):self.read_error='evidence_invalid'
         exits=self.select('process_exit');exit_ids=[d['data']['child_pid'] for d in exits]
         if len(set(exit_ids))!=len(exit_ids) or any(pid not in self.spawned for pid in exit_ids):self.read_error='evidence_invalid'
@@ -64,9 +66,9 @@ class Evidence:
               'case_ms':plan.profile.timing.execution_ms,'cleanup_ms':plan.profile.timing.cleanup_ms}
             if settings and (len(settings)!=1 or settings[0]['data']!=expected_settings):self.read_error='evidence_invalid'
 
-    def select(self,name,*,producer=None,operation=None,pid=None):
+    def select(self,name,*,producer=None,operation=None,pid=None,cycle=None):
         return [d for d in self.events if d['event']==name and (producer is None or d['producer']==producer)
-          and (operation is None or d['data'].get('operation')==operation) and (pid is None or d['pid']==pid)]
+          and (operation is None or d['data'].get('operation')==operation) and (pid is None or d['pid']==pid) and (cycle is None or d['cycle']==cycle)]
     def refs(self,records):return [self.index[id(d)] for d in records]
 
 
@@ -102,6 +104,9 @@ def evaluate(plan,raw):
         valid=len(ev.select('unsupported'))==1 and not ev.spawned and not structural and len(cleanup)==1 and cleanup[0]['data']=={'all_reaped':1,'evidence_error':0} and final and final['data']['cleanup_ok']==1
         assertion(('required_capability_missing' if required-set(ev.manifest['capabilities']) else 'signal_mode_unsupported' if bad_signal_mode else 'service_mode_unsupported') if valid else 'capability_preflight','UNSUPPORTED' if valid else 'ERROR',ev.select('unsupported'))
         if valid:assertion('evidence_completeness','PASS',[final]);result['completion']='complete'
+    elif plan.data['case_id'] not in {'timeout','signal'}:
+        from .scenarios import evaluate_family
+        return evaluate_family(plan,ev,result)
     else:
         expected=plan.profile.data['expectations'];timing=plan.profile.timing
         baselines=ev.select('result',operation='normal')+ev.select('result',operation='message')
@@ -156,8 +161,9 @@ def evaluate(plan,raw):
                 assertion('signal_handler_observation','PASS' if handler_ok else 'ERROR',handlers)
             terminal=[d for d in ev.select('cancel_completed') if all(d['data'][k]==pending[0]['data'][k] for k in ('logical','generation'))]
             removed=[d for d in ev.select('removed') if all(d['data'][k]==pending[0]['data'][k] for k in ('logical','generation')) and d['data']['reason']=='cancellation']
-            good_terminal=len(terminal)==len(removed)==1 and terminal[0]['data']['rc']>=0 and terminal[0]['data']['error']==0 and removed[0]['data']['pending']==0
-            assertion('terminal_reply_observation','PASS' if good_terminal else 'ERROR',terminal+removed)
+            retained=[d for d in ev.select('retained_request') if all(d['data'][k]==pending[0]['data'][k] for k in ('logical','generation'))]
+            good_terminal=len(terminal)==1 and terminal[0]['data']['rc']>=0 and terminal[0]['data']['error']==0 and ((len(removed)==1 and removed[0]['data']['pending']==0) or len(retained)==1)
+            assertion('terminal_reply_observation','PASS' if good_terminal else 'ERROR',terminal+removed+retained)
         states=ev.select('control_result',operation='state')
         if baseline_ok and established:
             state_good=len(states)==1 and states[0]['data']['error']==0 and states[0]['data']['generation']==pending[0]['data']['generation']
@@ -185,6 +191,10 @@ def evaluate(plan,raw):
           (pid in exits and exits[pid]['exited']==1 and exits[pid]['exit_code']==finals[pid]['data']['exit_code']) or
           (pid not in exits and finals[pid]['data']['exit_code']==0 and statuses[pid]==0)) for pid in natural)
         evidence_complete=not structural and final and final['data']['evidence_error']==0 and natural_good
+        groups={}
+        for d in ev.select('terminal_attempt'):groups.setdefault((d['data']['logical'],d['data']['generation']),[]).append(d)
+        duplicate=[d for rows in groups.values() if len(rows)>1 for d in rows]
+        if duplicate:assertion('duplicate_terminal_attempt','FAIL',duplicate)
         assertion('evidence_completeness','PASS' if evidence_complete else 'ERROR',[final] if final else [])
         if final and final['data']['flow_complete']!=1:
             assertion('scenario_execution','NOT_RUN' if ev.problems or structural else 'ERROR',[final])

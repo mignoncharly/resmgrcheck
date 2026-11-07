@@ -1,0 +1,26 @@
+[
+  {
+    "case": "cycles",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "reset",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "cycle-id",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  },
+  {
+    "case": "case",
+    "exit": 2,
+    "empty_stdout": true,
+    "no_run_storage": true
+  }
+]

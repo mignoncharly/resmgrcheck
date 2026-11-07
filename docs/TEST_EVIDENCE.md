@@ -666,3 +666,146 @@ Phase 5 remains in progress: client departure, same-instance repetition and dire
 ordering still require their native matrices. The signal subgate and the affected
 supervision/timeout prerequisites are passed; this does not declare the Phase 5
 exit gate complete.
+
+## E011: Complete Phase 5 native lifecycle, repeat and directed-order gate
+
+**Date:** 2026-11-07. **Outcome:** full Phase 5 exit gate PASS. This is checker
+qualification: deliberately defective service runs retain FAIL and infrastructure
+controls retain ERROR. It is not a claim that all forty service runs passed.
+
+Started from clean 26c32232b632eecabfa39867075a830209c1d6de, preserving the existing
+QNX installation/VM/authentication. The final precommit run is p5gate2: base revision
+26c3223, dirty=true, exact source digest
+61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370.
+Do not relabel this run with a later commit. A clean committed-source confirmation
+is recorded separately below. All native assertions here derive from actual
+QNX execution; altered host-test vectors are explicitly synthetic.
+
+Commands executed with the installed environment:
+
+```
+source /home/mignon/qnx800/qnxsdp-env.sh
+make qnx
+python3 -m unittest discover -s tests/host -q
+python3 tests/qnx/qualify-phase5.py --prefix p5gate2
+```
+
+The real qcc gcc_ntox86_64/C11 warning-as-error build succeeded. Runtime IFS digest
+remains 6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f.
+The four deployed executables were independently downloaded through SFTP and their
+SHA256 matched the local build and manifest declarations:
+
+| Artifact | SHA256 |
+| --- | --- |
+| Common runner | 3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55 |
+| Common worker / statically linked adapters | 420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8 |
+| Sensor fixture | 822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3 |
+| Job fixture | 377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967 |
+
+Reviewed text in `evidence/phase5/` includes index, commands, exact plans, native
+manifest/producer streams, original status, results, stderr, independent recovery,
+input rejections, inventories and build/host-test logs. Binaries and machine-local
+configuration remain ignored. The lab is the same QNX8.0.0 x86_64 KVM guest, one
+CPU/1GiB. No server-monitor/slm was observed. No unrelated host service changed.
+
+### Complete matrix and explicit coverage
+
+40 native cases completed with exact expected verdict/reason sets: **12 PASS,
+19 FAIL, 6 ERROR, 3 UNSUPPORTED**. The longest measured host case was 14.94s (a
+20-cycle run), below its declared outer bound. All owned processes were reaped
+except the deliberately failed *original* cleanup controls, whose separate
+same-parent recovery was observed and preserved without changing original status.
+No residual project process was present in the final inventory.
+
+- Both fixed services: normal ordinary-API, MsgSendv, duplicated-FD and actual
+  deferred-release baselines; timeout; non-restart signal; forced departure;
+  20 repeated timeouts; completion-first and cancellation-first all PASS.
+- Timeout ignore-unblock retains cancellation_not_completed and
+  pending_state_not_released FAILs. Retained-waiter and duplicate-terminal controls
+  retain their specific FAILs. Signal ignore-unblock retains both prior FAILs.
+- Departure retained-waiter FAILs pending_state_not_released on both services;
+  job drop-job independently FAILs unexpected_service_state and
+  unexpected_operation_result (fresh retrieval/control error observed).
+- Departure ignore-unblock is **ERROR/departure_unobserved** on both. The exact
+  SIGKILL syscall succeeded, but no reap occurred within the original bound.
+  Later fixture cleanup allowed reaping; this does not prove earlier death or
+  original-instance health, which stays NOT_RUN.
+- Each corrected repeat has20 PASS cycles. Retain-third has PASS/PASS/FAIL followed
+  by17 NOT_RUN. Ignore-unblock has1 FAIL and19 NOT_RUN. The cycle-two blocked state
+  probe has PASS/ERROR and18 NOT_RUN. Failed final cleanup retains first-cycle FAIL,
+ 19 NOT_RUN and independent cleanup_failed ERROR. Across10 repeat runs, all200
+  requested cycles are explicit:46 PASS /6 FAIL /2 ERROR /146 NOT_RUN.
+- Both directed-order families' duplicate-terminal controls FAIL
+  duplicate_terminal_attempt. The observed second MsgError returned -1/error3;
+  this proves a duplicate attempt rejected by QNX, not double-delivered replies.
+- Automatic-restart signal requests are UNSUPPORTED on both services. Sensor
+  error-probe is UNSUPPORTED/required_capability_missing. No fixture is spawned.
+- Native input rejection for cycles21, repeat reset new-instance, aggregate cycle2
+  and case/profile mismatch returned2, empty stdout and no persistent run storage.
+
+### Departure and OCB lifetime observations
+
+The exact worker duplicates a descriptor, closes the original, enters an untimed
+prepared MsgSendv, and is confirmed pending before SIGKILL9. Native wait macros
+record actual signal9 termination and reap within the bound for both corrected
+fixtures. For the linked OCB, actual records show two close_dup callbacks/default
+returns, then one final close_ocb/default return; every default returned0. The
+first descriptor close precedes pending, the final close follows the trigger.
+No post-free OCB access is used; pending references are cleared before final free.
+Both observed close receive IDs were **nonzero**. The synthetic rcvid0 branch is
+guarded/delegated and its marker is validated, but was not observed in these runs.
+
+Public pending returns0. Without fixture restart, a fresh client reads value42
+from the sensor. The job remains job_exists1/job_ready0 after waiter departure;
+release completes it and a fresh client retrieves job1/value420. The retained-job
+fact is distinct from leaked waiters. Stored PIDs never authorize cleanup.
+
+### Repetition and ordering observations
+
+One fixture readiness and PID per repeat;20 distinct operation workers, independent
+fresh health workers, no service reset. Unblock counters progress1..20 and
+request generations3..22; pending0 and exact state/health facts at each cycle.
+Every attempted cycle records precondition/timer/result/state/health and observed
+worker reaping. Unknown-state cycle-end pending placeholders are marked
+state_observed0 and do not become adapter observations. Later cycles never touch
+contaminated service state. No memory usage was measured; no memory-leak claim.
+
+Completion-first queues a genuine kernel unblock at an explicit barrier, then
+replies normally before cancellation commits. Cancellation-first observes the
+interrupted result before the release worker starts. The evaluator requires
+linked barrier/control-start/terminal/result ordering, rather than mere case names.
+Complete-first additionally observes a normal result before SIGUSR1 is requested
+against a still-live worker. Signal-handler observations are separate from send
+success. Saved notifications are checked with current MsgInfo/flags and immutable
+owner/logical/generation data while a new generation is pending. New values43/421
+prove stale42/420 cannot satisfy the fresh request. A separate parked devctl
+receives a real unmatched kernel unblock and completes EINTR after owner checks.
+These are two directed orders plus specific obsolete/unmatched paths, not exhaustive
+concurrency or arbitrary receive-ID reuse coverage.
+
+### Affected prerequisites and host negatives
+
+Phase5 changed the child ledger, bounded event/journal capacities and both close
+callbacks, so14 affected supervision checks were rerun using
+`qualify-phase4.py --prefix p5reg1` with crash/readiness/health/malformed/truncated/
+capacity/channel/sink/manager_pending/fixture_sink/cleanup/dependent/ownership/
+owned_dep. Every exact expected reason set passed. Text is in
+`evidence/phase5-lifecycle-supervision/`; it accurately retains the preceding
+source digest875899fa... (same native binary hashes), before the final evaluator's
+additional required barrier assertion. Phases1–3 and unaffected full-storage/
+target-loss/SSH prerequisites were not repeated. Legacy capacity limits remain
+unchanged; actual extended repeat streams fit the declared larger bounds.
+
+63 host tests pass. New checks re-evaluate every actual gate vector and mutate
+wait status, callback defaults, synthetic markers, counters, barriers, stale
+matching/payloads and missing unmatched notifications. Profile reset/cycle/case/
+distinct-result checks reject invalid input. Generic scenario/evaluator sources
+contain no service-name conditions. Host mutations establish validation behavior,
+not new native claims. Failed experiments p5d1–p5d4/p5gate1 remain local debug
+records and are not substituted for this final gate.
+
+The small target filesystem accumulated duplicate journal/debug logs. Completed
+debug-run log copies were archived locally with per-file POSIX cksum/length checks
+and SHA256 before removing only those log copies; run-status/duplicate guards were
+retained. Final p5gate2 gate records were preserved. SDK, original images and
+credentials were neither removed nor recreated.

@@ -6,7 +6,7 @@ static const char *control="none";
 int rmc_lab_set(const char *name) {
     const char *valid[]={"none","worker_stuck","worker_crash","worker_start_failed","service_unavailable",
         "readiness_blocked","health_blocked","malformed","truncated","oversize","event_overflow","channel_full",
-        "sink_unavailable","sink_quota","cleanup_failure","ownership_lost","manager_interference","manager_pending","late_malformed","fixture_evidence_loss"};
+        "sink_unavailable","sink_quota","cleanup_failure","ownership_lost","manager_interference","manager_pending","late_malformed","fixture_evidence_loss","cycle_probe_stuck"};
     for (unsigned i=0;i<sizeof(valid)/sizeof(valid[0]);++i) if (!strcmp(name,valid[i])) {
         control=valid[i];return setenv("RMC_LAB_CONTROL",control,1)==0;
     }
@@ -20,6 +20,10 @@ void rmc_lab_worker(const char *role) {
     if (!rmc_lab_set(env)) _exit(121);
     int initial=!strcmp(role,"normal");
     int diagnostic=!strcmp(role,"state");
+    if (diagnostic && rmc_lab_is("cycle_probe_stuck") && getenv("RMC_CYCLE") && !strcmp(getenv("RMC_CYCLE"),"2")) {
+        event("worker","lab_injection","name=cycle_probe_stuck operation=state");
+        for (;;) nanosleep(&(struct timespec){.tv_sec=1},NULL);
+    }
     if ((rmc_lab_is("worker_stuck") || rmc_lab_is("worker_crash")) && initial) {
         event("worker","lab_injection","name=%s operation=%s",control,role);
         if (rmc_lab_is("worker_crash")) { struct rlimit limit={0,0};setrlimit(RLIMIT_CORE,&limit);raise(SIGSEGV); _exit(121); }

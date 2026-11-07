@@ -33,10 +33,9 @@ Control facts and result facts are exact registered key sets in profiles. Native
 pids/rcvids/timestamps use decimal JSON strings in observations.
 
 Capabilities: pending, unblock, state, release, health, timeout, signal, departure,
-error-probe. The last three do not imply supported scenarios merely by being known
-IDs. Current services declare pending/unblock/state/release/health/timeout/signal; only
-the job adapter declares error-probe. Non-restart signal interruption is qualified
-in E010; departure remains unqualified.
+repeat, ordering and error-probe. Both reviewed adapters implement all six native
+families (E011); only the job adapter supplies error-probe. Known capability names
+alone never imply implemented/qualified coverage.
 Missing required capabilities produce native preflight and host UNSUPPORTED,
 with no service process launch. Absence of a pending observer cannot be replaced
 with a delay or a long-looking call.
@@ -71,7 +70,7 @@ Waiter cancellation uses the same reviewed default-unblock/live-owner checks as
 the sensor. It removes only the pending waiter. Job existence/readiness remains
 observable separately. The profile requires job_exists=1 and job_ready=0 after
 cancellation; generic release then completes that retained job and a fresh client
-retrieves job_id=1/value=420. This is not yet the full client-departure suite.
+retrieves job_id=1/value=420. E011 also proves job survival after forced waiter departure.
 
 The adapter's ordinary path uses devctl and interprets its returned error value,
 not errno. Its timed path builds _IO_DEVCTL with installed io_devctl_t, separate
@@ -97,9 +96,8 @@ fresh run IDs and output files. A meaningful adapter qualification requires real
 QNX baselines, confirmed pending cancellation, post-state and new-client results,
 plus negative/error/capability validation. See E007 for actual commands/artifacts.
 
-External attach, multiple-job scheduling/consumption policies, dynamic adapters,
-departure/repetition/ordering coverage and application transport commands remain later
-scope. Adding a service with a different operation requires an adapter, registered
+External attach, multiple-job scheduling/consumption policies, dynamic adapters
+and application transport commands remain later scope. Adding a service with a different operation requires an adapter, registered
 typed facts and real observation hooks; it is not automatically supported by a
 new device path alone.
 
@@ -119,4 +117,20 @@ their current live-owned-unblock MsgError(-1) path; actual results were -1/errno
 and [sigaction flags](https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.lib_ref/topic/s/sigaction_struct.html).
 E010 retains both normal results and specific ignored-unblock failures. The
 job remains present after waiter cancellation and is completed/retrieved by a
-fresh client without restarting the service. This does not establish departure.
+fresh client without restarting the service. E011 separately establishes departure.
+
+
+Phase 5 adds shared typed fixture control support in adapters/fixture_control.h
+and fixtures/control_v1.h. The packet contains only bounded action/cycle fields.
+Registered mode metadata permits reviewed defects without core service branches.
+cycle changes producer identity after pending0 and does not reset service state.
+arm_complete/drain_stale/hold_next/park provide explicit fixture ordering barriers.
+All service calls remain in supervised workers. The ABI1 callback layout is stable;
+capability bits repeat/ordering extend the existing mask.
+
+The shared lifecycle fixture helper delegates every close_dup and final close_ocb
+to iofunc defaults, retains only scalar OCB identity after delegation and clears
+references before final free. Actual duplicated-FD and forced-departure callback
+order was recorded on both services. QNX supplied nonzero close receive IDs in
+these runs; synthetic-zero handling is guarded but not claimed as natively seen.
+The fixture is single-threaded; multithread extensions need explicit serialization.

@@ -190,3 +190,65 @@ Record native exit/signal facts with QNX wait macros so Python need not decode r
 wait bits using host assumptions. Successfully returned forbidden payloads remain
 independent FAIL assertions even if later interference occurs. No unexplained
 nonzero worker exit can satisfy a PASS.
+
+## D017: Observe departure and preserve resource-manager bookkeeping
+
+**Date:** 2026-11-07. **State:** Phase 5 gate verified in E011.
+
+A kill request is only a stimulus. Require actual native wait/reap of the exact
+owned worker within the declared bound, then public state and health on the original
+fixture. Duplicate a descriptor, close one before pending and observe two close_dup
+callbacks/default returns followed by exactly one close_ocb/default destruction.
+Callbacks remain serialized in one dispatch thread. Always delegate default count/
+close/free bookkeeping; detach no library-owned connection manually. Synthetic
+rcvid 0 cannot be replied to. Native callbacks in this lab had nonzero IDs; that
+specific synthetic path is not claimed as a native observation.
+
+Pending storage has one terminal owner and static lifetime. Saved notifications
+retain immutable request/owner identifiers, with no OCB pointer. Final close clears
+links before free. Retained-waiter controls deliberately retain a logical tombstone,
+with no live rcvid/OCB reference. Job lifetime is independent of waiter lifetime;
+drop-job is a separate explicit defect. Ignored-unblock departure can leave process
+termination unobserved until fixture cleanup; classify ERROR/departure_unobserved,
+withhold health and never substitute later cleanup reaping for the earlier bound.
+
+## D018: Preserve every cycle and stop at contamination
+
+**Date:** 2026-11-07. **State:** Phase 5 gate verified in E011.
+
+Repeat plans require same-instance reset policy and 1–20 cycles, default20.
+SET_CYCLE changes the event identity after pending reaches zero; it does not reset
+service counters, generations or job state. Fresh client workers perform each
+cycle. Record precondition, timeout, result, public state, fresh health and actual
+worker cleanup. Unknown or forbidden state stops the sequence; every later cycle
+is explicit NOT_RUN. Retain-third preserves two passing cycles and the failed third.
+A cycle-two probe fault preserves cycle one and does not invent state from the
+cycle-end placeholder. Final cleanup facts do not get attributed to an earlier
+cycle merely because aggregate cleanup uses cycle1. A retained job is distinct
+from a leaked waiter. No memory-leak assertion follows from successful reconnects.
+
+Bound the larger sequence separately: 256 children / 4096 accepted producer events,
+8192 journal frames / 8 MiB. Extended single cases use 64 children / 1024 events,
+2048 journal frames / 4 MiB. Legacy timeout/signal limits remain 16 / 256 and
+512 / 2 MiB. Exhaustion remains infrastructure ERROR, never partial PASS.
+
+## D019: Direct ordering with observed fixture barriers
+
+**Date:** 2026-11-07. **State:** Phase 5 gate verified in E011.
+
+Completion-first parks a real kernel unblock at a fixture barrier, then releases
+the valid request before cancellation can commit. Cancellation-first observes
+interrupted completion before releasing work. Compare event times/identities and
+worker control-start observations, not poll sleeps or merged line order. A second
+completion-first subcheck records the normal result before signalling the still
+live worker. Current MsgInfo, unblock flags and logical/generation/owner identity
+guard stale notifications; no cached receive ID alone authorizes a reply.
+
+While a later generation is pending, inspect the saved real notification and prove
+no old payload completes that request. Distinct values (42/43 and 420/421) expose
+stale delivery. A separate parked control request generates a genuine unmatched
+kernel unblock and is safely completed after current-owner validation. A duplicate
+terminal-attempt control remains FAIL even if the kernel rejects the second call;
+it is not evidence of two delivered replies. These are directed checks, without
+exhaustive concurrency claims. All fixture controls are typed reviewed packets
+inside registered adapters; core scenario/evaluator files contain no service names.

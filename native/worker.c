@@ -8,15 +8,26 @@ static volatile sig_atomic_t signal_seen;
 static void interruption(int number) { (void)number;signal_seen=1; }
 
 int main(int argc, char **argv) {
-    if (argc != 3) return 2;
+    if (argc != 3 && argc != 4) return 2;
     rmc_plan plan;
     if (!rmc_plan_load(argv[1], &plan)) { fputs("invalid worker plan\n",stderr); return 2; }
+    unsigned cycle=1;
+    if (argc==4) {
+        char *end;unsigned long value=strtoul(argv[3],&end,10);
+        if (!*argv[3] || *end || !value || value>plan.cycles) { cJSON_Delete(plan.root);return 2; }
+        cycle=(unsigned)value;
+    }
+    cJSON_SetNumberValue(cJSON_GetObjectItemCaseSensitive(plan.root,"cycle"),cycle);
     rmc_plan_environment(&plan);
     const char *op=argv[2];
-    const char *roles[] = {"normal","message","hold","release","state","timed","health","negative","ready","signal"};
+    const char *roles[] = {"normal","message","hold","release","state","timed","health","negative","ready","signal","depart","ordered","finish_first","dup","cycle","arm_complete","drain_stale","hold_next","park","state_before","health_next"};
     int valid=0; for (unsigned i=0; i<sizeof(roles)/sizeof(roles[0]); ++i) if (!strcmp(op,roles[i])) valid=1;
     if (!valid) { cJSON_Delete(plan.root); return 2; }
-    if ((!strcmp(op,"signal") && strcmp(plan.scenario,"signal")) || (!strcmp(op,"timed") && strcmp(plan.scenario,"timeout"))) { cJSON_Delete(plan.root);return 2; }
+    if ((!strcmp(op,"signal") && strcmp(plan.scenario,"signal")) || (!strcmp(op,"timed") && strcmp(plan.scenario,"timeout") && strcmp(plan.scenario,"repeat")) || (!strcmp(op,"depart") && strcmp(plan.scenario,"departure")) || (!strcmp(op,"ordered") && strcmp(plan.scenario,"complete-first") && strcmp(plan.scenario,"cancel-first"))) { cJSON_Delete(plan.root);return 2; }
+    int ordering=!strcmp(plan.scenario,"complete-first") || !strcmp(plan.scenario,"cancel-first");
+    if ((!strcmp(op,"cycle") && strcmp(plan.scenario,"repeat")) ||
+        ((!strcmp(op,"ordered") || !strcmp(op,"arm_complete") || !strcmp(op,"drain_stale") || !strcmp(op,"hold_next") || !strcmp(op,"park") || !strcmp(op,"state_before") || !strcmp(op,"health_next")) && !ordering) ||
+        (!strcmp(op,"finish_first") && strcmp(plan.scenario,"complete-first"))) { cJSON_Delete(plan.root);return 2; }
     event("worker","started","operation=%s",op);
     rmc_lab_worker(op);
     char path[256];
@@ -24,20 +35,7 @@ int main(int argc, char **argv) {
     int fd=open(path,O_RDWR);
     if (fd == -1) { event("worker","open_error","error=%d",errno); event("worker","worker_final","exit_code=2"); cJSON_Delete(plan.root); return 2; }
     int exit_code=0;
-    if (!strcmp(op,"hold") || !strcmp(op,"release") || !strcmp(op,"state") || !strcmp(op,"ready")) {
-        rmc_state state={0};
-        int error=plan.adapter->control(fd,op,&state);
-        rmc_emit_state(op,error,&state); if (error) exit_code=2;
-    } else {
-        rmc_result result={0};
-        if (!strcmp(op,"normal") || !strcmp(op,"health") || !strcmp(op,"negative")) {
-            if (!strcmp(op,"negative") && !(plan.adapter->capabilities & RMC_CAP_ERROR_PROBE)) exit_code=3;
-            else plan.adapter->ordinary(fd,!strcmp(op,"negative"),&result);
-        } else {
-            rmc_prepared prepared;
-            plan.adapter->prepare(&prepared);
-            int raw, captured;
-            if (!strcmp(op,"signal")) {
+    if (!strcmp(op,"signal") || !strcmp(op,"ordered") || !strcmp(op,"park") || !strcmp(op,"finish_first")) {
                 struct sigaction action={0};action.sa_handler=interruption;sigemptyset(&action.sa_mask);
                 sigset_t mask;sigemptyset(&mask);sigaddset(&mask,SIGUSR1);
                 int error=0,masked=1;sigset_t current;
@@ -47,8 +45,32 @@ int main(int argc, char **argv) {
                 }
                 event("worker","signal_setup","name=SIGUSR1 signal=%d flags=0 retry=0 timeout_armed=0 masked=%d error=%d",SIGUSR1,masked<0 ? 1 : masked,error);
                 if (error || masked) { exit_code=2;goto close_worker; }
-                event("worker","operation_armed","operation=signal timeout_armed=0");
+
             }
+    if (!strcmp(op,"dup") || !strcmp(op,"depart")) {
+        int copied=dup(fd),err=copied<0 ? errno : 0;
+        event("worker","descriptor_duplicated","rc=%d error=%d",copied,err);
+        if (copied<0) { exit_code=2;goto close_worker; }
+        int rc=close(fd);err=rc<0 ? errno : 0;
+        event("worker","descriptor_closed","descriptor=0 rc=%d error=%d",rc,err);
+        fd=copied;if (rc<0) { exit_code=2;goto close_worker; }
+    }
+    if (!strcmp(op,"hold") || !strcmp(op,"release") || !strcmp(op,"state") || !strcmp(op,"ready") || !strcmp(op,"cycle") || !strcmp(op,"arm_complete") || !strcmp(op,"drain_stale") || !strcmp(op,"hold_next") || !strcmp(op,"park") || !strcmp(op,"state_before")) {
+        rmc_state state={0};
+        int error=plan.adapter->control(fd,op,&state);
+        rmc_emit_state(op,error,&state); if (error && !(!strcmp(op,"park") && error==EINTR)) exit_code=2;
+        if (!strcmp(op,"park")) event("worker","signal_handler_observed","signal=%d seen=%d",SIGUSR1,signal_seen!=0);
+    } else {
+        rmc_result result={0};
+        if (!strcmp(op,"normal") || !strcmp(op,"health") || !strcmp(op,"negative") || !strcmp(op,"dup") || !strcmp(op,"health_next")) {
+            if (!strcmp(op,"negative") && !(plan.adapter->capabilities & RMC_CAP_ERROR_PROBE)) exit_code=3;
+            else plan.adapter->ordinary(fd,!strcmp(op,"negative"),&result);
+        } else {
+            rmc_prepared prepared;
+            plan.adapter->prepare(&prepared);
+            int raw, captured;
+            if (!strcmp(op,"signal") || !strcmp(op,"ordered") || !strcmp(op,"depart") || !strcmp(op,"finish_first")) event("worker","operation_armed","operation=%s timeout_armed=0",op);
+
             if (!strcmp(op,"timed")) {
                 uint64_t deadline=mono_ns()+(uint64_t)plan.operation_ms*1000000ULL;
                 event("worker","deadline","operation=timed deadline_ns=%" PRIu64 " timeout_ms=%u",deadline,plan.operation_ms);
@@ -62,10 +84,17 @@ int main(int argc, char **argv) {
                 raw=MsgSendv(fd,prepared.send,prepared.send_parts,prepared.receive,prepared.receive_parts);
             }
             captured=errno;
-            if (!strcmp(op,"signal")) event("worker","signal_handler_observed","signal=%d seen=%d",SIGUSR1,signal_seen!=0);
+            if (!strcmp(op,"signal") || !strcmp(op,"ordered")) event("worker","signal_handler_observed","signal=%d seen=%d",SIGUSR1,signal_seen!=0);
             plan.adapter->finish(&prepared,raw,captured,&result);
         }
         if (!exit_code) rmc_emit_result(op,&result);
+        if (!strcmp(op,"finish_first") && !exit_code) {
+            sigset_t block,prior;sigemptyset(&block);sigaddset(&block,SIGUSR1);
+            if (sigprocmask(SIG_BLOCK,&block,&prior)) { exit_code=2;goto close_worker; }
+            while (!signal_seen) sigsuspend(&prior);
+            if (sigprocmask(SIG_SETMASK,&prior,NULL)) { exit_code=2;goto close_worker; }
+            event("worker","signal_handler_observed","signal=%d seen=%d",SIGUSR1,signal_seen!=0);
+        }
     }
 close_worker:
     ;

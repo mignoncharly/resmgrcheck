@@ -36,12 +36,12 @@ try:
     ssh('cd '+remote+' && chmod 755 runner worker sensor-v1-fixture job-v1-fixture')
     (out/'pre-inventory.txt').write_bytes(ssh('pidin ar'))
     matrix=[(s,f,m) for f in ('signal','timeout') for s in ('sensor','job') for m in ('corrected','ignore-unblock')]
-    matrix += [('sensor','auto','corrected'),('job','auto','corrected'),('job','missing','corrected')]
+    matrix += [('sensor','auto','corrected'),('job','auto','corrected'),('sensor','missing','corrected')]
     for service,family,mode in matrix:
         tag=service+'-'+family+'-'+('fixed' if mode=='corrected' else 'defect')
         profile=load('profiles/'+service+('-signal' if family in ('signal','auto') else '')+'.json')
         if family=='auto':profile['suite']['signal_mode']='auto-restart'
-        if family=='missing':profile['capabilities']['required'].append('departure')
+        if family=='missing':profile['capabilities']['required'].append('error-probe')
         plan=expand(profile,args.prefix+'-'+tag,mode).data;run=plan['run_id']
         path=out/(tag+'-plan.json');path.write_bytes(canonical(plan)+b'\n')
         call(['scp','-F','.local/ssh_config',str(path),'resmgrcheck-qnx:'+remote+'/'])

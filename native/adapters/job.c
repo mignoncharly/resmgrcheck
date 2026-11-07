@@ -2,6 +2,7 @@
 #include "../fixtures/job_protocol.h"
 #include <sys/iomsg.h>
 #include <errno.h>
+#include "fixture_control.h"
 static int parameters(const cJSON *o) {
     if (!cJSON_IsObject(o) || !o->child || o->child->next || strcmp(o->child->string, "job_id")) return 0;
     return cJSON_IsNumber(o->child) && o->child->valuedouble == 1;
@@ -9,7 +10,8 @@ static int parameters(const cJSON *o) {
 static int control(int fd, const char *op, rmc_state *out) {
     struct job_state s = {0};
     int command = !strcmp(op, "hold") ? JOB_SUBMIT : !strcmp(op, "release") ? JOB_COMPLETE : JOB_STATE;
-    int error = devctl(fd, command, &s, sizeof(s), NULL);
+    int handled;int error=barrier_control(fd,op,&handled);
+    if (!handled || !error) error=devctl(fd, command, &s, sizeof(s), NULL);
     *out = (rmc_state){.pending=s.pending, .unblocks=s.unblocks, .completed=s.completed, .generation=s.generation,
         .facts={{"job_exists", (int)s.job_exists}, {"job_ready", (int)s.job_ready}}, .fact_count=2};
     return error;
@@ -56,5 +58,5 @@ static void finish(const rmc_prepared *p, int raw, int error, rmc_result *r) {
 const rmc_adapter_v1 job_adapter_v1 = {
     .abi=RMC_ADAPTER_ABI, .struct_size=sizeof(rmc_adapter_v1), .id="job-v1", .operation_id="wait-result",
     .fixture_binary="job-v1-fixture", .convention="devctl", .result_fact_keys="value job_id", .state_fact_keys="job_exists job_ready",
-    .capabilities=RMC_BASE_CAPS | RMC_CAP_ERROR_PROBE | RMC_CAP_SIGNAL, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
+    .capabilities=RMC_BASE_CAPS | RMC_CAP_ERROR_PROBE | RMC_CAP_SIGNAL | RMC_CAP_DEPARTURE | RMC_CAP_REPEAT | RMC_CAP_ORDERING, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
 };

@@ -16,8 +16,9 @@ are 1–64 ASCII letters/digits/underscore/hyphen, starting with a letter or dig
 SHA256 is exactly 64 lowercase hex digits; a source revision is 40 lowercase hex.
 
 Run-bound documents/events share `run_id`, `case_id`, `attempt_id`, `cycle` (1–200),
-and `service_instance_id`. Expansion currently selects the one explicit timeout or signal family required
-by the profile, attempt1, cycle1. Run IDs must be unique within the owned lab; uncertain
+and `service_instance_id`. Expansion selects one explicit family required by the profile and attempt1,
+aggregate cycle1. Repeat child events/results cover cycles1–20; all other plans
+execute exactly one cycle. Run IDs must be unique within the owned lab; uncertain
 transport does not authorize starting another copy. Phase 4 owns persistent
 reconnection/contamination handling.
 
@@ -43,18 +44,18 @@ Exact top-level fields: `kind`, `schema_version`, `id`, `version`, `adapter`,
 | Identity | id; version integer 1–1000000; adapter `{id, abi}` selects a compiled registration, ABI 1 |
 | Service | `{mode, device}`; mode managed-fixture or external-attach; device is a single `/dev/resmgrcheck-...` lab pathname component, bounded to 96 suffix characters |
 | Operation | `{id, parameters, result_shape, convention}`; all service-specific fields are checked against the registration; result shape is integer-record; convention is errno or devctl |
-| Capabilities | `{required, optional}` distinct bounded lists of known IDs; no overlap. Pending, state, health and the selected timeout/signal capability are required for strict evaluation. require_unblock also requires unblock capability |
-| Expectations | `{cancel_error, pending_after, require_unblock, health, state_after}`; ETIMEDOUT for timeout / EINTR for signal, pending zero, boolean observer requirement, exact registered typed fact predicates |
+| Capabilities | `{required, optional}` distinct bounded lists of known IDs; no overlap. Pending, state, release, health and the selected family capability are required for strict evaluation; repeat additionally requires timeout and ordering requires signal. require_unblock also requires unblock capability |
+| Expectations | `{cancel_error, pending_after, require_unblock, health, state_after}`; ordering also requires distinct next_health; ETIMEDOUT for timeout/repeat, PROCESS_EXIT for departure, EINTR for signal/ordering; pending zero, boolean observer requirement, exact registered typed fact predicates |
 | Timing | setup_ms, operation_ms, cancellation_ms, probe_ms, execution_ms, cleanup_ms; 100–5000 ms except execution up to 30000; execution must accommodate operation+cancellation+setup+probe bounds |
-| Suite | `{required, optional, cycles, reset}`; required exactly one timeout or signal family; optional known signal/departure/repeat without overlap; cycles 1–200; reset new-instance; signal family also requires signal_mode |
+| Suite | `{required, optional, cycles, reset}`; required exactly one timeout/signal/departure/repeat/complete-first/cancel-first family; optional known signal/departure/repeat without overlap; repeat cycles1–20/reset same-instance, other expanded plans exactly1/reset new-instance; signal family also requires signal_mode |
 
 Profiles cannot select fixture defects, shell commands, executable paths, scripts,
 Python expressions or arbitrary operation IDs. Defect mode is a separate expanded
 plan setting; it never relaxes the corrected-service contract. The supplied
 profiles use the same 500/2000 ms timeout/allowance and 10 s case bound as Phase 2.
 
-Current expansion supports only one cycle; a profile requesting multiple
-cycles is rejected at expansion rather than silently running one. Optional scenario
+Repeat expansion supports1–20 cycles (reviewed default20); other multiple-cycle
+requests are rejected at expansion rather than silently running one. Optional scenario
 names do not imply those cases executed. External attach is validated as a mode
 but currently becomes UNSUPPORTED before any process launch.
 
@@ -64,8 +65,8 @@ Exact fields: kind/version; all five shared identity fields; `profile` snapshot;
 `profile_sha256`; `suite_sha256`; `fixture_mode`; `builds`.
 
 Snapshot hashes use ASCII JSON with sorted keys and compact separators. The suite
-hash covers the exact suite subobject. fixture_mode is corrected (default) or the
-explicit ignore-unblock regression. A plan changes neither profile expectations
+hash covers the exact suite subobject. fixture_mode is corrected (default), ignore-unblock, retain-waiter, retain-third,
+duplicate-terminal, or job-only drop-job, checked against registration metadata. A plan changes neither profile expectations
 nor the evaluator when selecting a defect.
 
 `builds` is exactly `{source_revision, dirty, source_tree_sha256,
@@ -99,8 +100,8 @@ fixture_mode; error_codes; recognized optional signal_codes.
 priority}`. These are captured with native uname/scheduling calls. Error codes
 EOK, ETIMEDOUT, EINTR and ENOENT are captured from the QNX build. The host never
 imports Linux errno numbers to evaluate QNX results. New manifests also declare
-signal_codes exactly {SIGUSR1: integer}, captured from the actual QNX header.
-Signal evaluation requires that map; historical timeout manifests without it remain
+signal_codes {SIGUSR1: integer, SIGKILL: integer}, captured from the actual QNX header.
+Signal evaluation requires its map; historical SIGUSR1-only or timeout manifests remain
 readable. No Python/Linux signal-number substitution is permitted. Capabilities are the actual
 compiled registration's declarations, not a copy of the requested list.
 
@@ -120,8 +121,9 @@ The supervisor is the sole final stream writer. Producers write nonblocking
 atomic frames into a bounded pipe. A frame is at most 16 KiB by contract and at
 most the installed QNX PIPE_BUF (5120) in this implementation. Oversize/full-pipe/
 write/allocation errors are visible failures (producer exit 120), never silent
-loss. This runner caps one case at 256 collected producer frames; overflow is an
-evidence error. The host accepts at most 2048 records / 32 MiB per stream.
+loss. Legacy cases cap accepted producer frames at256; extended single cases at1024;
+repeat at4096. Journal bounds are512/2048/8192 frames and2/4/8 MiB respectively.
+The host accepts at most4096 records /32 MiB per stream. Overflow is ERROR.
 
 Every event has an exact payload shape and permitted producer in EVENT_FIELDS /
 EVENT_PRODUCERS. Important payloads:
@@ -306,8 +308,7 @@ terminal ownership removal, post-state and original-instance fresh health. The
 completion bound starts at the recorded signal request, not a kernel operation
 timeout. A later unrelated error cannot satisfy EINTR. An absent handler while
 ignored cancellation remains blocked does not by itself identify a root cause.
-The original observed bound violation remains a service FAIL. E010 is the native
-proof; departure/repetition/ordering are still open.
+The original observed bound violation remains a service FAIL. E010 is the signal proof; E011 supplies the remaining native scenario gate.
 
 Native process_exit adds exact child_pid, exited (0/1), exit_code (0–255) and signal
 (0–255). Native wait macros populate it; raw reaped status is retained separately.
@@ -318,3 +319,38 @@ was lost. Missing/inconsistent required observations still invalidate completene
 Fixture interference invalidates transport-style baseline errors while preserving
 independently returned forbidden payloads. E010 includes both native failure facts
 and explicitly synthetic preservation/nonzero-exit checks.
+
+
+## Phase 5 lifecycle and cycle records
+
+Departure uses operation_armed with no timer, pending, trigger_requested(SIGKILL),
+signal_sent, process_exit/native wait facts, reaped and departure_bound. The bound
+has exact child_pid, completion_bound_ns and reaped flag. Successful signal_sent
+alone cannot establish death. descriptor_duplicated/descriptor_closed identify
+worker FD actions; request_ocb links logical/generation/client to fixture-local OCB
+number. close_dup includes OCB/client/rcvid/synthetic; synthetic must exactly equal
+(rcvid=="0"). close_dup_default and close_ocb_default record returned status;
+close_ocb records final destruction entry. IDs are observations, never commands.
+
+terminal_attempt records logical/generation/rcvid/action/rc/error separately from
+successful removal. A rejected second call remains a duplicate attempt. Defect
+retained_request is a logical tombstone without a live IPC or OCB reference.
+
+Repeated aggregate results add exactly cycle_count and cycles. Each cycle record
+is {cycle,verdict,reasons,completion,assertions}; ordered coverage must be exactly
+1..cycle_count. A cycle PASS requires every mandatory condition PASS and complete.
+Top-level repeat PASS additionally requires every cycle PASS. cycle_begin binds
+cycle/fixture_pid/deadline; cycle_ready proves pending0 while retaining generation;
+cycle_end records worker_pid/worker_reaped/pending/state_observed/clean/safe.
+When state_observed==0, pending's numeric placeholder is **not** a state observation.
+cycle_not_run records the requested cycle and contamination/incomplete reason.
+Sequences remain global per producer PID across cycle changes. Worker frames must
+match the cycle used at spawn; aggregate status/final cleanup remain cycle1.
+
+Directed-order events include linked barrier_wait, ordering_stage, stale_checked
+(live/matched), real parked/park_completed and unmatched/obsolete unblock records.
+Typed fixture controls implement arm_complete/drain_stale/hold_next/park, never
+supplied shell text, PIDs or rcvids. State/health still come from supervised workers.
+A distinct next_health predicate is mandatory for ordering. Required barrier/start/
+result timings establish the observed order; normal-result-before-trigger is also
+required for complete-first. Missing evidence cannot be replaced by a delay.

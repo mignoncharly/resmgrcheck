@@ -1,6 +1,7 @@
 #ifndef RMC_JOURNAL_H
 #define RMC_JOURNAL_H
 #include "event.h"
+void rmc_journal_limits(unsigned cycles,int extended);
 void rmc_journal_start(void);
 int rmc_journal_sink_error(void);
 int rmc_journal_overflow(void);

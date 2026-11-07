@@ -2,11 +2,13 @@
 #include "../spikes/phase2.h"
 #include <sys/iomsg.h>
 #include <limits.h>
+#include "fixture_control.h"
 static int parameters(const cJSON *o) { return cJSON_IsObject(o) && !o->child; }
 static int control(int fd, const char *op, rmc_state *out) {
     struct sensor_state s = {0};
     int command = !strcmp(op, "hold") ? SENSOR_HOLD : !strcmp(op, "release") ? SENSOR_RELEASE : SENSOR_STATE;
-    int error = devctl(fd, command, &s, sizeof(s), NULL);
+    int handled;int error=barrier_control(fd,op,&handled);
+    if (!handled || !error) error=devctl(fd, command, &s, sizeof(s), NULL);
     *out = (rmc_state){.pending=s.pending, .unblocks=s.unblocks, .completed=s.completed, .generation=s.generation};
     return error;
 }
@@ -39,5 +41,5 @@ static void finish(const rmc_prepared *p, int raw, int error, rmc_result *r) {
 const rmc_adapter_v1 sensor_adapter_v1 = {
     .abi=RMC_ADAPTER_ABI, .struct_size=sizeof(rmc_adapter_v1), .id="sensor-v1", .operation_id="sample",
     .fixture_binary="sensor-v1-fixture", .convention="errno", .result_fact_keys="value", .state_fact_keys="",
-    .capabilities=RMC_BASE_CAPS | RMC_CAP_SIGNAL, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
+    .capabilities=RMC_BASE_CAPS | RMC_CAP_SIGNAL | RMC_CAP_DEPARTURE | RMC_CAP_REPEAT | RMC_CAP_ORDERING, .validate_parameters=parameters, .control=control, .ordinary=ordinary, .prepare=prepare, .finish=finish
 };

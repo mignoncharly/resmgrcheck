@@ -102,7 +102,7 @@ try:
         assert filled['write_errno']==filled['enospc']==28
     for tag,control,service,mode,verdict,reasons in matrix:
         profile=load('profiles/'+service+'.json')
-        if tag=='unsupported':profile['capabilities']['required'].append('departure')
+        if tag=='unsupported':profile['capabilities']['required'].append('error-probe')
         plan=expand(profile,args.prefix+'-'+tag,mode).data;run=plan['run_id']
         assert plan['builds']['source_tree_sha256']==source_hash()
         path=out/(tag+'-plan.json');path.write_bytes(canonical(plan)+b'\n')

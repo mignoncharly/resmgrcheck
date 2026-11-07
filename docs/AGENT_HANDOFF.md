@@ -1,86 +1,57 @@
-# Continue into Phase 5
+# Continue into Phase 6
 
-Read AGENTS.md, STATUS.md, Phase 5 in IMPLEMENTATION_PLAN.md, E009 in
-TEST_EVIDENCE.md, DECISIONS.md, KNOWN_LIMITATIONS.md and reason-codes.md first.
-Preserve unrelated changes. Branch remains implementation/phase-1.
+Read AGENTS.md, STATUS.md, Phase 6 in IMPLEMENTATION_PLAN.md, E011 in
+TEST_EVIDENCE.md, DECISIONS.md, KNOWN_LIMITATIONS.md, formats-v1.md and reason-codes.md.
+Branch remains implementation/phase-1. Preserve unrelated changes.
 
-Phases 1–4 have passed. Phase 4 checkpoint 1d49ad4 was requalified clean with all 22 cases (p4clean1). Phase 4's 22 native fault cases, actual paused-target
-infrastructure bound and changed-writer SSH-loss/reconnect regression are retained
-in docs/evidence/phase4*, against explicit source digest/artifact identities. The
-same generic binaries normal-PASSed both profiles. Thirty-five host tests pass.
-Signal/departure/repetition/ordering are Phase 5 work; no capability is added merely
-to make required checks pass. Keep native evidence distinct from synthetic host
-mutations and operator bootstrap logs.
+Phases 1–5 have passed their native gates. Do not repeat passed phases without a
+specific changed prerequisite. E011 retains the full 40-case Phase 5 matrix and
+14 affected supervision cases, with exact source digests and SFTP artifact readback
+hashes. Sixty-three host tests include actual QNX vectors and explicitly synthetic
+negative mutations. Clean committed-source confirmation is recorded after checkpoint.
 
-Reuse source /home/mignon/qnx800/qnxsdp-env.sh; make qnx. Build metadata checks
-source/binary freshness before expansion. No reinstall, keys or credentials needed.
-Use ssh -F .local/ssh_config resmgrcheck-qnx and the existing SFTP route. VM uses
-.local/qnx-lab/run.qcow2 and loopback 22220. Preserve /home/mignon/qnx-vm-resmgrcheck.
-No monitor/slm was in the lab inventories; inspect again if changing the image.
-The target pause test restored the same owned VM without rebooting anything.
+Reuse source /home/mignon/qnx800/qnxsdp-env.sh; make qnx. No reinstall or credential
+creation is needed. The existing route is ssh -F .local/ssh_config resmgrcheck-qnx
+and SFTP. Guest: .local/qnx-lab/run.qcow2, loopback 22220. Preserve the original
+/home/mignon/qnx-vm-resmgrcheck. Do not expose local configuration or keys.
 
-Native implementation: runner.c owns processes, framed pipes and deadlines;
-worker.c owns every service-facing adapter call; common/process.c never signals
-unknown/reaped children. common/journal.c contains primary failures and seals
-recovery observations. common/persistence.c creates exclusive run storage and
-atomically publishes status. --after=RUN_ID withholds contaminated dependencies.
-Stored PIDs are never cleanup authority. Adapter registration is outside generic
-runner/evaluator, which contain no service-name conditions.
+Native runner.c and common/scenario_v1.h own exact processes, framed pipes and
+bounds. Worker.c owns every service-facing call. No supervisor service open/probe;
+no unknown/reaped PID signal or broad kill. Persistence status is not cleanup
+authority. Failed cleanup quarantines dependents; same-parent lab recovery records
+separately and never changes original status or supplies original-instance health.
 
-Explicit --lab controls are qualification-only, require --persist and cannot be
-selected by a profile. tests/qnx/qualify-phase4.py uses fresh lab paths/run IDs,
-readback hashes, exact expected outcomes, actual frame/channel faults and a small
-isolated full filesystem. Its shell owns/reaps only that storage driver. The
-cleanup-failure control seals original incomplete status before separate same-parent
-lab recovery. Recovery never rewrites the result or releases dependent quarantine.
-The ownership-loss control records a deliberately discarded wait; no signal is
-sent to the uncertain child. No residual project process remained in inventory.
+The lifecycle helper serializes callbacks in one dispatch thread, always delegates
+close_dup/default bookkeeping, removes OCB references before final free and retains
+only immutable identifiers for saved notifications. Departure duplicates/closes
+one FD before pending, kills the exact worker, then proves native reap and final
+close before fresh-client use. Native observed close IDs were nonzero; synthetic
+rcvid 0 is guarded but was not seen in this lab. No multithread concurrency proof.
 
-Reproduction: make qnx; python3 -m unittest discover -s tests/host -v;
-python3 tests/qnx/qualify-phase4.py --prefix UNIQUE;
-python3 tests/qnx/qualify-target-loss.py --prefix UNIQUE;
-python3 tests/qnx/qualify-persistence.py --prefix UNIQUE.
-Do not rerun passed phases without a specific changed prerequisite. Full host
-application transport, product replay/export/report commands remain later phases.
+Repeated plans have aggregate cycle1 and 1–20 child cycles (default20), same fixture,
+no intercycle reset, fresh workers. Stop on unknown/dirty state. Explicit cycle
+results preserve earlier outcomes and later NOT_RUN. Public job_exists/job_ready
+are separate from waiter count; no memory measurements exist.
 
-Phase 5 must use a single-thread SIGUSR1 handler (sig_atomic_t only), no retry,
-no simultaneous operation timeout, actual pending barrier and observed signal/error
-behavior. Departure must observe actual reaping and preserve close_dup/default
-bookkeeping and OCB lifetime. Repeat against one instance, 20 cycles by default;
-stop after unknown contamination. Directed ordering must record the actual order,
-not claim exhaustive concurrency coverage. Test both corrected and targeted
-negative controls on real QNX before the Phase 5 gate.
+Ordering uses typed fixture control packets, never script strings or supplied
+rcvids. Save a real kernel unblock at a barrier; let completion win or commit
+cancellation first; inspect the obsolete notification while a fresh generation is
+pending. Distinct payloads expose stale results. A parked real control request
+exercises unmatched unblock safely. Complete-first also proves normal response
+before signal trigger to a still-live worker. No exhaustive scheduling claim.
 
-## Phase 5 signal subgate completed
+To qualify this checkpoint: make qnx; python3 -m unittest discover -s tests/host -q;
+python3 tests/qnx/qualify-phase5.py --prefix UNIQUE. Its successful command checks
+expected red results; it does not reclassify those service runs PASS. Four binaries
+are uploaded/read back and verified; all 40 cases retain raw/status/result evidence.
+Native rejection cases create no run storage. Use --case for focused checks.
+--raw is debugging only and cannot establish a gate.
 
-E010 / docs/evidence/phase5-signal records eleven real native cases and five new
-native input rejections from p5signal6. New profiles sensor-signal.json and
-job-signal.json select one explicit signal family, expected EINTR, required signal
-capability and signal_mode non-restart-no-retry. Auto-restart is parsed as a known
-request but becomes UNSUPPORTED before child launch. Required cycles still equal
-one in this milestone. Existing timeout profiles keep their original expectations.
-
-The worker's handler only changes volatile sig_atomic_t. Flags 0 and actual mask
-are recorded outside the handler; no TimerTimeout is armed in signal role and no
-retry occurs. The parent waits for operation_armed plus fixture pending, then records
-trigger_requested and the separate actual signal-send result. Raw MsgSendv errno
-is captured before logging the handler flag. Signal number is bound to the QNX
-manifest signal_codes, rather than Python/Linux constants. Both corrected paths
-PASSed; both ignored-unblock paths FAILed specifically. The affected timeout paths
-also retained their outcomes. Forty-six host tests pass.
-
-Continue with Phase 5 departure, repeated cancellation/reconnect and ordering.
-Do not call this partial scenario milestone a Phase 5 gate. Generic runner/evaluator
-still contain no service-name conditions. Existing close_dup code is not a native
-proof of departure, duplicate-FD or OCB lifetime correctness. Use the installed
-QNX documentation and actual callback/termination observations for that next step.
-
-Phase 5 source checkpoint e78502f is committed and clean-source confirmed. The full
-11-case signal/timeout/capability matrix, five native rejection checks and a focused
-four-case normal/interference/evidence-loss check passed from that clean source.
-See the two phase5-clean evidence bundles and the closing E010 confirmation.
-The broader affected-path follow-up has 24 native supervision cases. Native
-process_exit facts separate actual exit/signal observations from raw wait bits;
-worker_close_failed and worker_exit_failed are execution ERRORs, not missing
-logs. Preserve earlier independently returned bad payloads under later interference.
-Forty-six host tests pass. Continue the remaining Phase 5 families from this state.
+Phase 6 must implement immutable bundle identities, atomic final marker/partial
+artifacts, one evaluator with expected/observed values and event references, exact
+replay inputs and attempt preservation, explicit --candidate-manifest selection,
+architecture/version rejection, comparison, JUnit and execution exit precedence.
+Saved PIDs/rcvids are observations, never replay commands. Real source fixes with
+changed fixture hashes and unchanged contracts are required for both before/after
+replay gates; changing defect switches within one binary is insufficient. Product
+transport automation is Phase 7. No frontend before its phase.

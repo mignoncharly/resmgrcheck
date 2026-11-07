@@ -1,0 +1,65 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "job-repeat",
+  "version": 1,
+  "adapter": {
+    "id": "job-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "managed-fixture",
+    "device": "/dev/resmgrcheck-job"
+  },
+  "operation": {
+    "id": "wait-result",
+    "parameters": {
+      "job_id": 1
+    },
+    "result_shape": "integer-record",
+    "convention": "devctl"
+  },
+  "capabilities": {
+    "required": [
+      "pending",
+      "unblock",
+      "state",
+      "release",
+      "health",
+      "timeout",
+      "repeat"
+    ],
+    "optional": [
+      "error-probe"
+    ]
+  },
+  "expectations": {
+    "cancel_error": "ETIMEDOUT",
+    "pending_after": 0,
+    "require_unblock": true,
+    "health": {
+      "job_id": 1,
+      "value": 420
+    },
+    "state_after": {
+      "job_exists": 1,
+      "job_ready": 0
+    }
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "repeat"
+    ],
+    "optional": [],
+    "cycles": 20,
+    "reset": "same-instance"
+  }
+}

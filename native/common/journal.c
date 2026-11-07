@@ -2,8 +2,10 @@
 #include <errno.h>
 #include <limits.h>
 #include <fcntl.h>
-#define JOURNAL_FRAMES 512
-#define JOURNAL_BYTES (2U*1024U*1024U)
+#define JOURNAL_FRAMES 8192
+#define JOURNAL_BYTES (8U*1024U*1024U)
+static unsigned frame_limit=512;
+static size_t byte_limit=2U*1024U*1024U;
 static char *frames[JOURNAL_FRAMES];
 static size_t lengths[JOURNAL_FRAMES],total;
 static unsigned count;
@@ -12,7 +14,7 @@ static int writer(const cJSON *o) {
     char *s=cJSON_PrintUnformatted(o);
     if (!s) { overflow=1;return 0; }
     size_t n=strlen(s);
-    if (count==JOURNAL_FRAMES || total+n+1>JOURNAL_BYTES || n+1>PIPE_BUF) {
+    if (count==frame_limit || total+n+1>byte_limit || n+1>PIPE_BUF) {
         cJSON_free(s);overflow=1;return 0;
     }
     char *frame=malloc(n+1);
@@ -35,6 +37,7 @@ static int writer(const cJSON *o) {
     if (error) sink_error=error;
     return !error;
 }
+void rmc_journal_limits(unsigned cycles,int extended) { if (cycles>1) { frame_limit=JOURNAL_FRAMES;byte_limit=JOURNAL_BYTES; } else if (extended) { frame_limit=2048;byte_limit=4U*1024U*1024U; } }
 void rmc_journal_start(void) { rmc_set_writer(writer); }
 int rmc_journal_sink_error(void) { return sink_error; }
 void rmc_journal_sink_failed(int error) { if (!sink_error) sink_error=error ? error : EIO; }
