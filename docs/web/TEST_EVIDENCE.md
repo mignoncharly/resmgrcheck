@@ -290,3 +290,19 @@ A later read-only [hostname observation](evidence/p6/hostname.json) found DNS no
 resolves (P0's earlier NXDOMAIN observation remains historical). No matching
 enabled Nginx vhost was found; an HTTPS health request did not verify. This task
 made no DNS/vhost changes and does not infer an application deployment from DNS.
+
+[Checkpoint publication](evidence/p6/publication.json) verifies a6db2f5 on the
+authorized feature branch and unchanged ca4f74e on main/implementation/phase-1.
+The GitHub connector retrieved the matching commit. The public change review
+covered144 changed text files, with no literal credential/private-key/executable
+pattern finding. This is a scoped source review, not an independent penetration
+test or production security acceptance. Host-only GitHub workflow status was not
+established by the connector's PR-only query; no CI/native claim is inferred.
+
+P6 staging preservation also performed a real encrypted checkpoint/isolated restore.
+[Sanitized receipt](evidence/p6/checkpoint-restore.json): database counts/inventory
+identity matched, the restored audit trigger denied updates,140 artifact hashes and
+eight collected executions verified. The exact temporary restore DB was dropped;
+the original stage DB/evidence were preserved. This made no QNX/provider call.
+Seven of those records contain QNX cases; the failed-transfer record contains none.
+This does not pass the later production backup/account/off-host/key-custody gate.

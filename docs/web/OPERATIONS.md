@@ -30,6 +30,16 @@ after30 days, preserving pseudonymous organization audit/engineering identities.
 Separate backup retention/key custody is a P8 production requirement, not satisfied
 by deleting a live account. No existing native target history was deleted here.
 
+An encrypted private staging checkpoint/restore was also exercised during P6
+preservation. It restored into an exact new temporary database on the task-owned
+socket-only cluster, verified140 artifact hashes/eight collected execution records
+and the restored append-only audit trigger, then removed only that temporary DB.
+Seven records contain actual QNX cases; one is the no-native-launch failed transfer.
+The encrypted checkpoint/key and full receipt remain under ignored .local/web;
+the original database and evidence were preserved. This is not the P8 production
+backup role/off-host/key-custody qualification. MFA encryption-key custody remains
+separate from the data archive. No private backup or key is published.
+
 `manage.py seal_evidence --run-id WEB_UUID` verifies one completed collection and
 adds a v2 inventory for earlier collection history. Existing v1 inventories and
 native bundles remain unchanged. It cannot launch or collect QNX work. Never use

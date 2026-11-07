@@ -1,0 +1,15 @@
+{
+  "branch": "feature/production-web-ai",
+  "local_revision": "a6db2f56247fece77a4b80e9672218bb33079130",
+  "push_exit": 0,
+  "main_branch_mutation_requested": false,
+  "observed_refs": {
+    "refs/heads/feature/production-web-ai": "a6db2f56247fece77a4b80e9672218bb33079130",
+    "refs/heads/implementation/phase-1": "ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0",
+    "refs/heads/main": "ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0"
+  },
+  "feature_matches": true,
+  "github_connector_commit_sha": "a6db2f56247fece77a4b80e9672218bb33079130",
+  "github_commit_url": "https://github.com/mignoncharly/resmgrcheck/commit/a6db2f56247fece77a4b80e9672218bb33079130",
+  "scope": "Feature checkpoint publication only; no deployment or main mutation"
+}
