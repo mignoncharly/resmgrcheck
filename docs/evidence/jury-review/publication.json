@@ -1,0 +1,38 @@
+{
+  "kind": "jury-documentation-publication",
+  "schema_version": 1,
+  "checked_at": "2026-11-07T11:28:03.052165+00:00",
+  "repository": "https://github.com/mignoncharly/resmgrcheck",
+  "documentation_commit": "2720b8b80a4cc06a832a0b91300847c873f99ca0",
+  "branches_verified": [
+    "main",
+    "implementation/phase-1"
+  ],
+  "publication": "atomic normal fast-forward, no force",
+  "anonymous_files": [
+    {
+      "url": "https://raw.githubusercontent.com/mignoncharly/resmgrcheck/2720b8b80a4cc06a832a0b91300847c873f99ca0/README.md",
+      "status": 200,
+      "sha256": "1a422c85110204b1260618f78fcb7b6924e2102795e0db75dfc330908f4c40d0"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mignoncharly/resmgrcheck/2720b8b80a4cc06a832a0b91300847c873f99ca0/docs/JURY_START_HERE.md",
+      "status": 200,
+      "sha256": "bf04bd5717ebbfe07e5d26c0d617abc2c5d7d6fd23d307bbeb8ae2c06f4c29ef"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mignoncharly/resmgrcheck/2720b8b80a4cc06a832a0b91300847c873f99ca0/docs/jury/EVIDENCE_INDEX.md",
+      "status": 200,
+      "sha256": "339c221f9b271e331aefa69dcfe0b6b01da11229ccf9804101da65dc27fc60a2"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mignoncharly/resmgrcheck/2720b8b80a4cc06a832a0b91300847c873f99ca0/docs/jury/source-fix.patch",
+      "status": 200,
+      "sha256": "340405c93cb7f494896fdac0bf08537bc5b17b4ca36a46b8405de430039f8b9f"
+    }
+  ],
+  "detected_license": "MIT",
+  "video_uploaded": false,
+  "youtube_modified": false,
+  "devpost_submitted": false
+}

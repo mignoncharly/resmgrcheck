@@ -1399,3 +1399,12 @@ prerequisite. The archive/MP4 stay outside Git; reviewed docs, patch/identity in
 small qualification records/screenshots and optional packaging/browser scripts are
 intended public changes. GitHub documentation publication is explicitly authorized;
 publication verification is recorded separately after the push.
+
+**Observed publication:** jury documentation commit2720b8b was atomically
+fast-forwarded to public main and implementation/phase-1 without force. Both
+remote refs matched; anonymous README, guide, index and patch downloads returned
+HTTP200 and matched local bytes. MIT license detection passed at that exact commit.
+[Publication receipt](evidence/jury-review/publication.json) retains only safe
+metadata. This receipt/status follow-up changes records only; the qualified ZIP
+and runtime fingerprint remain unchanged. No video upload/channel change, artifact
+release upload or Devpost submission was performed.

@@ -13,7 +13,7 @@ Updated:2026-11-07. Branch:implementation/phase-1.
 | Phase10 | Local preparation complete E016: actual170s video, native evidence, source/codelab/evidence map, submission/release copy and review package |
 | Jury review | E017: dedicated offline ZIP, two-route guide, 24 browser views/178 local references/78 checksums/3 sealed bundles; 107 host tests passed; no native rebuild |
 | Submission-ready | No: verified final public video URL, operator fields and final submission review pending |
-| Published/submitted | Product checkpoint7d8326a verified on public main and implementation/phase-1; jury documentation publication authorized in this task; video/submission pending |
+| Published/submitted | Product7d8326a and jury documentation2720b8b published/verified on public main and implementation/phase-1; video not uploaded, no submission |
 | Technical blocker | None |
 
 The existing QNX8.0.0 x86_64/x86pc KVM guest, installed licensed SDP and local
@@ -56,6 +56,10 @@ exact scope. It contains the actual170s video, unchanged before/after/job report
 comparison and evidence. A juror needs no private VPS access for offline review;
 reproduction requires their own licensed SDK and compatible lab.
 
+The reviewed jury documentation2720b8b was published by atomic fast-forward and
+verified anonymously with matching source bytes and detected MIT license. The
+publication receipt is docs/evidence/jury-review/publication.json; a small follow-up
+records that observed outcome. The ZIP/media remain local delivery artifacts.
 This task authorizes the reviewed documentation commit's GitHub publication only.
 Video upload/channel changes, entrant attestations and Devpost submission remain
 outside scope. See docs/submission/publication-handoff.md. The historical E016

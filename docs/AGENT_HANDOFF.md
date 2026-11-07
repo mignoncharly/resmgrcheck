@@ -11,7 +11,9 @@ ZIP at .local/submission/jury-final/resmgrcheck-jury.zip. It copies existing rep
 and sealed QNX evidence unchanged and includes the actual170s MP4. Fresh extraction,
 24 offline browser views,178 local references,78 checksums,3 canonical bundles and
 107 host tests passed. Runtime SHA remains02b34132...; no build/QNX matrix repeated.
-The product checkpoint7d8326a was verified on public main and implementation/phase-1.
+Product7d8326a and jury documentation2720b8b are published and verified on public
+main and implementation/phase-1; E017's publication receipt records anonymous
+matching file bytes and detected MIT license. A small follow-up records that outcome.
 See current STATUS/E017/publication-handoff for the newer documentation publication;
 the earlier local-preparation observations below are historical.
 

@@ -7,6 +7,12 @@ authorizes the reviewed jury documentation commit's publication to the same
 repository after privacy/content checks. It does not authorize video upload,
 YouTube channel changes, account registration, form acceptance or submission.
 
+Jury documentation commit2720b8b was published by atomic normal fast-forward to
+main and implementation/phase-1. Both refs, anonymous README/guide/index/patch bytes
+and detected MIT license were verified. The actual observation is preserved in
+[publication.json](../evidence/jury-review/publication.json); the subsequent receipt
+checkpoint changes records only. No ZIP, video, SDK or private runtime was pushed.
+
 ## Jury evaluation delivery
 
 Start with [the two-route jury guide](../JURY_START_HERE.md). Route A needs only
