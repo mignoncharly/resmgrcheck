@@ -14,9 +14,12 @@ from .storage import open_artifact,run_directory_fd,detail_cases,verify_inventor
 from .security import audit
 
 def eligible(run,now):
+    from .models import AIAnalysis
     return (not run.purged_at and not run.retention_hold and run.state in {'completed','cancelled','rejected'}
         and run.finished_at is not None and run.finished_at<now-timedelta(days=run.project.organization.retention_days)
-        and not Run.objects.filter(original=run,state__in=ACTIVE).exists())
+        and not Run.objects.filter(original=run,state__in=ACTIVE).exists()
+        and not AIAnalysis.objects.filter(run=run,state__in=['queued','running']).exists()
+        and not AIAnalysis.objects.filter(compared_run=run,state__in=['queued','running']).exists())
 
 def permitted(name,case_names):
     parts=name.split('/')
@@ -71,7 +74,7 @@ def remove_exact(root,entries):
 def purge_run(identifier,apply=False):
     now=timezone.now()
     with transaction.atomic():
-        run=Run.objects.select_for_update().select_related('project__organization','actor').get(pk=identifier)
+        run=Run.objects.select_for_update(of=('self',)).select_related('project__organization','actor').get(pk=identifier)
         if not eligible(run,now):raise PolicyError('retention_not_eligible')
         # Preserve unresolved cleanup/ownership. This service cannot guess it.
         if run.state=='completed' and run.operation!='inventory' and not (run.target_cleanup_verified or run.process_facts.get('no_native_launch_observed')):raise PolicyError('retention_cleanup_unknown')
@@ -109,11 +112,12 @@ def purge_run(identifier,apply=False):
     return {'run_id':str(run.pk),'files':sum(row[3]=='file' for row in entries),'dry_run':False}
 
 def erase_account(identifier,apply=False):
+    from .models import AIAnalysis
     with transaction.atomic():
         record=AccountDeletion.objects.select_for_update().select_related('user').get(pk=identifier)
         user=User.objects.select_for_update().get(pk=record.user_id)
         if record.completed_at or record.due_at>timezone.now() or user.is_active:raise PolicyError('account_retention_not_due')
-        if Membership.objects.filter(user=user,active=True).exists() or Run.objects.filter(actor=user,state__in=ACTIVE).exists():raise PolicyError('account_has_active_authority_or_work')
+        if Membership.objects.filter(user=user,active=True).exists() or Run.objects.filter(actor=user,state__in=ACTIVE).exists() or AIAnalysis.objects.filter(actor=user,state__in=['queued','running']).exists():raise PolicyError('account_has_active_authority_or_work')
         if apply:
             replacement='deleted-'+user.pk.hex+'@deleted.invalid'
             for session in UserSession.objects.filter(user=user):session.end()
@@ -123,3 +127,19 @@ def erase_account(identifier,apply=False):
             user.save(update_fields=['email','first_name','last_name','last_login','password','session_version'])
             record.completed_at=timezone.now();record.save(update_fields=['completed_at']);audit(user,'account.personal_data_erased')
         return {'user_id':str(user.pk),'dry_run':not apply}
+
+def erase_ai_content(apply=False):
+    from .models import AIAnalysis,SourceSubmission
+    now=timezone.now();results=[]
+    for source in SourceSubmission.objects.filter(erased_at=None,expires_at__lte=now).select_related('project__organization')[:20]:
+        if AIAnalysis.objects.filter(source=source,state__in=['queued','running']).exists():continue
+        if apply:
+            SourceSubmission.objects.filter(pk=source.pk,erased_at=None).update(redacted_text='',erased_at=now)
+            audit(None,'ai.source_expired',source.project.organization,source.pk)
+        results.append({'source_id':str(source.pk),'dry_run':not apply})
+    for analysis in AIAnalysis.objects.filter(erased_at=None,created_at__lt=now-timedelta(days=30)).exclude(state__in=['queued','running']).select_related('run__project__organization')[:20]:
+        if apply:
+            AIAnalysis.objects.filter(pk=analysis.pk,erased_at=None).update(payload={},citations={},result={},erased_at=now)
+            audit(None,'ai.content_expired',analysis.run.project.organization,analysis.pk)
+        results.append({'analysis_id':str(analysis.pk),'dry_run':not apply})
+    return results

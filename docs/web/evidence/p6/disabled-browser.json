@@ -1,0 +1,142 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "page": "ai-request",
+      "width": 1440,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "source",
+      "width": 1440,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-settings",
+      "width": 1440,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "native",
+      "width": 1440,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-request",
+      "width": 390,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "source",
+      "width": 390,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-settings",
+      "width": 390,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "native",
+      "width": 390,
+      "javascript": true,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-request",
+      "width": 1280,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "source",
+      "width": 1280,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-settings",
+      "width": 1280,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "native",
+      "width": 1280,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-request",
+      "width": 390,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "source",
+      "width": 390,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "ai-settings",
+      "width": 390,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    },
+    {
+      "page": "native",
+      "width": 390,
+      "javascript": false,
+      "external_requests": [],
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "ai-request",
+      "violations": []
+    },
+    {
+      "page": "source",
+      "violations": []
+    },
+    {
+      "page": "ai-settings",
+      "violations": []
+    },
+    {
+      "page": "native",
+      "violations": []
+    }
+  ],
+  "provider_calls": 0,
+  "provider_verification": "NOT_RUN: no dedicated credential configured",
+  "native_execution_performed": false,
+  "source_sha256": "340405c93cb7f494896fdac0bf08537bc5b17b4ca36a46b8405de430039f8b9f",
+  "source_id": "74dda1ca-f8ac-471d-a2ea-f89697a2b205",
+  "source_scope": "Already published original MIT correction patch; no SDK/source binary or private config uploaded",
+  "preview_only": true
+}

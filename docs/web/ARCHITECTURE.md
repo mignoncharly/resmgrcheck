@@ -36,6 +36,17 @@ AI is optional, explicitly consented, quota-bound and limited to selected tenant
 evidence/source. It cannot execute tools, deploy patches or mutate canonical results.
 Provider absence/failure leaves deterministic testing/reporting available.
 
+The P6 implementation separates the AI worker from the HTTP process and native
+executor. HTTP records signed exact-preview consent and a transactional cost
+reservation; only the private AI worker reads its dedicated provider credential.
+The fixed stateless Responses adapter runs in a bounded owned child, with no QNX
+credential in argv/environment, tools or inherited proxy configuration. Dedicated
+OS/filesystem isolation remains a P8 production requirement. Immutable input/output hashes,
+native reference IDs, provider/model/usage provenance and uncertain-call records
+remain distinct from Run verdicts. See AI.md for egress, bounds and retention.
+Actual provider qualification is pending dedicated local configuration; host mocks
+and disabled-browser checks do not establish provider access or successful output.
+
 Customer targets require an approved dedicated runner/route for that tenant.
 This release will not accept arbitrary shared-host SSH or claim external lifecycle
 observers that do not exist. Public demo uses isolated recorded evidence only.

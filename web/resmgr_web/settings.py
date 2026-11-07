@@ -97,6 +97,7 @@ PRIVATE_ROOT = Path(os.environ.get('RMC_WEB_PRIVATE_ROOT',REPO_ROOT/'.local/web/
 EXECUTOR_REGISTRY = os.environ.get('RMC_WEB_EXECUTOR_REGISTRY','')
 ENGINE_ROOT = Path(os.environ.get('RMC_WEB_ENGINE_ROOT',REPO_ROOT))
 ENGINE_PYTHON = os.environ.get('RMC_WEB_ENGINE_PYTHON','/usr/bin/python3')
+AI_CONFIG = os.environ.get('RMC_WEB_AI_CONFIG','') # Private AI worker only; HTTP never reads provider credentials.
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 USE_TZ = True
 TIME_ZONE = 'UTC'

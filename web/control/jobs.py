@@ -41,6 +41,9 @@ def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,
         if existing:
             if existing.intent_sha256!=fingerprint:raise QueueError('idempotency_intent_conflict')
             return existing,False
+        if original:
+            saved=Run.objects.select_for_update().get(pk=original.pk)
+            if saved.purged_at or saved.project_id!=project.pk or saved.state!='completed':raise QueueError('original_evidence_unavailable')
         if Run.objects.filter(state__in=ACTIVE).count()>=settings.MAX_QUEUED_JOBS:raise QueueError('global_queue_full')
         if Run.objects.filter(project__organization=project.organization,state__in=ACTIVE).count()>=10:raise QueueError('organization_queue_full')
         if Run.objects.filter(project=project,state__in=ACTIVE).count()>=5:raise QueueError('project_queue_full')

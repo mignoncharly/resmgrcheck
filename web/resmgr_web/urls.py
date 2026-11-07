@@ -40,3 +40,9 @@ from control import evidence,retention_views
 urlpatterns += [path('app/runs/<uuid:run_id>/evidence.zip',evidence.download,name='evidence_download'),
  path('app/organizations/<uuid:organization_id>/retention/',retention_views.settings_page,name='retention'),
  path('app/runs/<uuid:run_id>/retention-hold/',retention_views.hold,name='retention_hold')]
+from control import ai_views
+urlpatterns += [path('app/projects/<uuid:project_id>/ai/settings/',ai_views.settings_page,name='ai_settings'),
+ path('app/projects/<uuid:project_id>/ai/source/',ai_views.upload_source,name='upload_source'),
+ path('app/source/<uuid:source_id>/',ai_views.source_detail,name='source_detail'),
+ path('app/runs/<uuid:run_id>/ai/',ai_views.request_analysis,name='ai_request'),
+ path('app/analysis/<uuid:analysis_id>/',ai_views.detail,name='ai_detail'),path('app/analysis/<uuid:analysis_id>/cancel/',ai_views.cancel_analysis,name='ai_cancel')]

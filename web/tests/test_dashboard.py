@@ -44,6 +44,18 @@ class DashboardTests(TestCase):
         repeat=next(case for case in response.context['cases'] if case['name']=='repeat')
         self.assertEqual(len(repeat['result']['cycles']),20)
         for number in range(1,21):self.assertContains(response,'Inspect cycle '+str(number)+'<')
+    def test_every_native_reference_has_a_real_disclosure_target(self):
+        from html.parser import HTMLParser
+        class References(HTMLParser):
+            def __init__(self):super().__init__();self.ids=set();self.refs=[]
+            def handle_starttag(self,tag,attrs):
+                values=dict(attrs)
+                if 'id' in values:self.ids.add(values['id'])
+                href=values.get('href','')
+                if href.startswith(('#event-','#native-header-')):self.refs.append(href[1:])
+        run=self.recorded('after');parsed=References();parsed.feed(self.client.get(reverse('run_detail',args=[run.pk])).content.decode())
+        self.assertTrue(parsed.refs)
+        self.assertFalse(set(parsed.refs)-parsed.ids)
     def test_source_corrected_comparison_retains_native_label(self):
         before=self.recorded('broken');after=self.recorded('after')
         response=self.client.get(reverse('compare'),{'before':str(before.pk),'after':str(after.pk)})

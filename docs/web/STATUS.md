@@ -11,17 +11,18 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P3 engine integration | PASS (private staging) | 55 host tests, five actual QNX cases, bounded transport loss/same-ID recovery and real failed-SFTP preflight |
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
 | P5 evidence/sharing | PASS (private staging) | 82 host tests; five HTTP downloads/ten offline views/209 references; immutable inventory and bounded retention |
-| P6 AI analysis | IN PROGRESS | Opt-in provider, consent/redaction/citations/budget controls; real provider not configured |
+| P6 AI analysis | IN PROGRESS | 117 host tests +74 focused;16 browser views/four accessibility scans; two current-web QNX PASS cases with AI disabled; real provider pending |
 | P7–P10 | NOT_RUN | Must satisfy each gate in order |
 
-Actually running production web features: none. No production hostname/TLS or
-ResMgrCheck vhost currently exists. Original engine runtime digest remains
+Actually running production web features: none. A later read-only check found DNS
+now resolves, but no matching enabled ResMgrCheck vhost and no verified HTTPS health
+response. This task made no DNS/Nginx change. Original engine runtime digest remains
 `02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.
 Existing QNX features/evidence remain qualified; this is separate from web execution.
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
 External actions observed necessary: root-owned service/account/Nginx provisioning
-(noninteractive sudo is unavailable), DNS for the requested hostname, dedicated
+(noninteractive sudo is unavailable), public vhost/TLS verification, dedicated
 transactional email configuration, optional project-consented AI provider setup,
 and independent operator UAT. No secrets should be sent in chat. Concrete commands
 will be supplied after the relevant install/configuration artifacts are prepared.

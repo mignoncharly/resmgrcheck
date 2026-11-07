@@ -1,0 +1,8 @@
+{
+  "hostname": "qnx-resmgrcheck.gestionatech.de",
+  "matching_enabled_vhosts": [],
+  "app_deployed_by_this_task": false,
+  "tls_verified": false,
+  "error_class": "URLError",
+  "expected_health_payload": false
+}

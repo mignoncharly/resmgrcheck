@@ -26,3 +26,21 @@ private executor. Never expose it or hand its credential to a public web process
 
 Security results and unresolved findings belong in TEST_EVIDENCE.md. No production
 security or independent penetration-test claim is made from unit tests alone.
+
+P5 evidence inventories are closed/immutable through PostgreSQL triggers. Every
+authenticated download verifies safe no-follow components, regular/non-hardlink
+type, byte length and SHA-256 against the inventory and canonical engine evidence.
+Malformed/changed required evidence withholds the conclusion, report and archive.
+Authorized project membership is required on every object; no anonymous private
+sharing links exist. Retention removes only a validated exact owned local tree;
+unknown files/directories, unresolved native cleanup, holds and active derivatives
+stop removal. These are integrity controls, not hardware WORM certification.
+
+P6 AI uses explicit project opt-in plus signed per-request consent, immutable packet
+identity, narrow original-source handling, best-effort redaction, exact reference
+validation, output hashing/escaping, conservative cost ledgers and a bounded private
+child. Data/source instructions never gain tool or mutation permission. Missing or
+unavailable AI does not gate native execution. Provider credentials are read only
+by its separate worker; production OS enforcement is still a P8 requirement. Real
+provider results, account access and retention approval remain unverified until
+the dedicated integration is actually exercised. See AI.md; mocks are not proof.

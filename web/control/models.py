@@ -156,6 +156,7 @@ class Run(models.Model):
     purged_at=models.DateTimeField(null=True)
     retention_hold=models.BooleanField(default=False)
     purge_error=models.CharField(max_length=100,blank=True)
+    def __str__(self):return self.native_run_id+' · '+self.profile+' / '+self.suite
     class Meta:
         constraints=[models.UniqueConstraint(fields=['project','actor','idempotency_key'],name='run_request_dedup')]
         ordering=['-created_at']
@@ -175,3 +176,74 @@ class Artifact(models.Model):
     content_type=models.CharField(max_length=80)
     class Meta:
         constraints=[models.UniqueConstraint(fields=['run','relative_path'],name='artifact_path_per_run')]
+
+class SourceSubmission(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    project=models.ForeignKey(Project,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    label=models.CharField(max_length=80)
+    original_sha256=models.CharField(max_length=64)
+    redacted_sha256=models.CharField(max_length=64)
+    redacted_text=models.TextField()
+    redactions=models.PositiveIntegerField(default=0)
+    created_at=models.DateTimeField(auto_now_add=True)
+    expires_at=models.DateTimeField()
+    erased_at=models.DateTimeField(null=True)
+    def __str__(self):return self.label+' · '+self.original_sha256[:12]
+
+class AIAnalysis(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    run=models.ForeignKey(Run,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    source=models.ForeignKey(SourceSubmission,null=True,on_delete=models.PROTECT)
+    compared_run=models.ForeignKey(Run,null=True,on_delete=models.PROTECT,related_name='ai_comparisons')
+    actor_auth_hash=models.CharField(max_length=64)
+    mfa_at=models.DateTimeField()
+    idempotency_key=models.CharField(max_length=64)
+    task=models.CharField(max_length=24)
+    input_sha256=models.CharField(max_length=64)
+    payload=models.JSONField(default=dict)
+    citations=models.JSONField(default=dict)
+    provider=models.CharField(max_length=30)
+    requested_model=models.CharField(max_length=100)
+    resolved_model=models.CharField(max_length=100,blank=True)
+    provider_response_id=models.CharField(max_length=150,blank=True)
+    provider_request_id=models.CharField(max_length=150,blank=True)
+    pricing=models.JSONField(default=dict)
+    reserved_microusd=models.PositiveBigIntegerField()
+    accounted_microusd=models.PositiveBigIntegerField()
+    usage_established=models.BooleanField(default=False)
+    usage=models.JSONField(default=dict)
+    state=models.CharField(max_length=24,default='queued',db_index=True)
+    result=models.JSONField(default=dict)
+    output_sha256=models.CharField(max_length=64,blank=True)
+    error_code=models.CharField(max_length=100,blank=True)
+    consent_version=models.CharField(max_length=30,default='evidence-egress-v1')
+    created_at=models.DateTimeField(auto_now_add=True)
+    started_at=models.DateTimeField(null=True)
+    finished_at=models.DateTimeField(null=True)
+    erased_at=models.DateTimeField(null=True)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['actor','run','idempotency_key'],name='ai_request_dedup')]
+        ordering=['-created_at']
+
+class AIUsage(models.Model):
+    scope=models.CharField(max_length=64)
+    day=models.DateField()
+    accounted_microusd=models.PositiveBigIntegerField(default=0)
+    requests=models.PositiveIntegerField(default=0)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['scope','day'],name='ai_usage_scope_day')]
+
+class AILease(models.Model):
+    name=models.CharField(max_length=30,primary_key=True)
+    analysis=models.ForeignKey(AIAnalysis,null=True,on_delete=models.PROTECT)
+    token=models.UUIDField(null=True)
+    expires_at=models.DateTimeField(null=True)
+
+class AIProviderState(models.Model):
+    name=models.CharField(primary_key=True,max_length=30)
+    policy=models.JSONField(default=dict)
+    available=models.BooleanField(default=False)
+    refreshed_at=models.DateTimeField()
+    verified_at=models.DateTimeField(null=True)

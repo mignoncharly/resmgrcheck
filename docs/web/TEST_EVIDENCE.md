@@ -231,3 +231,62 @@ production pass. Secure production settings/HTTPS/OS separation, backup restore,
 SMTP delivery and real AI provider remain downstream unverified requirements.
 P5 passes local evidence/sharing/retention qualification, not hardware WORM storage
 or third-party security certification. Raw packages/screenshots remain private.
+
+## W006 — P6 implementation; real provider gate pending
+
+Source over6169f7e. [All117 PG-backed web host tests](evidence/p6/host-tests.txt)
+passed in32.821s. A final focused74-test run after queued-cancel/source-erasure
+and replay/retention locking changes passed in19.938s. AI tests use explicitly
+labelled mock responses: they prove consent/authorization/schema/cost/protocol
+behavior, not a real model response. They cover exact signed-preview consent,
+deduplication without respend, model-policy changes, zero/stale/insufficient budgets,
+cross-tenant/source/viewer denial, source/private-key/SDK/binary/upload bounds,
+best-effort redaction, prompt text remaining untrusted, unknown citations and
+verdict-field refusal, required uncertainty/source/comparison references, escaped
+output, provider401/403/429/500/incomplete/refusal/oversize/malformed handling,
+revocation before dispatch, conservative failure reservations, uncertain lease
+expiry without reissue, queued-only cancellation, immutable consent/completed
+provenance, derivative erasure and no native verdict mutation. A real private child
+rejected oversized input before any network request; timeout mapping is host-mocked.
+
+[Actual disabled-provider browser qualification](evidence/p6/disabled-browser.json)
+passed16 loopback HTTP views at1440/390px with JavaScript and1280/390px without it.
+Four new/affected pages passed axe scans with no serious/critical findings.
+An actual original-source upload used only docs/jury/source-fix.patch, already
+published original MIT correction; its digest is recorded. Exact redacted preview
+and no-provider state were observed, with no external network requests/provider
+calls. The deterministic report stayed available. This does not prove AI output.
+
+[Two actual current-web native cases](evidence/p6/no-ai-native.json) passed on the
+existing QNX guest with AI unavailable: sensor fixed timeout and job fixed timeout.
+Real HTTP/CSRF/password/TOTP forms queued exact IDs; duplicate POST deduped, the
+separate dispatcher invoked the existing engine, both canonical outcomes were PASS,
+native cleanup and host CLI exit/reaping were observed, and new v2 inventories
+verified. This specifically requalifies the changed web sealing/integration path,
+not the unchanged36-expectation native release matrix. Total actual web staging
+native cases so far:seven (P3 five plus these two); failed-transfer/inventory/
+queued cancellation and archived playback do not inflate that count.
+
+The packet-bound test initially withheld a full before/after packet. Repeated
+assertion observed objects were replaced by explicit excerpts plus exact cited
+observations and a disclosure; the24000-byte bound remains enforced. Original
+canonical evidence is unchanged and linked. A job test expectation was corrected
+to its actual versioned adapter ID job-v1. Browser checks corrected the shared
+manifest upload wording for source review. Record#0 references now disclose the
+actual target run manifest rather than pointing to a nonexistent producer event;
+a dedicated host check verifies every native reference has a disclosure target.
+
+The implemented real OpenAI adapter follows the official Responses/structured-output
+and data-control documents linked in AI.md. No endpoint/model/key is borrowed or
+fabricated. The operator has agreed to configure dedicated AI and SMTP locally;
+the files/values were not yet present at this observation. `qualify_ai_provider.py`
+is prepared for four actual consented requests after secure local configuration.
+Real provider/account/cost/interpretation verification remains **NOT_RUN**. P6 is
+**IN PROGRESS**, and P7–P10 have not advanced. Same-user private staging is not
+production OS isolation, public HTTPS or independent operator UAT. No original
+native C/evaluator/profile/Makefile or sealed historical evidence was changed.
+
+A later read-only [hostname observation](evidence/p6/hostname.json) found DNS now
+resolves (P0's earlier NXDOMAIN observation remains historical). No matching
+enabled Nginx vhost was found; an HTTPS health request did not verify. This task
+made no DNS/vhost changes and does not infer an application deployment from DNS.

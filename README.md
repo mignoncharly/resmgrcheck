@@ -22,6 +22,17 @@ state the supported boundary. E015 records clean source/reused-target reproducti
 The [offline report guide](docs/reports.md) explains cases, timelines, replay and
 comparison context; E014 records browser inspection.
 
+## Web application branch
+
+`feature/production-web-ai` adds a separate Django/PostgreSQL control plane around
+the existing engine. Its [gate status](docs/web/STATUS.md), [actual web/native test
+record](docs/web/TEST_EVIDENCE.md), [architecture](docs/web/ARCHITECTURE.md) and
+[optional AI controls](docs/web/AI.md) distinguish private staging from production.
+The requested public HTTPS application is **not deployed yet**. Dedicated SMTP,
+real provider qualification, production isolation/hardening and release acceptance
+are still pending; no frontend rendering result substitutes for those gates.
+The CLI and original evidence below remain independently usable.
+
 ## Prerequisites
 
 Use Python 3.10+, Git, Make and OpenSSH on Linux, an installed locally licensed QNX SDP

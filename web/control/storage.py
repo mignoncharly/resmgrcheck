@@ -146,7 +146,7 @@ def detail_cases(run):
             try:ProducerEvent.parse(event)
             except ValueError:break
             ns=int(event['ns']);first=ns if first is None else first
-            events.append({'index':index,'event':event['event'],'producer':event['producer'],'offset_ms':round((ns-first)/1000000,3),'data':event['data']})
+            events.append({'index':index,'ns':event['ns'],'event':event['event'],'producer':event['producer'],'offset_ms':round((ns-first)/1000000,3),'data':event['data']})
         cases.append({'name':name,'result':bundle.result.data,'events':events,'sealed':True,'plan':bundle.plan.data,
                       'manifest':bundle.manifest.data,'status':bundle.status,'target':json.loads(bundle.raw.splitlines()[0])})
     return cases

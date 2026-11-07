@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.http import Http404,HttpResponse,FileResponse
 from django.shortcuts import render,get_object_or_404
 from django.views.decorators.http import require_GET
-from .models import Project,Run,Target,Membership,Artifact
+from .models import Project,Run,Target,Membership,Artifact,AIAnalysis
 from .security import secure_account,visible_projects,project_access,audit
 from .execution_views import authorized_run
 from .engine import run_path,PolicyError
@@ -63,7 +63,7 @@ def run_detail(request,run_id):
         try:verify_inventory(run);cases=detail_cases(run)
         except (ValueError,OSError,PolicyError):integrity_error=True
     context={'run':run,'project':run.project,'role':role,'cases':cases,'integrity_error':integrity_error,
-             'artifacts':Artifact.objects.filter(run=run).order_by('relative_path'),'page':'runs'}
+             'artifacts':Artifact.objects.filter(run=run).order_by('relative_path'),'analyses':AIAnalysis.objects.filter(run=run)[:5],'page':'runs'}
     return render(request,'control/run.html',context,status=409 if integrity_error else 200)
 
 @secure_account
@@ -100,7 +100,7 @@ def demo(request,selection='before'):
         if event.get('kind')!='producer-event':continue
         ns=int(event['ns']);first=ns if first is None else first
         events.append({'index':index,'event':event['event'],'producer':event['producer'],'offset_ms':round((ns-first)/1000000,3),'data':event['data']})
-    case={'name':'timeout','result':bundle.result.data,'events':events,'sealed':True,'plan':bundle.plan.data,'manifest':bundle.manifest.data}
+    case={'name':'timeout','result':bundle.result.data,'events':events,'sealed':True,'plan':bundle.plan.data,'manifest':bundle.manifest.data,'target':json.loads(bundle.raw.splitlines()[0])}
     return render(request,'control/demo.html',{'selection':selection,'case':case,'page':'demo','playback':True})
 
 @require_GET

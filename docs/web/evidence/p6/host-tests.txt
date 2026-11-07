@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+...............................................................................Forbidden (CSRF cookie not set.): /app/organizations/6536d11e-6225-45f1-a157-0e0b0445cc5a/projects/new/
+......................................
+----------------------------------------------------------------------
+Ran 117 tests in 32.821s
+
+OK
+Destroying test database for alias 'default'...
+Found 117 test(s).
+System check identified no issues (0 silenced).

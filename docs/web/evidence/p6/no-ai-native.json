@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "provider_disabled": true,
+  "actual_native_cases": 2,
+  "runs": [
+    {
+      "profile": "sensor",
+      "native_run_id": "w3bed6d5face540e1a7",
+      "web_run_id": "3bed6d5f-ace5-40e1-a7f8-9b771576e63d",
+      "verdict": "PASS",
+      "case_id": "timeout",
+      "source_builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+        "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+      },
+      "bundle_id": "0dd217c910434805037dc0c71b8d890cfe1fc6fcf4850577630cb79e5b21d982",
+      "native_cleanup_verified": true,
+      "local_cli_exit_and_reap_observed": true,
+      "inventory_version": 2,
+      "http_duplicate_deduped": true
+    },
+    {
+      "profile": "job",
+      "native_run_id": "wc90e573add9f42b0be",
+      "web_run_id": "c90e573a-dd9f-42b0-bea8-78987e1342fc",
+      "verdict": "PASS",
+      "case_id": "timeout",
+      "source_builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+        "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+      },
+      "bundle_id": "14f0974b37fb9f017f425e9ce57e8f842e1deddfdac7734434e24a3d45d55d1a",
+      "native_cleanup_verified": true,
+      "local_cli_exit_and_reap_observed": true,
+      "inventory_version": 2,
+      "http_duplicate_deduped": true
+    }
+  ],
+  "scope": "Actual HTTP/CSRF/password/TOTP queue to existing QNX engine; native binaries reused; AI unavailable. Not a new full release matrix."
+}
