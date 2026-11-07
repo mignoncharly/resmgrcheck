@@ -809,3 +809,21 @@ debug-run log copies were archived locally with per-file POSIX cksum/length chec
 and SHA256 before removing only those log copies; run-status/duplicate guards were
 retained. Final p5gate2 gate records were preserved. SDK, original images and
 credentials were neither removed nor recreated.
+
+### E011 clean committed-source confirmation
+
+Phase5 checkpoint **9d4a10d25ebf506f59fac274e5902ec699aebd45** was committed only
+after the complete gate passed. From a clean working tree, `make qnx` recorded
+that exact revision, dirty=false and source digest61ac0d4a... . The entire40-case
+matrix was rerun as **p5life-clean1**, including both20-cycle positives, both
+ordering families and all negative/containment/capability cases. All exact expected
+classifications/reasons and four native input rejections passed again. Four SFTP
+readback hashes match the preceding artifact table. Reviewed text is retained in
+`evidence/phase5-clean-lifecycle/`. This clean run is independent from precommit
+p5gate2; no dirty observations were relabelled. An initial attempt to use already
+occupied prefix p5clean2 was refused by exclusive directory creation before any
+new run; its old contents were preserved and a fresh prefix was used.
+
+The remaining63 host tests pass. Raw inventory trailing spaces are retained as
+observed bytes. Phase6 now begins; its changed-build replay/export gate is still
+open. No earlier phase was reopened without the specific affected-path reasons above.

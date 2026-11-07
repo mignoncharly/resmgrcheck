@@ -7,7 +7,7 @@ Updated: 2026-11-07.
 | Current phase | Phase 5 gate passed E011; continue into Phase 6 |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
-| Qualified source | Base 26c3223 plus exact source digest in evidence/phase5/index.json; clean confirmation follows checkpoint |
+| Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
 | Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
 | Phases 7–10 | Not started |

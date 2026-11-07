@@ -1,0 +1,1031 @@
+{
+  "kind": "phase5-native-matrix",
+  "raw_debug_only": false,
+  "binary_readback_sha256": {
+    "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+    "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+    "sensor-v1-fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+    "job-v1-fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967"
+  },
+  "cases": [
+    {
+      "case": "sensor-timeout-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.1649955939501524,
+      "event_count": 174,
+      "event_sha256": "752ce58544807d2b80a7b75e79995c068b9b0d2c60f9fa45de3fec49331aa9de"
+    },
+    {
+      "case": "sensor-timeout-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.3703461182303727,
+      "event_count": 142,
+      "event_sha256": "abe471b6cf9ca64b0122cd549822d521dac81077afb469fdd1124e693246e69e"
+    },
+    {
+      "case": "sensor-timeout-retain-waiter",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.15043782023713,
+      "event_count": 174,
+      "event_sha256": "9298dd0d87ed1e06516cdbc2c8b03502de63b02189d15e80e0fd5fd819cebe41"
+    },
+    {
+      "case": "sensor-timeout-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.2621340733021498,
+      "event_count": 175,
+      "event_sha256": "c927a039f4af94765b8aa595fa1adbba530702fe00415986e1095f59ac35ba48"
+    },
+    {
+      "case": "sensor-signal-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.54151233099401,
+      "event_count": 178,
+      "event_sha256": "d9a89edb1715a0c0fc04d0ffb54b18225b1d007d45336b41babdf52ca8a06262"
+    },
+    {
+      "case": "sensor-signal-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.7579829050228,
+      "event_count": 145,
+      "event_sha256": "e2417a9bb3b4946a00b62277c78ab4bb10ce634ee6ac7b00d0cd27999f28e10a"
+    },
+    {
+      "case": "sensor-departure-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.7571877180598676,
+      "event_count": 196,
+      "event_sha256": "a0138a66b6998a95dc1582e9df0b179b2cc2500d2e26a6265eb40307ce93c5d8"
+    },
+    {
+      "case": "sensor-departure-retain-waiter",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.8382346848957241,
+      "event_count": 196,
+      "event_sha256": "49ef9992f5dca26fdd8b7945325beb180f9220a2ecf42350534db1a356838687"
+    },
+    {
+      "case": "sensor-departure-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "ERROR",
+      "reasons": [
+        "departure_unobserved"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.832282489631325,
+      "event_count": 154,
+      "event_sha256": "07227d324f2f5842e5ae7de0546353f5b91dd7320664382a83e927ee744e2460"
+    },
+    {
+      "case": "sensor-repeat-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 15.167112227063626,
+      "event_count": 1919,
+      "event_sha256": "8ea832eff7dc03a36531ff2b8e563ed491ebfa206002f84dd27a7b9deb95b681"
+    },
+    {
+      "case": "sensor-repeat-retain-third",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "repetition_incomplete",
+        "pending_state_not_released"
+      ],
+      "completion": "aborted",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.529417532030493,
+      "event_count": 406,
+      "event_sha256": "c3cf83583b4d8562d10db93af58fd360f2f6a986652622b9f0cafac72b4bb4d1"
+    },
+    {
+      "case": "sensor-repeat-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "repetition_incomplete",
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "aborted",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.299989235121757,
+      "event_count": 196,
+      "event_sha256": "4615f5a5fcb036408af6a230cf1489fc883fe0dcac5b40c909cae852b0e990f4"
+    },
+    {
+      "case": "sensor-complete-first-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.8745907042175531,
+      "event_count": 364,
+      "event_sha256": "6f0b89a1982aae78061ed141d10ebb613c796eb1d910c2e07d39f6b04c894560"
+    },
+    {
+      "case": "sensor-complete-first-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.9237581957131624,
+      "event_count": 365,
+      "event_sha256": "f9f824d2987ac9f808b3541be0726622f9cec0f4b2c9542020c7ee0deec4d424"
+    },
+    {
+      "case": "sensor-cancel-first-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.8416439280845225,
+      "event_count": 301,
+      "event_sha256": "921a3271f7a047844de42feaef3c19d93d1c66c5fe8fdf61dfe02ea2f9a8e5e1"
+    },
+    {
+      "case": "sensor-cancel-first-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.8416747460141778,
+      "event_count": 302,
+      "event_sha256": "5807cde57b6f17102769f08596209c96b796580bbc9638c25a4ca583bc923daa"
+    },
+    {
+      "case": "sensor-repeat-corrected-probe",
+      "lab_control": "cycle_probe_stuck",
+      "verdict": "ERROR",
+      "reasons": [
+        "probe_timeout",
+        "repetition_incomplete"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.705391228199005,
+      "event_count": 285,
+      "event_sha256": "aef2e387b3da424e5f3d88cad3167b6540463989181b8e821c9fb4b320db5254"
+    },
+    {
+      "case": "sensor-repeat-ignore-unblock-cleanup",
+      "lab_control": "cleanup_failure",
+      "verdict": "ERROR",
+      "reasons": [
+        "cleanup_failed",
+        "repetition_incomplete",
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 5.080747687723488,
+      "event_count": 192,
+      "event_sha256": "9e2122a41623df7d17df8e00a36d98bb52c54e9d2a22a5f27f9539a765ffa42b"
+    },
+    {
+      "case": "sensor-unsupported-signal-corrected",
+      "lab_control": "none",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "signal_mode_unsupported"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.4094144091941416,
+      "event_count": 6,
+      "event_sha256": "9839bd72e8364450c88792fdf6f135797956137e25643e1ba14913098c7ece86"
+    },
+    {
+      "case": "job-timeout-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.178922506980598,
+      "event_count": 191,
+      "event_sha256": "fe3a023c86ea47f9a0e91677b6d7f5180b9fbefed272819d043b8a9ffa7c1f67"
+    },
+    {
+      "case": "job-timeout-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.2592364749871194,
+      "event_count": 158,
+      "event_sha256": "d132e8774c601d70c463e1a89a6ee7874971d486fdb5364b8aff0e454f99650a"
+    },
+    {
+      "case": "job-timeout-retain-waiter",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.194358963984996,
+      "event_count": 191,
+      "event_sha256": "af1914fe40d56146bb86d05bf0508c9374cafbe349f1c161ff767becfa72ed1a"
+    },
+    {
+      "case": "job-timeout-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.1529667479917407,
+      "event_count": 192,
+      "event_sha256": "fbd090adbd65d76390a6895db6d4059a9fc867bd9ee95c2a8c6e72435241d9e1"
+    },
+    {
+      "case": "job-signal-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.7952569937333465,
+      "event_count": 195,
+      "event_sha256": "ed2263e89734cedf2c55b473328be79b7ac8d4c39d5f2bc0301e25cf51a0fe1c"
+    },
+    {
+      "case": "job-signal-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.8667744286358356,
+      "event_count": 161,
+      "event_sha256": "64491800ee572048c207ac3950983404f4fb4a3720fc50ee496020fef7bfe33a"
+    },
+    {
+      "case": "job-departure-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.7181046106852591,
+      "event_count": 213,
+      "event_sha256": "d6f8cadbbc860dfc0edea26052f396b484a2580a9f657823431aed25c9f815d2"
+    },
+    {
+      "case": "job-departure-retain-waiter",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "pending_state_not_released"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.7621237570419908,
+      "event_count": 213,
+      "event_sha256": "40aa763cb24d35e704947ebd021cb76646c2f004529c92d958fe4a38dbfa6891"
+    },
+    {
+      "case": "job-departure-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "ERROR",
+      "reasons": [
+        "departure_unobserved"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.8498155120760202,
+      "event_count": 170,
+      "event_sha256": "c6cf79dc8708fc0b329922f8d6db8b06bf0f0031c8b508d6bab4406e78fab268"
+    },
+    {
+      "case": "job-departure-drop-job",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "unexpected_service_state",
+        "unexpected_operation_result"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.9168235310353339,
+      "event_count": 211,
+      "event_sha256": "a3ca41f82b00bac1704584846ede65d860fb75f52b9881036b89be61ac7329de"
+    },
+    {
+      "case": "job-repeat-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 15.02096977783367,
+      "event_count": 1974,
+      "event_sha256": "610ec5fcd89f31d0b94d4352e15fee401a1d996ec9e5e518084e40b176f57164"
+    },
+    {
+      "case": "job-repeat-retain-third",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "repetition_incomplete",
+        "pending_state_not_released"
+      ],
+      "completion": "aborted",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 2.5168355270288885,
+      "event_count": 427,
+      "event_sha256": "527251c62271201f6f7de5a239df69847cc769af549eba689357eeb74e0be455"
+    },
+    {
+      "case": "job-repeat-ignore-unblock",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "repetition_incomplete",
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "aborted",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.475940254982561,
+      "event_count": 212,
+      "event_sha256": "620bc13eea9be04a3814c96985d2d636b2383f835822ab36ff6835cb7537c331"
+    },
+    {
+      "case": "job-complete-first-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.9543053922243416,
+      "event_count": 383,
+      "event_sha256": "0a92f9c5d8a2f3257a58cdcbcd8ae7e4b109788cc0e4bec14706d5ff1d11cbcf"
+    },
+    {
+      "case": "job-complete-first-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 1.1343074310570955,
+      "event_count": 384,
+      "event_sha256": "8c59af848ce33af0e02830859b9d3f84f60eb9c6f69604e099ee05973a8b6ba9"
+    },
+    {
+      "case": "job-cancel-first-corrected",
+      "lab_control": "none",
+      "verdict": "PASS",
+      "reasons": [
+        "all_obligations_satisfied"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.9065139652229846,
+      "event_count": 319,
+      "event_sha256": "42f4b794c903e3e63528cb7bc9f28e89dd042e0d267f91ec29c5023f76ce89e3"
+    },
+    {
+      "case": "job-cancel-first-duplicate-terminal",
+      "lab_control": "none",
+      "verdict": "FAIL",
+      "reasons": [
+        "duplicate_terminal_attempt"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.9025894259102643,
+      "event_count": 320,
+      "event_sha256": "92735a15978e0b24914d385108f2210180d9225aa6ecb57c2b2e31d83020af41"
+    },
+    {
+      "case": "job-repeat-corrected-probe",
+      "lab_control": "cycle_probe_stuck",
+      "verdict": "ERROR",
+      "reasons": [
+        "probe_timeout",
+        "repetition_incomplete"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 3.7657311758957803,
+      "event_count": 303,
+      "event_sha256": "d8099bd1a67e49c17877459fd303bbe4ff51a92419ed39804e0cc2133758f944"
+    },
+    {
+      "case": "job-repeat-ignore-unblock-cleanup",
+      "lab_control": "cleanup_failure",
+      "verdict": "ERROR",
+      "reasons": [
+        "cleanup_failed",
+        "repetition_incomplete",
+        "cancellation_not_completed",
+        "pending_state_not_released"
+      ],
+      "completion": "incomplete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 5.228114464785904,
+      "event_count": 208,
+      "event_sha256": "d12c791e6cd70112171a36d68288d96af9bce95adf3c9891881d466b575693de"
+    },
+    {
+      "case": "job-unsupported-signal-corrected",
+      "lab_control": "none",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "signal_mode_unsupported"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "377bce3f1741e742c57e3a7aa8642553f6f20f7bc808d2694e151a120dc72967",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.3949248529970646,
+      "event_count": 6,
+      "event_sha256": "710fd71835036a0a928808083f26dfb9f079549e1327e21e8067b6fe06d5ac03"
+    },
+    {
+      "case": "sensor-unsupported-capability-corrected",
+      "lab_control": "none",
+      "verdict": "UNSUPPORTED",
+      "reasons": [
+        "required_capability_missing"
+      ],
+      "completion": "complete",
+      "source_builds": {
+        "binaries": {
+          "adapter": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8",
+          "fixture": "822baa8b52081104c594245f9f5565060a4981e84b106f9bc2da9c66e5e82df3",
+          "runner": "3bad265115a7c84cdbef3e612aadcbe25740c80576759c9df983249a940b6e55",
+          "worker": "420ccfdcdde6e96f6373763d5da857294f0a9ac41637ef7df92bae89eefd3ee8"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "9d4a10d25ebf506f59fac274e5902ec699aebd45",
+        "source_tree_sha256": "61ac0d4ad9c48050413f19276588e9c3a155b5aa9d11e8c5da3155a0f0b8c370"
+      },
+      "host_elapsed_s": 0.4376851790584624,
+      "event_count": 6,
+      "event_sha256": "307d5017196077bb716492278b2b546a6459cbeb1453f1de7970057f575c2be7"
+    }
+  ]
+}

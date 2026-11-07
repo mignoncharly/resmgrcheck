@@ -8,7 +8,7 @@ Phases 1–5 have passed their native gates. Do not repeat passed phases without
 specific changed prerequisite. E011 retains the full 40-case Phase 5 matrix and
 14 affected supervision cases, with exact source digests and SFTP artifact readback
 hashes. Sixty-three host tests include actual QNX vectors and explicitly synthetic
-negative mutations. Clean committed-source confirmation is recorded after checkpoint.
+negative mutations. Clean source checkpoint9d4a10d passed the full40-case confirmation in evidence/phase5-clean-lifecycle (p5life-clean1).
 
 Reuse source /home/mignon/qnx800/qnxsdp-env.sh; make qnx. No reinstall or credential
 creation is needed. The existing route is ssh -F .local/ssh_config resmgrcheck-qnx
