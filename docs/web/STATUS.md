@@ -1,17 +1,17 @@
 # Production web implementation status
 
-Branch: `feature/production-web-ai`. Specification: `3d9048a`.
+Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
 | Gate | State | Evidence |
 | --- | --- | --- |
 | P0 baseline/threat model | PASS | Inventory, preserved baseline, dependency/security review, explicit deployment blockers |
 | P1 foundation | PASS | 15 pinned/hashed wheel dependencies; real PG migrations, four tests, isolated Gunicorn readiness200 |
-| P2 identity/authorization | PASS (staging protocol) | 34 PG-backed tests incl. real verification/TOTP/reset flows, tenant denial, CSRF, session revocation; SMTP delivery not production-verified |
-| P3 engine integration | PASS (private staging) | 55 host tests, five actual QNX cases, bounded transport loss/same-ID recovery and real failed-SFTP preflight |
+| P2 revised administrator/code authorization | PASS (private staging) | W007:135 PostgreSQL tests, concurrent redemption,36 browser views/10 accessibility scans, native revocation/queued denial |
+| P3 engine integration | PASS (private staging, revised access) | W003 historical recovery/failed-transfer retained; W007 six new actual QNX cases through code sessions, source-corrected replay |
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
-| P5 evidence/sharing | PASS (private staging) | 82 host tests; five HTTP downloads/ten offline views/209 references; immutable inventory and bounded retention |
-| P6 AI analysis | IN PROGRESS | 117 host tests +74 focused;16 browser views/four accessibility scans; two current-web QNX PASS cases with AI disabled; real provider pending |
+| P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
+| P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
 | P7–P10 | NOT_RUN | Must satisfy each gate in order |
 
 Actually running production web features: none. A later read-only check found DNS
@@ -22,8 +22,9 @@ Existing QNX features/evidence remain qualified; this is separate from web execu
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
 External actions observed necessary: root-owned service/account/Nginx provisioning
-(noninteractive sudo is unavailable), public vhost/TLS verification, dedicated
-transactional email configuration, optional project-consented AI provider setup,
+(noninteractive sudo is unavailable), public vhost/TLS verification, optional project-consented AI provider setup,
 and independent operator UAT. No secrets should be sent in chat. Concrete commands
 will be supplied after the relevant install/configuration artifacts are prepared.
 Continue implementation/staging without changing unrelated VPS services.
+
+SMTP is no longer a product dependency or release blocker. Public signup, verification, email reset and invitations are removed. Administrators are locally provisioned; regular developers/testers use scoped access-code sessions. Earlier W002/W006 email requirements are historical and superseded. Original native/CLI identities and sealed bundles remain unchanged.

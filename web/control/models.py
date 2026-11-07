@@ -5,25 +5,28 @@ from django.db import models
 from django.db.models.functions import Lower
 
 class UserManager(BaseUserManager):
-    def create_user(self,email,password=None,**extra):
-        if not email: raise ValueError('Email is required')
-        user=self.model(email=self.normalize_email(email).lower(),**extra)
+    def create_user(self,username,password=None,**extra):
+        if not username: raise ValueError('Administrator username is required')
+        extra.setdefault('is_staff',True)
+        user=self.model(username=username.strip().lower(),**extra)
         user.set_password(password);user.save(using=self._db);return user
-    def create_superuser(self,email,password=None,**extra):
+    def create_superuser(self,username,password=None,**extra):
         extra.update(is_staff=True,is_superuser=True)
-        return self.create_user(email,password,**extra)
+        return self.create_user(username,password,**extra)
 
 class User(AbstractUser):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
-    username=None
-    email=models.EmailField(unique=True)
+    username=models.CharField(max_length=40,unique=True,null=True,blank=True)
+    email=models.EmailField(unique=True,null=True,blank=True) # Legacy audit identity only; no email workflow.
     session_version=models.PositiveIntegerField(default=1)
-    USERNAME_FIELD='email'; REQUIRED_FIELDS=[]
+    USERNAME_FIELD='username'; REQUIRED_FIELDS=[]
     objects=UserManager()
     class Meta:
-        constraints=[models.UniqueConstraint(Lower('email'),name='user_email_casefold_unique')]
+        constraints=[models.UniqueConstraint(Lower('email'),name='user_email_casefold_unique'),models.UniqueConstraint(Lower('username'),name='administrator_username_casefold_unique'),models.CheckConstraint(condition=models.Q(is_active=False)|models.Q(is_staff=True,username__isnull=False),name='active_accounts_are_administrators')]
     def save(self,*args,**kwargs):
-        self.email=self.email.strip().lower();super().save(*args,**kwargs)
+        if self.email:self.email=self.email.strip().lower()
+        if self.username:self.username=self.username.strip().lower()
+        super().save(*args,**kwargs)
     def _get_session_auth_hash(self,secret=None):
         from django.utils.crypto import salted_hmac
         return salted_hmac('resmgrcheck.User.session',f'{self.password}:{self.session_version}',secret=secret,algorithm='sha256').hexdigest()
@@ -71,6 +74,8 @@ class AuditEvent(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     organization=models.ForeignKey(Organization,null=True,on_delete=models.PROTECT)
     actor=models.ForeignKey(User,null=True,on_delete=models.PROTECT)
+    access_session=models.ForeignKey('AccessSession',null=True,on_delete=models.PROTECT)
+    access_code=models.ForeignKey('AccessCode',null=True,on_delete=models.PROTECT)
     action=models.CharField(max_length=80)
     object_id=models.CharField(max_length=80,blank=True)
     details=models.JSONField(default=dict)
@@ -84,6 +89,7 @@ class RateBucket(models.Model):
     expires_at=models.DateTimeField(db_index=True)
 
 class Invitation(models.Model):
+    """Archived historical row; no invitation route/task remains."""
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     organization=models.ForeignKey(Organization,on_delete=models.PROTECT)
     email=models.EmailField()
@@ -94,6 +100,7 @@ class Invitation(models.Model):
     accepted_at=models.DateTimeField(null=True)
 
 class AccountDeletion(models.Model):
+    """Archived historical request; superseded public-account erasure is inactive."""
     user=models.OneToOneField(User,on_delete=models.PROTECT)
     requested_at=models.DateTimeField(auto_now_add=True)
     due_at=models.DateTimeField()
@@ -128,7 +135,8 @@ class Run(models.Model):
     project=models.ForeignKey(Project,on_delete=models.PROTECT)
     target=models.ForeignKey(Target,on_delete=models.PROTECT)
     build=models.ForeignKey(BuildRelease,null=True,on_delete=models.PROTECT)
-    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,null=True,on_delete=models.PROTECT)
+    access_session=models.ForeignKey('AccessSession',null=True,on_delete=models.PROTECT)
     actor_auth_hash=models.CharField(max_length=64)
     mfa_at=models.DateTimeField()
     native_run_id=models.CharField(max_length=40,unique=True)
@@ -158,7 +166,7 @@ class Run(models.Model):
     purge_error=models.CharField(max_length=100,blank=True)
     def __str__(self):return self.native_run_id+' · '+self.profile+' / '+self.suite
     class Meta:
-        constraints=[models.UniqueConstraint(fields=['project','actor','idempotency_key'],name='run_request_dedup')]
+        constraints=[models.UniqueConstraint(fields=['project','actor','idempotency_key'],name='run_request_dedup'),models.UniqueConstraint(fields=['project','access_session','idempotency_key'],name='code_run_request_dedup'),models.CheckConstraint(condition=models.Q(actor__isnull=False,access_session__isnull=True)|models.Q(actor__isnull=True,access_session__isnull=False),name='run_exact_principal')]
         ordering=['-created_at']
 
 class ExecutorSlot(models.Model):
@@ -180,7 +188,8 @@ class Artifact(models.Model):
 class SourceSubmission(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     project=models.ForeignKey(Project,on_delete=models.PROTECT)
-    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,null=True,on_delete=models.PROTECT)
+    access_session=models.ForeignKey('AccessSession',null=True,on_delete=models.PROTECT)
     label=models.CharField(max_length=80)
     original_sha256=models.CharField(max_length=64)
     redacted_sha256=models.CharField(max_length=64)
@@ -190,11 +199,14 @@ class SourceSubmission(models.Model):
     expires_at=models.DateTimeField()
     erased_at=models.DateTimeField(null=True)
     def __str__(self):return self.label+' · '+self.original_sha256[:12]
+    class Meta:
+        constraints=[models.CheckConstraint(condition=models.Q(actor__isnull=False,access_session__isnull=True)|models.Q(actor__isnull=True,access_session__isnull=False),name='source_exact_principal')]
 
 class AIAnalysis(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     run=models.ForeignKey(Run,on_delete=models.PROTECT)
-    actor=models.ForeignKey(User,on_delete=models.PROTECT)
+    actor=models.ForeignKey(User,null=True,on_delete=models.PROTECT)
+    access_session=models.ForeignKey('AccessSession',null=True,on_delete=models.PROTECT)
     source=models.ForeignKey(SourceSubmission,null=True,on_delete=models.PROTECT)
     compared_run=models.ForeignKey(Run,null=True,on_delete=models.PROTECT,related_name='ai_comparisons')
     actor_auth_hash=models.CharField(max_length=64)
@@ -224,7 +236,7 @@ class AIAnalysis(models.Model):
     finished_at=models.DateTimeField(null=True)
     erased_at=models.DateTimeField(null=True)
     class Meta:
-        constraints=[models.UniqueConstraint(fields=['actor','run','idempotency_key'],name='ai_request_dedup')]
+        constraints=[models.UniqueConstraint(fields=['actor','run','idempotency_key'],name='ai_request_dedup'),models.UniqueConstraint(fields=['access_session','run','idempotency_key'],name='code_ai_request_dedup'),models.CheckConstraint(condition=models.Q(actor__isnull=False,access_session__isnull=True)|models.Q(actor__isnull=True,access_session__isnull=False),name='ai_exact_principal')]
         ordering=['-created_at']
 
 class AIUsage(models.Model):
@@ -247,3 +259,42 @@ class AIProviderState(models.Model):
     available=models.BooleanField(default=False)
     refreshed_at=models.DateTimeField()
     verified_at=models.DateTimeField(null=True)
+
+class AccessCode(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    organization=models.ForeignKey(Organization,on_delete=models.PROTECT)
+    description=models.CharField(max_length=160)
+    verifier=models.CharField(max_length=64)
+    created_by=models.ForeignKey(User,on_delete=models.PROTECT)
+    created_at=models.DateTimeField(auto_now_add=True)
+    expires_at=models.DateTimeField(null=True)
+    max_redemptions=models.PositiveIntegerField(null=True)
+    max_sessions=models.PositiveIntegerField(default=1)
+    redemptions=models.PositiveIntegerField(default=0)
+    last_access=models.DateTimeField(null=True)
+    revoked_at=models.DateTimeField(null=True)
+    policy_version=models.PositiveIntegerField(default=1)
+    allow_live=models.BooleanField(default=False)
+    allow_ai=models.BooleanField(default=False)
+
+class AccessGrant(models.Model):
+    code=models.ForeignKey(AccessCode,on_delete=models.PROTECT,related_name='grants')
+    project=models.ForeignKey(Project,on_delete=models.PROTECT)
+    can_run=models.BooleanField(default=False)
+    can_ai=models.BooleanField(default=False)
+    can_download=models.BooleanField(default=False)
+    all_evidence=models.BooleanField(default=False)
+    targets=models.ManyToManyField(Target,blank=True)
+    evidence=models.ManyToManyField(Run,blank=True)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['code','project'],name='access_code_project_grant')]
+
+class AccessSession(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    code=models.ForeignKey(AccessCode,on_delete=models.PROTECT,related_name='sessions')
+    browser_key_hash=models.CharField(max_length=64,unique=True)
+    policy_version=models.PositiveIntegerField()
+    created_at=models.DateTimeField(auto_now_add=True)
+    last_access=models.DateTimeField()
+    expires_at=models.DateTimeField()
+    revoked_at=models.DateTimeField(null=True)

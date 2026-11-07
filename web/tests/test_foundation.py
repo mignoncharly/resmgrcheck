@@ -11,10 +11,10 @@ class FoundationTests(TestCase):
         self.assertEqual(self.client.get('/readyz/').json(),{'status':'ready'})
         self.assertEqual(self.client.post('/healthz/').status_code,405)
     def test_identity_constraints_and_password_hash(self):
-        user=User.objects.create_user('Owner@EXAMPLE.TEST','A test password with enough entropy 5187')
-        self.assertEqual(user.email,'owner@example.test')
+        user=User.objects.create_user('owner-test','A test password with enough entropy 5187')
+        self.assertEqual(user.username,'owner-test');self.assertIsNone(user.email)
         self.assertTrue(user.password.startswith('argon2'))
-        with self.assertRaises(IntegrityError),transaction.atomic():User.objects.create_user('OWNER@example.test','Another password 2815')
+        with self.assertRaises(IntegrityError),transaction.atomic():User.objects.create_user('OWNER-TEST','Another password 2815')
     def test_real_tenant_records_are_empty_without_signup(self):
         self.assertEqual(Organization.objects.count(),0)
         user=User.objects.create_user('owner@example.test','Another strong password 8173')

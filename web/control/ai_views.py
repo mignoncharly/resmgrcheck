@@ -10,7 +10,7 @@ from django.views.decorators.http import require_http_methods,require_GET,requir
 from django.db import transaction
 from resmgrcheck.contracts import canonical
 from .models import Project,AIAnalysis,SourceSubmission,Run,AIProviderState,AIUsage
-from .security import secure_account,project_access,audit,consume_rate
+from .security import secure_account,project_access,audit,consume_rate,permission,principal_fields,is_code,visible_sources,visible_runs,visible_analyses
 from .execution_views import authorized_run
 from .ai_evidence import evidence_pack,source_upload,validate_answer
 from .storage import verify_inventory,detail_cases
@@ -30,11 +30,11 @@ class AnalysisForm(forms.Form):
     key=forms.CharField(widget=forms.HiddenInput,min_length=16,max_length=64)
     confirmation=forms.CharField(widget=forms.HiddenInput,required=False)
     consent=forms.BooleanField(required=False,label='I authorize sending the exact redacted preview to the named provider, understand its data policy/cost ceiling, and have permission to share any included source with project members and that provider.')
-    def __init__(self,*args,run,**kwargs):
+    def __init__(self,*args,run,principal,**kwargs):
         super().__init__(*args,**kwargs)
         self.fields['case'].choices=[(row['case_id'],row['case_id']) for row in run.summary.get('cases',[])]
-        self.fields['source'].queryset=SourceSubmission.objects.filter(project=run.project,erased_at=None,expires_at__gt=timezone.now())
-        eligible=Run.objects.filter(project=run.project,state='completed',purged_at=None).exclude(pk=run.pk).exclude(operation='inventory')
+        self.fields['source'].queryset=visible_sources(principal,run.project_id).filter(erased_at=None,expires_at__gt=timezone.now())
+        eligible=visible_runs(principal).filter(project=run.project,state='completed',purged_at=None).exclude(pk=run.pk).exclude(operation='inventory')
         self.fields['compared'].queryset=Run.objects.filter(pk__in=eligible.values('pk')[:100])
 
 class SourceForm(forms.Form):
@@ -59,7 +59,8 @@ def settings_page(request,project_id):
 @require_http_methods(['GET','POST'])
 def request_analysis(request,run_id):
     run,role=authorized_run(request,run_id,'developer')
-    form=AnalysisForm(request.POST or None,run=run,initial={'key':secrets.token_urlsafe(24)})
+    permission(request.user,run.project_id,'ai',target=run.target,run=run)
+    form=AnalysisForm(request.POST or None,run=run,principal=request.user,initial={'key':secrets.token_urlsafe(24)})
     preview=None;provider=None;estimate=None;notice=None
     try:provider=public_provider()
     except PolicyError as error:notice=str(error)
@@ -72,7 +73,7 @@ def request_analysis(request,run_id):
             if data['confirmation']:
                 if not data['consent']:raise PolicyError('ai_explicit_consent_required')
                 if signing.loads(data['confirmation'],salt='ai-consent',max_age=300)!=binding:raise signing.BadSignature
-                duplicate=AIAnalysis.objects.filter(actor=request.user,run=run,idempotency_key=data['key']).exists()
+                duplicate=AIAnalysis.objects.filter(**principal_fields(request.user),run=run,idempotency_key=data['key']).exists()
                 if not duplicate and not consume_rate('ai-request',str(request.user.pk),3,60):raise PolicyError('ai_request_rate_limited')
                 analysis,_=enqueue_analysis(request,run,data['task'],payload,citations,data['key'],data['source'],data['compared'])
                 return redirect('ai_detail',analysis_id=analysis.pk)
@@ -88,7 +89,7 @@ def request_analysis(request,run_id):
 @secure_account
 @require_GET
 def detail(request,analysis_id):
-    analysis=get_object_or_404(AIAnalysis.objects.select_related('run__project__organization','actor','source','compared_run'),pk=analysis_id)
+    analysis=get_object_or_404(visible_analyses(request.user).select_related('run__project__organization','actor','source','compared_run'),pk=analysis_id)
     project,role=project_access(request.user,analysis.run.project_id)
     findings=[]
     if analysis.state=='completed' and not analysis.erased_at:
@@ -105,7 +106,7 @@ def detail(request,analysis_id):
 @secure_account(strong=True,recent=900)
 @require_http_methods(['GET','POST'])
 def upload_source(request,project_id):
-    project,role=project_access(request.user,project_id,'developer');form=SourceForm(request.POST or None,request.FILES or None)
+    project,role=permission(request.user,project_id,'source');form=SourceForm(request.POST or None,request.FILES or None)
     if request.method=='POST' and form.is_valid():
         if not consume_rate('source-upload',str(request.user.pk),10,3600):return HttpResponse('Source upload rate limit.',status=429)
         if SourceSubmission.objects.filter(project=project,erased_at=None).count()>=20:form.add_error(None,'Project source excerpt limit reached; wait for retention or ask an administrator to erase an unused excerpt.')
@@ -120,10 +121,10 @@ def upload_source(request,project_id):
 @secure_account
 @require_http_methods(['GET','POST'])
 def source_detail(request,source_id):
-    source=get_object_or_404(SourceSubmission.objects.select_related('project__organization'),pk=source_id)
+    source=get_object_or_404(visible_sources(request.user,get_object_or_404(SourceSubmission,pk=source_id).project_id).select_related('project__organization'),pk=source_id)
     project,role=project_access(request.user,source.project_id)
     if request.method=='POST':
-        project_access(request.user,source.project_id,'admin')
+        permission(request.user,source.project_id,'source') if is_code(request.user) else project_access(request.user,source.project_id,'admin')
         with transaction.atomic():
             source=SourceSubmission.objects.select_for_update().get(pk=source.pk)
             if AIAnalysis.objects.filter(source=source,state__in=['queued','running']).exists():return render(request,'control/message.html',{'title':'Source is in an active analysis','message':'Cancel queued analysis or wait for the bounded provider call before erasing this copy. No process termination or remote data deletion is claimed.'},status=409)
@@ -139,9 +140,9 @@ def source_detail(request,source_id):
 @require_POST
 def cancel_analysis(request,analysis_id):
     with transaction.atomic():
-        analysis=get_object_or_404(AIAnalysis.objects.select_for_update(of=('self',)).select_related('run__project__organization'),pk=analysis_id)
+        analysis=get_object_or_404(visible_analyses(request.user).select_for_update(of=('self',)).select_related('run__project__organization'),pk=analysis_id)
         project,role=project_access(request.user,analysis.run.project_id,'developer')
-        if analysis.actor_id!=request.user.pk and role not in {'owner','admin'}:raise Http404
+        if not is_code(request.user) and analysis.actor_id!=request.user.pk and role not in {'owner','admin'}:raise Http404
         if analysis.state!='queued':return render(request,'control/message.html',{'title':'Analysis already dispatched or finalized','message':'This action cannot prove an in-flight provider request stopped. Its existing bound and recorded outcome remain authoritative.'},status=409)
         analysis.state='error';analysis.error_code='ai_cancelled_before_provider';analysis.finished_at=timezone.now();analysis.save(update_fields=['state','error_code','finished_at'])
         audit(request.user,'ai.cancelled_before_provider',project.organization,analysis.pk,reservation_retained=True)

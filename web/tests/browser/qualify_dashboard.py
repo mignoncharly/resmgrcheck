@@ -17,7 +17,7 @@ def totp(secret):
  raw=hmac.new(base64.b32decode(secret),struct.pack('>Q',int(time.time())//30),hashlib.sha1).digest();offset=raw[-1]&15
  return str((struct.unpack('>I',raw[offset:offset+4])[0]&0x7fffffff)%1000000).zfill(6)
 public={'home':'/','sensor-before':'/demo/before/','sensor-after':'/demo/after/','job-playback':'/demo/job/',
-        'partial-playback':'/demo/partial/','docs':'/about/docs/','scope':'/about/security/','privacy':'/about/privacy/','login':'/accounts/login/','signup':'/accounts/signup/'}
+        'partial-playback':'/demo/partial/','docs':'/about/docs/','scope':'/about/security/','privacy':'/about/privacy/','login':'/administrator/login/','developer-access':'/access/'}
 private={'overview':'/app/','projects':'/app/projects/','targets':'/app/targets/','history':'/app/runs/',
  'project':'/app/projects/'+refs['project_id']+'/', 'target-settings':'/app/projects/'+refs['project_id']+'/targets/',
  'new-run':'/app/projects/'+refs['project_id']+'/runs/new/','fixed-run':'/app/runs/'+refs['fixed']+'/',
@@ -29,10 +29,10 @@ private={'overview':'/app/','projects':'/app/projects/','targets':'/app/targets/
 checks=[];shots=[];accessibility=[]
 with sync_playwright() as driver:
  browser=driver.chromium.launch();browser_version=browser.version
- auth=browser.new_context();page=auth.new_page();page.goto(BASE+'/accounts/login/')
- page.locator('input[name=login]').fill(credentials['email']);page.locator('input[name=password]').fill(credentials['password'])
- page.locator('form').filter(has=page.locator('input[name=password]')).get_by_role('button',name='Sign In',exact=True).click()
- page.wait_for_url('**/accounts/2fa/authenticate/**')
+ auth=browser.new_context();page=auth.new_page();page.goto(BASE+'/administrator/login/')
+ page.locator('input[name=login]').fill(credentials['username']);page.locator('input[name=password]').fill(credentials['password'])
+ page.locator('form').filter(has=page.locator('input[name=password]')).get_by_role('button',name='Sign in as administrator',exact=True).click()
+ page.wait_for_url('**/administrator/2fa/authenticate/**')
  for attempt in range(3):
   page.locator('input[name=code]').fill(totp(credentials['totp_secret']))
   page.get_by_role('button',name='Sign In',exact=True).click();page.wait_for_timeout(300)
@@ -57,7 +57,7 @@ with sync_playwright() as driver:
      assert 'pending_state_not_released' in page.locator('main').inner_text()
     if name=='partial-playback':assert 'no finalized native bundle' in page.locator('main').inner_text()
     if name=='compare':assert 'fixed' in page.locator('main').inner_text()
-    if mode in {'desktop','mobile'} and name in {'home','sensor-before','overview','failed-run','compare','targets','signup'}:
+    if mode in {'desktop','mobile'} and name in {'home','sensor-before','overview','failed-run','compare','targets','developer-access'}:
      shot=out/'screenshots'/(name+'-'+mode+'.png');shot.parent.mkdir(exist_ok=True)
      page.screenshot(path=str(shot));shots.append(str(shot.relative_to(out)))
     if mode=='desktop' and javascript:

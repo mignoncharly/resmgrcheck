@@ -13,7 +13,7 @@ from control.models import Artifact,Run,AuditEvent,AccountDeletion,Membership
 from control.engine import run_path,PolicyError
 from control.storage import seal,open_artifact,verify_inventory
 from control.evidence import bundle_export,verify_local_links
-from control.retention import purge_run,erase_account
+from control.retention import purge_run
 from . import test_dashboard as dashboard_tests
 from .helpers import tenant,signed_client,user
 
@@ -116,15 +116,3 @@ class EvidenceTests(TestCase):
         self.assertEqual(self.client.post(url,{'retention_days':60}).status_code,302)
         self.assertEqual(self.client.post(reverse('retention_hold',args=[run.pk]),{'hold':'1'}).status_code,302)
         run.refresh_from_db();self.assertTrue(run.retention_hold)
-    def test_due_account_erasure_preserves_pseudonymous_audit(self):
-        person=user('erase-private@example.test',mfa=True);person.is_active=False;person.first_name='Private';person.save()
-        record=AccountDeletion.objects.create(user=person,due_at=timezone.now()-timedelta(days=1))
-        self.assertTrue(erase_account(record.pk)['dry_run']);person.refresh_from_db();self.assertEqual(person.first_name,'Private')
-        erase_account(record.pk,apply=True);person.refresh_from_db()
-        self.assertTrue(person.email.endswith('@deleted.invalid'));self.assertFalse(person.has_usable_password());self.assertEqual(person.first_name,'')
-        self.assertFalse(EmailAddress.objects.filter(user=person).exists());self.assertFalse(Authenticator.objects.filter(user=person).exists())
-        self.assertTrue(AuditEvent.objects.filter(actor=person,action='account.personal_data_erased').exists())
-    def test_account_erasure_is_not_early_and_active_work_blocks_it(self):
-        person=user('erase-not-due@example.test');person.is_active=False;person.save()
-        record=AccountDeletion.objects.create(user=person,due_at=timezone.now()+timedelta(days=30))
-        with self.assertRaises(PolicyError):erase_account(record.pk,apply=True)

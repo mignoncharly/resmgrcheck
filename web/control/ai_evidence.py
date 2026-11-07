@@ -7,17 +7,18 @@ from django.utils import timezone
 from resmgrcheck.contracts import canonical
 from resmgrcheck.workflow import compare_executions
 from .models import SourceSubmission
-from .security import project_access
+from .security import project_access,permission,principal_fields,visible_sources,visible_runs
 from .storage import verify_inventory,detail_cases,run_directory_fd
 from .engine import PolicyError
 
 SECRET=re.compile(r'(?im)((?:api[_-]?key|password|passwd|authorization|access[_-]?token|client[_-]?secret|private[_-]?key)\s*[=:]\s*)[^\n,;]+')
 EMAIL=re.compile(r'\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b',re.I)
 TOKEN=re.compile(r'\b(?:sk-(?:proj-)?[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,})\b')
+ACCESS_TOKEN=re.compile(r'(?<![A-Za-z0-9_-])rmc_[0-9a-f]{32}_[A-Za-z0-9_-]{43}(?![A-Za-z0-9_-])')
 PRIVATE_PATH=re.compile(r'(?:/home/[^\s"\x27]+|/root/[^\s"\x27]+|/etc/[^\s"\x27]+|[A-Za-z]:\\[^\s"\x27]+)')
 def redact(text):
     count=0
-    for regex,replacement in [(SECRET,r'\1[REDACTED]'),(EMAIL,'[REDACTED_EMAIL]'),(TOKEN,'[REDACTED_TOKEN]'),(PRIVATE_PATH,'[REDACTED_PRIVATE_PATH]')]:
+    for regex,replacement in [(SECRET,r'\1[REDACTED]'),(EMAIL,'[REDACTED_EMAIL]'),(TOKEN,'[REDACTED_TOKEN]'),(ACCESS_TOKEN,'[REDACTED_ACCESS_CODE]'),(PRIVATE_PATH,'[REDACTED_PRIVATE_PATH]')]:
         text,n=regex.subn(replacement,text);count+=n
     return text,count
 
@@ -34,7 +35,7 @@ def redact_record(value):
     return value,0
 
 def source_upload(actor,project,file,label):
-    project_access(actor,project.pk,'developer')
+    permission(actor,project.pk,'source')
     if file.size>12288 or Path(file.name).suffix.lower() not in {'.c','.h','.py','.diff','.patch','.txt'}:raise PolicyError('source_expected_small_utf8_text')
     raw=file.read(12289)
     if len(raw)>12288 or b'\x00' in raw:raise PolicyError('source_bound_or_binary')
@@ -43,11 +44,11 @@ def source_upload(actor,project,file,label):
     if re.search(r'-----BEGIN [^-]*(?:PRIVATE KEY|CERTIFICATE)-----|QNX.*(?:CONFIDENTIAL|PROPRIETARY)|Copyright[^\n]*QNX',text,re.I):raise PolicyError('source_protected_material_refused')
     if len(text.splitlines())>240:raise PolicyError('source_line_bound')
     clean,count=redact(text)
-    return SourceSubmission.objects.create(project=project,actor=actor,label=label,original_sha256=hashlib.sha256(raw).hexdigest(),
+    return SourceSubmission.objects.create(project=project,**principal_fields(actor),label=label,original_sha256=hashlib.sha256(raw).hexdigest(),
         redacted_sha256=hashlib.sha256(clean.encode()).hexdigest(),redacted_text=clean,redactions=count,expires_at=timezone.now()+timedelta(days=30))
 
 def evidence_pack(actor,run,case_id,task,source=None,compared=None):
-    project_access(actor,run.project_id,'developer')
+    permission(actor,run.project_id,'ai',target=run.target,run=run)
     if run.state not in {'completed','blocked'} or run.purged_at or run.operation=='inventory':raise PolicyError('ai_requires_collected_native_evidence')
     verify_inventory(run);cases=detail_cases(run)
     selected=next((case for case in cases if case['name']==case_id),None)
@@ -74,13 +75,13 @@ def evidence_pack(actor,run,case_id,task,source=None,compared=None):
     omitted=max(0,len(events)-24);events=events[:24]
     for event in events:reference('event:'+str(event['index']),event,detail+'#event-'+case_id+'-'+str(event['index']),'native-event')
     if source:
-        if source.project_id!=run.project_id or source.erased_at or source.expires_at<=timezone.now():raise PolicyError('source_tenant_or_expiry')
+        if not visible_sources(actor,run.project_id).filter(pk=source.pk).exists() or source.project_id!=run.project_id or source.erased_at or source.expires_at<=timezone.now():raise PolicyError('source_tenant_or_expiry')
         if hashlib.sha256(source.redacted_text.encode()).hexdigest()!=source.redacted_sha256:raise PolicyError('source_integrity_failed')
         for number,line in enumerate(source.redacted_text.splitlines(),1):reference('source:'+str(number),line,reverse('source_detail',args=[source.pk])+'#L'+str(number),'source-line')
     if task in {'source-review','suggest-correction'} and not source:raise PolicyError('source_required_for_source_task')
     if task=='before-after' and not compared:raise PolicyError('comparison_required_for_interpretation')
     if compared:
-        project_access(actor,compared.project_id,'developer')
+        permission(actor,compared.project_id,'ai',target=compared.target,run=compared)
         if compared.project_id!=run.project_id or compared.purged_at:raise PolicyError('comparison_tenant_or_expiry')
         verify_inventory(compared);detail_cases(compared)
         first=run_directory_fd(compared);second=run_directory_fd(run)

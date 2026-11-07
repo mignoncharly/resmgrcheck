@@ -106,15 +106,28 @@ def invoke(payload,provider):
     except (ValueError,KeyError,TypeError):raise PolicyError('ai_provider_malformed_response') from None
     return answer,{'input_tokens':usage['input_tokens'],'output_tokens':usage['output_tokens']},model,response_id,request_id
 
-def bounded_invoke(payload,provider):
+def bounded_invoke(payload,provider,start_guard=None):
     """A separate owned child supplies the total wall-clock bound, including reads."""
     import subprocess,sys
     from dataclasses import asdict
     envelope=json.dumps({'payload':payload,'provider':asdict(provider)},separators=(',',':')).encode()
     try:
-        child=subprocess.run([sys.executable,'-m','control.ai_call'],cwd=Path(__file__).resolve().parents[1],
-            env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8'},input=envelope,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,
-            timeout=25,start_new_session=True,check=False)
+        # The code row remains locked only while the exact child is spawned.
+        from contextlib import nullcontext
+        process=None
+        try:
+            with start_guard if start_guard is not None else nullcontext():
+                process=subprocess.Popen([sys.executable,'-m','control.ai_call'],cwd=Path(__file__).resolve().parents[1],
+                    env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8'},stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,start_new_session=True)
+            raw,_=process.communicate(input=envelope,timeout=25)
+            child=subprocess.CompletedProcess(args=[],returncode=process.returncode,stdout=raw)
+        except BaseException:
+            if process is not None:
+                if process.poll() is None:process.kill()
+                process.wait(timeout=3)
+                if process.stdin:process.stdin.close()
+                if process.stdout:process.stdout.close()
+            raise
     except subprocess.TimeoutExpired:raise PolicyError('ai_provider_timeout_uncertain_child_reaped') from None
     if child.returncode or len(child.stdout)>150000:raise PolicyError('ai_provider_child_failed')
     try:result=json.loads(child.stdout)

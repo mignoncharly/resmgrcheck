@@ -7,7 +7,7 @@ from django.db import transaction
 from django.http import Http404
 from django.utils import timezone
 from .models import Run,Target,ExecutorSlot,Artifact
-from .security import project_access,verified,enrolled,audit
+from .security import project_access,verified,enrolled,audit,is_code,job_principal,permission,start_authority
 from .jobs import ACTIVE,auth_fingerprint
 from .engine import registry,run_path,fixed_argv,command,storage_available,PolicyError,EngineUncertain
 from .storage import seal
@@ -18,10 +18,10 @@ LEASE_SECONDS=30
 
 
 def reauthorize(run,recovery=False):
-    actor=run.actor
+    actor=job_principal(run)
     if not recovery:
-        if not verified(actor) or not enrolled(actor) or auth_fingerprint(actor)!=run.actor_auth_hash:raise PolicyError('actor_authorization_revoked')
-        try:project_access(actor,run.project_id,'developer')
+        if not verified(actor) or (not is_code(actor) and not enrolled(actor)) or auth_fingerprint(actor)!=run.actor_auth_hash:raise PolicyError('actor_authorization_revoked')
+        try:permission(actor,run.project_id,'run',target=run.target,run=run.original if run.original_id else None)
         except Http404:raise PolicyError('project_authorization_revoked')
     if run.target.project_id!=run.project_id:raise PolicyError('target_tenant_mismatch')
     if not run.target.approved:raise PolicyError('target_not_approved')
@@ -81,11 +81,11 @@ def finish(run,token,summary,cleanup,no_launch=False):
         Target.objects.filter(pk=run.target_id).update(state='available' if cleanup else 'unavailable',quarantine_reason='')
         release(run,token)
     else:Target.objects.filter(pk=run.target_id).update(state='quarantined',quarantine_reason='cleanup_or_coverage_unestablished')
-    audit(run.actor,'run.collected',run.project.organization,run.pk,cleanup_verified=cleanup,execution_exit=summary['execution_exit'])
+    audit(job_principal(run),'run.collected',run.project.organization,run.pk,cleanup_verified=cleanup,execution_exit=summary['execution_exit'])
 
 
 def execute_claim(identifier,token,recovery):
-    run=Run.objects.select_related('actor','project__organization','target__project','build','original__project').get(pk=identifier)
+    run=Run.objects.select_related('actor','access_session__code__organization','project__organization','target__project','build','original__project').get(pk=identifier)
     settings.PRIVATE_ROOT.mkdir(parents=True,exist_ok=True,mode=0o700)
     lock_root=settings.PRIVATE_ROOT/'locks';lock_root.mkdir(exist_ok=True,mode=0o700)
     descriptor=os.open(lock_root/(str(run.pk)+'.lock'),os.O_WRONLY|os.O_CREAT|os.O_NOFOLLOW,0o600)
@@ -113,12 +113,12 @@ def execute_claim(identifier,token,recovery):
         if run.cancel_requested:
             transition(run,token,'cancelled',error_code='cancelled_before_launch',finished_at=timezone.now(),progress='Cancelled before native launch; NOT_RUN.');release(run,token);return
         if run.created_at<timezone.now()-timedelta(minutes=15) or run.mfa_at<timezone.now()-timedelta(minutes=15):raise PolicyError('queued_authorization_expired')
-        free=storage_available(binding,120 if run.suite=='lifecycle' else 32)
+        free=storage_available(binding,120 if run.suite=='lifecycle' else 32,start_guard=start_authority(run))
         if run.operation=='inventory':output.mkdir(exist_ok=False,mode=0o750)
         argv=fixed_argv(run,binding,output)
         transition(run,token,'starting',started_at=timezone.now(),progress='Launch intent persisted; awaiting native evidence.')
         started=True # Persisted before child creation: a crash now remains uncertain.
-        code,raw,facts=command(argv,binding,beat,timeout=settings.ENGINE_EXECUTION_TIMEOUT,
+        code,raw,facts=command(argv,binding,beat,timeout=settings.ENGINE_EXECUTION_TIMEOUT,start_guard=start_authority(run),
             on_started=lambda pid:transition(run,token,'running',progress='Private CLI executing; native verdict is not yet established.'))
         Run.objects.filter(pk=run.pk).update(process_facts=facts)
         if run.operation=='inventory':
@@ -151,10 +151,13 @@ def execute_claim(identifier,token,recovery):
         finish(run,token,summary,cleanup,no_launch=no_launch)
     except (PolicyError,Http404) as error:
         code=str(error) if isinstance(error,PolicyError) else 'authorization_denied'
+        if code=='authorization_revoked_before_child':
+            started=False
+            Run.objects.filter(pk=run.pk,lease_token=token).update(process_facts={'local_child_not_created':True,'native_launch_not_attempted':True})
         transition(run,token,'blocked' if started else 'rejected',error_code=code,finished_at=timezone.now(),progress='Execution withheld; no passing conclusion.')
         if started:Target.objects.filter(pk=run.target_id).update(state='quarantined',quarantine_reason=code)
         else:release(run,token)
-        audit(run.actor,'run.rejected',run.project.organization,run.pk,reason=code)
+        audit(job_principal(run),'run.rejected',run.project.organization,run.pk,reason=code)
     except Exception as error:
         if not Run.objects.filter(pk=run.pk,lease_token=token).exists():
             audit(None,'executor.stale_lease_released',run.project.organization,run.pk)
@@ -167,5 +170,5 @@ def execute_claim(identifier,token,recovery):
         incidents=list(Run.objects.get(pk=run.pk).incidents);incidents.append({'code':'launch_or_collection_uncertain','error_class':type(error).__name__})
         transition(run,token,'launch_uncertain',incidents=incidents,error_code='launch_or_collection_uncertain',progress='Native launch/cleanup is uncertain; recovery will collect this same run ID.')
         Target.objects.filter(pk=run.target_id).update(state='quarantined',quarantine_reason='launch_or_collection_uncertain')
-        audit(run.actor,'run.uncertain',run.project.organization,run.pk,error_class=type(error).__name__)
+        audit(job_principal(run),'run.uncertain',run.project.organization,run.pk,error_class=type(error).__name__)
     finally:os.close(descriptor)

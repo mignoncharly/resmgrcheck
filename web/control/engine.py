@@ -75,11 +75,21 @@ def limits():
     resource.setrlimit(resource.RLIMIT_FSIZE,(16*1024*1024,16*1024*1024))
 
 
-def command(argv,binding,heartbeat,timeout=600,on_started=None):
+def command(argv,binding,heartbeat,timeout=600,on_started=None,start_guard=None):
     # No shell, inherited API keys, SDK authentication, arbitrary cwd or environment.
     env={'PATH':'/usr/bin:/bin','HOME':str(Path.home()),'LANG':'C.UTF-8','PYTHONUNBUFFERED':'1'}
-    process=subprocess.Popen(argv,cwd=binding.engine_root,env=env,stdin=subprocess.DEVNULL,
-        stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,preexec_fn=limits)
+    from contextlib import nullcontext
+    process=None
+    try:
+        with start_guard if start_guard is not None else nullcontext():
+            process=subprocess.Popen(argv,cwd=binding.engine_root,env=env,stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,preexec_fn=limits)
+    except BaseException:
+        if process is not None:
+            if process.poll() is None:os.killpg(process.pid,signal.SIGKILL)
+            process.wait(timeout=3)
+            process.stdout.close();process.stderr.close()
+        raise
     selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ);selector.register(process.stderr,selectors.EVENT_READ)
     captured=bytearray();start=time.monotonic();last=0;reason=None
     try:
@@ -107,12 +117,12 @@ def command(argv,binding,heartbeat,timeout=600,on_started=None):
         selector.close();process.stdout.close();process.stderr.close()
 
 
-def storage_available(binding,minimum):
+def storage_available(binding,minimum,start_guard=None):
     target=EngineTarget.read(binding.alias,binding.config)
     # Fixed read-only OS inventory command, never a service operation/profile command.
     argv=['ssh','-F',target.data['ssh_config'],'-o','BatchMode=yes','-o','StrictHostKeyChecking=yes',
           '-o','ConnectTimeout=5',target.data['ssh_alias'],'df -g /data']
-    code,raw,_=command(argv,binding,lambda:None,timeout=8)
+    code,raw,_=command(argv,binding,lambda:None,timeout=8,start_guard=start_guard)
     match=re.search(rb'Files\s*:\s*([0-9]+) total\s+([0-9]+) avail',raw)
     if code or not match:raise PolicyError('target_storage_unknown')
     free=int(match[2])

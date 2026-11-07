@@ -8,7 +8,7 @@ from django.http import Http404,HttpResponse,FileResponse
 from django.shortcuts import render,get_object_or_404
 from django.views.decorators.http import require_GET
 from .models import Project,Run,Target,Membership,Artifact,AIAnalysis
-from .security import secure_account,visible_projects,project_access,audit
+from .security import secure_account,visible_projects,project_access,audit,is_code,visible_runs,visible_targets,visible_analyses,permission
 from .execution_views import authorized_run
 from .engine import run_path,PolicyError
 from .storage import detail_cases,open_artifact,run_directory_fd,verify_inventory
@@ -21,25 +21,25 @@ PUBLIC_DEMOS={'before':'p10demo2-broken','after':'p10demo2-after','job':'p10demo
 @require_GET
 def overview(request):
     projects=visible_projects(request.user).select_related('organization')
-    runs=Run.objects.filter(project__in=projects).select_related('project','target')
-    memberships=Membership.objects.filter(user=request.user,active=True,organization__active=True).select_related('organization')
+    runs=visible_runs(request.user).select_related('project','target')
+    memberships=Membership.objects.none() if is_code(request.user) else Membership.objects.filter(user=request.user,active=True,organization__active=True).select_related('organization')
     stats={'projects':projects.count(),'requests':runs.exclude(operation='inventory').count(),
            'incomplete':runs.filter(state__in=['queued','claimed','starting','running','collecting','launch_uncertain','blocked']).count(),
-           'approved_targets':Target.objects.filter(project__in=projects,approved=True).count()}
+           'approved_targets':visible_targets(request.user).filter(approved=True).count()}
     return render(request,'control/overview.html',{'projects':projects,'memberships':memberships,'recent_runs':runs[:8],'stats':stats,'page':'overview'})
 
 @secure_account
 @require_GET
-def projects(request):return render(request,'control/projects.html',{'projects':visible_projects(request.user).select_related('organization'),'memberships':Membership.objects.filter(user=request.user,active=True).select_related('organization'),'page':'projects'})
+def projects(request):return render(request,'control/projects.html',{'projects':visible_projects(request.user).select_related('organization'),'memberships':Membership.objects.none() if is_code(request.user) else Membership.objects.filter(user=request.user,active=True).select_related('organization'),'page':'projects'})
 
 @secure_account
 @require_GET
-def target_list(request):return render(request,'control/target_list.html',{'targets':Target.objects.filter(project__in=visible_projects(request.user)).select_related('project'),'page':'targets'})
+def target_list(request):return render(request,'control/target_list.html',{'targets':visible_targets(request.user).select_related('project'),'page':'targets'})
 
 @secure_account
 @require_GET
 def run_history(request):
-    runs=Run.objects.filter(project__in=visible_projects(request.user)).select_related('project','target','build')
+    runs=visible_runs(request.user).select_related('project','target','build')
     state=request.GET.get('state','')
     if state in {'queued','running','completed','launch_uncertain','rejected','blocked','cancelled'}:runs=runs.filter(state=state)
     service=request.GET.get('service','')
@@ -50,9 +50,9 @@ def run_history(request):
 @require_GET
 def project(request,project_id):
     project,role=project_access(request.user,project_id)
-    return render(request,'control/project.html',{'project':project,'role':role,'runs':Run.objects.filter(project=project)[:12],
-        'targets':Target.objects.filter(project=project),'members':project.projectmembership_set.select_related('user'),
-        'organization_members':Membership.objects.filter(organization=project.organization,active=True).select_related('user'),'page':'projects'})
+    return render(request,'control/project.html',{'project':project,'role':role,'runs':visible_runs(request.user).filter(project=project)[:12],
+        'targets':visible_targets(request.user).filter(project=project),'members':[] if is_code(request.user) else project.projectmembership_set.select_related('user'),
+        'organization_members':Membership.objects.none() if is_code(request.user) else Membership.objects.filter(organization=project.organization,active=True,user__is_staff=True).select_related('user'),'page':'projects'})
 
 @secure_account
 @require_GET
@@ -63,13 +63,13 @@ def run_detail(request,run_id):
         try:verify_inventory(run);cases=detail_cases(run)
         except (ValueError,OSError,PolicyError):integrity_error=True
     context={'run':run,'project':run.project,'role':role,'cases':cases,'integrity_error':integrity_error,
-             'artifacts':Artifact.objects.filter(run=run).order_by('relative_path'),'analyses':AIAnalysis.objects.filter(run=run)[:5],'page':'runs'}
+             'artifacts':Artifact.objects.filter(run=run).order_by('relative_path'),'analyses':visible_analyses(request.user).filter(run=run)[:5],'page':'runs'}
     return render(request,'control/run.html',context,status=409 if integrity_error else 200)
 
 @secure_account
 @require_GET
 def compare(request):
-    available=Run.objects.filter(project__in=visible_projects(request.user),state='completed',operation__in=['run','replay']).select_related('project')
+    available=visible_runs(request.user).filter(state='completed',operation__in=['run','replay']).select_related('project')
     before=request.GET.get('before');after=request.GET.get('after');result=None;error=None;left=right=None
     if before and after:
         try:uuid.UUID(before);uuid.UUID(after)
@@ -127,6 +127,7 @@ def home(request):
 def report_file(request,run_id,member='report.html'):
     from pathlib import PurePosixPath
     run,role=authorized_run(request,run_id)
+    permission(request.user,run.project_id,'download',target=run.target,run=run)
     parts=PurePosixPath(member)
     if parts.is_absolute() or '..' in parts.parts or '\\' in member or run.purged_at:raise Http404
     artifact=get_object_or_404(Artifact,run=run,relative_path=parts.as_posix())

@@ -39,13 +39,13 @@ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',
 # Fail before creating requests or calling any provider if configuration is absent.
 provider=configuration();refresh_provider()
 out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
-credential=json.loads((settings.PRIVATE_ROOT/'acceptance-account.json').read_text())
+credential=json.loads((settings.PRIVATE_ROOT/'acceptance-administrator.json').read_text())
 refs=json.loads((settings.PRIVATE_ROOT/'browser-manifest.json').read_text())
 project=Project.objects.get(pk=credential['project_id']);http=HTTP()
-http.post('/accounts/login/',{'login':credential['email'],'password':credential['password']})
+http.post('/administrator/login/',{'login':credential['username'],'password':credential['password']})
 for attempt in range(3):
  code=format_hotp_value(hotp_value(credential['totp_secret'],int(time.time())//30))
- try:url,_=http.post('/accounts/2fa/authenticate/',{'code':code})
+ try:url,_=http.post('/administrator/2fa/authenticate/',{'code':code})
  except urllib.error.HTTPError as error:
   if error.code!=400:raise
   url='not-authenticated';error.close()

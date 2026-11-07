@@ -28,9 +28,8 @@ comparison context; E014 records browser inspection.
 the existing engine. Its [gate status](docs/web/STATUS.md), [actual web/native test
 record](docs/web/TEST_EVIDENCE.md), [architecture](docs/web/ARCHITECTURE.md) and
 [optional AI controls](docs/web/AI.md) distinguish private staging from production.
-The requested public HTTPS application is **not deployed yet**. Dedicated SMTP,
-real provider qualification, production isolation/hardening and release acceptance
-are still pending; no frontend rendering result substitutes for those gates.
+The requested public HTTPS application is **not deployed yet**. The revised administrator/access-code gate,
+production isolation/hardening and release acceptance remain pending; no frontend rendering result substitutes for those gates.
 The CLI and original evidence below remain independently usable.
 
 ## Prerequisites

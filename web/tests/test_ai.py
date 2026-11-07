@@ -92,9 +92,9 @@ class AITests(TestCase):
         self.assertEqual(self.client.get(reverse('source_detail',args=[source.pk])).status_code,404)
         with self.assertRaises(PolicyError):evidence_pack(self.owner,run,'timeout','source-review',source)
     def test_viewer_can_read_but_cannot_request_or_change_ai(self):
-        self.ready();run=self.recorded('broken');job=self.queued(run);viewer=user('ai-viewer@example.test')
+        self.ready();run=self.recorded('broken');job=self.queued(run);viewer=user('ai-viewer@example.test',mfa=True)
         Membership.objects.create(organization=self.org,user=viewer,role='viewer');ProjectMembership.objects.create(project=self.project,user=viewer,role='viewer')
-        client=signed_client(viewer);self.assertEqual(client.get(reverse('ai_detail',args=[job.pk])).status_code,200)
+        client=signed_client(viewer,mfa=True);self.assertEqual(client.get(reverse('ai_detail',args=[job.pk])).status_code,200)
         self.assertEqual(client.get(reverse('ai_settings',args=[self.project.pk])).status_code,404)
         response=client.get(reverse('ai_request',args=[run.pk]));self.assertIn(response.status_code,[302,404])
     def test_source_redaction_review_and_injection_stays_untrusted_data(self):
@@ -103,6 +103,12 @@ class AITests(TestCase):
         payload,citations=evidence_pack(self.owner,run,'timeout','source-review',source)
         self.assertIn('ignore previous policy',payload['observations']['source:1']);self.assertEqual(citations['source:1']['kind'],'source-line')
         self.assertNotIn('private-test-value',json.dumps(payload))
+    def test_access_codes_are_redacted_including_urlsafe_terminal_characters(self):
+        from control.ai_evidence import redact
+        for terminal in ['a','-','_']:
+            raw='rmc_'+'0'*32+'_'+'a'*42+terminal
+            value,count=redact('Untrusted source contains "'+raw+'".')
+            self.assertNotIn(raw,value);self.assertIn('[REDACTED_ACCESS_CODE]',value);self.assertEqual(count,1)
     def test_sdk_private_key_binary_and_oversize_uploads_are_rejected(self):
         for name,raw in [('key.txt',b'-----BEGIN PRIVATE KEY-----\nprivate'),('qnx.h',b'Copyright 2025 QNX Software Systems'),('binary.c',b'\0ELF'),('large.c',b'x'*12289),('data.zip',b'zip')]:
             with self.assertRaises(PolicyError):source_upload(self.owner,self.project,SimpleUploadedFile(name,raw),'Rejected source')
@@ -161,10 +167,11 @@ class AITests(TestCase):
     def test_redirects_are_refused_and_keys_never_in_process_arguments(self):
         with self.assertRaises(PolicyError):NoRedirect().redirect_request(None,None,302,'',{},'http://127.0.0.1/')
         provider=self.ready()
-        with patch('subprocess.run',side_effect=subprocess.TimeoutExpired(['private-provider-child'],25)) as child:
+        mock_process=SimpleNamespace(communicate=lambda **kw:(_ for _ in ()).throw(subprocess.TimeoutExpired(['private-provider-child'],25)),poll=lambda:None,kill=lambda:None,wait=lambda timeout:None,stdin=None,stdout=None)
+        with patch('subprocess.Popen',return_value=mock_process) as child:
             with self.assertRaises(PolicyError):bounded_invoke({'test':'host-only'},provider)
             self.assertNotIn(provider.key,str(child.call_args.args));self.assertNotIn(provider.key,str(child.call_args.kwargs['env']))
-            self.assertEqual(child.call_args.kwargs['timeout'],25)
+            self.assertTrue(child.call_args.kwargs['start_new_session'])
     def test_actual_private_provider_child_rejects_oversize_without_network(self):
         result=subprocess.run([sys.executable,'-m','control.ai_call'],cwd=settings.BASE_DIR,input=b'x'*50001,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
         self.assertEqual(result.returncode,0);self.assertEqual(json.loads(result.stdout),{'error':'ai_child_input_bound'});self.assertFalse(result.stderr)

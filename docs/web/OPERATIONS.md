@@ -18,17 +18,16 @@ restore drills go to an isolated resource, never over live or unrelated database
 
 No YouTube changes or Devpost submission are authorized in this task.
 
-P5 local evidence maintenance uses `manage.py maintain` (dry run) or the explicit
+Local evidence maintenance uses `manage.py maintain` (dry run) or the explicit
 `manage.py maintain --apply` operator/timer invocation. It is bounded to20 eligible
-runs/20 account requests per invocation, validates the exact owned tree before
-deletion, and never contacts QNX. Holds, active replay dependencies, unknown files,
-ownership, incomplete integrity or native cleanup prevent removal. A partial local
-purge is marked unavailable and audited; metadata and artifact hashes remain.
-The requested organization policy is7–3650 days/default30. Account access is revoked
-immediately on accepted deletion; personal account fields/authenticators are erased
-after30 days, preserving pseudonymous organization audit/engineering identities.
-Separate backup retention/key custody is a P8 production requirement, not satisfied
-by deleting a live account. No existing native target history was deleted here.
+runs per invocation, validates the exact owned tree before deletion, and never
+contacts QNX. Holds, active replay dependencies, unknown files, ownership,
+incomplete integrity or native cleanup prevent removal. A partial local purge is
+marked unavailable and audited; metadata and artifact hashes remain. Organization
+retention is7–3650 days/default30. The superseded public account deletion task is
+removed; historical identity/request rows are archival provenance. Separate backup
+retention/key custody remains a production requirement. No native history was
+deleted during the access-model migration.
 
 An encrypted private staging checkpoint/restore was also exercised during P6
 preservation. It restored into an exact new temporary database on the task-owned
@@ -44,3 +43,83 @@ separate from the data archive. No private backup or key is published.
 adds a v2 inventory for earlier collection history. Existing v1 inventories and
 native bundles remain unchanged. It cannot launch or collect QNX work. Never use
 this to overwrite a changed artifact; a conflict requires investigation.
+
+## Administrator provisioning and recovery
+
+There is no public administrator signup, email verification/reset, invitation or
+SMTP configuration. Regular developers/testers have no password accounts. See
+[ACCESS_MODEL.md](ACCESS_MODEL.md) for the approved replacement decision.
+
+In this task-owned private staging environment, run from the repository root:
+
+```sh
+.local/web/venv/bin/python web/ops/staging.py manage.py provision_administrator --username first-admin
+```
+
+The command prompts twice without echo, validates the password and writes an
+Argon2 hash. Never put a password in argv, shell history, chat or source. An
+automation-only `--password-file /protected/file` accepts an owned0600 regular
+file, refuses symlinks and bounds its size. Remove that temporary file securely
+under the operator's storage policy. Do not replace existing application/MFA keys.
+
+For an additional scoped administrator, supply `--organization ORGANIZATION_UUID`
+(repeatable) and optionally `--role owner`; default role is admin. This does not
+create organizations or grant global access. The first administrator can create
+their organization after login. `--platform-owner` is an explicit local elevation
+with cross-organization powers; avoid it for routine scoped administration.
+
+Open `/administrator/login/`, enter the local username/password and enroll TOTP
+before privileged access. Preserve offline second-factor recovery codes securely.
+Password changes and "revoke all sessions" require the current password plus MFA
+assurance. Administrators can inspect/revoke individual browser sessions. A lost
+password/MFA requires the protected local operator procedure:
+
+```sh
+.local/web/venv/bin/python web/ops/staging.py manage.py recover_administrator --username first-admin
+# Explicitly add --reset-mfa only after independently verifying administrator ownership.
+```
+
+Recovery changes the password, increments the session version, revokes existing
+sessions and appends an audit event. MFA remains unless `--reset-mfa` is specified;
+then the next privileged login must enroll it again. Production commands require
+the root operator and the dedicated production configuration/venv, not this staging
+launcher. The development exception also checks the owned checkout and exact
+private socket, port and staging/test database name; changing the environment
+label cannot authorize production recovery. Production paths/service provisioning
+are still subject to the P8 deployment gate.
+
+Explicit adoption of a historical staging identity uses `--adopt-user UUID`.
+`--preserve-existing-password` is allowed only with explicit adoption. This keeps
+the immutable author ID and existing MFA, clears the unused email and revokes
+sessions. Unprovisioned legacy accounts stay disabled. Never automatically promote
+historical users or delete referenced authors/audit records.
+
+## Issue and revoke developer access
+
+As an MFA-authenticated organization administrator, open Team → Manage access codes.
+Choose a description, explicit projects, targets and existing evidence, download
+permission, optional expiry/redemption maximum and active-session maximum. The
+live-QNX and AI flags are separate opt-ins. Future/all-evidence access is explicit;
+without it a code sees selected existing evidence and its own later runs only.
+Save, copy the value from the one-time no-store creation response and deliver it
+through your approved private channel. Reloading cannot recover it. Never enter
+the raw value in descriptions, audit notes, URLs, configuration or API headers.
+
+Developers redeem the code at `/access/`. Their opaque browser cookie carries no
+code, and later requests recheck current authorization. Sessions expire after12h,
+30min idle or an earlier code expiry. Sign-out releases active-session capacity
+but does not refund a lifetime redemption. A leaked/lost code must be revoked and
+reissued. Revocation is irreversible, invalidates its sessions immediately and
+blocks queued work. Policy edits also revoke existing sessions. Revoke one browser
+from the code's session list when other authorized sessions should remain valid.
+
+The code detail records uses, last access and audit events without the plaintext
+secret. No code authorizes arbitrary hosts, shell commands, credential uploads or
+unqualified customer lifecycle tests. Public `/demo/` is recorded playback and has
+no live-execution permission. Disabled AI does not block deterministic QNX work.
+
+Already-started native supervision may finish bounded cleanup and collection
+after browser authority is revoked. Inspect the exact run/cleanup facts; do not
+interpret revocation as a QNX process kill. Queued work is reauthorized before
+owned child creation. Same-ID recovery collects existing evidence under service
+authority and must not launch a replacement. Unknown target state stays quarantined.

@@ -38,8 +38,8 @@ def descendants(parent):
  return result
 
 p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',required=True);o=p.parse_args();out=Path(o.out).resolve();out.mkdir(parents=True,exist_ok=False)
-c=json.loads((settings.PRIVATE_ROOT/'acceptance-account.json').read_text());target=Target.objects.get(project_id=c['project_id']);build=BuildRelease.objects.get(target=target,label='Original actual QNX build')
-http=HTTP();http.post('/accounts/login/',{'login':c['email'],'password':c['password']});code=format_hotp_value(hotp_value(c['totp_secret'],int(time.time())//30));http.post('/accounts/2fa/authenticate/',{'code':code})
+from http_support import administrator_client
+http,c=administrator_client();target=Target.objects.get(project_id=c['project_id'],approved=True,kind='managed-lab');build=BuildRelease.objects.get(target=target,label='Original actual QNX build')
 path='/app/projects/'+c['project_id']+'/runs/new/';data={'target':str(target.pk),'build':str(build.pk),'profile':'sensor','suite':'profile','fixture_mode':'fixed','idempotency_key':secrets.token_urlsafe(24)}
 _,body=http.post(path,data);inputs=Inputs();inputs.feed(body);data.update(confirmed='on',confirmation=inputs.data['confirmation'])
 url,_=http.post(path,data,csrf=inputs.data['csrfmiddlewaretoken']);identifier=urllib.parse.urlsplit(url).path.strip('/').split('/')[-1]

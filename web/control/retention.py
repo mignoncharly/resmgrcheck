@@ -4,10 +4,7 @@ import hashlib,os,re,stat
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from allauth.account.models import EmailAddress
-from allauth.mfa.models import Authenticator
-from allauth.usersessions.models import UserSession
-from .models import Run,Artifact,AccountDeletion,Membership,Invitation,User
+from .models import Run,Artifact
 from .jobs import ACTIVE
 from .engine import PolicyError
 from .storage import open_artifact,run_directory_fd,detail_cases,verify_inventory
@@ -110,23 +107,6 @@ def purge_run(identifier,apply=False):
         if descriptor is not None:os.close(descriptor)
     audit(None,'retention.purged',run.project.organization,run.pk,metadata_retained=True,qnx_target_contacted=False)
     return {'run_id':str(run.pk),'files':sum(row[3]=='file' for row in entries),'dry_run':False}
-
-def erase_account(identifier,apply=False):
-    from .models import AIAnalysis
-    with transaction.atomic():
-        record=AccountDeletion.objects.select_for_update().select_related('user').get(pk=identifier)
-        user=User.objects.select_for_update().get(pk=record.user_id)
-        if record.completed_at or record.due_at>timezone.now() or user.is_active:raise PolicyError('account_retention_not_due')
-        if Membership.objects.filter(user=user,active=True).exists() or Run.objects.filter(actor=user,state__in=ACTIVE).exists() or AIAnalysis.objects.filter(actor=user,state__in=['queued','running']).exists():raise PolicyError('account_has_active_authority_or_work')
-        if apply:
-            replacement='deleted-'+user.pk.hex+'@deleted.invalid'
-            for session in UserSession.objects.filter(user=user):session.end()
-            UserSession.objects.filter(user=user).delete();EmailAddress.objects.filter(user=user).delete();Authenticator.objects.filter(user=user).delete()
-            Invitation.objects.filter(email__iexact=user.email).update(email=replacement)
-            user.email=replacement;user.first_name='';user.last_name='';user.last_login=None;user.set_unusable_password();user.session_version+=1
-            user.save(update_fields=['email','first_name','last_name','last_login','password','session_version'])
-            record.completed_at=timezone.now();record.save(update_fields=['completed_at']);audit(user,'account.personal_data_erased')
-        return {'user_id':str(user.pk),'dry_run':not apply}
 
 def erase_ai_content(apply=False):
     from .models import AIAnalysis,SourceSubmission

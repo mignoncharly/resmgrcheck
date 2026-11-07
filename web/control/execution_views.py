@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_GET,require_POST,require_http_methods
 from .models import Target,BuildRelease,Run
 from .forms import TargetRequestForm,RunForm,BuildImportForm
-from .security import secure_account,project_access,audit
+from .security import secure_account,project_access,audit,visible_targets,visible_runs,is_code,permission
 from .jobs import enqueue,QueueError
 
 
@@ -19,7 +19,7 @@ def intent(data,request,project):
 @require_GET
 def targets(request,project_id):
     project,role=project_access(request.user,project_id)
-    return render(request,'control/targets.html',{'project':project,'targets':Target.objects.filter(project=project),'role':role,'form':TargetRequestForm()})
+    return render(request,'control/targets.html',{'project':project,'targets':visible_targets(request.user).filter(project=project),'role':role,'form':TargetRequestForm()})
 
 @secure_account(strong=True,recent=900)
 @require_POST
@@ -35,7 +35,7 @@ def target_request(request,project_id):
 @require_POST
 def inventory(request,project_id,target_id):
     project,role=project_access(request.user,project_id,'developer')
-    target=get_object_or_404(Target,pk=target_id,project=project)
+    target=get_object_or_404(visible_targets(request.user),pk=target_id,project=project)
     try:run,_=enqueue(request,project,target,None,profile='sensor',suite='profile',mode='fixed',key=secrets.token_urlsafe(24),operation='inventory')
     except QueueError as error:return render(request,'control/message.html',{'title':'Inventory not queued','message':str(error)},status=409)
     return redirect('run_detail',run_id=run.pk)
@@ -43,8 +43,8 @@ def inventory(request,project_id,target_id):
 @secure_account(strong=True,recent=900)
 @require_http_methods(['GET','POST'])
 def new_run(request,project_id):
-    project,role=project_access(request.user,project_id,'developer')
-    form=RunForm(request.POST or None,project=project,initial={'idempotency_key':secrets.token_urlsafe(24),'profile':'sensor','suite':'profile','fixture_mode':'fixed'})
+    project,role=permission(request.user,project_id,'run')
+    form=RunForm(request.POST or None,project=project,principal=request.user,initial={'idempotency_key':secrets.token_urlsafe(24),'profile':'sensor','suite':'profile','fixture_mode':'fixed'})
     preview=None
     if request.method=='POST' and form.is_valid():
         data=form.cleaned_data;payload=intent(data,request,project)
@@ -62,7 +62,7 @@ def new_run(request,project_id):
 
 
 def authorized_run(request,identifier,minimum='viewer'):
-    run=get_object_or_404(Run.objects.select_related('project__organization','target','build','actor','original'),pk=identifier)
+    run=get_object_or_404(visible_runs(request.user).select_related('project__organization','target','build','actor','original','access_session__code'),pk=identifier)
     project,role=project_access(request.user,run.project_id,minimum)
     return run,role
 
@@ -90,7 +90,9 @@ def run_status(request,run_id):
 @require_POST
 def cancel(request,run_id):
     run,role=authorized_run(request,run_id,'developer')
-    if run.actor_id!=request.user.pk and role not in {'owner','admin'}:raise Http404
+    permission(request.user,run.project_id,'cancel',target=run.target,run=run)
+    owns=(run.access_session_id and run.access_session.code_id==request.user.access_session.code_id) if is_code(request.user) else run.actor_id==request.user.pk
+    if not owns and role not in {'owner','admin'}:raise Http404
     Run.objects.filter(pk=run.pk).update(cancel_requested=True)
     audit(request.user,'run.cancel_requested',run.project.organization,run.pk,previous_state=run.state)
     return redirect('run_detail',run_id=run_id)
@@ -99,6 +101,7 @@ def cancel(request,run_id):
 @require_http_methods(['GET','POST'])
 def replay_run(request,run_id):
     original,role=authorized_run(request,run_id,'developer')
+    permission(request.user,original.project_id,'replay',target=original.target,run=original)
     candidates=BuildRelease.objects.filter(target=original.target,approved=True)
     if request.method=='POST':
         build=get_object_or_404(candidates,pk=request.POST.get('build'))
@@ -112,7 +115,7 @@ def replay_run(request,run_id):
 @secure_account(strong=True,recent=900)
 @require_http_methods(['GET','POST'])
 def import_build(request,project_id,target_id):
-    project,role=project_access(request.user,project_id,'developer');target=get_object_or_404(Target,pk=target_id,project=project)
+    project,role=project_access(request.user,project_id,'admin');target=get_object_or_404(visible_targets(request.user),pk=target_id,project=project)
     form=BuildImportForm(request.POST or None,request.FILES or None)
     if request.method=='POST' and form.is_valid():
         build=BuildRelease.objects.create(target=target,label=form.cleaned_data['label'],manifest=form.cleaned_data['manifest'])

@@ -15,8 +15,8 @@ def code():
 checks=[]
 with sync_playwright() as driver:
  browser=driver.chromium.launch();context=browser.new_context(viewport={'width':390,'height':844});page=context.new_page()
- page.goto(BASE+'/accounts/login/');page.locator('[name=login]').fill(credentials['email']);page.locator('[name=password]').fill(credentials['password'])
- page.get_by_role('button',name='Sign In',exact=True).click();page.wait_for_url('**/accounts/2fa/authenticate/**')
+ page.goto(BASE+'/administrator/login/');page.locator('[name=login]').fill(credentials['username']);page.locator('[name=password]').fill(credentials['password'])
+ page.get_by_role('button',name='Sign in as administrator',exact=True).click();page.wait_for_url('**/administrator/2fa/authenticate/**')
  for attempt in range(3):
   page.locator('[name=code]').fill(code());page.get_by_role('button',name='Sign In',exact=True).click();page.wait_for_timeout(200)
   if urlsplit(page.url).path=='/app/':break

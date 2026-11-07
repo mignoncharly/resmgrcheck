@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "kind": "current-code-authorized-native-workflow",
+  "native_cases": 4,
+  "code_id": "d86fb30a-b730-45cf-97d9-20498821860e",
+  "raw_code_persisted": false,
+  "cookie_state_persisted": false,
+  "scope": "Actual administrator password/TOTP, admin-issued code, developer cookie/CSRF, durable queue and unchanged real QNX engine. Existing original and corrected binaries reused.",
+  "runs": [
+    {
+      "web_run_id": "10ccf916-4ca8-4856-859f-9300fa8e36cb",
+      "native_run_id": "w10ccf9164ca8485685",
+      "operation": "run",
+      "profile": "sensor",
+      "mode": "fixed",
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "843c29af4da84e3c84b8efa00ae1e288ed80054ed67d4482b9aea39d45911797"
+      ],
+      "builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "inventory_version": 2
+    },
+    {
+      "web_run_id": "3b7fa05d-956b-4a6c-8c88-8cccba87fa1c",
+      "native_run_id": "w3b7fa05d956b4a6c8c",
+      "operation": "run",
+      "profile": "sensor",
+      "mode": "ignore-unblock",
+      "execution_exit": 1,
+      "case_verdicts": [
+        "FAIL"
+      ],
+      "bundle_ids": [
+        "813a84b22aaad727540beb7e390a6e5eeb4d782e36efcdd72776068906d3edf0"
+      ],
+      "builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "inventory_version": 2
+    },
+    {
+      "web_run_id": "2070166d-d0be-4727-9d24-f5ecd7f33dcb",
+      "native_run_id": "w2070166dd0be47279d",
+      "operation": "replay",
+      "profile": "sensor",
+      "mode": "ignore-unblock",
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "5c946fe792c2ab7b3fb47d425ddd5984303f18f662e185bd33fcc1dbfc45d0a0"
+      ],
+      "builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "99a511d86617ab807efc3ec1ac9b4d100b8c42fec8a4c358bff908562a48078e",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+          "source_tree_sha256": "08b20033edf22f6e0427b75b754a96d8f9fcdb358b8bbea51d224a4cc9e7e041"
+        }
+      ],
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "inventory_version": 2
+    },
+    {
+      "web_run_id": "28924384-acde-4dfc-83e2-ee217b276606",
+      "native_run_id": "w28924384acde4dfc83",
+      "operation": "run",
+      "profile": "job",
+      "mode": "fixed",
+      "execution_exit": 0,
+      "case_verdicts": [
+        "PASS"
+      ],
+      "bundle_ids": [
+        "1b3ab3d4911a093528915ce1f9826e10eb7cb33560499fbd791ac58fd1191798"
+      ],
+      "builds": [
+        {
+          "binaries": {
+            "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+            "fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+            "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+            "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+          },
+          "compiler_variant": "gcc_ntox86_64",
+          "dirty": false,
+          "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+          "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+          "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+        }
+      ],
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "inventory_version": 2
+    }
+  ],
+  "comparison_label": "fixed",
+  "fixture_mode_changed": false,
+  "web_source_revision": "58ce0e1a0d628a41137e918f5661d52831aeb99c",
+  "web_source_dirty": true,
+  "qualification_code_revoked_after_completion": true
+}

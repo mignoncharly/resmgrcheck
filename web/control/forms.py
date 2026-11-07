@@ -5,9 +5,6 @@ class OrganizationForm(forms.ModelForm):
     class Meta:model=Organization;fields=['name']
 class ProjectForm(forms.ModelForm):
     class Meta:model=Project;fields=['name','description']
-class InvitationForm(forms.Form):
-    email=forms.EmailField()
-    role=forms.ChoiceField(choices=Membership.Role.choices)
 class PasswordConfirmation(forms.Form):
     password=forms.CharField(widget=forms.PasswordInput)
 class MemberForm(forms.Form):
@@ -36,10 +33,12 @@ class RunForm(forms.Form):
     idempotency_key=forms.RegexField(r'^[A-Za-z0-9_-]{16,64}$',widget=forms.HiddenInput)
     confirmation=forms.CharField(required=False,widget=forms.HiddenInput,max_length=2000)
     confirmed=forms.BooleanField(required=False,widget=forms.HiddenInput)
-    def __init__(self,*args,project,**kwargs):
+    def __init__(self,*args,project,principal=None,**kwargs):
         super().__init__(*args,**kwargs)
-        self.fields['target'].queryset=Target.objects.filter(project=project,approved=True)
-        self.fields['build'].queryset=BuildRelease.objects.filter(target__project=project,approved=True)
+        from .security import visible_targets
+        allowed=visible_targets(principal) if principal is not None else Target.objects.filter(project=project)
+        self.fields['target'].queryset=allowed.filter(project=project,approved=True)
+        self.fields['build'].queryset=BuildRelease.objects.filter(target__in=self.fields['target'].queryset,approved=True)
     def clean(self):
         data=super().clean();target=data.get('target');build=data.get('build')
         if target and build and build.target_id!=target.pk:self.add_error('build','Choose an approved build for this exact target.')

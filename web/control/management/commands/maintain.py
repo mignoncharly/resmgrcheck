@@ -1,8 +1,8 @@
 import json
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from control.models import Run,AccountDeletion,RateBucket
-from control.retention import purge_run,erase_account,eligible,erase_ai_content
+from control.models import Run,RateBucket
+from control.retention import purge_run,eligible,erase_ai_content
 from control.engine import PolicyError
 
 class Command(BaseCommand):
@@ -15,9 +15,6 @@ class Command(BaseCommand):
             if not eligible(run,timezone.now()):continue
             try:results.append(purge_run(run.pk,apply=options['apply']))
             except (OSError,ValueError,PolicyError) as error:results.append({'run_id':str(run.pk),'error':str(error) if isinstance(error,PolicyError) else 'local_retention_error','removed_claimed':False})
-        for record in AccountDeletion.objects.filter(completed_at=None,due_at__lte=timezone.now())[:20]:
-            try:results.append(erase_account(record.pk,apply=options['apply']))
-            except PolicyError as error:results.append({'account_request_id':record.pk,'error':str(error)})
         if options['apply']:RateBucket.objects.filter(expires_at__lt=timezone.now()).delete()
         results.extend(erase_ai_content(apply=options['apply']))
         self.stdout.write(json.dumps({'apply':options['apply'],'results':results,'qnx_target_contacted':False}))

@@ -8,12 +8,13 @@ independent of native execution, deterministic evaluation and offline reporting.
 
 ## Trust and consent
 
-A project owner/admin with verified email/MFA sets opt-in and a daily budget.
-A verified developer with recent MFA selects one collected native case, optionally
+A locally provisioned project administrator with MFA sets opt-in and a daily budget.
+A developer with a current scoped code session (or an administrator with recent MFA) selects one collected native case, optionally
 a reviewed original source excerpt and an earlier same-project run. The browser
 previews the exact redacted packet and a named provider/model/price ceiling. A
 signed five-minute confirmation binds actor, run, exact packet/provider and request
 key; the next POST must explicitly consent. Changing inputs invalidates consent.
+The code must additionally allow AI for the selected project, target and evidence.
 The HTTP process never calls the provider or reads its credential.
 
 Only server-authorized original engine results, contract/build/manifest excerpts,

@@ -1,0 +1,35 @@
+{
+  "kind": "private-staging-checkpoint-restore",
+  "production_backup_qualified": false,
+  "qnx_contacted": false,
+  "database_dump_sha256": "9ed80d41e7d4b182050bff20b1a04ddd96dfa7945f9dd1aa233efcea73fbfd5c",
+  "evidence_zip_sha256": "1c5e475f7c005dd1057a10c43d0bd27cc75283a30abe2f9f98dcabfd49b26755",
+  "files": 140,
+  "runs": 8,
+  "database_identity": {
+    "counts": {
+      "control_user": 1,
+      "control_organization": 1,
+      "control_project": 1,
+      "control_run": 10,
+      "control_artifact": 140,
+      "control_auditevent": 51,
+      "control_sourcesubmission": 2,
+      "control_aianalysis": 0
+    },
+    "artifact_inventory_sha256": "6f72a6be5c85f89280a5c48b3f671398e6ba300028fb2a0a2d95afaac7f16ad5"
+  },
+  "passed": true,
+  "restored_database_identity_matches": true,
+  "restored_audit_trigger_rejects_update": true,
+  "restored_evidence_files_verified": 140,
+  "restored_canonical_executions": 8,
+  "temporary_restore_database_removed": true,
+  "encrypted_backup_sha256": "5407620f05cde6b07a3cd4bc730c3c7bae95152d09c0fec808e4799a9de23729",
+  "original_database_preserved": true,
+  "limitations": [
+    "Private staging peer-auth cluster/current development user only",
+    "Production service/backup role, off-host storage and key-custody drill not qualified",
+    "Original stable MFA encryption key remains separately protected; not included in this data archive"
+  ]
+}

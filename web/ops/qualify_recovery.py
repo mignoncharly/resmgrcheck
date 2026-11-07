@@ -41,11 +41,11 @@ def descendants(parent):
 
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',required=True);args=parser.parse_args()
 out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
-credential=json.loads((settings.PRIVATE_ROOT/'acceptance-account.json').read_text())
-project_id=credential['project_id'];target=Target.objects.get(project_id=project_id)
+credential=json.loads((settings.PRIVATE_ROOT/'acceptance-administrator.json').read_text())
+project_id=credential['project_id'];target=Target.objects.get(project_id=project_id,approved=True,kind='managed-lab')
 build=BuildRelease.objects.filter(target=target,label='Original actual QNX build').get()
-http=HTTP();http.post('/accounts/login/',{'login':credential['email'],'password':credential['password']})
-code=format_hotp_value(hotp_value(credential['totp_secret'],int(time.time())//30));http.post('/accounts/2fa/authenticate/',{'code':code})
+http=HTTP();http.post('/administrator/login/',{'login':credential['username'],'password':credential['password']})
+code=format_hotp_value(hotp_value(credential['totp_secret'],int(time.time())//30));http.post('/administrator/2fa/authenticate/',{'code':code})
 import secrets
 path='/app/projects/'+project_id+'/runs/new/'
 data={'target':str(target.pk),'build':str(build.pk),'profile':'sensor','suite':'profile','fixture_mode':'ignore-unblock','idempotency_key':secrets.token_urlsafe(24)}

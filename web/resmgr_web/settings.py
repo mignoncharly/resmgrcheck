@@ -38,17 +38,18 @@ DATABASES = {'default':{'ENGINE':'django.db.backends.postgresql','NAME':os.envir
                        'CONN_MAX_AGE':0,'OPTIONS':{'connect_timeout':5,'options':'-c statement_timeout=10000 -c lock_timeout=5000'},
                        'TEST':{'NAME':os.environ.get('RMC_WEB_TEST_DB_NAME','test_resmgrcheck_web')}}}
 AUTH_USER_MODEL = 'control.User'
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend','allauth.account.auth_backends.AuthenticationBackend']
+AUTHENTICATION_BACKENDS = ['control.auth.AdministratorBackend']
 PASSWORD_HASHERS = ['django.contrib.auth.hashers.Argon2PasswordHasher','django.contrib.auth.hashers.PBKDF2PasswordHasher']
 AUTH_PASSWORD_VALIDATORS = [{'NAME':'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
                             {'NAME':'django.contrib.auth.password_validation.MinimumLengthValidator','OPTIONS':{'min_length':12}},
                             {'NAME':'django.contrib.auth.password_validation.CommonPasswordValidator'},
                             {'NAME':'django.contrib.auth.password_validation.NumericPasswordValidator'}]
 SITE_ID = 1
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*','password1*','password2*']
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGIN_METHODS = {'username'}
+ACCOUNT_SIGNUP_FIELDS = ['username*','password1*','password2*']
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_NOTIFICATIONS = False
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False
 ACCOUNT_LOGOUT_ON_GET = False
@@ -58,15 +59,7 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if ENVIRONMENT == 'production' else 'htt
 MFA_SUPPORTED_TYPES = ['totp','recovery_codes']
 MFA_TOTP_ISSUER = 'ResMgrCheck'
 USERSESSIONS_TRACK_ACTIVITY = True
-EMAIL_BACKEND = os.environ.get('RMC_WEB_EMAIL_BACKEND','django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = os.environ.get('RMC_WEB_EMAIL_HOST','127.0.0.1')
-EMAIL_PORT = int(os.environ.get('RMC_WEB_EMAIL_PORT','587'))
-EMAIL_HOST_USER = os.environ.get('RMC_WEB_EMAIL_USER','')
-EMAIL_HOST_PASSWORD = os.environ.get('RMC_WEB_EMAIL_PASSWORD','')
-EMAIL_USE_TLS = os.environ.get('RMC_WEB_EMAIL_TLS','1') == '1'
-EMAIL_TIMEOUT = 10
-DEFAULT_FROM_EMAIL = os.environ.get('RMC_WEB_FROM_EMAIL','ResMgrCheck <noreply@qnx-resmgrcheck.gestionatech.de>')
-SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_BACKEND = 'control.auth.DisabledMailBackend'
 LOGIN_REDIRECT_URL = '/app/'
 LOGOUT_REDIRECT_URL = '/'
 SESSION_COOKIE_NAME = 'resmgrcheck_session'
@@ -106,10 +99,8 @@ CACHES = {'default':{'BACKEND':'django.core.cache.backends.db.DatabaseCache','LO
 LOGGING = {'version':1,'disable_existing_loggers':False,'handlers':{'console':{'class':'logging.StreamHandler'}},
            'root':{'handlers':['console'],'level':'WARNING'},'loggers':{'django.request':{'handlers':['console'],'level':'ERROR','propagate':False}}}
 # No request bodies, credentials or raw provider errors are logged.
-EMAIL_FILE_PATH = PRIVATE_ROOT / 'mail'
 ACCOUNT_ADAPTER = 'control.auth.AccountAdapter'
 MFA_ADAPTER = 'control.auth.MFAAdapter'
-REGISTRATION_OPEN = os.environ.get('RMC_WEB_REGISTRATION_OPEN','1') == '1'
 MIDDLEWARE.append('control.middleware.PolicyMiddleware')
 import sys
 if str(REPO_ROOT) not in sys.path: sys.path.insert(0,str(REPO_ROOT))
@@ -117,3 +108,7 @@ ENGINE_EXECUTION_TIMEOUT = 600
 MAX_QUEUED_JOBS = 30
 TEMPLATES[0]['OPTIONS']['context_processors'].append('control.context.product')
 MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'allauth.usersessions.middleware.UserSessionsMiddleware')
+
+MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'control.access_middleware.AccessSessionMiddleware')
+
+LOGIN_URL = '/administrator/login/'

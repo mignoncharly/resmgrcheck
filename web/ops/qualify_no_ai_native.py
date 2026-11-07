@@ -32,13 +32,13 @@ parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',
 out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
 assert not AIProviderState.objects.filter(available=True).exists(),'This qualifier requires the actual disabled-provider state'
 initial_analyses=AIAnalysis.objects.count()
-credential=json.loads((settings.PRIVATE_ROOT/'acceptance-account.json').read_text())
+credential=json.loads((settings.PRIVATE_ROOT/'acceptance-administrator.json').read_text())
 target=Target.objects.get(project_id=credential['project_id'],approved=True,kind='managed-lab')
 build=BuildRelease.objects.get(target=target,label='Original actual QNX build')
-http=HTTP();http.post('/accounts/login/',{'login':credential['email'],'password':credential['password']})
+http=HTTP();http.post('/administrator/login/',{'login':credential['username'],'password':credential['password']})
 for attempt in range(3):
  code=format_hotp_value(hotp_value(credential['totp_secret'],int(time.time())//30))
- try:url,_=http.post('/accounts/2fa/authenticate/',{'code':code})
+ try:url,_=http.post('/administrator/2fa/authenticate/',{'code':code})
  except urllib.error.HTTPError as error:
   if error.code!=400:raise
   url='not-authenticated';error.close()

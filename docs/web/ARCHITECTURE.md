@@ -14,8 +14,10 @@ and the derived report. Inline offline HTML uses a script-disabled sandbox/CSP;
 raw downloads are authenticated and tenant scoped. Public playback is a fixed
 allowlist of genuine saved QNX evidence, isolated from the execution queue.
 
-Organization/project membership scopes every object lookup, download, comparison
-and AI retrieval. UUIDs are identifiers, never authorization. Delayed jobs recheck
+Administrator organization/project membership and access-code project/target/evidence
+grants scope every object lookup, download, comparison and AI retrieval. Developer
+sessions create no user accounts; only locally provisioned administrators have
+username/password/MFA credentials. There is no email/SMTP workflow. UUIDs are identifiers, never authorization. Delayed jobs recheck
 current user membership, project, target and immutable build approval before use.
 The database is the durable queue: explicit transitions, locks, leases, idempotency
 and target quarantine. A stale lease permits status/collection, never blind relaunch.
@@ -50,3 +52,9 @@ and disabled-browser checks do not establish provider access or successful outpu
 Customer targets require an approved dedicated runner/route for that tenant.
 This release will not accept arbitrary shared-host SSH or claim external lifecycle
 observers that do not exist. Public demo uses isolated recorded evidence only.
+
+ACCESS_MODEL.md records the approved replacement decision. PostgreSQL serializes
+code redemption and fences revocation against local child creation. Run/source/AI
+rows bind exactly one administrator or code-session identity; legacy authors/audit
+remain preserved. Browser sessions use opaque cookies with revocation/idle/absolute
+limits, not repeatedly transmitted raw codes or API bearer credentials.

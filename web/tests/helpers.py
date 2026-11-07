@@ -1,14 +1,14 @@
 import time
 from django.test import Client
-from allauth.account.models import EmailAddress
+import hashlib,re
 from allauth.mfa.totp.internal.auth import TOTP,generate_totp_secret,hotp_value,format_hotp_value
 from control.models import User,Organization,Membership,Project,ProjectMembership
 
 PASSWORD='Integration account password 792! Strong phrase'
 
 def user(email,verified=True,mfa=False):
-    result=User.objects.create_user(email,PASSWORD)
-    EmailAddress.objects.create(user=result,email=result.email,primary=True,verified=verified)
+    username=re.sub('[^a-z0-9_.-]','-',email.lower())[:29]+'-'+hashlib.sha256(email.lower().encode()).hexdigest()[:8]
+    result=User.objects.create_user(username,PASSWORD,is_staff=True,is_active=verified)
     if mfa:TOTP.activate(result,generate_totp_secret())
     return result
 

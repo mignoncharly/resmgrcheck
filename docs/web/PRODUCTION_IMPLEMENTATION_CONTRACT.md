@@ -6,6 +6,10 @@ Implementation branch: `feature/production-web-ai`.
 Preferred production domain: `qnx-resmgrcheck.gestionatech.de` (DNS names are case-insensitive; use lower-case canonical URLs).
 Product goal: useful, secure, maintainable, real-user ResMgrCheck web application with CLI parity and optional evidence-grounded AI. The source QNX engine and the published hackathon release must remain independently usable.
 
+## Approved access decision (2026-11-07)
+
+The owner-approved administrator/access-code model replaces all prior public-user registration, email-verification, email-reset and SMTP requirements. It reopens affected authorization gates; previous email tests remain historical evidence only. Codes establish secure revocable browser sessions, never arbitrary host/command access. AI remains optional: a disabled provider must not block deterministic testing or deployment of the qualified no-AI mode. Public deployment waits for revised authentication and production security gates. See ACCESS_MODEL.md.
+
 ## Nonnegotiable truths
 
 - The verified engine has sensor and job fixtures, 36 release expectations, 107 host tests and native evidence, but does not automatically support arbitrary QNX resource managers.
@@ -30,9 +34,9 @@ Split the public **control plane** from the **execution plane**:
 
 ## Real-user workflows to ship
 
-1. Anonymous landing, clear scope, documentation, codelab and signed-in invitation/registration flow (choose and implement documented onboarding policy).
-2. Account: email verification, secure password reset (or trusted OIDC), session invalidation, secure cookies, MFA for owners/admins, audit logs, data export/delete.
-3. Organizations/projects with owner/admin/developer/viewer permissions. Authorization enforced in views, APIs, background workers, object storage and AI retrieval, including regression tests for cross-tenant access.
+1. Anonymous landing, scope, documentation and recorded demo. Distinct administrator username/password/MFA login and developer access-code redemption. No public registration.
+2. Only locally provisioned administrators have password accounts, securely hashed with mandatory MFA, protected password changes and global session revocation. Lost-password/MFA recovery is an audited protected server-side procedure. No email authentication or SMTP dependency. Developers/testers have revocable browser sessions after code redemption, without user accounts.
+3. Administrator-issued cryptographically random access codes carry explicit project/target/evidence grants, optional expiry, redemption and active-session limits, download/live/AI permissions, usage/audit and immediate revocation. Display raw codes once; store only a secure keyed verifier. Never accept them as unrestricted API credentials. Repeat scoped authorization in every view/API, queue, execution boundary, download and AI retrieval. Administrators retain scoped organization roles; no public administrator signup.
 4. Target management: explicit local/owned lab or verified remote agent; capability discovery and provenance. Accurate connect, unknown, unavailable, unsupported, and last-seen statuses.
 5. Profile/scenario selection with server-side validation; target compatibility checks, required capability checks, preview and confirmation.
 6. Job submission: idempotent scheduling, concurrency quotas, bounded worker/process leases, progress and cancel-request state, crash/SSH-loss recovery using exact stored run IDs. "Cancel web job" must not falsely claim to have stopped a QNX process.
@@ -44,8 +48,8 @@ Split the public **control plane** from the **execution plane**:
 ## Screen map
 
 - Public: Home, How it works, Demo, Docs, Security/Limitations, Contact, Privacy/Terms.
-- Signed in: Overview, Projects, Targets, New Run, Live Run Detail, Results, Compare, Evidence, AI Analysis, Team, Settings.
-- Admin: users/invitations, organization and target approvals, queue health, quotas, audit and retention, AI budgets, error health and backups.
+- Authenticated: Overview, Projects, Targets, New Run, Live Run Detail, Results, Compare, Evidence, AI Analysis, Team, Settings.
+- Admin: locally provisioned administrators, access codes/sessions, organization and target approvals, queue health, quotas, audit and retention, AI budgets, error health and backups.
 - Responsive desktop and mobile; keyboard navigation, form errors, visible empty/loading/error states; distinguish recorded demo data from live user runs.
 
 ## Implementation gates (no phase advances on a failing gate)
@@ -54,7 +58,7 @@ Split the public **control plane** from the **execution plane**:
 
 **P1. App foundation**: pinned supported backend dependencies; Django app, PostgreSQL migrations, health/readiness, config separation, env-based settings, static assets, accessibility shell, typed data models. Unit tests and isolated staging deployment.
 
-**P2. Identity and authorization**: onboarding, verified accounts, secure sessions, MFA, organizations, project memberships, object-level access and strong tenant isolation. Negative authorization and CSRF tests. Use OWASP ASVS 5.0 Level 2 as a checklist where applicable, not a claimed certification.
+**P2. Identity and authorization (reopened by approved access decision)**: protected local administrator provisioning/recovery, username/password plus MFA, password changes/session revocation; no signup/email/SMTP. Scoped one-time-display access codes with secure verifier storage, serialized redemption/session limits, immediate revocation, secure browser sessions and organization/project/target/evidence/AI/live permissions. Test PostgreSQL concurrency, expired/revoked/bad codes, authorization and CSRF, background launch revocation, anonymous denial and JavaScript-disabled browser behavior. Preserve historical authors/audit/evidence through safe migrations. Use OWASP ASVS 5.0 Level 2 as a checklist where applicable, not a claimed certification.
 
 **P3. Real engine integration**: fixed command adapters, target capability inventory, policy/allowlists, run-id mapping, durable job states, bounded subprocess execution, exact recovery; real QNX staging tests prove existing engine still works. No arbitrary external-service lifecycle support.
 
@@ -68,7 +72,7 @@ Split the public **control plane** from the **execution plane**:
 
 **P8. Production hardening**: HTTPS and HSTS, host/domain/CSRF settings, secrets permissions, audit and error reporting, bounded uploads, malware-safe handling, PostgreSQL backup and restore drill, retention, migrations, queue saturation, process containment, rate limits, deployment rollback, strict dependency scanning. Validate staging with real browser + QNX use cases and avoid disrupting other VPS apps.
 
-**P9. Release acceptance**: clean checkout and install; complete end-to-end tests for two real QNX fixtures, demo playback, multi-tenant isolation, timeouts, SSH loss, retries/dedupe, deterministic verdicts, evidence integrity, AI enabled/disabled, verified source-fix replay, responsive browser, rollback; independent operator UAT. Record exact commands, PASS/FAIL/NOT_RUN and blockers. No universal compatibility claim.
+**P9. Release acceptance**: clean checkout and install; complete end-to-end tests for two real QNX fixtures, demo playback, multi-tenant isolation, timeouts, SSH loss, retries/dedupe, deterministic verdicts, evidence integrity, AI disabled and, when explicitly configured, real-provider-enabled operation (never infer provider proof), verified source-fix replay, responsive browser, rollback; independent operator UAT. Record exact commands, PASS/FAIL/NOT_RUN and blockers. No universal compatibility claim.
 
 **P10. Production deployment**: after all relevant gates, configure DNS `qnx-resmgrcheck.gestionatech.de`, Nginx vhost, valid TLS, systemd services, isolated database and users, backups and monitoring; verify public HTTPS externally, account lifecycle, real run authorized through restricted executor, error logs, isolation and safe recovery. Production deployment is not "complete" until the externally reachable site and actual end-to-end operations are observed. Keep Devpost submission separate and never submit without explicit approval.
 

@@ -1,0 +1,97 @@
+{
+  "passed": true,
+  "kind": "actual-code-session-qnx-qualification",
+  "native_cases": 2,
+  "runs": [
+    {
+      "profile": "sensor",
+      "web_run_id": "5100fcdc-478b-481c-b58a-73116cae13ad",
+      "native_run_id": "w5100fcdc478b481cb5",
+      "access_session_id": "d5b85ee1-de08-418c-b171-cd4ced350d87",
+      "canonical_verdict": "PASS",
+      "bundle_id": "1dddd693718d9a3e5f9f7e73fce390ce8b6ff20fb59d886ab86e8ff5d8d17c58",
+      "native_builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+        "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+      },
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "duplicate_http_intent_deduped": true,
+      "revoked_after_observed_native_pending": false,
+      "pending_observation": null
+    },
+    {
+      "profile": "job",
+      "web_run_id": "a8e5eb1f-3cb8-4a01-b2a0-de7614bf4233",
+      "native_run_id": "wa8e5eb1f3cb84a01b2",
+      "access_session_id": "d5b85ee1-de08-418c-b171-cd4ced350d87",
+      "canonical_verdict": "PASS",
+      "bundle_id": "67916b4af3c93e9fdf73248c913b14749929835886f320f5404c72e202551ec9",
+      "native_builds": {
+        "binaries": {
+          "adapter": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43",
+          "fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+          "runner": "2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334",
+          "worker": "d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43"
+        },
+        "compiler_variant": "gcc_ntox86_64",
+        "dirty": false,
+        "recipe_id": "6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f",
+        "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+        "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+      },
+      "native_cleanup_verified": true,
+      "local_cli_exit_reaped": true,
+      "duplicate_http_intent_deduped": true,
+      "revoked_after_observed_native_pending": true,
+      "pending_observation": {
+        "frame": 126,
+        "event": {
+          "kind": "producer-event",
+          "schema_version": 1,
+          "run_id": "wa8e5eb1f3cb84a01b2-timeout",
+          "case_id": "timeout",
+          "attempt_id": "attempt1",
+          "service_instance_id": "wa8e5eb1f3cb84a01b2-timeout",
+          "cycle": 1,
+          "producer": "fixture",
+          "pid": "797466647",
+          "seq": 49,
+          "ns": "66272482288741",
+          "event": "pending",
+          "data": {
+            "logical": "4",
+            "generation": "3",
+            "rcvid": "4618722897140121601",
+            "client_pid": "797556738",
+            "pending": 1
+          }
+        }
+      }
+    }
+  ],
+  "revoked_queued_job": {
+    "web_run_id": "4af3c7af-e123-4fba-9906-40c865b5e09e",
+    "native_run_id": "w4af3c7afe1234fba99",
+    "state": "rejected",
+    "reason": "actor_authorization_revoked",
+    "started_at": null,
+    "local_output_directory_exists": false,
+    "native_cleanup_claimed": false,
+    "native_verdict_established": false
+  },
+  "raw_codes_saved": false,
+  "cookie_state_saved": false,
+  "source_revision": "58ce0e1a0d628a41137e918f5661d52831aeb99c",
+  "web_source_dirty": true,
+  "scope": "Actual code-created browser authority, real private dispatcher, unchanged genuine QNX engine. Native continuation after in-flight code revocation is supervised cleanup/collection authority, never fresh user authorization."
+}

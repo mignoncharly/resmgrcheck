@@ -3,7 +3,7 @@
 Requested URL: `https://qnx-resmgrcheck.gestionatech.de`. Not deployed.
 Read-only P0 inventory found 12 enabled Nginx sites, no matching vhost, many live
 applications and PostgreSQL instances, Python 3.12.3, Nginx 1.24.0 and available
-loopback port 8431. The requested DNS name did not resolve. No existing site,
+loopback port 8431. At P0 the requested DNS name did not resolve; a later read-only check found it resolves, without an application vhost or verified HTTPS. No existing site,
 firewall, database, guest or host service was modified.
 
 Staging will use a separate private Unix-socket PostgreSQL cluster and virtualenv
@@ -13,7 +13,7 @@ It is not a production OS isolation or public HTTPS acceptance result.
 
 Production requires the dedicated accounts/directories/database, constrained
 executor credential access, root-owned systemd units, reviewed vhost, valid TLS,
-secure email configuration, backup/restore and rollback proofs. Provisioning and
+the revised administrator/access-code gate, backup/restore and rollback proofs. Provisioning and
 external DNS/TLS changes must wait for the contract's applicable readiness gates.
 Administrative commands will be concrete, checked-in scripts, never a request for
 passwords, private configuration or keys in chat.
@@ -22,3 +22,7 @@ Rollback baseline is the preserved published branch/revision `ca4f74e`. Web work
 is isolated on `feature/production-web-ai`; removal/stop actions may name only the
 new dedicated ResMgrCheck resources. Existing engine binaries/evidence and other
 applications must survive a rollback.
+
+The former SMTP prerequisite is superseded by ACCESS_MODEL.md. Production uses
+protected local administrator provisioning/recovery, scoped access-code sessions,
+mandatory administrator MFA and no public registration/email authentication.

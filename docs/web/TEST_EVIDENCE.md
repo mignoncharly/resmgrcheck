@@ -1,5 +1,10 @@
 # Production web test evidence
 
+Current access decision: [DWEB-001](ACCESS_MODEL.md) replaces the former public
+registration/email/SMTP requirements. W002 and prior email references below are
+historical, preserved observations; W007 qualifies the revised model. AI is optional;
+provider-disabled qualification does not establish real provider functionality.
+
 ## W000 — P0 baseline and read-only inventory
 
 2026-11-07. Specification commit3d9048a, published baselineca4f74e. Working tree
@@ -312,3 +317,78 @@ project setting. The adapter now explicitly requests standard/default pricing an
 withholds a missing/different returned tier. [All36 focused AI host tests](evidence/p6/standard-tier-tests.txt)
 passed in12.281s after this change; actual provider behavior is still pending
 secure local setup.
+
+## W007 — Administrator/access-code replacement gate
+
+Owner-approved DWEB-001,2026-11-07. Observed base58ce0e1 with uncommitted web
+changes; [gate-close hashes](evidence/access-v1/source-observation.json) identify
+reviewed files, not a clean final-release execution snapshot. Original native/CLI
+runtime remains02b34132…; main and the published release remain unchanged.
+
+Before schema changes, an actual encrypted private checkpoint restored into an
+exact new temporary database. [Receipt](evidence/access-v1/pre-migration-restore.json):
+140 artifact hashes/eight collected execution records and append-only audit trigger
+verified, original database/evidence preserved. Seven records are actual native
+cases, one a failed-transfer record with no native launch. This is staging
+preservation, not production backup-role/off-host/key-custody qualification.
+
+Actual PostgreSQL migrations0013–0017 passed. Legacy authors and audit references
+remain; unprovisioned old accounts are disabled, never silently elevated. Explicit
+local adoption preserved the existing staging administrator's hash, MFA and author
+identity, cleared unused email and revoked sessions. No account/code credential is
+published. Old invitations/deletion records are archival; their workflows/tasks
+and public email/signup/reset routes are removed. No SMTP dependency remains.
+
+[All135 PostgreSQL tests](evidence/access-v1/host-tests.txt) passed in37.650s through
+`web/ops/staging.py manage.py test tests --noinput`. Coverage includes local
+Argon2 provisioning, protected recovery, username/password/real TOTP, enrollment,
+password/session changes, CSRF/rate limits, anonymous denial, valid/malformed/
+expired/revoked codes, opaque session binding, idle/absolute expiry, one-time
+secret display/verifier-only storage, no bearer/query authentication, scope edits,
+individual/global code revocation, concurrent lifetime and active-session limits,
+project/target/evidence/download/compare isolation, prohibited administration,
+code AI signed consent/budgets/revocation and exact child-start authorization.
+Provider protocol fixtures are host mocks and make no paid API calls. Redaction
+includes code secrets even when their URL-safe last character is '-' or '_'.
+`makemigrations --check --dry-run`, Python compilation and diff whitespace checks
+passed. Two deliberate missing-CSRF requests log403, as expected.
+
+An earlier135-test attempt had134 successes and a test-fixture AttributeError from
+using the wrong reverse relation for Membership. Correcting that assertion produced
+the final135/135 result; no control or required coverage was relaxed. The private
+native support helper also initially fetched a POST-only revoke route to obtain
+CSRF (405); it now obtains CSRF from authenticated session settings for such routes.
+
+[Actual Chromium156 browser checks](evidence/access-v1/browser.json) passed36 views
+at1440px and390px, including JavaScript disabled. Ten axe scans had zero serious/
+critical findings. Real administrator password/TOTP and UI code creation/redemption
+ran; third-session denial, individual/session-wide revocation, selected-evidence
+and cross-project denial, readonly native/AI denial, obsolete routes404, no external
+requests and no horizontal overflow passed. Codes/cookies were held only in memory;
+no authenticated browser state or creation-secret screenshot was saved. These are
+loopback staging HTTP results, not public HTTPS/cookie deployment qualification.
+
+[Two actual code-authorized QNX cases](evidence/access-v1/native-revocation.json)
+passed for sensor/job. The job's actual native pending event was observed before
+administrator revocation. Browser access ended while bounded service-owned native
+supervision, cleanup and collection completed canonical PASS. Exact local CLI exit
+was reaped. A separately queued revoked request was rejected with
+`actor_authorization_revoked`, no started_at/output directory, native launch,
+native verdict or cleanup claim. Unknown state was not promoted to success.
+
+[Four additional actual QNX cases](evidence/access-v1/native-replay.json) exercised
+real administrator/code/CSRF HTTP requests, duplicate-intent dedupe, private queue,
+sealed v2 inventory and original engine: fixed sensor PASS, ignore-unblock sensor
+FAIL(exit1), source-candidate replay PASS(exit0), fixed job PASS. The replay retained
+ignore-unblock and original inputs, selected real source39b99d7/08b20033… against
+original d9d2a1a/02b34132…, and canonically compared as `fixed` without fixture-mode
+change. The fixture hash changed020e5004…→99a511d8…; shared runner/worker hashes
+remained unchanged. All six new native cases have verified cleanup/reaping. Earlier
+native matrix results remain intact; this is affected web-authorization qualification,
+not a rebuild or repetition of the unchanged complete native matrix.
+
+P2 revised authentication/authorization and affected P3/P5 access gates pass private
+staging. P6 qualifies optional-disabled operation: real provider/account/usage remains
+NOT_RUN until dedicated local configuration and actual exercise. SMTP is superseded,
+not a blocker. P7 customer scope and P8–P10 production isolation/backup/HTTPS/rollback/
+independent operator UAT still require their own gates; no public deployment occurred.

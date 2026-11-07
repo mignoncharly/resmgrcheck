@@ -26,8 +26,8 @@ if not exists:subprocess.run(['createdb','resmgrcheck_web_stage'],env=env,check=
 # This private staging role is the current development user, not a production role.
 web_env={'RMC_WEB_ENV':'staging','RMC_WEB_SECRET_KEY_FILE':str(runtime/'secret-key'),'RMC_WEB_MFA_KEY_FILE':str(runtime/'mfa-key'),
  'RMC_WEB_DB_HOST':str(sock),'RMC_WEB_DB_PORT':'5438','RMC_WEB_DB_USER':os.environ.get('USER','mignon'),'RMC_WEB_DB_NAME':'resmgrcheck_web_stage',
- 'RMC_WEB_ALLOWED_HOSTS':'127.0.0.1,localhost,testserver','RMC_WEB_CSRF_ORIGINS':'http://127.0.0.1:8431','RMC_WEB_EMAIL_BACKEND':'django.core.mail.backends.filebased.EmailBackend',
- 'EMAIL_FILE_PATH':str(BASE/'mail'),'RMC_WEB_AI_CONFIG':str(runtime/'ai-provider.json')}
+ 'RMC_WEB_ALLOWED_HOSTS':'127.0.0.1,localhost,testserver','RMC_WEB_CSRF_ORIGINS':'http://127.0.0.1:8431',
+ 'RMC_WEB_AI_CONFIG':str(runtime/'ai-provider.json')}
 # Only paths/options go in this file; keys remain separately permissioned. Never print it.
 import json
 operator_config=runtime/'operator-settings.json'
@@ -35,7 +35,9 @@ if operator_config.exists():
  if operator_config.is_symlink() or operator_config.stat().st_mode & 0o077:
   raise SystemExit('Private operator settings must be0600 and nonsymlink')
  overrides=json.loads(operator_config.read_text())
- allowed={'RMC_WEB_EXECUTOR_REGISTRY','RMC_WEB_ENGINE_ROOT','RMC_WEB_EMAIL_BACKEND','RMC_WEB_EMAIL_HOST','RMC_WEB_EMAIL_PORT','RMC_WEB_EMAIL_USER','RMC_WEB_EMAIL_PASSWORD','RMC_WEB_EMAIL_TLS','RMC_WEB_FROM_EMAIL','RMC_WEB_AI_CONFIG'}
+ allowed={'RMC_WEB_EXECUTOR_REGISTRY','RMC_WEB_ENGINE_ROOT','RMC_WEB_AI_CONFIG'}
+ # Preserve but ignore obsolete private SMTP entries; no email dependency remains.
+ overrides={key:value for key,value in overrides.items() if not key.startswith('RMC_WEB_EMAIL_') and key!='RMC_WEB_FROM_EMAIL'}
  if not set(overrides)<=allowed:raise SystemExit('Unsupported staging operator setting')
  web_env.update({key:str(value) for key,value in overrides.items()})
 p=runtime/'staging-config.json';p.write_text(json.dumps(web_env));p.chmod(0o600)

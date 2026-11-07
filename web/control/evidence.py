@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_GET
 from resmgrcheck.contracts import canonical
 from .models import Artifact
-from .security import secure_account,audit,consume_rate
+from .security import secure_account,audit,consume_rate,permission
 from .execution_views import authorized_run
 from .engine import PolicyError
 from .storage import detail_cases,open_artifact,verify_inventory
@@ -68,6 +68,7 @@ def bundle_export(run):
 @require_GET
 def download(request,run_id):
     run,role=authorized_run(request,run_id)
+    permission(request.user,run.project_id,'download',target=run.target,run=run)
     if not consume_rate('evidence-export',str(request.user.pk),6,60):return render(request,'control/message.html',{'title':'Export rate limit','message':'Wait before requesting another evidence archive.'},status=429)
     try:stream=bundle_export(run)
     except (ValueError,OSError,PolicyError):
