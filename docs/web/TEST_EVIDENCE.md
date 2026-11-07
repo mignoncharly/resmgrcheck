@@ -306,3 +306,9 @@ eight collected executions verified. The exact temporary restore DB was dropped;
 the original stage DB/evidence were preserved. This made no QNX/provider call.
 Seven of those records contain QNX cases; the failed-transfer record contains none.
 This does not pass the later production backup/account/off-host/key-custody gate.
+
+A P6 API review found that the provider defaults its processing tier to the account's
+project setting. The adapter now explicitly requests standard/default pricing and
+withholds a missing/different returned tier. [All36 focused AI host tests](evidence/p6/standard-tier-tests.txt)
+passed in12.281s after this change; actual provider behavior is still pending
+secure local setup.

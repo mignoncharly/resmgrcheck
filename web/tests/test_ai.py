@@ -184,7 +184,7 @@ class AITests(TestCase):
         self.assertEqual(payload['observations']['native-plan']['contract']['adapter']['id'],'job-v1')
     def test_stateless_fixed_api_request_shape_host_mock_only(self):
         provider=self.ready();answer=self.answer()
-        response={'status':'completed','output':[{'type':'message','content':[{'type':'output_text','text':json.dumps(answer)}]}],
+        response={'status':'completed','service_tier':'default','output':[{'type':'message','content':[{'type':'output_text','text':json.dumps(answer)}]}],
             'usage':{'input_tokens':800,'output_tokens':200},'model':'host-test-model','id':'resp_host_test'}
         opened=BytesIO(json.dumps(response).encode());opened.headers={'x-request-id':'req_host_test'}
         requests=[]
@@ -197,6 +197,14 @@ class AITests(TestCase):
             sent=requests[0];body=json.loads(sent.data)
             self.assertEqual(sent.full_url,'https://api.openai.com/v1/responses');self.assertFalse(body['store']);self.assertFalse(body['background']);self.assertEqual(body['tools'],[])
             self.assertEqual(body['max_output_tokens'],1600);self.assertTrue(body['text']['format']['strict'])
+            self.assertEqual(body['service_tier'],'default')
+    def test_unknown_or_different_provider_pricing_tier_is_withheld(self):
+        provider=self.ready()
+        for tier in [None,'priority','auto','flex']:
+            data={'status':'completed','service_tier':tier}
+            opened=BytesIO(json.dumps(data).encode());opened.headers={}
+            with patch('urllib.request.build_opener',return_value=SimpleNamespace(open=lambda *a,**k:opened)),self.assertRaises(PolicyError) as caught:invoke({'test':True},provider)
+            self.assertEqual(str(caught.exception),'ai_provider_pricing_tier_unverified')
     def test_provider_incomplete_refused_missing_usage_and_oversize_are_withheld(self):
         provider=self.ready()
         for data in [b'x'*131073,json.dumps({'status':'incomplete'}).encode(),json.dumps({'status':'completed','output':[{'type':'message','content':[{'type':'refusal'}]}]}).encode(),json.dumps({'status':'completed','output':[]}).encode()]:

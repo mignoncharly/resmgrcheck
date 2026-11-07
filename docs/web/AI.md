@@ -47,7 +47,8 @@ The separate private `manage.py dispatch_ai` service reads its dedicated0600
 provider file and records only nonsecret policy in PostgreSQL. Use the exact fields
 in INTEGRATIONS.md. Missing/stale worker policy, missing provider, zero budget or
 project opt-out prevent enqueue. Requests use the fixed HTTPS Responses endpoint,
-TLS verification, no proxy inheritance/redirects, no tools, no stored Responses
+TLS verification, explicit standard/default pricing tier, no proxy inheritance/
+redirects, no tools, no stored Responses
 state, and no automatic provider retries. store:false is not zero provider
 retention; the provider's abuse-monitoring/account-specific policies still apply.
 
@@ -59,6 +60,8 @@ project/day and100 global/day, three new actor requests/minute, ten queued/runni
 globally. Signed duplicate consent returns the existing job and does not respend.
 Prices require a review within30 days. Also set provider account billing limits;
 application estimates are not invoices and cannot validate a provider's billing.
+The returned processing tier must verify as default; absent/other tiers are
+withheld rather than assumed to match the reviewed standard prices.
 
 One database lease plus a local owned flock bounds concurrency. The provider runs
 in an exact owned child with a25-second total deadline and20-second socket timeout;

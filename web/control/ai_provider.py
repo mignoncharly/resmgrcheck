@@ -37,7 +37,7 @@ class Provider:
     def public(self):
         return {'provider':self.name,'model':self.model,'input_microusd_per_million':self.input_rate,
                 'output_microusd_per_million':self.output_rate,'reviewed_at':self.reviewed_at,
-                'request_cap_microusd':self.request_cap,'global_daily_microusd':self.global_daily}
+                'request_cap_microusd':self.request_cap,'global_daily_microusd':self.global_daily,'service_tier':'default'}
 
 def configuration():
     filename=settings.AI_CONFIG
@@ -73,7 +73,7 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
 
 def invoke(payload,provider):
     body={'model':provider.model,'instructions':SYSTEM,'input':json.dumps(payload,separators=(',',':'),ensure_ascii=True),
-          'store':False,'background':False,'tools':[],'max_output_tokens':OUTPUT_LIMIT,
+          'store':False,'background':False,'tools':[],'max_output_tokens':OUTPUT_LIMIT,'service_tier':'default',
           'text':{'format':{'type':'json_schema','name':'resmgrcheck_engineering_analysis','strict':True,'schema':SCHEMA}}}
     raw=json.dumps(body,separators=(',',':')).encode()
     opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),urllib.request.HTTPSHandler(context=ssl.create_default_context()),NoRedirect())
@@ -90,6 +90,7 @@ def invoke(payload,provider):
     except (urllib.error.URLError,TimeoutError,OSError):raise PolicyError('ai_provider_transport_uncertain') from None
     except (ValueError,TypeError):raise PolicyError('ai_provider_malformed_response') from None
     if result.get('status')!='completed':raise PolicyError('ai_provider_incomplete_or_refused')
+    if result.get('service_tier')!='default':raise PolicyError('ai_provider_pricing_tier_unverified')
     text=[]
     for item in result.get('output',[]):
         if item.get('type')!='message':continue
