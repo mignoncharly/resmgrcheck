@@ -55,7 +55,8 @@ identical contracts/settings against committed source-fixed fixtures c26365e wit
 changed binary hashes. Main retains its intentional negative controls. Mixed JUnit
 contains32 tests /6 failures /4 errors /18 skipped and required-coverage errors;
 regenerating views leaves raw bytes unchanged. Eighty host tests pass. Full Phase6
-exit gate is passed; native/host source identities are recorded separately.
+exit gate is passed; native/host source identities are recorded separately. Clean host checkpoint
+a96c627 passed the complete replay gate again (evidence/phase6-clean).
 
 Next: Phase7 host workflow (target config/check/deploy/run/status/collect/inspect/
 report), owned lab cleanup boundaries and help. Replay currently supports the

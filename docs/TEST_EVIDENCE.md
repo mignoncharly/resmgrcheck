@@ -931,3 +931,23 @@ The specialized replay transport reuses the intended lab and local authenticatio
 It does not yet implement Phase7's full target/deploy/run/status/collect/report
 workflow or packaging outside a repository. No frontend, web service, database,
 monitor changes, host reboot or broad process kill was introduced.
+
+### E012 clean committed-host confirmation
+
+Phase6 checkpoint **a96c62784dedd0f55abba45fb6b0c27f9ffd9528** was committed after
+its full gate passed. With a clean working tree, `make qnx` and all80 host tests
+passed, then the complete native replay gate ran again as **p6clean-life1**.
+Every sealed marker and the index record that exact host revision, dirty=false,
+source digest95a99f6e... . Both original-build replays remain FAIL/still-failing;
+both explicitly selected source-fixed builds PASS/fixed; both wrong-hash preflights
+refuse launch. Parsed mixed JUnit retains32/6/4/18 tests/failures/errors/skipped.
+Immutable raw members were checked unchanged. Native original9d4a10d and candidate
+c26365e identities remain separate; they were not relabelled with the host revision.
+Reviewed text is in `evidence/phase6-clean/`; local binaries/readbacks stay ignored.
+
+Completed debug deployment binary copies were additionally archived locally with
+expected SHA256 plus target POSIX cksum/length verification before removing only
+those redundant target binaries. Final Phase5/Phase6 deployments and evidence were
+retained, as were old run-status guards and original SDK/images/authentication.
+The next ordered work is Phase7; no Phase7 gate or external-service attachment is
+claimed by this checkpoint.

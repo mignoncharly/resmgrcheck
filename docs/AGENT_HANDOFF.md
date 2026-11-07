@@ -71,7 +71,8 @@ expected/observed details), exports.py (JUnit/exit precedence/comparison), repla
 python3 -m resmgrcheck --help. Every current expanded case/cycle is required; never
 waive coverage in exports. Offline processing success is distinct from test outcome.
 Eighty host tests pass. Phase6 current qualified host/source digest is in index.json;
-clean committed-source confirmation is recorded separately after its checkpoint.
+clean host checkpoint a96c627 passed the full replay gate again as p6clean-life1
+(evidence/phase6-clean).
 
 For Phase7, reuse/refactor the tested replay lab transport without weakening
 native owned-process rules. Add full target config/check/deploy/run/status/collect/
