@@ -1125,3 +1125,49 @@ is self-contained; sharing the linked artifacts requires their accompanying tree
 No cross-browser/accessibility certification, new native gate or exhaustive
 concurrency claim is implied. The Phase8 exit gate passes; Phase9 clean source
 reproduction and release-candidate hardening are next.
+
+
+## E015a: Phase9 input review before clean release qualification
+
+**Date:** 2026-11-07. Full Phase9 gate is still pending. The focused
+[QNX input gate](evidence/phase9-input-review/p9-input5/index.json) passed both
+services using real qcc/SSH/SFTP and a native owner/probe, with actual source digest
+and test-driver source/binary hashes. There are12 sensor and13 job exact API/error
+checks plus same-instance state/fresh-client checks. All six direct children,
+including service-facing preflight workers, were actually reaped. Parent never
+executes the service operation or signals stored/unknown PIDs. Existing host
+services, SDK, guest image and local credentials were preserved.
+
+Actual errors were EINVAL22, EMSGSIZE240, EBADF9, ENOENT2 and framework EBADMSG77.
+The service generation stayed1, pending state zero and fresh sensor42/job420
+remained usable on the original fixture. Rejected commands require no reset.
+Combined custom operations remain outside the fixed protocol; tested prefixes
+were framework rejections and the custom tail was not observed executing.
+
+Earlier p9-input1 lacked required fixture producer identity environment and exited
+120; p9-input2 exposed the uninitialized transition output and an incorrect test
+expectation for framework framing errors. It ended failed, with corrupted concurrent
+failure output retained as raw bytes, never accepted as complete successful
+observations. Actual generation changed to4 and a fresh read became pending;
+that was a real defect in project fixture error handling, not a QNX vulnerability.
+Initialization/bounds/access fixes then passed p9-input3 and the final stricter
+p9-input5 gate. The owner now supervises even preoccupied-device stat and preserves
+unknown wait state without guessing PID ownership.
+
+[106 host tests](evidence/phase9-input-review/host106.txt) passed. A new host-only
+regression checks oversized stderr from a fast local child; no native behavior is
+inferred. Actual qcc -fanalyzer/Wall/Wextra/Werror object compilation covered16
+owned C files with zero diagnostics (index.json in this evidence directory).
+No target sanitizer, memory measurement or external developer review is claimed.
+The official QNX APIs and boundary review are linked in release-review.md.
+
+The final p7gate3 histories/sessions were subsequently copied through the owned
+controller/SFTP and cksum/SHA256 verified before removing redundant target files.
+75 native histories/50 sessions were archived, all directory start guards retained;
+three no-status destinations were untouched. The archive index is preserved here,
+full original bytes remain local and canonical Phase7 copies remain committed.
+This is file retention maintenance, not process cleanup or a PASS for missing data.
+
+Next: commit the input-hardening candidate, reproduce README/release verification
+from a separate clean checkout against the explicitly reused target, and finish
+the codelab/adapter/release records. A focused input gate does not finish Phase9.

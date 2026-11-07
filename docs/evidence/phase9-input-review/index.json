@@ -1,0 +1,91 @@
+{
+  "kind": "qcc-owned-source-static-analysis",
+  "flags": [
+    "-fanalyzer",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "files": [
+    {
+      "source": "native/runner.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/worker.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/targetctl.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/fixtures/sensor.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/fixtures/job.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/adapters/sensor.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/adapters/registry.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/adapters/job.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/journal.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/protocol.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/result.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/persistence.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/event.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/lab.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/plan.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    },
+    {
+      "source": "native/common/process.c",
+      "exit": 0,
+      "diagnostic_bytes": 0
+    }
+  ]
+}

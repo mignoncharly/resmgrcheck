@@ -84,6 +84,7 @@ class Transport:
                         first = False
                     require(output.tell() <= 32 * 1024 * 1024 and diagnostic.tell() <= 1024 * 1024, 'transport output exceeds bound')
                 entry['exit'] = process.returncode
+                require(diagnostic.tell() <= 1024 * 1024, 'transport diagnostic output exceeds bound')
                 output.seek(0); raw = output.read(32 * 1024 * 1024 + 1)
                 diagnostic.seek(0); detail = diagnostic.read(4096).decode('utf-8', errors='replace')
                 if process.returncode not in exits:

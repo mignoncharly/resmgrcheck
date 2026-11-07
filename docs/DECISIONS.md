@@ -418,3 +418,32 @@ labelling a service fix. Synthetic host mutations demonstrate that a changed
 kernel fingerprint or recipe cannot produce fixed/reproduced. This is a host
 comparison prerequisite tightening; it does not require reexecuting unchanged
 native scenarios. Real before/after QNX bundles remain fixed under that check.
+
+
+## D029: Fix malformed fixture messages before release reproduction
+
+**Date:** 2026-11-07. **State:** focused real QNX input gate passed; Phase9 full gate pending.
+
+The QNX8 official message-checking review found insufficient current-component
+bounds and unsafe reply placement in custom devctl handlers. Fixed-message helpers
+now reject combined custom operations, validate exact payload/current/whole sizes,
+actual reply capacity and allocated output space, then reply from ctp->msg after
+saving input. Mutation requires a writable OCB; state/wait needs read access.
+
+Actual negative execution exposed an uninitialized transition output on rejected
+fixture commands. Initialize/clear it before validation, so errors cannot request
+hold/generation changes. The final input gate proves unchanged state and same-
+instance fresh-client use on both services, exact error conventions and observed
+reaping. Combined prefixes are framework rejections, not proof a custom tail ran.
+Keep those unsupported; do not call missing tail execution PASS. Source/self-review
+and official references are in release-review.md; no independent security audit.
+
+Host stderr limits also apply after a fast subprocess completes. Its regression
+is host-only. Full clean source/native release qualification remains required.
+
+For Phase9 storage, all75 final p7gate3 native histories and50 exact request-bound
+sessions were later archived with owned-helper type/UID checks, SFTP bytes, target
+cksum and local SHA256. Three no-status/unknown destinations were untouched. Empty
+start guards remain; committed/offline copies retain all evidence. Archived target
+IDs cannot be collected as though bytes were still present. Original deployments,
+SDK/images and credentials remain unchanged.

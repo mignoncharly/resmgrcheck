@@ -135,6 +135,14 @@ class Workflow(unittest.TestCase):
         finally:
             unrelated.terminate(); unrelated.wait(timeout=2)
 
+    def test_fast_completed_transport_cannot_hide_oversized_stderr(self):
+        transport = Transport(self.target)
+        with self.assertRaises(Invalid):
+            transport.call([sys.executable, '-c', 'import os; os.write(2, b"x" * (1024 * 1024 + 1))'])
+        self.assertIsNotNone(transport.record[-1]['exit'])
+        self.assertEqual(transport.record[-1]['exit'], 0)
+        self.assertNotEqual(transport.record[-1]['error'], None)
+
     def test_offline_report_cannot_replace_execution_inputs_or_results(self):
         from resmgrcheck.reports import report
         request = make_request(self.target, self.profile, 'profile', 'fixed', self.deployment, 'host-report')

@@ -58,3 +58,12 @@ Updated: 2026-11-07.
   Only recorded fields are compared; this is not target attestation. A comparison
   HTML view displays saved derived metadata and discloses that source bundle
   verification is separate. Older metadata with absent target fields stays unknown.
+
+- Custom fixture devctl wire operations use a fixed uncombined protocol. Combined
+  custom operations are rejected; tested combined prefixes returned framework
+  EBADMSG before the custom tail ran. No combined-tail execution/support claim.
+  Native input review now checks lengths, actual reply capacity, access mode and
+  unchanged state after errors. It does not make this a general security scanner.
+- Completed p7gate3 target histories/sessions were subsequently verified/archived
+  for Phase9 storage. Their committed/offline copies remain available; exclusive
+  start guards are retained. Status/collect cannot retrieve archived target bytes.

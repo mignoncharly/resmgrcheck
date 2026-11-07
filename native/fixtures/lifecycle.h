@@ -1,6 +1,7 @@
 /* Included after the fixture's private queue/owner/forget definitions.
  * One dispatch thread serializes the queue, callbacks and all barriers. */
 #include "control_v1.h"
+#include "message_bounds.h"
 static const char *fixture_mode="corrected";
 static int completion_barrier;
 static struct pending saved_notification;
@@ -81,8 +82,11 @@ static void drain_stale(void) {
 }
 static int fixture_command(resmgr_context_t *ctp,io_devctl_t *msg,iofunc_ocb_t *ocb,int *next) {
     struct rmc_fixture_command command;
-    if (msg->i.nbytes!=sizeof(command) || ctp->info.srcmsglen<(ssize_t)(sizeof(msg->i)+sizeof(command)) || resmgr_msgread(ctp,&command,sizeof(command),sizeof(msg->i))!=sizeof(command)) return EINVAL;
     *next=0;
+    if (!(ocb->ioflag & _IO_FLAG_WR)) return EBADF;
+    int bounds=fixture_devctl_bounds(ctp,msg,sizeof(command),1);
+    if (bounds) return bounds;
+    if (resmgr_msgread(ctp,&command,sizeof(command),sizeof(msg->i))!=sizeof(command)) return EINVAL;
     switch(command.action) {
     case RMC_SET_CYCLE: {
         if (!command.cycle || command.cycle>20 || state.pending) return EINVAL;
@@ -100,9 +104,7 @@ static int fixture_command(resmgr_context_t *ctp,io_devctl_t *msg,iofunc_ocb_t *
         return _RESMGR_NOREPLY;
     default:return EINVAL;
     }
-    memset(&msg->o,0,sizeof(msg->o));msg->o.nbytes=sizeof(command);
-    memcpy(_DEVCTL_DATA(msg->o),&command,sizeof(command));
-    return _RESMGR_PTR(ctp,&msg->o,sizeof(msg->o)+sizeof(command));
+    return fixture_devctl_reply(ctp,&command,sizeof(command));
 }
 static int unmatched_park(resmgr_context_t *ctp,const struct _msg_info *info) {
     if (parked_rcvid!=ctp->rcvid || parked_owner.pid!=info->pid || parked_owner.tid!=info->tid || parked_owner.scoid!=info->scoid || parked_owner.coid!=info->coid) return 0;

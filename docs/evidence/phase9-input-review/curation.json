@@ -1,0 +1,160 @@
+{
+  "kind": "phase9-input-review-evidence-copy",
+  "schema_version": 1,
+  "source": {
+    "source_revision": "73e8bea0e7b59c6b88de8b18736bf98919023aed",
+    "dirty": true,
+    "source_tree_sha256": "f13da86d12a15b4a1206e53019c7e9f406e57f23f4a3f9820214519f593cf81b"
+  },
+  "files": {
+    "phase7-archive-index.json": {
+      "bytes": 91546,
+      "sha256": "d561dc4bdf04c98dddb9393c8503d747a7eba9bea51b4645829c4b219f99c215"
+    },
+    "host106.txt": {
+      "bytes": 100,
+      "sha256": "57b5187c196b60f3b6ffe2692a9211a549afa814a47b2993bc2248123895ab17"
+    },
+    "qcc-build.txt": {
+      "bytes": 2076,
+      "sha256": "b9e34fd74580237a3dd1a0d2148021e06c94389fc95321cc9fbbb01e98088884"
+    },
+    "index.json": {
+      "bytes": 1735,
+      "sha256": "9abf3595cfd0921165d300bd76ae74d9bc908ba68b8e57002676101db91068f9"
+    },
+    "p9-input3/deployment.json": {
+      "bytes": 4400,
+      "sha256": "566bbd5b94a21ab105dbb2dacf7616c949145c70b5ea84862859957b7e00c731"
+    },
+    "p9-input3/job-stdout.jsonl": {
+      "bytes": 1450,
+      "sha256": "3eb4ac295d32d5025739e6132ff1825ec3a999d5258a1c49cffa2705305a74db"
+    },
+    "p9-input3/commands.json": {
+      "bytes": 4712,
+      "sha256": "858aec8f602e1239566267466c72a35dd04397b940753657ba16bf7a21ac9055"
+    },
+    "p9-input3/sensor-stdout.jsonl": {
+      "bytes": 1390,
+      "sha256": "68d53a6f06be0a9adec6d4e442245533508d5a3a8e2f02b584b01f794fb61098"
+    },
+    "p9-input3/sensor-fixture.jsonl": {
+      "bytes": 5030,
+      "sha256": "903c4e1db3b1cc96f4ca87782be2dde8d26b4846040b19778569bc924a60bc4e"
+    },
+    "p9-input3/job-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input3/index.json": {
+      "bytes": 742,
+      "sha256": "4166781b6a5bcf07a568ebc9809b8e623dedd0f41418b745b2a5980fa5a5953e"
+    },
+    "p9-input3/job-fixture.jsonl": {
+      "bytes": 4937,
+      "sha256": "2a2c431b8dc42aa5f47187239dda96087b638dbe907cf40e18e905671e72e5b1"
+    },
+    "p9-input3/sensor-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input2/deployment.json": {
+      "bytes": 4400,
+      "sha256": "86bee702ffe035b44d2d5a7a48e33acc19becf2278ac94b6ee30806f446f8423"
+    },
+    "p9-input2/commands.json": {
+      "bytes": 4398,
+      "sha256": "c42991d8e540a0ef1a9c32bbf6e1d7f1ad6e3a569915538c21c2f54f30a9606c"
+    },
+    "p9-input2/sensor-stdout.jsonl": {
+      "bytes": 1215,
+      "sha256": "9479c4dd1432b441f335e68ea3bd3cc2254aebcbb89889a178901878e7d886eb"
+    },
+    "p9-input2/sensor-fixture.jsonl": {
+      "bytes": 4126,
+      "sha256": "effabe07f8ef0432cca7d4492fe06dce2d5acac690f51803cf658cadf5c168b7"
+    },
+    "p9-input2/index.json": {
+      "bytes": 505,
+      "sha256": "87d3a37a1b3d959dc57ef9aa8df6d7ee1c879b882dac564ebc4294e74663576a"
+    },
+    "p9-input2/sensor-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input5/deployment.json": {
+      "bytes": 4400,
+      "sha256": "566bbd5b94a21ab105dbb2dacf7616c949145c70b5ea84862859957b7e00c731"
+    },
+    "p9-input5/transport-commands.json": {
+      "bytes": 4725,
+      "sha256": "4666cdb1939487aad013d2b1bfd9ebe9c3ecdbad55122f961e56bf3257ed8a65"
+    },
+    "p9-input5/build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input5/job-stdout.jsonl": {
+      "bytes": 1507,
+      "sha256": "91233518c443b9c8c02b0eff1e297cac71945e3ce574a9edff93234db433f04c"
+    },
+    "p9-input5/commands.json": {
+      "bytes": 632,
+      "sha256": "5c6fba587ff2f58eff4e5588c0ff73e7799a735986d6e8c445f5b6b0b081ed07"
+    },
+    "p9-input5/sensor-stdout.jsonl": {
+      "bytes": 1447,
+      "sha256": "8aca3d9ffb62d0a4f52b985e2ff527b308dc2e6558125d321cd6dabe0839a660"
+    },
+    "p9-input5/sensor-fixture.jsonl": {
+      "bytes": 5030,
+      "sha256": "344906fa1e70fbc728f32cca7fc239edb2ff7afef5b07969f85582c70faed475"
+    },
+    "p9-input5/job-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input5/index.json": {
+      "bytes": 3618,
+      "sha256": "27dde5572adba661e6f89a3b160c140f9522b31793280279bc08234fe93738db"
+    },
+    "p9-input5/job-fixture.jsonl": {
+      "bytes": 4937,
+      "sha256": "066bc98d60c0b3a01489af0b2fb085af5b0bbb5bf2d187a7f07fb153327ccd9a"
+    },
+    "p9-input5/sensor-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input1/deployment.json": {
+      "bytes": 4400,
+      "sha256": "86bee702ffe035b44d2d5a7a48e33acc19becf2278ac94b6ee30806f446f8423"
+    },
+    "p9-input1/commands.json": {
+      "bytes": 4398,
+      "sha256": "23dca9e92acc157e2ed217a5d47ae19fb76140896542a6874c4d52940cbefbc5"
+    },
+    "p9-input1/sensor-stdout.jsonl": {
+      "bytes": 169,
+      "sha256": "af5c9d981d35713092c8b021c569222f678bf2139eb837a3f5533fa6086041c3"
+    },
+    "p9-input1/sensor-fixture.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p9-input1/index.json": {
+      "bytes": 505,
+      "sha256": "fb164a4cab20f6659557f0092e81ce5003a11e5d06e6918c0b7bdb9587e9637f"
+    },
+    "p9-input1/sensor-stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "omissions": [
+    "compiled test drivers/readbacks/objects",
+    "private local routing configuration"
+  ],
+  "redactions": []
+}

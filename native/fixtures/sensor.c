@@ -35,11 +35,13 @@ static void forget(struct pending *p, const char *reason) {
 #include "lifecycle.h"
 
 static int sensor_read(resmgr_context_t *ctp, io_read_t *msg, iofunc_ocb_t *ocb) {
+    if (ctp->rcvid<=0 || ctp->size<sizeof(msg->i)) return EINVAL;
     int error = iofunc_read_verify(ctp, msg, ocb, NULL);
     if (error != EOK) return error;
     if ((msg->i.xtype & _IO_XTYPE_MASK) != _IO_XTYPE_NONE) return ENOSYS;
     if (!msg->i.nbytes) { _IO_SET_READ_NBYTES(ctp, 0); return EOK; }
     size_t bytes = msg->i.nbytes < strlen(sample) ? msg->i.nbytes : strlen(sample);
+    if (bytes>(size_t)ctp->info.dstmsglen) return EMSGSIZE;
     unsigned logical = ++next_request;
     event("fixture", "received", "logical=%u generation=%u rcvid=%" PRId64 " client_pid=%ld",
           logical, state.generation, (int64_t)ctp->rcvid, (long)ctp->info.pid);
@@ -105,18 +107,21 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *
 
 
 static int sensor_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb) {
+    if (ctp->size < sizeof(msg->i)) return EINVAL;
     int status = iofunc_devctl_default(ctp, msg, ocb);
     if (status != _RESMGR_DEFAULT) return status;
     int cmd = msg->i.dcmd;
     if (cmd==RMC_FIXTURE_COMMAND) {
-        int next;int rc=fixture_command(ctp,msg,ocb,&next);
+        int next=0;int rc=fixture_command(ctp,msg,ocb,&next);
         if (next) {
             hold=1;++state.generation;sample_value=43;snprintf(sample,sizeof(sample),"sample=%d\n",sample_value);
         }
         return rc;
     }
     if (cmd != SENSOR_HOLD && cmd != SENSOR_RELEASE && cmd != SENSOR_STATE) return ENOTTY;
-    if (msg->i.nbytes != sizeof(state)) return EINVAL;
+    if (!(ocb->ioflag & (cmd==SENSOR_STATE ? _IO_FLAG_RD : _IO_FLAG_WR))) return EBADF;
+    int bounds=fixture_devctl_bounds(ctp,msg,sizeof(state),0);
+    if (bounds) return bounds;
     if (cmd == SENSOR_HOLD) {
         if (state.pending) return EBUSY;
         hold = 1;
@@ -135,10 +140,7 @@ static int sensor_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *
             forget(p, "release");
         }
     }
-    memset(&msg->o, 0, sizeof(msg->o));
-    msg->o.nbytes = sizeof(state);
-    memcpy(_DEVCTL_DATA(msg->o), &state, sizeof(state));
-    return _RESMGR_PTR(ctp, &msg->o, sizeof(msg->o) + sizeof(state));
+    return fixture_devctl_reply(ctp,&state,sizeof(state));
 }
 
 int main(int argc, char **argv) {

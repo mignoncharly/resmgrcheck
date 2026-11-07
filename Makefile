@@ -19,7 +19,7 @@ $(SMOKE): native/spikes/hello.c Makefile | check-qnx $(BUILD_DIR)
 $(CAPABILITIES): native/spikes/capabilities.c Makefile | check-qnx $(BUILD_DIR)
 	$(QCC) -V$(QNX_VARIANT) -std=c11 -Wall -Wextra -Werror "$<" -o "$@"
 
-$(BUILD_DIR)/sensor-fixture: native/fixtures/sensor.c native/spikes/phase2.h Makefile | check-qnx $(BUILD_DIR)
+$(BUILD_DIR)/sensor-fixture: native/fixtures/sensor.c native/spikes/phase2.h $(wildcard native/fixtures/*.h) Makefile | check-qnx $(BUILD_DIR)
 	$(QCC) -V$(QNX_VARIANT) -std=c11 -Wall -Wextra -Werror "$<" -o "$@"
 
 $(BUILD_DIR)/sensor-client: native/spikes/sensor_client.c native/spikes/phase2.h Makefile | check-qnx $(BUILD_DIR)

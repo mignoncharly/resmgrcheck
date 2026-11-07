@@ -293,7 +293,7 @@ class Renderer:
             body += table('Build, contract and target context', ['Context','Original','Candidate'], [
                 ['Native source / executable hashes',pretty(entry.get('original_builds','unrecorded')),pretty(entry.get('candidate_builds','unrecorded'))],
                 ['Observed QNX target',pretty(entry.get('original_target','not recorded in this comparison; inspect source bundles')),pretty(entry.get('candidate_target','not recorded in this comparison; inspect source bundles'))]])
-            
+
             body += '<details><summary>Case comparison facts and bundle identities</summary>' + pretty({k:v for k,v in entry.items() if k not in {'original_builds','candidate_builds','original_target','candidate_target'}}) + '</details></section>'
         body += '<section><h2>Evidence and replay</h2><p>Open the original and candidate run reports for obligations, observations and replay inputs. Unknown target metadata is not evidence of compatibility.</p>' + self.link(self.source / 'comparison.json' if self.source.is_dir() else self.source, 'Saved comparison JSON') + '</section>'
         return self.page(body, 'ResMgrCheck comparison')

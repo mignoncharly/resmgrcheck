@@ -72,11 +72,12 @@ static int job_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *ocb
 
 
 static int job_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb) {
+    if (ctp->size < sizeof(msg->i)) return EINVAL;
     int status = iofunc_devctl_default(ctp, msg, ocb);
     if (status != _RESMGR_DEFAULT) return status;
     int cmd = msg->i.dcmd;
     if (cmd==RMC_FIXTURE_COMMAND) {
-        int next;int rc=fixture_command(ctp,msg,ocb,&next);
+        int next=0;int rc=fixture_command(ctp,msg,ocb,&next);
         if (next) {
             state.job_exists=1;state.job_ready=0;++state.generation;job_value=421;
         }
@@ -84,9 +85,10 @@ static int job_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb
     }
     if (cmd == JOB_WAIT_RESULT) {
         struct job_result request;
-        if (msg->i.nbytes != sizeof(request) ||
-            ctp->info.srcmsglen < (ssize_t)(sizeof(msg->i) + sizeof(request)) ||
-            resmgr_msgread(ctp, &request, sizeof(request), sizeof(msg->i)) != sizeof(request)) return EINVAL;
+        if (!(ocb->ioflag & _IO_FLAG_RD)) return EBADF;
+        int bounds=fixture_devctl_bounds(ctp,msg,sizeof(request),1);
+        if (bounds) return bounds;
+        if (resmgr_msgread(ctp, &request, sizeof(request), sizeof(msg->i)) != sizeof(request)) return EINVAL;
         if (request.reserved) return EINVAL;
         if (!state.job_exists || request.job_id != 1) return ENOENT;
         unsigned logical = ++next_request;
@@ -94,10 +96,8 @@ static int job_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb
               logical, state.generation, (int64_t)ctp->rcvid, (long)ctp->info.pid);
         if (state.job_ready) {
             request.value = job_value;
-            memset(&msg->o, 0, sizeof(msg->o)); msg->o.nbytes = sizeof(request);
-            memcpy(_DEVCTL_DATA(msg->o), &request, sizeof(request));
             event("fixture", "sample", "logical=%u generation=%u bytes=%zu", logical, state.generation, sizeof(request));
-            return _RESMGR_PTR(ctp, &msg->o, sizeof(msg->o) + sizeof(request));
+            return fixture_devctl_reply(ctp,&request,sizeof(request));
         }
         for (unsigned i = 0; i < MAX_PENDING; ++i) {
             if (queue[i].used) continue;
@@ -112,7 +112,9 @@ static int job_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb
         return EAGAIN;
     }
     if (cmd != JOB_SUBMIT && cmd != JOB_COMPLETE && cmd != JOB_STATE) return ENOTTY;
-    if (msg->i.nbytes != sizeof(state)) return EINVAL;
+    if (!(ocb->ioflag & (cmd==JOB_STATE ? _IO_FLAG_RD : _IO_FLAG_WR))) return EBADF;
+    int bounds=fixture_devctl_bounds(ctp,msg,sizeof(state),0);
+    if (bounds) return bounds;
     if (cmd == JOB_SUBMIT) {
         if (state.pending) return EBUSY;
         state.job_exists = 1; state.job_ready = 0; ++state.generation;
@@ -135,9 +137,7 @@ static int job_devctl(resmgr_context_t *ctp, io_devctl_t *msg, iofunc_ocb_t *ocb
         }
         event("fixture", "state_changed", "action=complete generation=%u", state.generation);
     }
-    memset(&msg->o, 0, sizeof(msg->o)); msg->o.nbytes = sizeof(state);
-    memcpy(_DEVCTL_DATA(msg->o), &state, sizeof(state));
-    return _RESMGR_PTR(ctp, &msg->o, sizeof(msg->o) + sizeof(state));
+    return fixture_devctl_reply(ctp,&state,sizeof(state));
 }
 int main(int argc, char **argv) {
     if (argc != 2 && argc != 3) return 2;

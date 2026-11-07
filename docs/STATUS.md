@@ -4,7 +4,7 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 8 passed; Phase 9 next |
+| Current phase | Phase 9 in progress: input review and clean reproduction |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
@@ -13,7 +13,8 @@ Updated: 2026-11-07.
 | Phase 6 | Immutable bundles, explicit changed-build replay on both services, comparison/JUnit passed |
 | Phase 7 | Full native workflow/negative/recovery gate passed E013; 95 host tests |
 | Phase 8 | Offline HTML, honest comparison, 105 host tests /45 browser views passed E014 |
-| Phases 9–10 | Next / not started |
+| Phase 9 | Input-boundary fixes qualified on both services; full clean release reproduction pending |
+| Phase 10 | Not started |
 
 Both services use the same generic runner, worker, scenario machinery and Python
 evaluator. Normal API/MsgSendv/duplicate-descriptor/deferred baselines, timeout,
@@ -75,3 +76,13 @@ Preserve SDK, images and local authentication. Use fresh run IDs; native records
 remain /data/resmgrcheck/runs/RUN_ID, host sessions /data/resmgrcheck/sessions/ID.
 The small guest has3072 file entries. Verified historical archives preserve bytes
 and start guards; monitor target storage before another large matrix.
+
+Phase9 review found and fixed uninitialized fixture transition output on rejected
+commands, bounded current-message input/reply handling and writable-OCB checks.
+Focused actual QNX input checks passed on both services as p9-input3, including
+exact rejection errors and unchanged state/fresh-client health. Combined custom
+wire operations are outside the fixed lab protocol; tested prefixes were rejected
+by the framework, without claiming the tail ran. Full Phase9 gate is not passed.
+The completed p7gate3 target histories/sessions have subsequently been archived
+with owned-helper/SFTP/cksum/SHA256 verification; all start guards remain. Use their
+committed/offline copies. Unknown/missing status never becomes PASS.
