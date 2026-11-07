@@ -470,3 +470,10 @@ All metadata is bounded and parsed through duplicate-key/type/field validation.
 Actual SFTP hashes are required before native launch. Producer signal/termination
 records must name ledger-owned children; fixture-stop must name a fixture role.
 Saved PIDs are observations only and never authorize later cleanup.
+
+Phase8 comparison metadata adds explicit original/candidate observed targets and
+per-field contract change indicators. Execution comparisons also preserve source
+locations and configured target identities. These are derived view facts; they do
+not alter canonical results, bundle IDs or native observations. Older comparisons
+without target context display unknown. HTML contains escaped text and optional
+static presentation code; it is not executable replay input.

@@ -176,13 +176,14 @@ def guard_derived_output(destination, sources):
     destination = Path(destination).resolve()
     for source in sources:
         source = Path(source).resolve()
-        if (source / 'bundle.json').exists():
+        if (source / 'bundle.json').exists() or (source / 'partial.json').exists():
             require(destination != source and source not in destination.parents, 'derived output must be outside the immutable bundle')
         if (source / 'request.json').exists():
             protected = {source / n for n in ('request.json', 'replay.json', 'state.json', 'result.json')}
-            for case in (source / 'cases').iterdir():
+            for case in ((source / 'cases').iterdir() if (source / 'cases').is_dir() else []):
                 if not case.is_dir(): continue
                 protected.update(case / n for n in ('plan.json', 'ack.json', 'status.json', 'events.jsonl', 'partial-events.jsonl', 'stderr.txt', 'result.json'))
                 bundle = case / 'bundle'
                 require(destination != bundle and bundle not in destination.parents, 'derived output must be outside immutable case bundles')
-            require(destination not in protected and source / 'history' not in destination.parents, 'derived output cannot overwrite execution evidence or history')
+            require(destination not in protected and destination != source / 'history' and source / 'history' not in destination.parents
+                    and destination != source / 'diagnostics' and source / 'diagnostics' not in destination.parents, 'derived output cannot overwrite execution evidence or history')

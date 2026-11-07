@@ -2,7 +2,7 @@
 
 Updated: 2026-11-07.
 
-- Phases 1–7 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI and minimal offline HTML; detailed report experience is Phase8.
+- Phases 1–8 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI; Phase8 adds the detailed offline report.
 - Each expanded plan selects exactly one family. Repeat plans run 1–20 cycles (default20) on the same fixture, with no service reset between cycles. Independent family runs use a new instance. External lifecycle is UNSUPPORTED; explicit read-only health attachment is supported with unverified build/instance identity; automatic-restart signal mode is UNSUPPORTED. Required missing capabilities never PASS.
 - The job fixture has one lab job slot and up to eight waiters, with non-consuming completed results until explicit resubmission. Retained jobs and leaked waiters are observed separately. This is a fixture, not a general scheduler.
 - Departure and duplicate-FD/final-OCB bookkeeping passed on this single-dispatch-thread fixture. Observed close callbacks had nonzero receive IDs; the synthetic rcvid==0 branch is guarded and delegated but was not observed natively. Concurrent multithreaded OCB access is not qualified.
@@ -48,3 +48,13 @@ Updated: 2026-11-07.
   it does not clean up unknown storage or infer process ownership.
 - Host-only CI is provided for Python3.10/3.12; no hosted run is claimed until the
   workflow actually executes. Local qualification used the installed Python version.
+
+- HTML is self-contained for display; raw artifact links require the accompanying
+  local evidence tree. Browser validation uses Chromium headless shell at laptop
+  and narrow widths, plus JavaScript-disabled views; it is not cross-browser or
+  assistive-technology certification. Tables scroll horizontally on narrow screens.
+- Comparison context is conservative: a changed recorded QNX target fingerprint or
+  IFS recipe makes the runs incomparable even with unchanged service contract.
+  Only recorded fields are compared; this is not target attestation. A comparison
+  HTML view displays saved derived metadata and discloses that source bundle
+  verification is separate. Older metadata with absent target fields stays unknown.

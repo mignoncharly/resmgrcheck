@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>ResMgrCheck incomplete evidence</title><style>
+:root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 system-ui,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}h1{font-size:2rem;line-height:1.2}h2{margin-top:2rem}h3{margin-top:1.5rem}
+a{color:#084f9e}a:hover{text-decoration-thickness:3px}:focus-visible{outline:3px solid #965200;outline-offset:3px}
+p,li,td,th,dd,code,summary{overflow-wrap:anywhere}code,pre{font-family:ui-monospace,monospace;font-size:.875rem}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0;max-width:100%}nav{display:flex;gap:1rem;flex-wrap:wrap}
+section,.case-detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px;margin:16px 0}
+.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:800px;font-size:.9rem}caption{text-align:left;font-weight:700;padding:8px 0}
+th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}th{background:#eef2f5}th:first-child{min-width:110px}
+.badge{font-weight:750;padding:2px 7px;border:1px solid currentColor;border-radius:4px;white-space:nowrap;display:inline-block}
+.PASS{color:#075b34;background:#e6f6ed}.FAIL{color:#8a2020;background:#ffecec}.ERROR{color:#793900;background:#fff0da}
+.UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
+.muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
+summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
+@media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
+@media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
+</style></head><body><main><h1>ResMgrCheck incomplete evidence</h1><section id="summary"><h2>Run summary</h2><span class="badge ERROR">ERROR</span><p class="warning">INCOMPLETE: no finalized evaluated results. Required coverage and service health are unestablished. No passing conclusion is available.</p><p>Source: <code>docs/evidence/phase8/synthetic-formatting/empty</code></p></section><section><h2>Cases and observations</h2><p>No sealed case results are available. Missing pending, result, state, health and cleanup observations are not inferred.</p><p>No collection state was recorded.</p></section><section><h2>Replay</h2><p>Use the existing run ID with status/collect to recover evidence. Do not relaunch an uncertain request. Replay requires finalized saved inputs.</p></section><section><h2>Evidence</h2><p>No finalized artifacts available.</p></section><footer><p class="muted">ResMgrCheck · Offline evidence view · No network assets. Saved evaluator outcomes are authoritative; filters only change presentation.</p></footer></main><script>
+const controls = document.getElementById('filters');
+const select = document.getElementById('verdict-filter');
+if (controls && select) {
+  controls.hidden = false;
+  select.addEventListener('change', () => {
+    document.querySelectorAll('[data-verdict]').forEach(node => {
+      node.hidden = select.value !== 'ALL' && node.dataset.verdict !== select.value;
+    });
+  });
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    select.value = 'ALL'; select.dispatchEvent(new Event('change')); select.focus();
+  });
+}
+function discloseAnchor() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) { target.hidden = false; let parent = target; while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
+}
+window.addEventListener('hashchange', discloseAnchor); discloseAnchor();
+</script></body></html>

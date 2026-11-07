@@ -390,3 +390,31 @@ host ownership check required a final rerun:75 completed native histories and50
 exact request-bound session records were copied and cksum/SHA256 verified. Empty
 native/session directory guards remain. The final p7gate3 histories are retained
 on target. Archive indices are included with E013; complete bytes remain local.
+
+## D028: Derive offline reports from canonical outcomes
+
+**Date:** 2026-11-07. **State:** Phase8 gate verified in E014.
+
+Render with Python stdlib, embedded CSS and one static optional filtering script.
+Use validated sealed bundles/execution summaries and their saved assertion details;
+no browser verdict engine, raw JSON script embedding, innerHTML, external resources
+or product dependencies. Preserve every required cycle, independent failure reason,
+unknown identity and missing stage. Empty/partial data cannot imply PASS.
+
+Timeline records come from actual NDJSON positions, stopping at malformed frames.
+Clock offsets stay within one target case; a logged deadline is not fabricated
+expiry. Original-instance health is distinct from restart recovery; external
+build/instance identity remains unverified. Comparison views expose separate build,
+contract/settings and target facts; saved comparison metadata is disclosed as a
+derived record whose source bundles require inspection.
+
+Reports/exports must not overwrite sealed or partial evidence, diagnostics or
+collection history. Relative quoted artifact links preserve local offline use.
+Playwright/Chromium are optional ignored development tooling, not product runtime.
+Native evidence reuse for presentation does not claim new native execution.
+
+Comparison now also requires equal recorded target metadata and recipe before
+labelling a service fix. Synthetic host mutations demonstrate that a changed
+kernel fingerprint or recipe cannot produce fixed/reproduced. This is a host
+comparison prerequisite tightening; it does not require reexecuting unchanged
+native scenarios. Real before/after QNX bundles remain fixed under that check.

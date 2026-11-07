@@ -4,7 +4,7 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 7 passed; Phase 8 next |
+| Current phase | Phase 8 passed; Phase 9 next |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
@@ -12,7 +12,8 @@ Updated: 2026-11-07.
 | Active blocker | None |
 | Phase 6 | Immutable bundles, explicit changed-build replay on both services, comparison/JUnit passed |
 | Phase 7 | Full native workflow/negative/recovery gate passed E013; 95 host tests |
-| Phases 8–10 | Not started |
+| Phase 8 | Offline HTML, honest comparison, 105 host tests /45 browser views passed E014 |
+| Phases 9–10 | Next / not started |
 
 Both services use the same generic runner, worker, scenario machinery and Python
 evaluator. Normal API/MsgSendv/duplicate-descriptor/deferred baselines, timeout,
@@ -61,11 +62,14 @@ a96c627 passed the complete replay gate again (evidence/phase6-clean).
 
 Phase7 now implements named target configuration, doctor, immutable SFTP-verified
 deployment, six-family run/replay, persistent status/collection, candidate selection,
-minimal offline HTML and expected-outcome release verification. External attachment
+offline HTML and expected-outcome release verification. External attachment
 is an explicit read-only health diagnostic with unverified build/instance identity;
 private lifecycle remains UNSUPPORTED. E013 records the final source-qualified end-to-end, negative and recovery matrix,
 75 distinct native cases and36 exact release expectations. The Phase7 exit gate
-passed. Next: Phase8 detailed offline report, comparison view and browser checks.
+passed. Phase8 passed E014:15 actual/synthetic-scoped reports,45 offline browser views,
+no external requests, every artifact link valid, raw/JSON/JUnit unchanged.
+Next: Phase9 frozen release candidate, clean source build/reused-target reproduction,
+ownership/evidence/input review, codelab and distribution records.
 
 Preserve SDK, images and local authentication. Use fresh run IDs; native records
 remain /data/resmgrcheck/runs/RUN_ID, host sessions /data/resmgrcheck/sessions/ID.

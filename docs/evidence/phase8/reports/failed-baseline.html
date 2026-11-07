@@ -1,0 +1,237 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>ResMgrCheck report</title><style>
+:root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 system-ui,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}h1{font-size:2rem;line-height:1.2}h2{margin-top:2rem}h3{margin-top:1.5rem}
+a{color:#084f9e}a:hover{text-decoration-thickness:3px}:focus-visible{outline:3px solid #965200;outline-offset:3px}
+p,li,td,th,dd,code,summary{overflow-wrap:anywhere}code,pre{font-family:ui-monospace,monospace;font-size:.875rem}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0;max-width:100%}nav{display:flex;gap:1rem;flex-wrap:wrap}
+section,.case-detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px;margin:16px 0}
+.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:800px;font-size:.9rem}caption{text-align:left;font-weight:700;padding:8px 0}
+th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}th{background:#eef2f5}th:first-child{min-width:110px}
+.badge{font-weight:750;padding:2px 7px;border:1px solid currentColor;border-radius:4px;white-space:nowrap;display:inline-block}
+.PASS{color:#075b34;background:#e6f6ed}.FAIL{color:#8a2020;background:#ffecec}.ERROR{color:#793900;background:#fff0da}
+.UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
+.muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
+summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
+@media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
+@media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
+</style></head><body><main><h1>ResMgrCheck report</h1><nav aria-label="Report sections"><a href="#summary">Summary</a><a href="#cases">Cases</a><a href="#timeline">Timeline</a><a href="#replay">Replay</a><a href="#evidence">Evidence</a></nav><section id="summary"><h2>Run summary</h2><span class="badge ERROR">ERROR</span><p>Completion: <strong>incomplete</strong>. Required coverage: <strong>INCOMPLETE / unavailable</strong>.</p><p class="warning">Required coverage is incomplete or unsupported. Successful diagnostics do not replace missing obligations.</p><dl class="facts"><dt>Run ID</dt><dd>p5supervise5-unavailable</dd><dt>Profile / adapter</dt><dd>sensor / sensor-v1</dd><dt>Configured service path</dt><dd>/dev/resmgrcheck-sensor</dd><dt>Observed target</dt><dd>QNX 8.0.0 / x86pc</dd><dt>Native source</dt><dd>d1b4536db63e1c8c83bc51f97548cbde8b41f8bc (dirty source; see full digest)</dd><dt>Fixture setting</dt><dd>corrected</dd><dt>Case counts</dt><dd>PASS=0, FAIL=0, ERROR=1, UNSUPPORTED=0, NOT_RUN=0</dd><dt>Source location</dt><dd><code>docs/evidence/phase8/native-bundles/failed-baseline</code></dd></dl><details><summary>Native build and executable hashes</summary><pre>{
+  &quot;binaries&quot;: {
+    &quot;adapter&quot;: &quot;70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607&quot;,
+    &quot;fixture&quot;: &quot;f390157894bebd19c4bc08d564f7af9c4a6a657d1e5d3f2fda2f78957639c0bb&quot;,
+    &quot;runner&quot;: &quot;134f2d8ba9dbcea2618d995f5934cb9e18828565d67e5375ec271d4f6140cadc&quot;,
+    &quot;worker&quot;: &quot;70c207ffbb49965c971f41ce2be92c9bdd869d0b8d2a01b70c1dca19b6d76607&quot;
+  },
+  &quot;compiler_variant&quot;: &quot;gcc_ntox86_64&quot;,
+  &quot;dirty&quot;: true,
+  &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+  &quot;source_revision&quot;: &quot;d1b4536db63e1c8c83bc51f97548cbde8b41f8bc&quot;,
+  &quot;source_tree_sha256&quot;: &quot;ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888&quot;
+}</pre></details><details><summary>Observed QNX target / evaluator · timeout</summary><pre>{
+  &quot;adapter_abi&quot;: 1,
+  &quot;bundle_id&quot;: &quot;a2cbdbcab107e126cac7c1bba0998c4191fc40b3b19fd6fff49679fe0e8e1303&quot;,
+  &quot;capabilities&quot;: [
+    &quot;pending&quot;,
+    &quot;unblock&quot;,
+    &quot;state&quot;,
+    &quot;release&quot;,
+    &quot;health&quot;,
+    &quot;timeout&quot;,
+    &quot;signal&quot;
+  ],
+  &quot;evaluator&quot;: {
+    &quot;dirty&quot;: true,
+    &quot;source_revision&quot;: &quot;965c816152fe048b6f76e73007586ff086a15ef2&quot;,
+    &quot;source_tree_sha256&quot;: &quot;1d71edda3545e44c0dfcc77c5a6835a48afc3f4341043966b9bcc73d0b8651df&quot;
+  },
+  &quot;target&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;priority&quot;: 10,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;scheduling_policy&quot;: 2,
+    &quot;sysname&quot;: &quot;QNX&quot;,
+    &quot;version&quot;: &quot;2026/06/05-16:26:03EDT&quot;
+  },
+  &quot;tool_version&quot;: &quot;0.3.0&quot;
+}</pre></details><details><summary>Service usability and recovery scope</summary><p><strong>timeout</strong>: fresh_client_health <span class="badge NOT_RUN">NOT_RUN</span>; owned_process_cleanup <span class="badge PASS">PASS</span></p><p class="muted">Health obligations refer to the original managed service instance. Recovery after restart cannot satisfy them.</p></details></section><section id="cases"><h2>Required cases and cycles</h2><p>Each repeat cycle is required. Aggregate and cycle verdicts are saved separately.</p><div id="filters" class="filter" hidden><label for="verdict-filter">Show verdict: </label><select id="verdict-filter"><option value="ALL">All recorded outcomes</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option><option value="ERROR">ERROR</option><option value="UNSUPPORTED">UNSUPPORTED</option><option value="NOT_RUN">NOT_RUN</option></select><button type="button" id="reset-filter">Show all</button></div><noscript><p>All cases and details are available without JavaScript.</p></noscript><div class="table-scroll"><table><caption>Saved evaluated outcomes</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Cycle</th><th scope="col">Attempt</th><th scope="col">Verdict</th><th scope="col">Reasons</th><th scope="col">Elapsed observed interval</th><th scope="col">Pending precondition</th></tr></thead><tbody><tr data-verdict="ERROR"><td><a href="#case-1">timeout</a></td><td>aggregate</td><td>attempt1</td><td><span class="badge ERROR">ERROR</span></td><td>service_unavailable</td><td>45.98 ms</td><td>NOT_RUN</td></tr></tbody></table></div></section><section><h2>Case details</h2><p>Open a case to compare the declared obligation with exact recorded values. Event numbers reference zero-based NDJSON records.</p><details class="case-detail" id="case-1" data-verdict="ERROR"><summary><span class="badge ERROR">ERROR</span> timeout · aggregate</summary><dl class="facts"><dt>Attempt</dt><dd>attempt1</dd><dt>Completion</dt><dd>incomplete</dd><dt>Reasons</dt><dd>service_unavailable</dd><dt>Elapsed observed interval</dt><dd>45.98 ms</dd></dl><div class="table-scroll"><table><caption>Declared obligations and actual observations</caption><thead><tr><th scope="col">Obligation / verdict / reason</th><th scope="col">Expected</th><th scope="col">Observed / source event references</th></tr></thead><tbody><tr><td>service_unavailable<br><span class="badge ERROR">ERROR</span><br>service_unavailable</td><td><pre>{
+  &quot;absent_problem&quot;: &quot;service_unavailable&quot;
+}</pre></td><td><a href="#event-timeout-17">#17</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;104091671&quot;,
+        &quot;error&quot;: 0,
+        &quot;operation&quot;: &quot;ready&quot;,
+        &quot;reason&quot;: &quot;service_unavailable&quot;
+      },
+      &quot;event&quot;: &quot;problem&quot;,
+      &quot;ref&quot;: 17
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>baseline_validity<br><span class="badge NOT_RUN">NOT_RUN</span><br>prerequisite_unavailable</td><td><pre>{
+  &quot;deferred_release&quot;: true,
+  &quot;facts&quot;: {
+    &quot;value&quot;: 42
+  },
+  &quot;message&quot;: 1,
+  &quot;normal&quot;: 2
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>pending_precondition<br><span class="badge NOT_RUN">NOT_RUN</span><br>prerequisite_unavailable</td><td><pre>{
+  &quot;confirmed_before_trigger&quot;: true,
+  &quot;live_unblock_required&quot;: true,
+  &quot;pending&quot;: 1
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>cancellation_completion<br><span class="badge NOT_RUN">NOT_RUN</span><br>prerequisite_unavailable</td><td><pre>{
+  &quot;allowance_ms&quot;: 2000,
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+  &quot;raw_return&quot;: -1
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>fresh_client_health<br><span class="badge NOT_RUN">NOT_RUN</span><br>prerequisite_unavailable</td><td><pre>{
+  &quot;facts&quot;: {
+    &quot;value&quot;: 42
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;original_instance&quot;: true
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>owned_process_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;all_owned_children_reaped&quot;: true
+}</pre></td><td><a href="#event-timeout-19">#19</a> <a href="#event-timeout-7">#7</a> <a href="#event-timeout-14">#14</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;all_reaped&quot;: 1,
+        &quot;evidence_error&quot;: 0
+      },
+      &quot;event&quot;: &quot;cleanup&quot;,
+      &quot;ref&quot;: 19
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;104075290&quot;,
+        &quot;raw_status&quot;: 15
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 7
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;104091671&quot;,
+        &quot;raw_status&quot;: 512
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 14
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>evidence_completeness<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;complete_required_evidence&quot;: true
+}</pre></td><td><a href="#event-timeout-20">#20</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cleanup_ok&quot;: 1,
+        &quot;evidence_error&quot;: 0,
+        &quot;flow_complete&quot;: 0
+      },
+      &quot;event&quot;: &quot;run_final&quot;,
+      &quot;ref&quot;: 20
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>scenario_execution<br><span class="badge NOT_RUN">NOT_RUN</span><br>prerequisite_unavailable</td><td><pre>{
+  &quot;flow_complete&quot;: 1
+}</pre></td><td><a href="#event-timeout-20">#20</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cleanup_ok&quot;: 1,
+        &quot;evidence_error&quot;: 0,
+        &quot;flow_complete&quot;: 0
+      },
+      &quot;event&quot;: &quot;run_final&quot;,
+      &quot;ref&quot;: 20
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>target_completion_status<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;finalized&quot;: true,
+  &quot;identity_and_ownership_bound&quot;: true
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: {
+    &quot;attempt_id&quot;: &quot;attempt1&quot;,
+    &quot;case_id&quot;: &quot;timeout&quot;,
+    &quot;cleanup_ok&quot;: true,
+    &quot;cycle&quot;: 1,
+    &quot;event_file&quot;: &quot;events.jsonl&quot;,
+    &quot;exit_code&quot;: 2,
+    &quot;kind&quot;: &quot;run-status&quot;,
+    &quot;lab_control&quot;: &quot;service_unavailable&quot;,
+    &quot;profile_sha256&quot;: &quot;668f601283e81ef470adbb4ac2e105872851d82002848f299ce949c72e621f70&quot;,
+    &quot;run_id&quot;: &quot;p5supervise5-unavailable&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;service_instance_id&quot;: &quot;p5supervise5-unavailable&quot;,
+    &quot;source_tree_sha256&quot;: &quot;ed481cb5dd9f83e6a231598d14973f8b5f6ead7d6487d8201d1ef3e45d855888&quot;,
+    &quot;started_ns&quot;: &quot;6820889309452&quot;,
+    &quot;state&quot;: &quot;incomplete&quot;,
+    &quot;supervisor_pid&quot;: &quot;104071195&quot;,
+    &quot;unresolved&quot;: []
+  }
+}</pre></td></tr></tbody></table></div></details></section><section id="timeline"><h2>Observed event timeline</h2><p>Times are target CLOCK_MONOTONIC offsets within each native case, not wall-clock or host durations. A configured/armed deadline is not an observed expiry. No events are invented to fill gaps.</p><details><summary>timeout · 20 producer observations</summary><p>Pending: <strong>not observed</strong></p><p>Arming / directed trigger: <strong>not observed</strong></p><p>Operation result: <strong>not observed</strong></p><p>State: <strong>not observed</strong></p><p>Fresh client: <strong>not observed</strong></p><p>Cleanup: observed (3)</p><div class="table-scroll"><table><caption>Actual events and assertion source references</caption><thead><tr><th scope="col">Record</th><th scope="col">Target offset ms</th><th scope="col">Cycle</th><th scope="col">Producer / PID</th><th scope="col">Event</th><th scope="col">Recorded values</th></tr></thead><tbody><tr><td><span id="event-timeout-6">#6</span></td><td>18.480</td><td>1</td><td>supervisor 104071195</td><td>signal_sent</td><td><pre>{
+  &quot;child_pid&quot;: &quot;104075290&quot;,
+  &quot;error&quot;: 0,
+  &quot;rc&quot;: 0,
+  &quot;signal&quot;: 15
+}</pre></td></tr><tr><td><span id="event-timeout-7">#7</span></td><td>19.558</td><td>1</td><td>supervisor 104071195</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;104075290&quot;,
+  &quot;raw_status&quot;: 15
+}</pre></td></tr><tr><td><span id="event-timeout-9">#9</span></td><td>19.684</td><td>1</td><td>supervisor 104071195</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;ready&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-14">#14</span></td><td>36.832</td><td>1</td><td>supervisor 104071195</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;104091671&quot;,
+  &quot;raw_status&quot;: 512
+}</pre></td></tr><tr><td><span id="event-timeout-17">#17</span></td><td>37.006</td><td>1</td><td>supervisor 104071195</td><td>problem</td><td><pre>{
+  &quot;child_pid&quot;: &quot;104091671&quot;,
+  &quot;error&quot;: 0,
+  &quot;operation&quot;: &quot;ready&quot;,
+  &quot;reason&quot;: &quot;service_unavailable&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-18">#18</span></td><td>37.027</td><td>1</td><td>supervisor 104071195</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;cleanup&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-19">#19</span></td><td>37.048</td><td>1</td><td>supervisor 104071195</td><td>cleanup</td><td><pre>{
+  &quot;all_reaped&quot;: 1,
+  &quot;evidence_error&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-20">#20</span></td><td>45.980</td><td>1</td><td>supervisor 104071195</td><td>run_final</td><td><pre>{
+  &quot;cleanup_ok&quot;: 1,
+  &quot;evidence_error&quot;: 0,
+  &quot;flow_complete&quot;: 0
+}</pre></td></tr></tbody></table></div><p><a href="../native-bundles/failed-baseline/observations.jsonl">Complete raw event stream</a></p></details></section><section id="replay"><h2>Replay these saved inputs</h2><p>Run from the repository root with the lab prerequisites from README. Use a new output directory. Do not automatically retry an uncertain launch.</p><p>Saved inputs: <a href="../native-bundles/failed-baseline/replay.json">docs/evidence/phase8/native-bundles/failed-baseline/replay.json</a></p><pre>python3 -m resmgrcheck replay docs/evidence/phase8/native-bundles/failed-baseline --candidate-manifest PATH_TO_VERIFIED_CANDIDATE.json --attempts runs/replay-attempts --run-id new-unique-id</pre><p>Legacy sealed-case replay requires an explicit per-adapter candidate manifest and the reviewed local SSH route; replace PATH_TO_VERIFIED_CANDIDATE.json with the verified selection. See cli.md for prerequisites.</p><p>Without candidate selection, workflow replay retains the original immutable deployment. To test an actual source correction, build and deploy it, then add <code>--candidate-manifest build/qnx-x86_64/manifest.json</code>. Keep the saved contract and fixture setting unchanged. Changing fixture mode is a disclosed incomparable contrast.</p></section><section id="evidence"><h2>Evidence and instrumentation</h2><p>Managed examples use explicit lab pending/unblock/state and ordering instrumentation. Deliberate defect settings remain disclosed and are checked against the corrected contract. These directed tests do not establish exhaustive concurrency or absence of memory leaks.</p><ul><li><a href="../native-bundles/failed-baseline/replay.json">replay.json</a></li><li><a href="../native-bundles/failed-baseline/result.json">result.json</a></li></ul><details><summary>timeout raw artifacts</summary><ul><li><a href="../native-bundles/failed-baseline/bundle.json">bundle.json</a></li><li><a href="../native-bundles/failed-baseline/plan.json">plan.json</a></li><li><a href="../native-bundles/failed-baseline/profile.json">profile.json</a></li><li><a href="../native-bundles/failed-baseline/builds.json">builds.json</a></li><li><a href="../native-bundles/failed-baseline/target-manifest.json">target-manifest.json</a></li><li><a href="../native-bundles/failed-baseline/observations.jsonl">observations.jsonl</a></li><li><a href="../native-bundles/failed-baseline/status.json">status.json</a></li><li><a href="../native-bundles/failed-baseline/result.json">result.json</a></li><li><a href="../native-bundles/failed-baseline/replay.json">replay.json</a></li><li><a href="../native-bundles/failed-baseline/notes.txt">notes.txt</a></li></ul></details></section><footer><p class="muted">ResMgrCheck · Offline evidence view · No network assets. Saved evaluator outcomes are authoritative; filters only change presentation.</p></footer></main><script>
+const controls = document.getElementById('filters');
+const select = document.getElementById('verdict-filter');
+if (controls && select) {
+  controls.hidden = false;
+  select.addEventListener('change', () => {
+    document.querySelectorAll('[data-verdict]').forEach(node => {
+      node.hidden = select.value !== 'ALL' && node.dataset.verdict !== select.value;
+    });
+  });
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    select.value = 'ALL'; select.dispatchEvent(new Event('change')); select.focus();
+  });
+}
+function discloseAnchor() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) { target.hidden = false; let parent = target; while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
+}
+window.addEventListener('hashchange', discloseAnchor); discloseAnchor();
+</script></body></html>

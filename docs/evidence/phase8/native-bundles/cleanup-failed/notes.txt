@@ -1,0 +1,4 @@
+Run p5life-clean1-sensor-repeat-ignore-unblock-cleanup, case repeat, attempt1.
+ERROR / incomplete: cleanup_failed, repetition_incomplete, cancellation_not_completed, pending_state_not_released.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

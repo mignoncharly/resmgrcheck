@@ -81,7 +81,8 @@ try:
         assert comparison['label'] == 'incomparable' and comparison['fixture_mode_changed']
         cli('report', replayed, '--out', replayed / 'report.html')
         cli('junit', fixed, broken, replayed, '--output', out / 'workflow.xml')
-        assert '<script' not in (replayed / 'report.html').read_text()
+        assert '<script src=' not in (replayed / 'report.html').read_text()
+        assert 'No network assets' in (replayed / 'report.html').read_text()
         facts['workflow'] = {'control_contrast_label': comparison['label'], 'collection_raw_equal': True}
     if 'external' in sections:
         call(['qcc', '-Vgcc_ntox86_64', '-std=c11', '-Wall', '-Wextra', '-Werror', 'tests/qnx/external-owner.c', '-o', '.local/p7-external-owner'])

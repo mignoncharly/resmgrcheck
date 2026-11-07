@@ -1056,3 +1056,72 @@ configuration and redundant unsealed raw copies where sealed bundles retain the
 same bytes. Evidence bytes were not edited. SDK, images, license and authentication
 material remain outside Git. Phase7's exit gate passes; the next ordered work is
 Phase8 detailed offline report and browser qualification.
+
+
+## E014: Phase 8 offline report and browser qualification
+
+**Date:** 2026-11-07. **Gate:** passed. Report implementation tested over
+Phase7 checkpoint965c816152fe048b6f76e73007586ff086a15ef2, dirty=true,
+source SHA256 1d71edda3545e44c0dfcc77c5a6835a48afc3f4341043966b9bcc73d0b8651df. No native C/header/build change was made for Phase8;
+this is host presentation/comparison qualification, not new QNX execution.
+
+[105 host tests](evidence/phase8/host-tests.txt) passed, including10 report-focused
+regressions. The actual optional test-only browser command was:
+
+```sh
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.local/browser-binaries" .local/browser-test/bin/python tests/browser/qualify_reports.py --out docs/evidence/phase8
+```
+
+[Browser index](evidence/phase8/index.json) records15 reports /45 views with
+Chromium156.0.8078.4 and Playwright1.64.1. Product runtime remains Python stdlib.
+Every report opened via file URL at1440x1000 and390x844 with JavaScript, and1280x900
+without JavaScript. Keyboard disclosures, optional filters, event-reference links,
+all local artifact links, page bounds and source/JUnit preservation passed.
+No external requests or page errors occurred. All1486 source artifact files were
+SHA256-identical before/after; separately exported broken-suite JUnit was identical.
+
+Actual previously qualified QNX bundles supplied fixed/broken/full replay, job,
+external health,12 unsupported lifecycle cases, recovered transport and timeout
+without optional signal observations. Older real unavailable-service, failed
+cleanup and manager-interference streams were resealed/re-evaluated on the host
+without changing a native byte. Their index explicitly identifies the old native
+build and raw digest; they are not runs against this renderer revision. Empty and
+hostile long-error samples are clearly SYNTHETIC formatting only.
+
+The report answers what was tested, expected obligations, actual observations and
+exact errors, reasons for the saved verdict, original-instance usability and how
+to replay. Every required repeat cycle is visible; actual timeline records use
+NDJSON references/target clock offsets and do not invent expiry or missing stages.
+Partial/empty inputs remain INCOMPLETE/ERROR. Unsupported coverage, independent
+cleanup facts, unverified external identity and post-restart recovery stay distinct.
+No input string becomes executable markup; no raw JSON is embedded in scripts.
+Tampered finalized bundles are rejected and derived outputs cannot overwrite raw,
+partial, diagnostic or collection-history evidence.
+
+Actual source-fix and changed-setting comparisons preserve fixed versus
+incomparable labels and expose separate build, contract and target context. A
+specific host comparison prerequisite was tightened: changed recorded target
+metadata or IFS recipe is incomparable. Synthetic mutations prove that those
+changes cannot claim fixed/reproduced; the real same-target before/after bundles
+still compare fixed. This check does not change native results or require repeating
+unchanged Phases1–6. Older comparison metadata with absent target context says unknown.
+
+Screenshots were visually inspected. The first narrow layout exposed single-letter
+headers despite passing automated overflow checks; minimum readable table widths
+and horizontal scrolling corrected that issue before the final run. Comparison
+identity JSON was moved into disclosure so outcomes/settings are visible first.
+The final [case-list narrow view](evidence/phase8/screenshots/case-list-narrow.png),
+[case detail laptop view](evidence/phase8/screenshots/case-detail-laptop.png),
+[source comparison](evidence/phase8/screenshots/source-comparison-laptop.png) and
+empty/failed-baseline/cleanup/long-error screenshots show the tested states.
+[Additional inspection](evidence/phase8/visual-inspection.json) records the two
+explicit left-aligned screenshots; they supplement the45 automated views.
+
+[Fixed report](evidence/phase8/reports/fixed.html),
+[broken report](evidence/phase8/reports/broken.html),
+[source-fix comparison](evidence/phase8/reports/source-comparison.html) and
+[readable guide](reports.md) are committed with local evidence links. HTML display
+is self-contained; sharing the linked artifacts requires their accompanying tree.
+No cross-browser/accessibility certification, new native gate or exhaustive
+concurrency claim is implied. The Phase8 exit gate passes; Phase9 clean source
+reproduction and release-candidate hardening are next.

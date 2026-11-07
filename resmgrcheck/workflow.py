@@ -480,5 +480,7 @@ def compare_executions(original_path, candidate_path):
     return {'kind': 'execution-comparison', 'schema_version': 1, 'label': label,
             'original_request_sha256': digest(original.data), 'candidate_request_sha256': digest(candidate.data),
             'original_deployment': original.data['deployment']['deployment_id'], 'candidate_deployment': candidate.data['deployment']['deployment_id'],
+            'original_location': str(original_path), 'candidate_location': str(candidate_path),
+            'original_target_configuration': original.data['target_identity'], 'candidate_target_configuration': candidate.data['target_identity'],
             'fixture_mode_changed': original.data['mode'] != candidate.data['mode'],
             'original_mode': original.data['mode'], 'candidate_mode': candidate.data['mode'], 'cases': rows}

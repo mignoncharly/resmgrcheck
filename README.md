@@ -4,9 +4,11 @@ Test declared cancellation and client-lifecycle contracts on QNX 8.0, preserve
 native evidence, and replay the same inputs against an explicitly selected fix.
 The sensor and job examples use one generic C11 runner/worker and Python evaluator.
 
-Phases 1–7 have passed their stated gates. Phase 8 is next; see
+Phases 1–8 have passed their stated gates. Phase 9 is next; see
 [current status](docs/STATUS.md) and [actual evidence](docs/TEST_EVIDENCE.md).
 The [implementation plan](docs/IMPLEMENTATION_PLAN.md) defines the remaining gates.
+The [offline report guide](docs/reports.md) explains cases, timelines, replay and
+comparison context; E014 records browser inspection.
 
 ## Prerequisites
 

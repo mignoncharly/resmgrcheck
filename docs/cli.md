@@ -155,3 +155,13 @@ on both services and may return0 while planted defect runs remain FAIL. Its own
 result explicitly says checker qualification. Failed cleanup/unknown state stops
 its dependent sequence. `--help`, `--verbose` and `--debug` are available; detailed
 tracebacks require the explicit debug option.
+
+## Offline report
+
+`report EXECUTION_OR_BUNDLE --out FILE.html` renders canonical saved outcomes,
+required cycles, obligations, exact observations/event references, actual timeline,
+replay instructions and evidence links. `report COMPARISON_DIRECTORY --out FILE.html`
+shows changed build/contract/target context. Empty/partial collection stays
+INCOMPLETE/ERROR; corrupted finalized bundles are rejected. See [reports.md](reports.md)
+for interpretation, offline sharing and browser qualification. The optional filter
+script never recalculates verdicts. Product dependencies remain Python stdlib.

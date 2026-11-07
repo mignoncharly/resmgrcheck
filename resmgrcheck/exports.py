@@ -68,7 +68,8 @@ def compare(original, candidate):
     from .contracts import loads
     old_target = loads((original.path / 'target-manifest.json').read_bytes())['target']
     new_target = loads((candidate.path / 'target-manifest.json').read_bytes())['target']
-    compatible = same_contract and old_target['machine'] == new_target['machine']
+    target_compatible = old_target == new_target and left['builds']['recipe_id'] == right['builds']['recipe_id']
+    compatible = same_contract and target_compatible
     if not compatible:
         label = 'incomparable'
     elif 'UNSUPPORTED' in (before['verdict'], after['verdict']):
@@ -92,6 +93,9 @@ def compare(original, candidate):
     return {'kind': 'run-comparison', 'schema_version': 1, 'label': label, 'same_contract': same_contract,
             'original_bundle_id': original.manifest.data['bundle_id'], 'candidate_bundle_id': candidate.manifest.data['bundle_id'],
             'original_builds': left['builds'], 'candidate_builds': right['builds'],
+            'original_target': old_target, 'candidate_target': new_target,
+            'contract_changes': {k: left[k] != right[k] for k in ('case_id','profile_sha256','suite_sha256','fixture_mode')},
+            'target_compatible': target_compatible, 'recipe_changed': left['builds']['recipe_id'] != right['builds']['recipe_id'],
             'original_reasons': before['reasons'], 'candidate_reasons': after['reasons'],
             'original_failures': old_failures, 'candidate_failures': new_failures,
             'new_failures': sorted(set(new_failures) - set(old_failures)) if compatible else [],
