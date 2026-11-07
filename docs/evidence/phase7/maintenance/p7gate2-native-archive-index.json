@@ -1,0 +1,3876 @@
+{
+  "runs": [
+    {
+      "run_id": "p7gate2-sensor-source-after-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3995256474",
+          "bytes": 62769,
+          "sha256": "fa86313441bafb1c90e35732d60c331311c25357baecef2a6dba7a7130e72c56"
+        },
+        "recovery.jsonl": {
+          "cksum": "3995256474",
+          "bytes": 62769,
+          "sha256": "fa86313441bafb1c90e35732d60c331311c25357baecef2a6dba7a7130e72c56"
+        },
+        "status.json": {
+          "cksum": "2118286944",
+          "bytes": 549,
+          "sha256": "a6ab5de96a4e5365261f3c3d186943ad2b5b701eae7b6ddd4417cc10d98a9011"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2790923940",
+          "bytes": 60304,
+          "sha256": "16ae88dadb44688e75005b284c5ec27cbdcda2551a3a7f53e5330240b3ca546a"
+        },
+        "recovery.jsonl": {
+          "cksum": "2790923940",
+          "bytes": 60304,
+          "sha256": "16ae88dadb44688e75005b284c5ec27cbdcda2551a3a7f53e5330240b3ca546a"
+        },
+        "status.json": {
+          "cksum": "320874793",
+          "bytes": 535,
+          "sha256": "f6e290a4c904c1a6102f4e230cd761a87b23b19dd6d09db27a0d0b4072842274"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1866240888",
+          "bytes": 61530,
+          "sha256": "f27656e79edf07126229f06b7bebe904742c0c2118e947a0489fbe85375ade88"
+        },
+        "recovery.jsonl": {
+          "cksum": "1866240888",
+          "bytes": 61530,
+          "sha256": "f27656e79edf07126229f06b7bebe904742c0c2118e947a0489fbe85375ade88"
+        },
+        "status.json": {
+          "cksum": "904818259",
+          "bytes": 532,
+          "sha256": "bac1f6a7fe528ad19596604360621ad4617dcee67d96eaf90a98feef75c0cd48"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2034760090",
+          "bytes": 69236,
+          "sha256": "acf11d81e14aa503bd22d0d595f7f8f7b21f0c9061d79846c736cd8255fe62c4"
+        },
+        "recovery.jsonl": {
+          "cksum": "2034760090",
+          "bytes": 69236,
+          "sha256": "acf11d81e14aa503bd22d0d595f7f8f7b21f0c9061d79846c736cd8255fe62c4"
+        },
+        "status.json": {
+          "cksum": "618680883",
+          "bytes": 541,
+          "sha256": "82cfcce103e1572dad68321962e7f1cddb85ffafebd1e142e7187a9be2312548"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1369650686",
+          "bytes": 651988,
+          "sha256": "f13a9a200f4853f0f8bb9a5f93e732845d3b714b218048321b403ccb2db9946a"
+        },
+        "recovery.jsonl": {
+          "cksum": "1369650686",
+          "bytes": 651988,
+          "sha256": "f13a9a200f4853f0f8bb9a5f93e732845d3b714b218048321b403ccb2db9946a"
+        },
+        "status.json": {
+          "cksum": "891931224",
+          "bytes": 532,
+          "sha256": "7d575b50b77f5624be0caf11acc8c53fc2a6e8a5f1febb74c826e34555c3ff1d"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4290549452",
+          "bytes": 133065,
+          "sha256": "83fbde515406c1f5c4fc0b273642fa9e55abd7b2e0363e0219d2a27d31d60029"
+        },
+        "recovery.jsonl": {
+          "cksum": "4290549452",
+          "bytes": 133065,
+          "sha256": "83fbde515406c1f5c4fc0b273642fa9e55abd7b2e0363e0219d2a27d31d60029"
+        },
+        "status.json": {
+          "cksum": "1024549252",
+          "bytes": 556,
+          "sha256": "be1110bac4f017f6e1a925d081ad2916cffaf506d0d72edd4cebfbbda05331a6"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4126458328",
+          "bytes": 108397,
+          "sha256": "0ede22d35431090a72b53fec9e07e0a20a876991bf8697c4b4ebcf023ae92e19"
+        },
+        "recovery.jsonl": {
+          "cksum": "4126458328",
+          "bytes": 108397,
+          "sha256": "0ede22d35431090a72b53fec9e07e0a20a876991bf8697c4b4ebcf023ae92e19"
+        },
+        "status.json": {
+          "cksum": "721160982",
+          "bytes": 550,
+          "sha256": "e32127b6704692acb3e36761992ca44376a502af7de3df40c01bca6de260b6b4"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-unsupported-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2809191843",
+          "bytes": 3056,
+          "sha256": "68b494a27636b8891fbbf4170a6bcbdaa3a68c4ac50d41b8227b99a0b9fd6007"
+        },
+        "recovery.jsonl": {
+          "cksum": "2809191843",
+          "bytes": 3056,
+          "sha256": "68b494a27636b8891fbbf4170a6bcbdaa3a68c4ac50d41b8227b99a0b9fd6007"
+        },
+        "status.json": {
+          "cksum": "4238432325",
+          "bytes": 533,
+          "sha256": "bb1a983a354867d66b1e5abade32caa606314b313fc642f1e67230e0619af5f2"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-source-after-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3231445064",
+          "bytes": 67818,
+          "sha256": "599b76335e6f30b5348b7f6d9bc16474aa2d1d6e68a7c98a3adb6e584e50dd92"
+        },
+        "recovery.jsonl": {
+          "cksum": "3231445064",
+          "bytes": 67818,
+          "sha256": "599b76335e6f30b5348b7f6d9bc16474aa2d1d6e68a7c98a3adb6e584e50dd92"
+        },
+        "status.json": {
+          "cksum": "1888451906",
+          "bytes": 543,
+          "sha256": "f3752a93672461b9791208d6bec7806583004ebb675669d896b80482700b6e28"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-interrupted-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "320837784",
+          "bytes": 647788,
+          "sha256": "1f337b1fef446715ae81454acf9acbac054a104c1b40b010b6eaa117e586fe19"
+        },
+        "recovery.jsonl": {
+          "cksum": "320837784",
+          "bytes": 647788,
+          "sha256": "1f337b1fef446715ae81454acf9acbac054a104c1b40b010b6eaa117e586fe19"
+        },
+        "status.json": {
+          "cksum": "1786971603",
+          "bytes": 530,
+          "sha256": "be7324e4b3f8997ed629d29ed90c770f2b4b9fb1f15040c894ae1ce882b2ea5b"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3834558255",
+          "bytes": 3223,
+          "sha256": "aadc2f03a593c5cd5579c4cef3b3d69a7020c3896cbb25fedf09f5dc8b5102d0"
+        },
+        "recovery.jsonl": {
+          "cksum": "3834558255",
+          "bytes": 3223,
+          "sha256": "aadc2f03a593c5cd5579c4cef3b3d69a7020c3896cbb25fedf09f5dc8b5102d0"
+        },
+        "status.json": {
+          "cksum": "2633513142",
+          "bytes": 555,
+          "sha256": "904cb579d560042bc85500dba52050f6b9f2bbbfe59aa668eb25a526332f2c48"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "399537837",
+          "bytes": 3589,
+          "sha256": "6d68f379b937e51db7416f6c9e7f09b6437a58caf32d92391beab3ebe58dd64f"
+        },
+        "recovery.jsonl": {
+          "cksum": "399537837",
+          "bytes": 3589,
+          "sha256": "6d68f379b937e51db7416f6c9e7f09b6437a58caf32d92391beab3ebe58dd64f"
+        },
+        "status.json": {
+          "cksum": "3469778414",
+          "bytes": 552,
+          "sha256": "7f7c915a0a24fb0dd3c4f3266d550bcd3393e4cf391dbc2d41e87ab4f0e70c27"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "284243286",
+          "bytes": 3654,
+          "sha256": "5bb8e3b15288190e40c41e3468f50af24962bb7abdae9d8e1e4c4afc41a4a905"
+        },
+        "recovery.jsonl": {
+          "cksum": "284243286",
+          "bytes": 3654,
+          "sha256": "5bb8e3b15288190e40c41e3468f50af24962bb7abdae9d8e1e4c4afc41a4a905"
+        },
+        "status.json": {
+          "cksum": "4005462167",
+          "bytes": 561,
+          "sha256": "77097b270056d98cf3ad8d4fa8e30b291649ae0cebe048a3b9aa87acc8911f22"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "975132691",
+          "bytes": 3591,
+          "sha256": "7b4b385eb2ef5267480f1db7b3f36ccb57ab833e54460bb83807f721ba31aa6f"
+        },
+        "recovery.jsonl": {
+          "cksum": "975132691",
+          "bytes": 3591,
+          "sha256": "7b4b385eb2ef5267480f1db7b3f36ccb57ab833e54460bb83807f721ba31aa6f"
+        },
+        "status.json": {
+          "cksum": "2035044503",
+          "bytes": 552,
+          "sha256": "f18a2ef25682c4be69bcd485878169e8595b2641fe2cd2ffc902be42fabe819b"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1739333352",
+          "bytes": 3764,
+          "sha256": "549e12fa81ece3998a88caca5a9a8dff0f02831885799015799eedce1b1155fd"
+        },
+        "recovery.jsonl": {
+          "cksum": "1739333352",
+          "bytes": 3764,
+          "sha256": "549e12fa81ece3998a88caca5a9a8dff0f02831885799015799eedce1b1155fd"
+        },
+        "status.json": {
+          "cksum": "3235880122",
+          "bytes": 576,
+          "sha256": "2362a4cb3b10aa985b44d3674b66eae341c049e96b68a68da144113a4ccdd844"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3120167764",
+          "bytes": 3728,
+          "sha256": "22be5f873dd62a40ac77bd245e3b3f3942a4dd2d6c4f97fe326d38bd74ccfac4"
+        },
+        "recovery.jsonl": {
+          "cksum": "3120167764",
+          "bytes": 3728,
+          "sha256": "22be5f873dd62a40ac77bd245e3b3f3942a4dd2d6c4f97fe326d38bd74ccfac4"
+        },
+        "status.json": {
+          "cksum": "1519545070",
+          "bytes": 570,
+          "sha256": "704925ff0fc88017f83237f9ff0bb0cd8949973c9511a738a69dac14bf2455a0"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-source-before-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3662551431",
+          "bytes": 51764,
+          "sha256": "7739db407cc405db1d855382ae37117f17e12d40ddd43bddd45fb2df78f82dc7"
+        },
+        "recovery.jsonl": {
+          "cksum": "3662551431",
+          "bytes": 51764,
+          "sha256": "7739db407cc405db1d855382ae37117f17e12d40ddd43bddd45fb2df78f82dc7"
+        },
+        "status.json": {
+          "cksum": "750096600",
+          "bytes": 551,
+          "sha256": "13618940094f60c11ca98f06f7cb3e846496f3401b393142b258948a666bf03d"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-external-health",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2243568544",
+          "bytes": 22369,
+          "sha256": "9854e54b4198bcda0970bd1927113df3d6037fdb1868436981e888bbf8123f28"
+        },
+        "recovery.jsonl": {
+          "cksum": "2243568544",
+          "bytes": 22369,
+          "sha256": "9854e54b4198bcda0970bd1927113df3d6037fdb1868436981e888bbf8123f28"
+        },
+        "status.json": {
+          "cksum": "2959020400",
+          "bytes": 559,
+          "sha256": "b4f954847365d712189c951e92c570289ed47c94b62ca4451b46d3e3758c6bee"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-uncertain-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3630810073",
+          "bytes": 59251,
+          "sha256": "c13184e037f8a6ad79d3e2e74c1b7dba5e66293336f9fe2d36e0bf160203edf0"
+        },
+        "recovery.jsonl": {
+          "cksum": "3630810073",
+          "bytes": 59251,
+          "sha256": "c13184e037f8a6ad79d3e2e74c1b7dba5e66293336f9fe2d36e0bf160203edf0"
+        },
+        "status.json": {
+          "cksum": "3812429805",
+          "bytes": 529,
+          "sha256": "ba7d63d4cab834dc72af08cf345879b4177a38783e9a83378174a857ed262102"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3398486428",
+          "bytes": 60655,
+          "sha256": "00ee58104b7663adea334957b78fa674740abd40697ba88f8a59f7813ea8d2e9"
+        },
+        "recovery.jsonl": {
+          "cksum": "3398486428",
+          "bytes": 60655,
+          "sha256": "00ee58104b7663adea334957b78fa674740abd40697ba88f8a59f7813ea8d2e9"
+        },
+        "status.json": {
+          "cksum": "1191675104",
+          "bytes": 537,
+          "sha256": "9ef1d43e71f6c63cdbcc6d5e919d12c417d45699f03584e862d6d1aaa6dc1846"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2503493903",
+          "bytes": 61892,
+          "sha256": "e4d1e16b25b27894d0cc90f06bdb84ead04cde02ddd91b5bd56306aec89d0262"
+        },
+        "recovery.jsonl": {
+          "cksum": "2503493903",
+          "bytes": 61892,
+          "sha256": "e4d1e16b25b27894d0cc90f06bdb84ead04cde02ddd91b5bd56306aec89d0262"
+        },
+        "status.json": {
+          "cksum": "1026099146",
+          "bytes": 534,
+          "sha256": "fbdb6e7f2a95a2653cc9799985601abb55a759603d221d2c36af9f9aedf5767d"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2794010818",
+          "bytes": 69634,
+          "sha256": "756a877e6496e99aae23c32484932b189e728f9b620cebc6545955c2ab68299c"
+        },
+        "recovery.jsonl": {
+          "cksum": "2794010818",
+          "bytes": 69634,
+          "sha256": "756a877e6496e99aae23c32484932b189e728f9b620cebc6545955c2ab68299c"
+        },
+        "status.json": {
+          "cksum": "857725759",
+          "bytes": 543,
+          "sha256": "19bc4804feef99057515e0848376b610945c3e2b60d379201aef9f4f96c3496e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1300644322",
+          "bytes": 655832,
+          "sha256": "9b09ae3aa7d82651350560f53a862e3307bef4a53bcf6151bbf3665ce7e9c593"
+        },
+        "recovery.jsonl": {
+          "cksum": "1300644322",
+          "bytes": 655832,
+          "sha256": "9b09ae3aa7d82651350560f53a862e3307bef4a53bcf6151bbf3665ce7e9c593"
+        },
+        "status.json": {
+          "cksum": "35992416",
+          "bytes": 534,
+          "sha256": "0b04dd9668165899fa4a9fef04734b56955bd8784220bf6ee4b8a22b64c7afe5"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2698927286",
+          "bytes": 133799,
+          "sha256": "71919e418b60d966d14f8796955b2bad68adac0b18a00c4d970d7c583abffc04"
+        },
+        "recovery.jsonl": {
+          "cksum": "2698927286",
+          "bytes": 133799,
+          "sha256": "71919e418b60d966d14f8796955b2bad68adac0b18a00c4d970d7c583abffc04"
+        },
+        "status.json": {
+          "cksum": "2387340638",
+          "bytes": 558,
+          "sha256": "3534b3675bb64e8786ef19977a7c4e60b88b9d2d79bc84d6b073afb424664a46"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3831716900",
+          "bytes": 109005,
+          "sha256": "c700562ea5b6ca4cae2e3a23c361d7caeff97fc99371a697c955fcc3cebb71f2"
+        },
+        "recovery.jsonl": {
+          "cksum": "3831716900",
+          "bytes": 109005,
+          "sha256": "c700562ea5b6ca4cae2e3a23c361d7caeff97fc99371a697c955fcc3cebb71f2"
+        },
+        "status.json": {
+          "cksum": "1581323618",
+          "bytes": 552,
+          "sha256": "c373188e7dec60358f5d57cb40a0cc2f75606cbbc6ab20aec68631991c93b4d0"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-external-health",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4047571789",
+          "bytes": 22622,
+          "sha256": "cb8b936a870b62305287990c09c6631f7c710628d68c0df5e796cd01d58574f9"
+        },
+        "recovery.jsonl": {
+          "cksum": "4047571789",
+          "bytes": 22622,
+          "sha256": "cb8b936a870b62305287990c09c6631f7c710628d68c0df5e796cd01d58574f9"
+        },
+        "status.json": {
+          "cksum": "1991050805",
+          "bytes": 565,
+          "sha256": "1367d9c4e53642e6dcce8b80159a974f6a8fba8fa576f903b6cd6d86c3eca72e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3375153277",
+          "bytes": 49755,
+          "sha256": "ec97102d9a3095a6b2d6614add3ee4f4d2f8c8fc898a661f78a0eb61be94ab12"
+        },
+        "recovery.jsonl": {
+          "cksum": "3375153277",
+          "bytes": 49755,
+          "sha256": "ec97102d9a3095a6b2d6614add3ee4f4d2f8c8fc898a661f78a0eb61be94ab12"
+        },
+        "status.json": {
+          "cksum": "2093650248",
+          "bytes": 537,
+          "sha256": "67b467ddfb22650bcd0031cd214602a0b3b99ca6f4d3e219bc0682def0cf0548"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1474223988",
+          "bytes": 50768,
+          "sha256": "66c402cc5a765b2b7c0ae2f7d64b57b177353004f0b02822e012cb1ecd68b3cf"
+        },
+        "recovery.jsonl": {
+          "cksum": "1474223988",
+          "bytes": 50768,
+          "sha256": "66c402cc5a765b2b7c0ae2f7d64b57b177353004f0b02822e012cb1ecd68b3cf"
+        },
+        "status.json": {
+          "cksum": "2797046823",
+          "bytes": 534,
+          "sha256": "8dab7ffebf6cd751baa0a66bda093b5788d79bbe73e299e6632b110a02d5de2d"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3674061216",
+          "bytes": 55187,
+          "sha256": "2d9201f80f55c2edf790e42c3543df75280b1b63bd23a12847cd0de1c9f10a47"
+        },
+        "recovery.jsonl": {
+          "cksum": "3674061216",
+          "bytes": 55187,
+          "sha256": "2d9201f80f55c2edf790e42c3543df75280b1b63bd23a12847cd0de1c9f10a47"
+        },
+        "status.json": {
+          "cksum": "3908586333",
+          "bytes": 543,
+          "sha256": "b6ec9fb67d6182d33477d69f59c24c6b284f36cd8579ab7ab3bb2e6585dd702e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1870916415",
+          "bytes": 68059,
+          "sha256": "961ed0cd6b3d04429ff964154676cc1cc5a2565d31252b30da37da7bd3e6512f"
+        },
+        "recovery.jsonl": {
+          "cksum": "1870916415",
+          "bytes": 68059,
+          "sha256": "961ed0cd6b3d04429ff964154676cc1cc5a2565d31252b30da37da7bd3e6512f"
+        },
+        "status.json": {
+          "cksum": "2622709621",
+          "bytes": 534,
+          "sha256": "a69dd341f013d2d5e77ccf5ab17a6fdae83909f729217cea0149e502c47238cd"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3588741761",
+          "bytes": 133824,
+          "sha256": "a02f2e3e17b8f351e52d3fca379e6ff911988f56334b0d4eb213a338963902fd"
+        },
+        "recovery.jsonl": {
+          "cksum": "3588741761",
+          "bytes": 133824,
+          "sha256": "a02f2e3e17b8f351e52d3fca379e6ff911988f56334b0d4eb213a338963902fd"
+        },
+        "status.json": {
+          "cksum": "3342828107",
+          "bytes": 558,
+          "sha256": "028c5b92068f515d01cfb1b456ef0b2870da5c3d6b5a6e567cd750d1a9469e7e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2538570095",
+          "bytes": 55617,
+          "sha256": "05536e9f5521e461874f3a0ee51caf37ce2c5d0b24d9db7011c36419ef9dadfc"
+        },
+        "recovery.jsonl": {
+          "cksum": "2538570095",
+          "bytes": 55617,
+          "sha256": "05536e9f5521e461874f3a0ee51caf37ce2c5d0b24d9db7011c36419ef9dadfc"
+        },
+        "status.json": {
+          "cksum": "588871571",
+          "bytes": 552,
+          "sha256": "1695cb86bb939644a91a111b567a0306998d20f99c6176be1cc3651c630928d8"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1442884128",
+          "bytes": 3251,
+          "sha256": "ea347a3c5d19c4d740ec813f9b19552c4dd7bf79f31cfe99c3f5b824bcd01f0e"
+        },
+        "recovery.jsonl": {
+          "cksum": "1442884128",
+          "bytes": 3251,
+          "sha256": "ea347a3c5d19c4d740ec813f9b19552c4dd7bf79f31cfe99c3f5b824bcd01f0e"
+        },
+        "status.json": {
+          "cksum": "949459780",
+          "bytes": 561,
+          "sha256": "0e860047c0bc7afe543d90e7acbaf4ee80b1c95d9344f9f88a6b75f64e6c2fd2"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4128843106",
+          "bytes": 3626,
+          "sha256": "b2d234c7e293bdbb17e9f1ab68e8edbf98fda9615e7b677bb6b14f5585459cb8"
+        },
+        "recovery.jsonl": {
+          "cksum": "4128843106",
+          "bytes": 3626,
+          "sha256": "b2d234c7e293bdbb17e9f1ab68e8edbf98fda9615e7b677bb6b14f5585459cb8"
+        },
+        "status.json": {
+          "cksum": "3844622748",
+          "bytes": 558,
+          "sha256": "6f4c8b9d907728e40130e37550306b4dae797b2f2e430a1c83f31a29baa9f4b0"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "363914353",
+          "bytes": 3691,
+          "sha256": "58edc64268046dd5513650453559128d4587f362b9886f758236c9b0aaa7b86e"
+        },
+        "recovery.jsonl": {
+          "cksum": "363914353",
+          "bytes": 3691,
+          "sha256": "58edc64268046dd5513650453559128d4587f362b9886f758236c9b0aaa7b86e"
+        },
+        "status.json": {
+          "cksum": "3600357292",
+          "bytes": 567,
+          "sha256": "e8261bec8a5b41e8a6ef52ae4ebb22251f2de2e836ab573efbb29f8584c67b78"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2234208767",
+          "bytes": 3628,
+          "sha256": "622ae831bfd55987d7f2550b2f693631f0f6d4420b854d5221ea0f2e6b9b1397"
+        },
+        "recovery.jsonl": {
+          "cksum": "2234208767",
+          "bytes": 3628,
+          "sha256": "622ae831bfd55987d7f2550b2f693631f0f6d4420b854d5221ea0f2e6b9b1397"
+        },
+        "status.json": {
+          "cksum": "111533417",
+          "bytes": 558,
+          "sha256": "d3ea15bde32aef4111a78a9331d53bb4787114dbab8911fb6e7a9e9f8275dbb2"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2873186313",
+          "bytes": 3801,
+          "sha256": "ce2d3546dc34c67bcd15747509d6ed55a0b32b8089013f3e4e9fe832b5c79bd9"
+        },
+        "recovery.jsonl": {
+          "cksum": "2873186313",
+          "bytes": 3801,
+          "sha256": "ce2d3546dc34c67bcd15747509d6ed55a0b32b8089013f3e4e9fe832b5c79bd9"
+        },
+        "status.json": {
+          "cksum": "3545776197",
+          "bytes": 582,
+          "sha256": "973cddbc3cd1640730522bbc014d1b97bf2f16022a36370ce61defde55759cb9"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1869287841",
+          "bytes": 3765,
+          "sha256": "83509684b6c585ac1b4561fc5fbfda02a74409d6703c5378b80baaf28a2fb59b"
+        },
+        "recovery.jsonl": {
+          "cksum": "1869287841",
+          "bytes": 3765,
+          "sha256": "83509684b6c585ac1b4561fc5fbfda02a74409d6703c5378b80baaf28a2fb59b"
+        },
+        "status.json": {
+          "cksum": "3752507465",
+          "bytes": 576,
+          "sha256": "69a8ed963a1e3b486a9da5502a4f9f3c29400723311bfbfcb1224fd93880228f"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-source-before-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1023370473",
+          "bytes": 56656,
+          "sha256": "541ada5cc1a4234a8a297a232451ccde33e0d419a26b3818f5286cd64d958e22"
+        },
+        "recovery.jsonl": {
+          "cksum": "1023370473",
+          "bytes": 56656,
+          "sha256": "541ada5cc1a4234a8a297a232451ccde33e0d419a26b3818f5286cd64d958e22"
+        },
+        "status.json": {
+          "cksum": "1098600272",
+          "bytes": 545,
+          "sha256": "d0c73cdad9887a1d972f19a3f3272d383abf898895ec006d0a97c898e7f0ee81"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065156-185c187ed515-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "445057987",
+          "bytes": 63463,
+          "sha256": "50b05806ce4bc28803328976e1364ee421d9a844fc88511d01b3b4894a68633d"
+        },
+        "recovery.jsonl": {
+          "cksum": "445057987",
+          "bytes": 63463,
+          "sha256": "50b05806ce4bc28803328976e1364ee421d9a844fc88511d01b3b4894a68633d"
+        },
+        "status.json": {
+          "cksum": "2146579175",
+          "bytes": 553,
+          "sha256": "f7d6508165a7d980ad314af1536e7aa7b50b26017b6f766ff825428f8fc97e04"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065255-824fb242a0d0-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2253316282",
+          "bytes": 145582,
+          "sha256": "35b5ac334205eb40477e53cbd867cfc2d04b9208c10d71a946515aed2dfce4f8"
+        },
+        "recovery.jsonl": {
+          "cksum": "2253316282",
+          "bytes": 145582,
+          "sha256": "35b5ac334205eb40477e53cbd867cfc2d04b9208c10d71a946515aed2dfce4f8"
+        },
+        "status.json": {
+          "cksum": "392970633",
+          "bytes": 550,
+          "sha256": "2dc769bf4c33e3a6a0fe1bf1aacbf4aaa9db052ab43dd4e84b29a00e91e0994a"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065324-2f908ed612e6-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3392480831",
+          "bytes": 3186,
+          "sha256": "e74abd73ea59152683e38cf93c232f0169c29dfb0a9f5a5a3fd83747b219082c"
+        },
+        "recovery.jsonl": {
+          "cksum": "3392480831",
+          "bytes": 3186,
+          "sha256": "e74abd73ea59152683e38cf93c232f0169c29dfb0a9f5a5a3fd83747b219082c"
+        },
+        "status.json": {
+          "cksum": "419769598",
+          "bytes": 553,
+          "sha256": "292671067eda887060c08afaaae886d66063679ddf53081dbfc4ac7698fba4d8"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065206-bfa134d021f0-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1941009464",
+          "bytes": 63468,
+          "sha256": "cc72cb730aa7e3d98d00922a7da19a23828924d996a9ddfa176cd63c3de59231"
+        },
+        "recovery.jsonl": {
+          "cksum": "1941009464",
+          "bytes": 63468,
+          "sha256": "cc72cb730aa7e3d98d00922a7da19a23828924d996a9ddfa176cd63c3de59231"
+        },
+        "status.json": {
+          "cksum": "80593616",
+          "bytes": 553,
+          "sha256": "009283e46937a6e7f6bcd43f1b0306be2ecd62ee1a9b865199dea843c6430bea"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065401-3e36a36825b4-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1105666674",
+          "bytes": 63269,
+          "sha256": "01da556192e3438fb412b1961fec672f32a3b4aa9c1c1376c12d302e7e17af8f"
+        },
+        "recovery.jsonl": {
+          "cksum": "1105666674",
+          "bytes": 63269,
+          "sha256": "01da556192e3438fb412b1961fec672f32a3b4aa9c1c1376c12d302e7e17af8f"
+        },
+        "status.json": {
+          "cksum": "2011723396",
+          "bytes": 559,
+          "sha256": "598a2b4a4d4c996dd14ed252b6f9dc3dfb78c67a324f1ce4d4a683232e03ecc1"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065341-e6418ae16f99-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2394678978",
+          "bytes": 70196,
+          "sha256": "19316cb00a441ca0dcc7afbc4344e65823c494f5fc625e0afe1bf7be36c27d67"
+        },
+        "recovery.jsonl": {
+          "cksum": "2394678978",
+          "bytes": 70196,
+          "sha256": "19316cb00a441ca0dcc7afbc4344e65823c494f5fc625e0afe1bf7be36c27d67"
+        },
+        "status.json": {
+          "cksum": "1004180960",
+          "bytes": 553,
+          "sha256": "4ba689ff0ee0455b425f5219b6ccce0cb718072470f2bc30ede63c988b59cf63"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065223-a761eefd9071-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3553573022",
+          "bytes": 72427,
+          "sha256": "c9ac3a41e202c7ba3c971bd3055c647ceef1777f7fc603ac461265ac452b9b55"
+        },
+        "recovery.jsonl": {
+          "cksum": "3553573022",
+          "bytes": 72427,
+          "sha256": "c9ac3a41e202c7ba3c971bd3055c647ceef1777f7fc603ac461265ac452b9b55"
+        },
+        "status.json": {
+          "cksum": "276411978",
+          "bytes": 559,
+          "sha256": "f28096aedf9c9bb988947db1e7fdb1cb55c244bb212b32ab8eb067503795d5cd"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065337-b93087a23887-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "607463729",
+          "bytes": 69740,
+          "sha256": "5bcebe9985b5589e5a6d798871fbb60ab26663d0d0c357041995e51d0201e9a4"
+        },
+        "recovery.jsonl": {
+          "cksum": "607463729",
+          "bytes": 69740,
+          "sha256": "5bcebe9985b5589e5a6d798871fbb60ab26663d0d0c357041995e51d0201e9a4"
+        },
+        "status.json": {
+          "cksum": "3448482220",
+          "bytes": 553,
+          "sha256": "fc6331989055e1a821cf672d0fbc1ae6673d37a4688ad6d17f0b5f03d729b67b"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065235-49cdfd1a2e56-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1129410301",
+          "bytes": 686198,
+          "sha256": "c4ebbe3bbdf571fc72f9e6a6395608bbdb85fec2ddad4d675396f790cc38c72b"
+        },
+        "recovery.jsonl": {
+          "cksum": "1129410301",
+          "bytes": 686198,
+          "sha256": "c4ebbe3bbdf571fc72f9e6a6395608bbdb85fec2ddad4d675396f790cc38c72b"
+        },
+        "status.json": {
+          "cksum": "2685844217",
+          "bytes": 550,
+          "sha256": "ffd42f92abadb0c1e46dedf8a9fd5c1d086d58418428bdab5eef7bfddba6f4e5"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065300-a4433115175d-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "55634857",
+          "bytes": 70858,
+          "sha256": "ac8e4360e9f986d9fee05afd8c6ff53c966b58470577b7fd490ac7fabcfde1cb"
+        },
+        "recovery.jsonl": {
+          "cksum": "55634857",
+          "bytes": 70858,
+          "sha256": "ac8e4360e9f986d9fee05afd8c6ff53c966b58470577b7fd490ac7fabcfde1cb"
+        },
+        "status.json": {
+          "cksum": "1271771061",
+          "bytes": 550,
+          "sha256": "876732883765dc2b536f4606dfbb8535328aeba8b34c966ce6afa32722ea09a0"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065407-410d8077445b-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3584213313",
+          "bytes": 78044,
+          "sha256": "b90af4962c68423c95c98a8e14c2c7962aff9d51407842b7757ee042faef3a55"
+        },
+        "recovery.jsonl": {
+          "cksum": "3584213313",
+          "bytes": 78044,
+          "sha256": "b90af4962c68423c95c98a8e14c2c7962aff9d51407842b7757ee042faef3a55"
+        },
+        "status.json": {
+          "cksum": "1161301752",
+          "bytes": 559,
+          "sha256": "733aefb4e587d859a8f079f06a84233cd2c3891e4b62cb82cdef6bc6a14beb2d"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065217-9f7e4bed34c9-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1140733135",
+          "bytes": 52753,
+          "sha256": "04b1614319c7addc3ce23a9792c08c0d58d1db91e9d694bd766c7f79f03afd94"
+        },
+        "recovery.jsonl": {
+          "cksum": "1140733135",
+          "bytes": 52753,
+          "sha256": "04b1614319c7addc3ce23a9792c08c0d58d1db91e9d694bd766c7f79f03afd94"
+        },
+        "status.json": {
+          "cksum": "87919245",
+          "bytes": 550,
+          "sha256": "87426659408b6e141a7bd92bae6939f96d257187b9d15d6f803e3759b3ca5ad4"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065317-30d7547443da-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "628741455",
+          "bytes": 113937,
+          "sha256": "ecef3479372ae4b8d164e310a65a76cc4c728d0db34020738f23e451816d3d62"
+        },
+        "recovery.jsonl": {
+          "cksum": "628741455",
+          "bytes": 113937,
+          "sha256": "ecef3479372ae4b8d164e310a65a76cc4c728d0db34020738f23e451816d3d62"
+        },
+        "status.json": {
+          "cksum": "48196802",
+          "bytes": 568,
+          "sha256": "a9720695527d462efe0ec681a8765afd98505a199b3149dc1bb5e71b5119a257"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065456-397492df36ed-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2005056435",
+          "bytes": 3187,
+          "sha256": "15d476864996002bcc7efaee5f7b4a3161dbaed7b555a0d78b3d08bebdd153ff"
+        },
+        "recovery.jsonl": {
+          "cksum": "2005056435",
+          "bytes": 3187,
+          "sha256": "15d476864996002bcc7efaee5f7b4a3161dbaed7b555a0d78b3d08bebdd153ff"
+        },
+        "status.json": {
+          "cksum": "3296222320",
+          "bytes": 550,
+          "sha256": "945c188393a1b6df58f0978da6033ae0d2acd8b412479ceb77a964fdfdf39506"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065200-36635b99424c-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3182292852",
+          "bytes": 52051,
+          "sha256": "24cf77d79aa5a7d935868f23d3c5489bd97c64ca3cedef1a134c87debff36e74"
+        },
+        "recovery.jsonl": {
+          "cksum": "3182292852",
+          "bytes": 52051,
+          "sha256": "24cf77d79aa5a7d935868f23d3c5489bd97c64ca3cedef1a134c87debff36e74"
+        },
+        "status.json": {
+          "cksum": "560606724",
+          "bytes": 553,
+          "sha256": "7fd846eca2380f269a2afdccbc89e29d6b1d686b7eb3de3527f1085c7e2f5afc"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065441-5c64958dbf6d-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1537479790",
+          "bytes": 146948,
+          "sha256": "ea9a82f8eaa190e7a61d630fa1f517a2b6501f53a19732e003b51d367987fd84"
+        },
+        "recovery.jsonl": {
+          "cksum": "1537479790",
+          "bytes": 146948,
+          "sha256": "ea9a82f8eaa190e7a61d630fa1f517a2b6501f53a19732e003b51d367987fd84"
+        },
+        "status.json": {
+          "cksum": "3916073392",
+          "bytes": 574,
+          "sha256": "f07344c14591ae8823d88539b80df790673d7d8865a16c00f7b7ce670edc740e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065314-aa0d96b43048-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "214615315",
+          "bytes": 113460,
+          "sha256": "625aedad510a19e24b40414c00fdcfba44042ab1707cef3dfc0aab215d86a2cc"
+        },
+        "recovery.jsonl": {
+          "cksum": "214615315",
+          "bytes": 113460,
+          "sha256": "625aedad510a19e24b40414c00fdcfba44042ab1707cef3dfc0aab215d86a2cc"
+        },
+        "status.json": {
+          "cksum": "759931863",
+          "bytes": 568,
+          "sha256": "9ace6583c1c3dff7e1b47724e512e5632c4eee53bbed4206c20605fd6ca1d990"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065453-53bd28355c83-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2737955574",
+          "bytes": 121036,
+          "sha256": "b5719d2808728fb7f65a119c1be15c5212eab78adcdc268123ed3b1e25b49add"
+        },
+        "recovery.jsonl": {
+          "cksum": "2737955574",
+          "bytes": 121036,
+          "sha256": "b5719d2808728fb7f65a119c1be15c5212eab78adcdc268123ed3b1e25b49add"
+        },
+        "status.json": {
+          "cksum": "3483051236",
+          "bytes": 568,
+          "sha256": "eaa93ce3fc2f44e5e81c053df6ee0465f34d119a3e8ff4c13d707d6c509e51d1"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065410-49095114e815-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "151473808",
+          "bytes": 708086,
+          "sha256": "8f5f672e598773c9d994889fc8767a4ed1d186d4673a29e8ae26f78a62f5a652"
+        },
+        "recovery.jsonl": {
+          "cksum": "151473808",
+          "bytes": 708086,
+          "sha256": "8f5f672e598773c9d994889fc8767a4ed1d186d4673a29e8ae26f78a62f5a652"
+        },
+        "status.json": {
+          "cksum": "2650233052",
+          "bytes": 550,
+          "sha256": "ab0cd2061b1f354e8184ecdd07d2e853762ddf75d1d5905877ff5c4a9a7bd8f8"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065226-b4042a625f79-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1225406468",
+          "bytes": 72432,
+          "sha256": "87392f1046d3468dc4e7f0b0805372c11580234f2f125df7589562cbe270856f"
+        },
+        "recovery.jsonl": {
+          "cksum": "1225406468",
+          "bytes": 72432,
+          "sha256": "87392f1046d3468dc4e7f0b0805372c11580234f2f125df7589562cbe270856f"
+        },
+        "status.json": {
+          "cksum": "2526580662",
+          "bytes": 559,
+          "sha256": "e1a834dfd364be6a04d3c5c654bc78739780d2d689933d4ea34b96a87784a2ce"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065345-3d448c802609-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4183756777",
+          "bytes": 70626,
+          "sha256": "454760114d77e3189f7e2fe5c83ec841194eb1b7365ecf0b6cbcdf713ad3eb93"
+        },
+        "recovery.jsonl": {
+          "cksum": "4183756777",
+          "bytes": 70626,
+          "sha256": "454760114d77e3189f7e2fe5c83ec841194eb1b7365ecf0b6cbcdf713ad3eb93"
+        },
+        "status.json": {
+          "cksum": "2249714446",
+          "bytes": 550,
+          "sha256": "5f89868900117a2596167067a08c52ef3b24421c31ebe6d952ac83b0a5c020f7"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065210-def0be9ccefb-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "102449291",
+          "bytes": 63924,
+          "sha256": "a25f74cf0496a077c705e8e7e1685195cbd18e2141bc13974e261d817995aad5"
+        },
+        "recovery.jsonl": {
+          "cksum": "102449291",
+          "bytes": 63924,
+          "sha256": "a25f74cf0496a077c705e8e7e1685195cbd18e2141bc13974e261d817995aad5"
+        },
+        "status.json": {
+          "cksum": "583349871",
+          "bytes": 553,
+          "sha256": "010b64e2ff34518058d3134aee10d2ce51d0c364dd44717b1ddf0d412f6e0aa9"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065357-a0aff215eda1-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "4203054016",
+          "bytes": 78822,
+          "sha256": "e448d7fc727a10c7d6151defc375be24375162074b36c1db712b913c1ba0c5ae"
+        },
+        "recovery.jsonl": {
+          "cksum": "4203054016",
+          "bytes": 78822,
+          "sha256": "e448d7fc727a10c7d6151defc375be24375162074b36c1db712b913c1ba0c5ae"
+        },
+        "status.json": {
+          "cksum": "3514348394",
+          "bytes": 559,
+          "sha256": "7b42134f31a9524c899bc9b55dc15c75f84c959dca73c343c9bdab9ed299f817"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065435-ecf237207df5-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2638236482",
+          "bytes": 76732,
+          "sha256": "89d7a1471e074254175d5648e9004cf3c965a818d58698429155dff6a36b6270"
+        },
+        "recovery.jsonl": {
+          "cksum": "2638236482",
+          "bytes": 76732,
+          "sha256": "89d7a1471e074254175d5648e9004cf3c965a818d58698429155dff6a36b6270"
+        },
+        "status.json": {
+          "cksum": "733925303",
+          "bytes": 550,
+          "sha256": "a6f4541cb2fc7ec09cec36c42eb2822066b761347bfd8167d723e2e65f38276e"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065445-78dcfc8979b2-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3309629582",
+          "bytes": 147431,
+          "sha256": "30efe334e582ca7155a9141e69dbdef2406a4c4bda22743dab0127dd5b4e9036"
+        },
+        "recovery.jsonl": {
+          "cksum": "3309629582",
+          "bytes": 147431,
+          "sha256": "30efe334e582ca7155a9141e69dbdef2406a4c4bda22743dab0127dd5b4e9036"
+        },
+        "status.json": {
+          "cksum": "2775543293",
+          "bytes": 574,
+          "sha256": "d7d41c649756ce2df130d0cac9ac2d5372a108cba24f2edb336668533addf199"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065310-e5e29dfdc5df-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "531946536",
+          "bytes": 139747,
+          "sha256": "f93f34746d7d55d522e6cdb604424765266a2821912f835833b717bd9dd63345"
+        },
+        "recovery.jsonl": {
+          "cksum": "531946536",
+          "bytes": 139747,
+          "sha256": "f93f34746d7d55d522e6cdb604424765266a2821912f835833b717bd9dd63345"
+        },
+        "status.json": {
+          "cksum": "3739263830",
+          "bytes": 574,
+          "sha256": "f2682bfa5650bfc9bacb3189daf60897ed032947c72a25ce0dc074355b4b81ec"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065449-5f90ea380936-cancel-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1557196412",
+          "bytes": 120559,
+          "sha256": "ac69f4073d04b9e8752d659faa892dd979efb8d5341c8a700771d531b2e8a61c"
+        },
+        "recovery.jsonl": {
+          "cksum": "1557196412",
+          "bytes": 120559,
+          "sha256": "ac69f4073d04b9e8752d659faa892dd979efb8d5341c8a700771d531b2e8a61c"
+        },
+        "status.json": {
+          "cksum": "2073365449",
+          "bytes": 568,
+          "sha256": "048016903229600562cefab9b33410f6609b2701679c7285fe9deb5d3d58aa7a"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065331-3250f3442cf7-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "624961324",
+          "bytes": 57932,
+          "sha256": "8f746bdc1b730e4c86283f589748d7016567b8cfefc3ad5c970179ea2fb47bec"
+        },
+        "recovery.jsonl": {
+          "cksum": "624961324",
+          "bytes": 57932,
+          "sha256": "8f746bdc1b730e4c86283f589748d7016567b8cfefc3ad5c970179ea2fb47bec"
+        },
+        "status.json": {
+          "cksum": "429977478",
+          "bytes": 553,
+          "sha256": "70fe5615884cd6f2fd8654cdd00edcc99b2b36d99d89b1b96ed4774099869508"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065327-c8d435e5722f-timeout",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1024094059",
+          "bytes": 69735,
+          "sha256": "39dfaa93c9903a37c47418cffe35c38f5a361ef4755b7fe114582cd2c4bb062b"
+        },
+        "recovery.jsonl": {
+          "cksum": "1024094059",
+          "bytes": 69735,
+          "sha256": "39dfaa93c9903a37c47418cffe35c38f5a361ef4755b7fe114582cd2c4bb062b"
+        },
+        "status.json": {
+          "cksum": "465323474",
+          "bytes": 553,
+          "sha256": "92de4fc77e8c2a854bc2358e170a5f744e35ea4f1341764c223d488b3f2bc5e3"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065348-37c5ac4ab06b-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "2485792422",
+          "bytes": 58586,
+          "sha256": "03e2e0c391983fdf49b0b79adc2f023a1cdfa7202fd03748a1df32059282006a"
+        },
+        "recovery.jsonl": {
+          "cksum": "2485792422",
+          "bytes": 58586,
+          "sha256": "03e2e0c391983fdf49b0b79adc2f023a1cdfa7202fd03748a1df32059282006a"
+        },
+        "status.json": {
+          "cksum": "555427274",
+          "bytes": 550,
+          "sha256": "47eaa8a6f20497e5d732aa066b6937dc51672b747e357e70a1653d7cdf4339fd"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065306-707a83ab089b-complete-first",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1173820355",
+          "bytes": 139264,
+          "sha256": "ac89c1c579836dc62b1f3a68e197fdfe3d115f87626b6207d8f49ccf58680aac"
+        },
+        "recovery.jsonl": {
+          "cksum": "1173820355",
+          "bytes": 139264,
+          "sha256": "ac89c1c579836dc62b1f3a68e197fdfe3d115f87626b6207d8f49ccf58680aac"
+        },
+        "status.json": {
+          "cksum": "3187319429",
+          "bytes": 574,
+          "sha256": "aab3f0cd1bb8b23a8515892798b7090fb35458476fe6784429999f4e8061990a"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065214-8b52d84b2c56-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3516869184",
+          "bytes": 64405,
+          "sha256": "4bd455ecbdb3002a6d3aed57e0721bb0813a78ea07d25f4f2cfecae0d4a452e5"
+        },
+        "recovery.jsonl": {
+          "cksum": "3516869184",
+          "bytes": 64405,
+          "sha256": "4bd455ecbdb3002a6d3aed57e0721bb0813a78ea07d25f4f2cfecae0d4a452e5"
+        },
+        "status.json": {
+          "cksum": "2219276384",
+          "bytes": 550,
+          "sha256": "3fa27e24f48b6329fa5c78ed0cd8dc72445fd43cd0993385cc935b8fb3c3c15b"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065230-d642373a6075-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "1037973745",
+          "bytes": 57308,
+          "sha256": "e6c9f41fe77f241077d934e3d71b0edafe4f32557f4f19271dc74858ce72b1c0"
+        },
+        "recovery.jsonl": {
+          "cksum": "1037973745",
+          "bytes": 57308,
+          "sha256": "e6c9f41fe77f241077d934e3d71b0edafe4f32557f4f19271dc74858ce72b1c0"
+        },
+        "status.json": {
+          "cksum": "2030408342",
+          "bytes": 559,
+          "sha256": "9175507d55df8619a53981f1af79ce47d5ddd0061862973b9469613cce89edd3"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065354-ef84f9d6b8df-departure",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3602641856",
+          "bytes": 78817,
+          "sha256": "d258e9788a368b0981e5dc9d022f51cfc553f40c004d29890cda53a39df58a67"
+        },
+        "recovery.jsonl": {
+          "cksum": "3602641856",
+          "bytes": 78817,
+          "sha256": "d258e9788a368b0981e5dc9d022f51cfc553f40c004d29890cda53a39df58a67"
+        },
+        "status.json": {
+          "cksum": "3400409324",
+          "bytes": 559,
+          "sha256": "00e692fe0a7f2313b587292f166607aa6d5c5fec0d4a859252bf49258cf6dc73"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065429-d447aff74a36-repeat",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3768054693",
+          "bytes": 153495,
+          "sha256": "498a8930305dfcaeea1852613e01fc5aa2d0e78731ecb049d69fc150eeefdee2"
+        },
+        "recovery.jsonl": {
+          "cksum": "3768054693",
+          "bytes": 153495,
+          "sha256": "498a8930305dfcaeea1852613e01fc5aa2d0e78731ecb049d69fc150eeefdee2"
+        },
+        "status.json": {
+          "cksum": "2077282869",
+          "bytes": 550,
+          "sha256": "47d6e1efe1e44720db5178a778674e8831657a59b5339c9c080ab27fb1d8d556"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065321-80a3bb50201f-signal",
+      "files": {
+        "events.jsonl": {
+          "cksum": "3168596609",
+          "bytes": 3176,
+          "sha256": "a46c0e94ca128a4ec9ebff1cc82780e60552eedecf894e49645b023045fbc2eb"
+        },
+        "recovery.jsonl": {
+          "cksum": "3168596609",
+          "bytes": 3176,
+          "sha256": "a46c0e94ca128a4ec9ebff1cc82780e60552eedecf894e49645b023045fbc2eb"
+        },
+        "status.json": {
+          "cksum": "2336434989",
+          "bytes": 550,
+          "sha256": "91152984d186f669ad5300af00697679e8165a3dc0b9bb19c2e2ee2b79cf3f8f"
+        },
+        "stderr.log": {
+          "cksum": "4294967295",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "directory_guard_retained": true
+    }
+  ],
+  "sessions": [
+    {
+      "run_id": "p7gate2-sensor-source-after",
+      "files": {
+        "owner.json": {
+          "cksum": "3590510140",
+          "bytes": 163,
+          "sha256": "42e0faa5866e6843cefa395335da9b5d1b5bf88afe7b808bc91683ccd9aafb52"
+        },
+        "request.json": {
+          "cksum": "3980794909",
+          "bytes": 6599,
+          "sha256": "d9a386fe59c65b8e2f92d2fd27d771d06c5076526a906c45f9025a94c1d23691"
+        },
+        "timeout-ack.json": {
+          "cksum": "609806431",
+          "bytes": 232,
+          "sha256": "71b5855fedb727aa900bc0b2efca300260ff025d4940b1608adc38eb3d10fba0"
+        },
+        "timeout-launch.json": {
+          "cksum": "3717852544",
+          "bytes": 190,
+          "sha256": "ed8bea91ca56b4b9a8512827a5c1b8ff02b32ac5442cecb0aaffb8ff7651111b"
+        },
+        "timeout-plan.json": {
+          "cksum": "358992682",
+          "bytes": 1720,
+          "sha256": "9642cf0f41b2dd99dab411dd379f858904da73add95054be4bc26d3286ccf17f"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-fixed",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "3141296701",
+          "bytes": 233,
+          "sha256": "cf54446d0fee0e421770cdd49c8e572625164f10fbab14d148c90148b8642bb9"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "2369788981",
+          "bytes": 188,
+          "sha256": "f5602e92b96c6cf707f77324df6c2ddb45286faeb69ef00b3f0c2e00b6ad7072"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "3185141833",
+          "bytes": 1776,
+          "sha256": "84b3d17b5e692e0c6447e9b1d62f223651974240723cad32a767b52f72d2b94b"
+        },
+        "complete-first-ack.json": {
+          "cksum": "627564184",
+          "bytes": 239,
+          "sha256": "a4f404d55e988090383181b6e7bad58d913afe38f4975f93811e364e93989c0f"
+        },
+        "complete-first-launch.json": {
+          "cksum": "3443436707",
+          "bytes": 190,
+          "sha256": "c116fc5e325b98d60632d65f6d994a68d6782e52311eab9f5c12c55a08c4ab3a"
+        },
+        "complete-first-plan.json": {
+          "cksum": "1848632284",
+          "bytes": 1786,
+          "sha256": "4be07c7cb436aecaadd280af6644843ac86e4bfaa5dabbe0c783935709e1e75e"
+        },
+        "departure-ack.json": {
+          "cksum": "3003545925",
+          "bytes": 224,
+          "sha256": "7e3de6a3b89bd85c64f3efecbfdcacd14a7dfb7eeaa7e0bd445e991900674c0c"
+        },
+        "departure-launch.json": {
+          "cksum": "524391109",
+          "bytes": 185,
+          "sha256": "ffc058c496c87370b8a697f4d427647e0b0569d58f1e0ba2491edf72975adaf1"
+        },
+        "departure-plan.json": {
+          "cksum": "4224273540",
+          "bytes": 1733,
+          "sha256": "03bd232cb0fc579c5c16b6cfe87c6ef88444f834732493dd73f066c983447231"
+        },
+        "owner.json": {
+          "cksum": "597410144",
+          "bytes": 156,
+          "sha256": "661978cdd19b5e9794d53a0677740318a08abc049596f391de22df89616e25f0"
+        },
+        "repeat-ack.json": {
+          "cksum": "1764978182",
+          "bytes": 215,
+          "sha256": "9222ff15cd313b00ffd84238f9c49635f200e626d7537231cbc6fb97fe1d4629"
+        },
+        "repeat-launch.json": {
+          "cksum": "849453410",
+          "bytes": 182,
+          "sha256": "48d241c8a3c4242ed91827d4eaa29c6bbf5c6b52af2b8cea69da853d3030636e"
+        },
+        "repeat-plan.json": {
+          "cksum": "1975531796",
+          "bytes": 1714,
+          "sha256": "8809748c62c5322f1718017dc0e0f75083b616aa2d4d9be1a3ea9dc7d1f2d9ca"
+        },
+        "request.json": {
+          "cksum": "1928978415",
+          "bytes": 15224,
+          "sha256": "1569dfce3653b407474df7f2a79fbbea25fa6533ff6d976dfb12f778db9e00f4"
+        },
+        "signal-ack.json": {
+          "cksum": "3484498954",
+          "bytes": 215,
+          "sha256": "f78f1fa1bebb7636fe1aea7179cea01744149a2af0bdb210bc3a5c5538070da7"
+        },
+        "signal-launch.json": {
+          "cksum": "3778071351",
+          "bytes": 182,
+          "sha256": "bafc5e610a0aa4951eec00be770f24960123b9eed4a26bd7a05137347f2266fb"
+        },
+        "signal-plan.json": {
+          "cksum": "2175109060",
+          "bytes": 1745,
+          "sha256": "eef1cb6491373a5f9a5d48ca88ea46cc361c2e3204d956dad8e4a66318ca532e"
+        },
+        "timeout-ack.json": {
+          "cksum": "3621041513",
+          "bytes": 218,
+          "sha256": "63a477c8b0aea702e88770b3e0f96f2b7001b58b367bb0a3f70de7f02a65c513"
+        },
+        "timeout-launch.json": {
+          "cksum": "2907526912",
+          "bytes": 183,
+          "sha256": "d88eed3566bbbcdb9cf18dbaa929024e734308cd99e338698c8177267ace0ab2"
+        },
+        "timeout-plan.json": {
+          "cksum": "217736084",
+          "bytes": 1708,
+          "sha256": "b006807d05ecc0371935d50736a5dabf8fbbc7023fede8070d829a92de292834"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-unsupported",
+      "files": {
+        "owner.json": {
+          "cksum": "3970253452",
+          "bytes": 155,
+          "sha256": "78b0073caf23bd9e8c3ed7fcc3d6249a361899861813e232876ffdb8d02669bf"
+        },
+        "request.json": {
+          "cksum": "566789660",
+          "bytes": 6494,
+          "sha256": "ddce9b92e5e26dc42b32bb41b1f6b6a85a8ddab35826d1cd0409eb9fdc2c6a1e"
+        },
+        "timeout-ack.json": {
+          "cksum": "633186582",
+          "bytes": 216,
+          "sha256": "7927c91840376516ee582c84c75edfeddf73b09aba4528c4291e9ce769b7dffd"
+        },
+        "timeout-launch.json": {
+          "cksum": "308096424",
+          "bytes": 182,
+          "sha256": "7a2a304d2247eac97774f797954242d2a4d9838a788f87ac15cc8f35d479719d"
+        },
+        "timeout-plan.json": {
+          "cksum": "3952338491",
+          "bytes": 1735,
+          "sha256": "5aa382e1be87de444f7bdc19aba8d145523bf8fea197434ef03c006acb4ee34c"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-source-after",
+      "files": {
+        "owner.json": {
+          "cksum": "950947347",
+          "bytes": 160,
+          "sha256": "5668a0856e8f8e0908c2f6ce8a4a4abf78459c74108902c23990e206b66ed5f4"
+        },
+        "request.json": {
+          "cksum": "4124816742",
+          "bytes": 6647,
+          "sha256": "36aaf9506ef48ed9713390fea3fb20363970714225e5f7b8d27fef14d6e6a9db"
+        },
+        "timeout-ack.json": {
+          "cksum": "1616903177",
+          "bytes": 226,
+          "sha256": "606b3d558f3349f5dadc1a0be0a57a4230b54600179b3623a65e8707031f34b4"
+        },
+        "timeout-launch.json": {
+          "cksum": "3465476120",
+          "bytes": 187,
+          "sha256": "84fa9dc73c7d01b3f35b1112fe2d6a7a276791d44031211f2982781ced3f97e1"
+        },
+        "timeout-plan.json": {
+          "cksum": "1154999419",
+          "bytes": 1774,
+          "sha256": "6d93fea88d5056323289538ed60fa854cbb0872f83e7a3ab7c371eb52a4843ef"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-interrupted",
+      "files": {
+        "owner.json": {
+          "cksum": "3144035925",
+          "bytes": 155,
+          "sha256": "d70842e418d38d3d938d2bb2ba628e96d69f655be2e0d09e2a26d01bbdfcb740"
+        },
+        "repeat-ack.json": {
+          "cksum": "324556347",
+          "bytes": 213,
+          "sha256": "8cebffb9dcd538ea7b9066355fcac8de2a08f9597aa8325576b3d59e0db90d8e"
+        },
+        "repeat-launch.json": {
+          "cksum": "2809046248",
+          "bytes": 181,
+          "sha256": "68a7a350a80ae7ca7b71573bc52ba6c02ee17b14f97a06988334407711341c0b"
+        },
+        "repeat-plan.json": {
+          "cksum": "3784394718",
+          "bytes": 1712,
+          "sha256": "78e42c1df1fac29898301688df52c9baee4fa7d63f4940aa388eb96e024a5685"
+        },
+        "request.json": {
+          "cksum": "4097384470",
+          "bytes": 6471,
+          "sha256": "c9ba6eb2d581a8081f0d27d4fc8265e13805d7a3473a607538512ebfc269ebe0"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external-lifecycle",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "2173285243",
+          "bytes": 253,
+          "sha256": "9e451ca7f5d4387c910c946360e270c2c4317c21ca80bba24d84f72d7e5bad4f"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "3685730894",
+          "bytes": 198,
+          "sha256": "59ffb84dd2cbf16cf508d5bf4e733fbef0d93c2eb5ebc1f25d98ad417e0a26da"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "3066764696",
+          "bytes": 1889,
+          "sha256": "ea5c1682894e216036689c388d9cc62530e908b536079f29d30f14d1231d4131"
+        },
+        "complete-first-ack.json": {
+          "cksum": "2760820470",
+          "bytes": 259,
+          "sha256": "8c975e4be5981a9d988ca09e2816416ec16bbd47a6c4a7cf632f51107b716ae1"
+        },
+        "complete-first-launch.json": {
+          "cksum": "578630561",
+          "bytes": 200,
+          "sha256": "aef278b10d76dd86bb82999d23352cd908d6fd59c048bc76a49e7d651b220352"
+        },
+        "complete-first-plan.json": {
+          "cksum": "4218580096",
+          "bytes": 1899,
+          "sha256": "8510aa91686b626e67fce4ae34b51e3daa4f35865e1005f13dd464b9a6c14dd5"
+        },
+        "departure-ack.json": {
+          "cksum": "1979408713",
+          "bytes": 244,
+          "sha256": "7470c4e51dd1b5d2670dad2fa0b4e128c0a432dfeb8c245caa6113aac9509556"
+        },
+        "departure-launch.json": {
+          "cksum": "3817541548",
+          "bytes": 195,
+          "sha256": "53757e7c5d694639d14a7d5950e4c6a9057ad8871f2f5de92fbeca373536104b"
+        },
+        "departure-plan.json": {
+          "cksum": "3073637340",
+          "bytes": 1834,
+          "sha256": "79e3352fdaa5e31d108b78ffe58b103b6c4ca7400628eb49bf299138da15a831"
+        },
+        "owner.json": {
+          "cksum": "4067394259",
+          "bytes": 166,
+          "sha256": "7572e0c35083aa1653e4013532edefe5fa6ce745b9a1234210dc4ee25c2661f2"
+        },
+        "repeat-ack.json": {
+          "cksum": "3428915853",
+          "bytes": 235,
+          "sha256": "f683bc60466d147c60ec281541cc504a20a26934f12fef69e15160a28d29cf27"
+        },
+        "repeat-launch.json": {
+          "cksum": "3583293845",
+          "bytes": 192,
+          "sha256": "dfb513eae8f2179734cdc6a67870c4ce10e015520fd667ad55284dc3af096854"
+        },
+        "repeat-plan.json": {
+          "cksum": "1348091902",
+          "bytes": 1825,
+          "sha256": "97432182c410db360ef2c5df0b9d29008ebafc45b78f1259eb77a3b808c8f605"
+        },
+        "request.json": {
+          "cksum": "1303483993",
+          "bytes": 15884,
+          "sha256": "0e204af8ae04230a51b121ee33740182894534257a2a6369f85769cad9acfe55"
+        },
+        "signal-ack.json": {
+          "cksum": "4159295638",
+          "bytes": 235,
+          "sha256": "4ded89cf7b12955364e340a0f8ad493b0d7f178168c77e7ad57b834ba2f1761f"
+        },
+        "signal-launch.json": {
+          "cksum": "9149139",
+          "bytes": 192,
+          "sha256": "0d087f0b684c7778e2fa30efbb3155b677d70cf2bb5803db607c4d642232414f"
+        },
+        "signal-plan.json": {
+          "cksum": "2459484495",
+          "bytes": 1846,
+          "sha256": "9c9c83ae672f97213c62cd36b6f01a31c8f193c5d0f0d3f9cab0c97c5ca188ae"
+        },
+        "timeout-ack.json": {
+          "cksum": "1501216444",
+          "bytes": 238,
+          "sha256": "f5e93fde0548e3a032f96ad90f707de2084ed3d737f28363628e6613f534b0a6"
+        },
+        "timeout-launch.json": {
+          "cksum": "2089556466",
+          "bytes": 193,
+          "sha256": "0f2e533cd3be28f71de1b54487e32831a117a93f683237ab9cb923872b64d246"
+        },
+        "timeout-plan.json": {
+          "cksum": "3694550128",
+          "bytes": 1819,
+          "sha256": "45f7288365063800099d6cd9e2292a8f7a3d48d7382156c21275756394a3cc25"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-source-before",
+      "files": {
+        "owner.json": {
+          "cksum": "4037181400",
+          "bytes": 164,
+          "sha256": "a97cc5bece8a89bbf7aac650798a5f8cb3894a1de33027341742b6b5aacb0ccf"
+        },
+        "request.json": {
+          "cksum": "2113258810",
+          "bytes": 6494,
+          "sha256": "ef773ad265bfd88b367e8b875528938a880939ca9cef16bcc67b7c5f3d2154eb"
+        },
+        "timeout-ack.json": {
+          "cksum": "3606064340",
+          "bytes": 234,
+          "sha256": "ef528ca0beb0159dec09842ff08920baf5017a41706e4b19024e1a963bd57bf0"
+        },
+        "timeout-launch.json": {
+          "cksum": "3609878692",
+          "bytes": 191,
+          "sha256": "b03124827ef49a89a505c55f93983ee8ed20f43bda269d9a72213e28634ecd42"
+        },
+        "timeout-plan.json": {
+          "cksum": "3878817704",
+          "bytes": 1721,
+          "sha256": "857cd55f6f4be1f93a8b66362d6d8d53d7266e53247ed75d8ce8aacb409ce6ff"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-external",
+      "files": {
+        "external-health-ack.json": {
+          "cksum": "561058446",
+          "bytes": 242,
+          "sha256": "251029577836a77d4a8030356eeee6957b9dfbc45295fb145d4fa0f0825f0a27"
+        },
+        "external-health-launch.json": {
+          "cksum": "2104188911",
+          "bytes": 191,
+          "sha256": "9522d65abaabe5bad9194df43a2bc79af70619ee03e1d0584fd553b8ad7a7e55"
+        },
+        "external-health-plan.json": {
+          "cksum": "1299766371",
+          "bytes": 1795,
+          "sha256": "8290a4a5ce7b9d1c0c00d2db02a069b6f3eb9a628ef94029d837e52555f55e1b"
+        },
+        "owner.json": {
+          "cksum": "601465342",
+          "bytes": 156,
+          "sha256": "4ccc8895620555e07c2bc2b552ec819097f80df4f240ad0715c084e01dae0193"
+        },
+        "request.json": {
+          "cksum": "339446262",
+          "bytes": 6554,
+          "sha256": "1e6311fa8a0214e7bb210d32925b9ec866bbf815e97e9654a2ef07cbe1631fc6"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-uncertain",
+      "files": {
+        "owner.json": {
+          "cksum": "4293235435",
+          "bytes": 153,
+          "sha256": "c558418ee22426dd831475155d9444f90185b32d260a1089fb4a8766e2920d5c"
+        },
+        "request.json": {
+          "cksum": "341044014",
+          "bytes": 6451,
+          "sha256": "540619b3a99373efe3b52b01e34ba08b5c1909c8379b59843218af7c37fb1628"
+        },
+        "timeout-launch.json": {
+          "cksum": "2032846144",
+          "bytes": 180,
+          "sha256": "d1d047c638c5c30764edcac45f24d5d2dcf46e50ec5532f8310ac7368da502f9"
+        },
+        "timeout-plan.json": {
+          "cksum": "2518681852",
+          "bytes": 1694,
+          "sha256": "f5710bf3964e632cb1310483bbc78ff0eb9f09810b0d48315f1a6557c90fbfed"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-replay",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "4096730891",
+          "bytes": 235,
+          "sha256": "13706755177ef365fb7075f2459934d3128c0fc65d42576ee070ea028153714f"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "1798561311",
+          "bytes": 189,
+          "sha256": "5cd15ad9852cc25d8ef8e7b43fa1545b00ece7f414bff42718936178b3e2fa0b"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "2607196029",
+          "bytes": 1778,
+          "sha256": "1f6170ac38bbfa72e842762cd28e5d40ab8a92f34e4f2fa3af741b722848595a"
+        },
+        "complete-first-ack.json": {
+          "cksum": "1205564290",
+          "bytes": 241,
+          "sha256": "da70d97aa8f90f2d34912da875cebddf080fb9fa8a519d7f99c678f3cca9a44a"
+        },
+        "complete-first-launch.json": {
+          "cksum": "3559577360",
+          "bytes": 191,
+          "sha256": "6807af2deee124609da9131de3deb1220fbdc2ba6318338e70d7ba2cf2b79fe0"
+        },
+        "complete-first-plan.json": {
+          "cksum": "2049707539",
+          "bytes": 1788,
+          "sha256": "030aa2308045c287a12c12173d3e2ab07289216dc5044b6a032c184ae5d60117"
+        },
+        "departure-ack.json": {
+          "cksum": "1768585888",
+          "bytes": 226,
+          "sha256": "4ba47e9473201938cace4859c523e2719c06f357d9e52cc4a8a164f49ea5a92d"
+        },
+        "departure-launch.json": {
+          "cksum": "2224800354",
+          "bytes": 186,
+          "sha256": "1f95020c30d849bcb316bce0ceead28385ab64d4bcbdaba2464d245095a41081"
+        },
+        "departure-plan.json": {
+          "cksum": "1012679759",
+          "bytes": 1735,
+          "sha256": "5d0a113347b98852d7631836e13335ee7a3cd1422041516e5886d76c45f21025"
+        },
+        "owner.json": {
+          "cksum": "50854749",
+          "bytes": 157,
+          "sha256": "6809e5f948ea3df038ef65aea22ffb906c3a057dd5dedb541e205536abadb8b9"
+        },
+        "repeat-ack.json": {
+          "cksum": "1565748918",
+          "bytes": 217,
+          "sha256": "a1907f98fd21ee1531270014f60645a578f78e6744cf2e6686b286e79fbe862c"
+        },
+        "repeat-launch.json": {
+          "cksum": "1109843940",
+          "bytes": 183,
+          "sha256": "2a28ad6f533d93ed9c93c9d920fae134b2a0d3ba5dae060dd0b50aad51f47468"
+        },
+        "repeat-plan.json": {
+          "cksum": "1759869354",
+          "bytes": 1716,
+          "sha256": "b00cec2b243a7353016c52626d9abe71621062f8bd253f487d124890b3b5c228"
+        },
+        "request.json": {
+          "cksum": "3167852742",
+          "bytes": 15411,
+          "sha256": "64f4872ddc288bc89ffff1dcb2c71756ea77e1d466608d4317cb093d5625e393"
+        },
+        "signal-ack.json": {
+          "cksum": "2912637915",
+          "bytes": 217,
+          "sha256": "2412b86acc63b1eb5d42eeabaf6125e1ecec6a432ac2b0ba398acb351ce7162a"
+        },
+        "signal-launch.json": {
+          "cksum": "264085997",
+          "bytes": 183,
+          "sha256": "14964cea14875196f5cbbf479f862f434b6638eeae3e114b7a8bd55fd0b66ba0"
+        },
+        "signal-plan.json": {
+          "cksum": "1861917730",
+          "bytes": 1747,
+          "sha256": "510661eb3d7125341b67912cf106cc9b1d0905d9891c67bab4528d982808bddd"
+        },
+        "timeout-ack.json": {
+          "cksum": "2840351575",
+          "bytes": 220,
+          "sha256": "d7c6709c4a85dcf4a68caa621881d0e3908728262088e51a452d713471260544"
+        },
+        "timeout-launch.json": {
+          "cksum": "275850216",
+          "bytes": 184,
+          "sha256": "57dbe85f1d300c0d96e69440898d24696469825d037ad470b2c7ecb3ad1f8b47"
+        },
+        "timeout-plan.json": {
+          "cksum": "3848187888",
+          "bytes": 1710,
+          "sha256": "e3b18a1a834f1786e904afab5769d0abe566f4ca8c1f924a84102f20c5999d81"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external",
+      "files": {
+        "external-health-ack.json": {
+          "cksum": "3752819480",
+          "bytes": 248,
+          "sha256": "5bfab2027614e8dba39e182f1236833c4cf0e59ac13dab825b6658731627827c"
+        },
+        "external-health-launch.json": {
+          "cksum": "1880425012",
+          "bytes": 194,
+          "sha256": "51ffdc9b4d741db8176b00addc61537de8a046a0f9e619204d2e46e8038e6d86"
+        },
+        "external-health-plan.json": {
+          "cksum": "102108615",
+          "bytes": 1754,
+          "sha256": "0e17daa7768a661a6d6c3b59820018c5006d9fcf4c7fa9db1597dbb37403ecc2"
+        },
+        "owner.json": {
+          "cksum": "659764297",
+          "bytes": 159,
+          "sha256": "e1c27f8c5d26d7be555de9f8660e187685e94d1b6e41f63641e875b9d7fcb3b7"
+        },
+        "request.json": {
+          "cksum": "1240249618",
+          "bytes": 6516,
+          "sha256": "bd2a65d4504470cd67cba6681cad9490889a5e51c7e9fea98ef88ef127175a8f"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-broken",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "3737256538",
+          "bytes": 235,
+          "sha256": "d57d3cf167f440196c18e50b7430e76cfa4e43fbf1f4687d6817f3ed510b75e0"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "1284949844",
+          "bytes": 189,
+          "sha256": "5a048363efc57c215622bb1bc398ef661966092cf9f25fa7c7dd2e8cbd5e82cd"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "3436104749",
+          "bytes": 1783,
+          "sha256": "181936d181fdff44b1f4b45a87214a7febc81e16a1ccfa74ce8ffe015d3afbaf"
+        },
+        "complete-first-ack.json": {
+          "cksum": "803580956",
+          "bytes": 241,
+          "sha256": "bf4a5b727eda8c5eeca1c8b2f83eb723610a8e26b64478a8c275618b901b26b0"
+        },
+        "complete-first-launch.json": {
+          "cksum": "3000619876",
+          "bytes": 191,
+          "sha256": "326529271228a72fb912085717501a6a7607947a0a72ea2e2934df31c2b19f88"
+        },
+        "complete-first-plan.json": {
+          "cksum": "2106364988",
+          "bytes": 1793,
+          "sha256": "5378030288d615c908ac339f3f149ff74771c9b446f7b0ab56029c4b666e0ca2"
+        },
+        "departure-ack.json": {
+          "cksum": "2602837909",
+          "bytes": 226,
+          "sha256": "1600ab100d82bd905b97ea04e9e14d2ed414d7bd2ca35a5862d191719137301b"
+        },
+        "departure-launch.json": {
+          "cksum": "3186395201",
+          "bytes": 186,
+          "sha256": "26c568516f2a0d0f11c5aaf31dff1e812d9e01ec65586a08174a419a185015d7"
+        },
+        "departure-plan.json": {
+          "cksum": "2802356133",
+          "bytes": 1740,
+          "sha256": "88f8c611973184a1c2157ff68fca86306e73fb07f1d90fce0766c379929839c7"
+        },
+        "owner.json": {
+          "cksum": "1248687320",
+          "bytes": 157,
+          "sha256": "c2ee9f5ba8e6354a13fd1ad886b5a95f8833d33225c45f7ff46cf4b852778b23"
+        },
+        "repeat-ack.json": {
+          "cksum": "2386850654",
+          "bytes": 217,
+          "sha256": "3758489ea25cd93e79211aa0124f0b6b6e9f0863960e2e31e14f7332ee3e0fb7"
+        },
+        "repeat-launch.json": {
+          "cksum": "383929189",
+          "bytes": 183,
+          "sha256": "a94890e8e1aca1867f0d278fa58e567ce2232f7702eb2e64903a84154773bedd"
+        },
+        "repeat-plan.json": {
+          "cksum": "1079876141",
+          "bytes": 1721,
+          "sha256": "429159120f3d88eb2a83a06396011bd69a0e0fdb03da51b6095865f8f42c96d1"
+        },
+        "request.json": {
+          "cksum": "2547544903",
+          "bytes": 15272,
+          "sha256": "2cffde1d014d5f4f801cc9c8572890a2343f51b29b73f678aaf868f22125b951"
+        },
+        "signal-ack.json": {
+          "cksum": "1688014072",
+          "bytes": 217,
+          "sha256": "dd8c795c811a6ed8738abbe01c68eba5782b9f59c2f5091889042d8e6fb63a35"
+        },
+        "signal-launch.json": {
+          "cksum": "2115380849",
+          "bytes": 183,
+          "sha256": "fba8e4089aef1e2fc821168d45be2805c41b6a532b8f1a03c7f2b14149161af1"
+        },
+        "signal-plan.json": {
+          "cksum": "1495222125",
+          "bytes": 1752,
+          "sha256": "54c53910a31d6df7b0af53072adb7a6117c0a642df6588f5f8d5d5835bdfa3aa"
+        },
+        "timeout-ack.json": {
+          "cksum": "4244779780",
+          "bytes": 220,
+          "sha256": "0f1cb3203fbf4404da54c8d8b02ba79c8c450ffcc80f58f173a4c99c310d05bd"
+        },
+        "timeout-launch.json": {
+          "cksum": "2646647310",
+          "bytes": 184,
+          "sha256": "aafc566877df2076c8eed2e35140f74e15090bdc182dfdb50349970d47306f21"
+        },
+        "timeout-plan.json": {
+          "cksum": "4084554367",
+          "bytes": 1715,
+          "sha256": "b2caffad63a9771fae4b94e32e9b4eba9136fc43aa5ec6875c567fff48de828a"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-sensor-external-lifecycle",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "2767353430",
+          "bytes": 259,
+          "sha256": "05e3d1279063c0290321904af97be9353ec49b8d748eaa7b07fc61cd7af7fa64"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "4198665943",
+          "bytes": 201,
+          "sha256": "cd7d111dbc9e5277bfaaae3e7bc44f28072adfe36e0d7f5ff644c72c6e28fe07"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "2820846395",
+          "bytes": 1836,
+          "sha256": "89c4997bfb1f418124a7528c7bb8bfa801be87900f0ca92c74fa00fd55607e95"
+        },
+        "complete-first-ack.json": {
+          "cksum": "1045581953",
+          "bytes": 265,
+          "sha256": "6301e65f5ea7796c16078dba7e09cce1d9870485f00b0d52c7e5d14076f25b6f"
+        },
+        "complete-first-launch.json": {
+          "cksum": "1561490005",
+          "bytes": 203,
+          "sha256": "3acaf70e2c8e4e18bf31ed973fdc463d729a1f5d35a90ce8e3e47361df4b770d"
+        },
+        "complete-first-plan.json": {
+          "cksum": "3917751288",
+          "bytes": 1846,
+          "sha256": "ecadea52eac49032dc82c090bcaac6bc5563b8668480306843c0b4e09f942592"
+        },
+        "departure-ack.json": {
+          "cksum": "3886819370",
+          "bytes": 250,
+          "sha256": "2df35d023e81e6cc5301e3586e8439500da79a2bf7805740a27c7eb8e8f86d5c"
+        },
+        "departure-launch.json": {
+          "cksum": "3648343040",
+          "bytes": 198,
+          "sha256": "c9e5bf6e1f71b5a16974f417007b9cd20688bfe3057dcd8c752886801a035991"
+        },
+        "departure-plan.json": {
+          "cksum": "1966024577",
+          "bytes": 1793,
+          "sha256": "73e4b4593f3a71d2d6a1e60cabb56e1bf947dde25352f8c313fc3144d038e975"
+        },
+        "owner.json": {
+          "cksum": "3260974674",
+          "bytes": 169,
+          "sha256": "aabbb40400f7cfeb30380f91f06957afb1aae4c9eda37b93a9385197228af1ea"
+        },
+        "repeat-ack.json": {
+          "cksum": "1322709956",
+          "bytes": 241,
+          "sha256": "c7751506cd0d44b7d119ca56a02ad0e6750008c33fbe8dfe93b899dbe470f5e4"
+        },
+        "repeat-launch.json": {
+          "cksum": "3626431397",
+          "bytes": 195,
+          "sha256": "1a621ad4d41fd92c408df9da70cd2044a8f86d63a75f3379fc073b38f556e79f"
+        },
+        "repeat-plan.json": {
+          "cksum": "233292293",
+          "bytes": 1784,
+          "sha256": "06cd75066fe3f030618b132636bb7fbfa31bc14839f3f5f55d56043afb7cb2d6"
+        },
+        "request.json": {
+          "cksum": "3431874401",
+          "bytes": 15617,
+          "sha256": "8ba00f57c212afb09aaea55a0f0740ea3fe19e5db8d39d8dfa0b125ed825b964"
+        },
+        "signal-ack.json": {
+          "cksum": "1718982988",
+          "bytes": 241,
+          "sha256": "1be1b3405d1d004450626606a5c23c725a053fb5012917eb6a02a368d56e808b"
+        },
+        "signal-launch.json": {
+          "cksum": "1269655448",
+          "bytes": 195,
+          "sha256": "1a9b16d9f8185b788da143539c2bf9794fd669f91c9415db2f9ea65d59a03a94"
+        },
+        "signal-plan.json": {
+          "cksum": "3229928024",
+          "bytes": 1805,
+          "sha256": "40be942484016bc6cd7b090687b760f427839367bdef976b973fe78ea5cc6481"
+        },
+        "timeout-ack.json": {
+          "cksum": "207664864",
+          "bytes": 244,
+          "sha256": "7fdca3c86d2e30038f8daa9e619555bab69267712734e433d85585c6cc27dc82"
+        },
+        "timeout-launch.json": {
+          "cksum": "114511669",
+          "bytes": 196,
+          "sha256": "b28b7386a50bfce85a132d24aa72844be2f34348ad9eb9c543e7d0af1903972c"
+        },
+        "timeout-plan.json": {
+          "cksum": "3386377782",
+          "bytes": 1778,
+          "sha256": "59c36b5080d5923ddd9a53e5fc6c49136821697294c32509fc02ed97099d8193"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "p7gate2-job-source-before",
+      "files": {
+        "owner.json": {
+          "cksum": "111584810",
+          "bytes": 161,
+          "sha256": "605618b8081a50570dccd0c3dd67d318afd00cea8cb50761dda9de52ddfa8227"
+        },
+        "request.json": {
+          "cksum": "1671299935",
+          "bytes": 6545,
+          "sha256": "58f3b88e0b3709ef959e1e7df3af2b9d5556fa402d38e5674f6013812c596150"
+        },
+        "timeout-ack.json": {
+          "cksum": "2896797253",
+          "bytes": 228,
+          "sha256": "3d46c0fbf8477a5ad1f90e1916a8dcb5889820b59653c2e05537f422e3f3e538"
+        },
+        "timeout-launch.json": {
+          "cksum": "2442624044",
+          "bytes": 188,
+          "sha256": "f402468bfe0d493b2ea907ac7ec57dbadd0495125a52774e47687b351018620d"
+        },
+        "timeout-plan.json": {
+          "cksum": "132518329",
+          "bytes": 1775,
+          "sha256": "b24b366984ea4e5e4728aee60ac3a0a5674484e8fdcf7ec5cf36a660ee787cd2"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065156-185c187ed515",
+      "files": {
+        "owner.json": {
+          "cksum": "1053603902",
+          "bytes": 165,
+          "sha256": "3c27785ff17e5893df4491f62c0e9f5e6a021807c161463faa30b96a2e8bd666"
+        },
+        "request.json": {
+          "cksum": "719710596",
+          "bytes": 6487,
+          "sha256": "5d3c912b7f145d9650773cb602fad9b97fd9f4837832dc5cecdfbb4db8af110f"
+        },
+        "timeout-ack.json": {
+          "cksum": "2596440604",
+          "bytes": 236,
+          "sha256": "cbe9e4463362f489df61cd18f6411791779b5fd2956e027ebd0e015fdbfb77f6"
+        },
+        "timeout-launch.json": {
+          "cksum": "2021838258",
+          "bytes": 192,
+          "sha256": "572b17e4e9a6934c9f8b6783af62196834e0fbffefbee7d7d6d9a5312b7627d4"
+        },
+        "timeout-plan.json": {
+          "cksum": "568728741",
+          "bytes": 1718,
+          "sha256": "c72e42a94eac98b7a3b3cb1609bb23087b4682e372aca6241dde625dceac7223"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065255-824fb242a0d0",
+      "files": {
+        "owner.json": {
+          "cksum": "1246908103",
+          "bytes": 165,
+          "sha256": "51ba5097c2b940cd7db972be53faf1fcd342e593d4bc64cb2c97fbcfebe72163"
+        },
+        "repeat-ack.json": {
+          "cksum": "1178410890",
+          "bytes": 233,
+          "sha256": "163098e58e2b654685fba528d32fabbfe9600009b659f9321e2aeb7bf0ebb783"
+        },
+        "repeat-launch.json": {
+          "cksum": "710014247",
+          "bytes": 191,
+          "sha256": "da2058a179a39ed25f5d3df876bd13597e732b5813c734b35cadb9d503e62d55"
+        },
+        "repeat-plan.json": {
+          "cksum": "843118139",
+          "bytes": 1735,
+          "sha256": "4ff549e1d936b18286d6db1a0ef16f786580d97073aa2d9d998b8c26af38d19f"
+        },
+        "request.json": {
+          "cksum": "3649963337",
+          "bytes": 6507,
+          "sha256": "06dd51eec2c777f0ddefce2cad05ef21c7748308833644cbe507e98587411b25"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065324-2f908ed612e6",
+      "files": {
+        "owner.json": {
+          "cksum": "2517767796",
+          "bytes": 165,
+          "sha256": "581eaa7780a142e0e67de4323dc538db18437313c0ba4c7e68bc1492a5e4be90"
+        },
+        "request.json": {
+          "cksum": "2778817966",
+          "bytes": 6524,
+          "sha256": "9c955c096e816ab4a8ce778bd60e93cefd00d4123b87eb7d252f070ee8f31336"
+        },
+        "timeout-ack.json": {
+          "cksum": "3949486869",
+          "bytes": 236,
+          "sha256": "cb4c786700c275ca6c37c91ef26fbb9922f20c52d0a00beeb4585cf4150d75f4"
+        },
+        "timeout-launch.json": {
+          "cksum": "1977872363",
+          "bytes": 192,
+          "sha256": "783f4950533b685762ef16509941e4440f3277d062bf23b0ef260bc6c7eac630"
+        },
+        "timeout-plan.json": {
+          "cksum": "989028678",
+          "bytes": 1755,
+          "sha256": "ab7a9e99fc1e09bc8bf7a40b5fa12b93b370e0c9c63f68c1c65af24c0abbeb06"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065206-bfa134d021f0",
+      "files": {
+        "owner.json": {
+          "cksum": "3996083773",
+          "bytes": 165,
+          "sha256": "aee40ed8288ed00cb01b767668b538910e5969e885fb019abe3668bc9b306d2b"
+        },
+        "request.json": {
+          "cksum": "4268491063",
+          "bytes": 6495,
+          "sha256": "9d4007f80f0f23d4758ea84bbebaca288743b9ab0156b7d0916bdf7adc159636"
+        },
+        "timeout-ack.json": {
+          "cksum": "313783385",
+          "bytes": 236,
+          "sha256": "3f266227d6f3efabdab7550434bf3baf95ab78cf898dc2a3009219aa66c6be7b"
+        },
+        "timeout-launch.json": {
+          "cksum": "2084348088",
+          "bytes": 192,
+          "sha256": "456bbf72f1abccda27d375835037df513550ba8a3ff3fdb3ba7417ace48ed1da"
+        },
+        "timeout-plan.json": {
+          "cksum": "127623796",
+          "bytes": 1722,
+          "sha256": "ec8c3c221838a8ea43518007aa362e0bd5c616bf47a65b25c9dcee40652c2837"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065401-3e36a36825b4",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "2075812183",
+          "bytes": 242,
+          "sha256": "0a8abbb82275bebe2be961dc95d276b6c9c771a816bb828f88e55a01acd52a95"
+        },
+        "departure-launch.json": {
+          "cksum": "2918118393",
+          "bytes": 194,
+          "sha256": "5b301a2f39bb9c8073b3bd703abe5a3bf1a6422e79a0c7f3aa49b2304e4843fd"
+        },
+        "departure-plan.json": {
+          "cksum": "502817996",
+          "bytes": 1806,
+          "sha256": "655135dc1483a03657e2258a659f77747705f553cdc643b5a02c016b30a56f81"
+        },
+        "owner.json": {
+          "cksum": "352770874",
+          "bytes": 165,
+          "sha256": "7ea42875628802a76b9f16f13818171d4c0c964aafae752a5222a1b0ae09ce99"
+        },
+        "request.json": {
+          "cksum": "522594218",
+          "bytes": 6580,
+          "sha256": "0d23fcd49c1bf12d3046fe9a12b01eb06ac9342115aa7ce4462f48de921d9e62"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065341-e6418ae16f99",
+      "files": {
+        "owner.json": {
+          "cksum": "317131420",
+          "bytes": 165,
+          "sha256": "771642c2b499b389f6e2fc3d2191da3ea76cbbf876ea4177c778ceb285e544f5"
+        },
+        "request.json": {
+          "cksum": "2857294093",
+          "bytes": 6565,
+          "sha256": "a79dd55123141c8d36ccafbc639d57662a67708aa4351675f1004cb3a7650873"
+        },
+        "timeout-ack.json": {
+          "cksum": "1827734810",
+          "bytes": 236,
+          "sha256": "cc6f22430e38d4a0d5b9088881675da0c632caa7e50a79338d1f7430d721208e"
+        },
+        "timeout-launch.json": {
+          "cksum": "4292615066",
+          "bytes": 192,
+          "sha256": "ccbb5ec135da3a0f558791b563f79de75581c5a72865069ea8054a3eb2bbc2b1"
+        },
+        "timeout-plan.json": {
+          "cksum": "754362653",
+          "bytes": 1787,
+          "sha256": "04e3b729cfabe88238460377a3dad0fd5cc204773056a339156dab18507c959f"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065223-a761eefd9071",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "3753404817",
+          "bytes": 242,
+          "sha256": "6aa8a457d09ab21cef568c6c302222e0e469d527d36a1c8cdcd01705ce258f7a"
+        },
+        "departure-launch.json": {
+          "cksum": "3744281525",
+          "bytes": 194,
+          "sha256": "296bc088c79c65ac1297a7927d26150ffc3485574b097eebf974bc5db8cf9bc6"
+        },
+        "departure-plan.json": {
+          "cksum": "1650720613",
+          "bytes": 1741,
+          "sha256": "765c6192948e7de71562e34d981b8da4d727f1814da0041460f9cd80c87b3ffa"
+        },
+        "owner.json": {
+          "cksum": "4202974210",
+          "bytes": 165,
+          "sha256": "5b07093ea1bf1d07ca94e7c1f9649133afe6c7e943ffa4e5db1f32e9fde88235"
+        },
+        "request.json": {
+          "cksum": "1217244781",
+          "bytes": 6510,
+          "sha256": "df81eb23f11d4eca6f4c3ec1ee6b60a304d5a976f6b2b7a02943c7af13ccbf98"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065337-b93087a23887",
+      "files": {
+        "owner.json": {
+          "cksum": "1751064925",
+          "bytes": 165,
+          "sha256": "65c5c44485bfae542964296740084a63eb33bcc601bc4b73224260651baf461d"
+        },
+        "request.json": {
+          "cksum": "681058660",
+          "bytes": 6555,
+          "sha256": "57a8468cb02701872089d37e6428b0d695a20a091e2e6894cad796a003970145"
+        },
+        "timeout-ack.json": {
+          "cksum": "902342119",
+          "bytes": 236,
+          "sha256": "a125e65706ef24f9470e1e3b3857cec9b94e98107d5849f1eed4bbba358d89c7"
+        },
+        "timeout-launch.json": {
+          "cksum": "2799953378",
+          "bytes": 192,
+          "sha256": "f9ba7396f015ebc41108d13af09cde16717cd44b4a6914254be66576805019cc"
+        },
+        "timeout-plan.json": {
+          "cksum": "1508775056",
+          "bytes": 1782,
+          "sha256": "ec9c3fae4eb8305a993e456154c6bb0f61c1dd7a3b7c1a047d9e5a680ed85e3b"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065235-49cdfd1a2e56",
+      "files": {
+        "owner.json": {
+          "cksum": "3202429218",
+          "bytes": 165,
+          "sha256": "3f326e46a5cc701466a9ac94079c112b22eb59417f4d6cee74b060dcc453968e"
+        },
+        "repeat-ack.json": {
+          "cksum": "2858852684",
+          "bytes": 233,
+          "sha256": "80456592cfa2f477ebc1fb689f2fcab4ed26c9fcf441f964500a8dd382b8590b"
+        },
+        "repeat-launch.json": {
+          "cksum": "116648464",
+          "bytes": 191,
+          "sha256": "11f52586b2717fe96a509f6adf21496f61458abf322dca6be59d84b9b2f79b93"
+        },
+        "repeat-plan.json": {
+          "cksum": "694418234",
+          "bytes": 1732,
+          "sha256": "175e6c4cab908274e08f31695782da26d312d0715fc510f466364b8621dae95a"
+        },
+        "request.json": {
+          "cksum": "2324812748",
+          "bytes": 6501,
+          "sha256": "6744483e00c654967ae4e1d91fd3571240c09f708bb419c22eb26550a4748f4c"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065300-a4433115175d",
+      "files": {
+        "owner.json": {
+          "cksum": "20109791",
+          "bytes": 165,
+          "sha256": "bfdffe5bd7cf38ba43eefe9045c31bbef72ee0625f118e20aec84dd7e3e3efb9"
+        },
+        "repeat-ack.json": {
+          "cksum": "115950162",
+          "bytes": 233,
+          "sha256": "60391bc98bf6f7942fcff5a1a10af6c838e11374fe86930ba133925ff8d9ceb5"
+        },
+        "repeat-launch.json": {
+          "cksum": "3479397902",
+          "bytes": 191,
+          "sha256": "0c6fc62cdb13cd1bcd3bb5d36b044ccccf9747280d5a533cca8c8e6115601601"
+        },
+        "repeat-plan.json": {
+          "cksum": "3496276975",
+          "bytes": 1737,
+          "sha256": "93159a44d6dfd9c5ffd6d874c00459c8d660577d74f15edce94db93b64c97f60"
+        },
+        "request.json": {
+          "cksum": "2918382488",
+          "bytes": 6511,
+          "sha256": "bc046170809b5de3b43dda2c4fb52f7deed2bde1d65afb113df165f7052589ac"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065407-410d8077445b",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "45281809",
+          "bytes": 242,
+          "sha256": "84672dea401a52ce69901b34c7e86144b1a61ed49721889afe6d80ea9eab81d3"
+        },
+        "departure-launch.json": {
+          "cksum": "3414466847",
+          "bytes": 194,
+          "sha256": "c44704a8e1b3f0565c4eb344db01689a8a122082dd635050858279f8b9598a83"
+        },
+        "departure-plan.json": {
+          "cksum": "2281163107",
+          "bytes": 1800,
+          "sha256": "f3b8896c925e88e0cb26f040573b08af3a15c006e510445cf35a462d4f06459e"
+        },
+        "owner.json": {
+          "cksum": "3705664259",
+          "bytes": 165,
+          "sha256": "fe20331de89780af39a312047e5101a71c078a05dbf03dc5ea1a0aeb27b37231"
+        },
+        "request.json": {
+          "cksum": "1039811407",
+          "bytes": 6568,
+          "sha256": "54f52c81ee7ed0dc7f5f0192f9f72c33aa3421d57bbf8093029ab5ea735c30cc"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065217-9f7e4bed34c9",
+      "files": {
+        "owner.json": {
+          "cksum": "4223272072",
+          "bytes": 165,
+          "sha256": "3ad00bdd1f629ee5ffca9f1052a4c586d2914486fc1c390b81d884e790645cdb"
+        },
+        "request.json": {
+          "cksum": "2528099553",
+          "bytes": 6532,
+          "sha256": "9f5fc93f07e64f63dcb2272ab5e93b045242404c1b399459865729f188caf506"
+        },
+        "signal-ack.json": {
+          "cksum": "3642238323",
+          "bytes": 233,
+          "sha256": "8a8dee3b97e3534b6b6090a7907f16fb02865852a245430aea38f16b768ac9a4"
+        },
+        "signal-launch.json": {
+          "cksum": "634205179",
+          "bytes": 191,
+          "sha256": "62cab8c4f6800e4f9ab2754c81eef7dff1a2fd820c53ac6b45c87c127c44e452"
+        },
+        "signal-plan.json": {
+          "cksum": "4280110798",
+          "bytes": 1758,
+          "sha256": "1f45a4d747bfd01cf99de3c474443895c42bd2ea63c600b41d0cdc33f00b9789"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065317-30d7547443da",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "362686736",
+          "bytes": 251,
+          "sha256": "5049b500f9dd678c279bdf2454f070c009606c704a9084fad1117031b57abe43"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "106141120",
+          "bytes": 197,
+          "sha256": "918b19c58d43f03dfa92a358e8d63874b46f2720630b05aee96f166d8c3909cb"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "1086666226",
+          "bytes": 1793,
+          "sha256": "6582a2aac714088cb20dc19d9776356a8c1dc3798262030ed6873b8b781748ca"
+        },
+        "owner.json": {
+          "cksum": "525361843",
+          "bytes": 165,
+          "sha256": "c4d0d7b00439331e0ac7623811e261bdb6ab4e2a38359983705232c3f271633c"
+        },
+        "request.json": {
+          "cksum": "2428521538",
+          "bytes": 6571,
+          "sha256": "7103c3af63d1efe2bebab548a0f110a3b2bf3e1b8e483b7a7fa4862c232d69bf"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065456-397492df36ed",
+      "files": {
+        "owner.json": {
+          "cksum": "3858433655",
+          "bytes": 165,
+          "sha256": "a67ff2d5a78ae9b870e8e0edbe0352321747f53237a7e862195bcd9213917c09"
+        },
+        "request.json": {
+          "cksum": "4027492616",
+          "bytes": 6586,
+          "sha256": "87685fd3e215a7f1fa4bfea139752a25bd38151d30cae40b602a01caec5ac9c9"
+        },
+        "signal-ack.json": {
+          "cksum": "2409499810",
+          "bytes": 233,
+          "sha256": "42eaef5d56e8c15e08e1fa5000da449385dccc1d80c5821c779260f678c9f320"
+        },
+        "signal-launch.json": {
+          "cksum": "3152547325",
+          "bytes": 191,
+          "sha256": "10ebc12a7cf952ffc86255b3560556ebf83afa59df785fc890b06a3c5cf25a9f"
+        },
+        "signal-plan.json": {
+          "cksum": "1440790557",
+          "bytes": 1817,
+          "sha256": "7493d6a9f7e3b95416b4f758d0763f9bf543fd0d7f9c2e037cf5ad365d38d385"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065200-36635b99424c",
+      "files": {
+        "owner.json": {
+          "cksum": "715742293",
+          "bytes": 165,
+          "sha256": "a9f87b90ab8ac3eb8f3e0663c9e45dc01f64ac2ef2a31d917977cf020362aeac"
+        },
+        "request.json": {
+          "cksum": "1084606609",
+          "bytes": 6497,
+          "sha256": "087a0ccb976f14298899720a825cf127400659531c719bb5b64b5885e85a1d20"
+        },
+        "timeout-ack.json": {
+          "cksum": "3653931559",
+          "bytes": 236,
+          "sha256": "d68f9103f9565391e3b03b09bbe29ee011dbab7339f30328a00503d2aec05026"
+        },
+        "timeout-launch.json": {
+          "cksum": "3767852306",
+          "bytes": 192,
+          "sha256": "71e8b20fa5ff92c7cf852d6a5a51722f8f04b4feb4c2ce233affac5d12f55b3b"
+        },
+        "timeout-plan.json": {
+          "cksum": "3306065058",
+          "bytes": 1723,
+          "sha256": "381ea106938040ab02e1004e32c28d474b614ecb6e959701d48c5e19ac0f07c3"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065441-5c64958dbf6d",
+      "files": {
+        "complete-first-ack.json": {
+          "cksum": "3241789039",
+          "bytes": 257,
+          "sha256": "f31ef892725e28d08114f41a091d2dd9bf58cf86d2cf31cd98b6afbd81e9c79e"
+        },
+        "complete-first-launch.json": {
+          "cksum": "2310002903",
+          "bytes": 199,
+          "sha256": "04819e500efa7ee60e67ef28023f92b1bbfa06e9d57bac0cce8982976eb2f175"
+        },
+        "complete-first-plan.json": {
+          "cksum": "3143264958",
+          "bytes": 1866,
+          "sha256": "1ccafbe1418c8a256178be80c335e3d9f65d906a8ed07d0febf2b4d01efa4cda"
+        },
+        "owner.json": {
+          "cksum": "2036270109",
+          "bytes": 165,
+          "sha256": "b2d74a6060af408f7237d471d7ac005a3d433ee3ac9791accc79f3bb7267f299"
+        },
+        "request.json": {
+          "cksum": "1975626191",
+          "bytes": 6635,
+          "sha256": "47f116f1571e69cccc3c41758ef15417f9fd3dbb91689d709d5524efaffef314"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065314-aa0d96b43048",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "1841096671",
+          "bytes": 251,
+          "sha256": "a061e87a67c9522881193ee426120a8fc9550abd78f7ac927c06e6ff14ef8f68"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "3156078350",
+          "bytes": 197,
+          "sha256": "3f49c22b698e31eee5e3eb9a26a60b1ee18e856a9bb671433bb8cdd5a8192178"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "3350399314",
+          "bytes": 1784,
+          "sha256": "0f46e1e83dc11b39a69801e970ac332cf39a1407017516b32caf4b3bae996b4b"
+        },
+        "owner.json": {
+          "cksum": "818854109",
+          "bytes": 165,
+          "sha256": "5def0b09bf0f7c74ea000f94d2c8b2ed42b4f0a7d5ff1f677b152e64c4b814f7"
+        },
+        "request.json": {
+          "cksum": "2587674958",
+          "bytes": 6553,
+          "sha256": "b9de116adebb44891f29c58e108f8a9d8a5745d45ee4060f75440994e7fe447a"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065453-53bd28355c83",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "3460869881",
+          "bytes": 251,
+          "sha256": "4dd51a95561b4ded438fd29b21b6d867cde4ffda73629cdc602b23324ff14001"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "679567891",
+          "bytes": 197,
+          "sha256": "cd82d53673180014d44a25a2d68273c5c219aa8cc50e8c03d5ade6dff195e915"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "184858575",
+          "bytes": 1865,
+          "sha256": "91c513fc707b4d56eda89ac1681c14a5765809a7da028f0f86ad195390094f3c"
+        },
+        "owner.json": {
+          "cksum": "2695588423",
+          "bytes": 165,
+          "sha256": "4a48de6631880b3573452952a3043f697143d653bef608ba5b658692a5032fb1"
+        },
+        "request.json": {
+          "cksum": "3951620980",
+          "bytes": 6643,
+          "sha256": "268c36fe189bb5a52b996425892707863074e514937d36d81947afecebed44cf"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065410-49095114e815",
+      "files": {
+        "owner.json": {
+          "cksum": "3964982660",
+          "bytes": 165,
+          "sha256": "6b8e18549b10cf79e069eb9878f8acef68486b3209b3bb9b62da2d3b77086755"
+        },
+        "repeat-ack.json": {
+          "cksum": "52045091",
+          "bytes": 233,
+          "sha256": "46b3092269041b60d4e4d8c09e8aa2a7e3527c712006eee727f085bfc581925e"
+        },
+        "repeat-launch.json": {
+          "cksum": "1278401430",
+          "bytes": 191,
+          "sha256": "f0f2725d6f72c663631ac95ab881c999c0ff825bd1fb46959fc8967c9b234c3f"
+        },
+        "repeat-plan.json": {
+          "cksum": "2254943722",
+          "bytes": 1792,
+          "sha256": "7eb2090c7094b72e17aeff1e13bb6946623ab591e8837217ea402805f0f4425c"
+        },
+        "request.json": {
+          "cksum": "3393748095",
+          "bytes": 6561,
+          "sha256": "1e45b17caecddd99db149c0860730d93a19bd29e489f1261cdf42b59b6367b94"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065226-b4042a625f79",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "1202386895",
+          "bytes": 242,
+          "sha256": "fe49a9c9c98c9efd43d70363de7f138c8f1bc3b0c707f1d38671d28a38f6d1b5"
+        },
+        "departure-launch.json": {
+          "cksum": "3778458363",
+          "bytes": 194,
+          "sha256": "00b4d79e8b1e4640d21e3dd38a9426d583d0d4f6c59d58b3d4e40983d970e5b9"
+        },
+        "departure-plan.json": {
+          "cksum": "3764119807",
+          "bytes": 1745,
+          "sha256": "57121a8ae73928956892e1d0775ac8591e38319f32f286319b5cd563a8a048b4"
+        },
+        "owner.json": {
+          "cksum": "1779963130",
+          "bytes": 165,
+          "sha256": "24c462b172d3bcfc89fe9c812e3f46666e7feaf1299cd69c8b724ee55cfb3fd2"
+        },
+        "request.json": {
+          "cksum": "3794045464",
+          "bytes": 6518,
+          "sha256": "6c2a616bfb323c6e012253d5d98489d077160643da560d987107c933f6973e7c"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065345-3d448c802609",
+      "files": {
+        "owner.json": {
+          "cksum": "847089425",
+          "bytes": 165,
+          "sha256": "fc9c5b659c2e2c761a644ca049caa34ad177c568a15c873f4315ad2b44a0f90a"
+        },
+        "request.json": {
+          "cksum": "3411959002",
+          "bytes": 6582,
+          "sha256": "2a091b33ed1f3523397d8b8afa02373fa750b2281738018a6e585b39606f681c"
+        },
+        "signal-ack.json": {
+          "cksum": "2358919511",
+          "bytes": 233,
+          "sha256": "68393203ddd7861b0bfec8dbe61c5db29679b78b4b75cd6ecd9510d64855e678"
+        },
+        "signal-launch.json": {
+          "cksum": "1226489113",
+          "bytes": 191,
+          "sha256": "4d4a78cc5a8880aff0406695ee53b61b85fb79993bfd7f5ba9bd169a3d2f9f54"
+        },
+        "signal-plan.json": {
+          "cksum": "1221334508",
+          "bytes": 1813,
+          "sha256": "c0169f462a8652b5d710d1f1e9fcb82aea5f1e33babf284892c2ee196f1afd3f"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065210-def0be9ccefb",
+      "files": {
+        "owner.json": {
+          "cksum": "416497415",
+          "bytes": 165,
+          "sha256": "f964a898df096b9f37637c31bca88160a0ef7f4e88f0fe5d00d986a958858760"
+        },
+        "request.json": {
+          "cksum": "3173121862",
+          "bytes": 6505,
+          "sha256": "0d835685ad0496caa11ad30410b31576da839c5c00f08ac770e33bc1c81c2ab2"
+        },
+        "timeout-ack.json": {
+          "cksum": "1386858179",
+          "bytes": 236,
+          "sha256": "a79d3ef86a60365f353927e6d280a42b0d62a3bbf2719cb08bf2266f4a1dc90d"
+        },
+        "timeout-launch.json": {
+          "cksum": "891667310",
+          "bytes": 192,
+          "sha256": "0c42b7bc1c73a35c8af322c1021f1c3fe19095c585cc24b4687ef1bbc35df368"
+        },
+        "timeout-plan.json": {
+          "cksum": "3082582667",
+          "bytes": 1727,
+          "sha256": "1224590efd60475febe9f112d1575cba2a41642721a2d7f5116dd98f1f4af310"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065357-a0aff215eda1",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "2186689267",
+          "bytes": 242,
+          "sha256": "53d3ce7da3a4a1a324ae71f1039bd9040b3ac4d8a0e074006ca86bc230892cbb"
+        },
+        "departure-launch.json": {
+          "cksum": "2607826406",
+          "bytes": 194,
+          "sha256": "c961b9f965c91983e442d30ecec29d70f399d9a1c9635438585aba9486e2fe8d"
+        },
+        "departure-plan.json": {
+          "cksum": "3171837713",
+          "bytes": 1805,
+          "sha256": "49920819652f6f21859075da74015a792545a5a89535afdd0ed799f97f087776"
+        },
+        "owner.json": {
+          "cksum": "1168864180",
+          "bytes": 165,
+          "sha256": "2bfbfe00e7167776dfb122293d58a0a049edb96bdc0b377bce31ec3180af7e4d"
+        },
+        "request.json": {
+          "cksum": "129577648",
+          "bytes": 6578,
+          "sha256": "2a66cf097bca1a16b551d3ca2deb879bdc53ebd1a447bb0c19dc5669c5f15cca"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065435-ecf237207df5",
+      "files": {
+        "owner.json": {
+          "cksum": "3872561403",
+          "bytes": 165,
+          "sha256": "048670647216dccf96af65da2a8624a7506d2d7a03feef8d74e4adc68ff5fad0"
+        },
+        "repeat-ack.json": {
+          "cksum": "3490414892",
+          "bytes": 233,
+          "sha256": "8559125e6dc3213e5fc12ab4cc52a085eddfdca98d8e23736a1960fb224de76b"
+        },
+        "repeat-launch.json": {
+          "cksum": "2467416306",
+          "bytes": 191,
+          "sha256": "15507ff26c5a69e1d6e0492005e5efd41392b24bd04a1606760715310990e00b"
+        },
+        "repeat-plan.json": {
+          "cksum": "265069090",
+          "bytes": 1797,
+          "sha256": "050967a8a10cdedc801babad0f809b9f663faf3a27fadc0306aae3029d04ba0a"
+        },
+        "request.json": {
+          "cksum": "1935378118",
+          "bytes": 6571,
+          "sha256": "0110cd50078de28bad755234a5f81ecbbe2234534a387c1fb49507035021a69d"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065445-78dcfc8979b2",
+      "files": {
+        "complete-first-ack.json": {
+          "cksum": "3599190268",
+          "bytes": 257,
+          "sha256": "46d44eb960dbdbcbe57ceaddee22e6b45fd25abbd0bf9dd91dfe5c0dfee56090"
+        },
+        "complete-first-launch.json": {
+          "cksum": "1830832196",
+          "bytes": 199,
+          "sha256": "f5a5497a21ebbd46ba3e332ccb2e427a14ea3f66712366621907ce966bebd523"
+        },
+        "complete-first-plan.json": {
+          "cksum": "1267798580",
+          "bytes": 1875,
+          "sha256": "065d0c2bba3b48e92fc8eb3fd683f62cf7bfdbb7c2bccc585f7bcff1bb09f2ff"
+        },
+        "owner.json": {
+          "cksum": "2445705756",
+          "bytes": 165,
+          "sha256": "b5183927fb95e1f1ab162af3fc16ef9b78d044b0fd990d1fbe00208e8312f7f5"
+        },
+        "request.json": {
+          "cksum": "4068878143",
+          "bytes": 6653,
+          "sha256": "b09d3afc5a36fcd7f3da2b44d5c279591a3896d8fb847760d259e07b1aff2fe6"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065310-e5e29dfdc5df",
+      "files": {
+        "complete-first-ack.json": {
+          "cksum": "3188791559",
+          "bytes": 257,
+          "sha256": "db264c3f8b96811c941ae6e52b379593322fc1bf5ec8895415ec3cb14428696b"
+        },
+        "complete-first-launch.json": {
+          "cksum": "1449972341",
+          "bytes": 199,
+          "sha256": "a63195553114ce5473fff46e451fb4cc32bb7e75e52246fe92c815e579bf78f8"
+        },
+        "complete-first-plan.json": {
+          "cksum": "3016948093",
+          "bytes": 1803,
+          "sha256": "66fc5b8e416cad0c830b9cf760e6f6f7e18a25a03ba4fdadc5052d09108532ec"
+        },
+        "owner.json": {
+          "cksum": "213209891",
+          "bytes": 165,
+          "sha256": "eb5d45a6c7f721def227b070642fcce475983ee1ec5c914faabba480d2c0897f"
+        },
+        "request.json": {
+          "cksum": "4502317",
+          "bytes": 6581,
+          "sha256": "3f9b06589ae23c892440ef87fb5c6ff53b74ee3195bdee3821c6b0dd2314e4fa"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065449-5f90ea380936",
+      "files": {
+        "cancel-first-ack.json": {
+          "cksum": "2105729162",
+          "bytes": 251,
+          "sha256": "8cf60a788980f7892839f17ba89a52a8ef79d2cdaa885c40782cd9942fcc5db6"
+        },
+        "cancel-first-launch.json": {
+          "cksum": "194013797",
+          "bytes": 197,
+          "sha256": "a615a30b085f41b2c73263ad84c4ea6f1ef80e1ea35a95c57f9258a293979af3"
+        },
+        "cancel-first-plan.json": {
+          "cksum": "989642922",
+          "bytes": 1856,
+          "sha256": "46473fa4b314e9e074ef9b74f1a5220e9fbbd4526048dc7d748bcdca7e0c24c9"
+        },
+        "owner.json": {
+          "cksum": "1348633311",
+          "bytes": 165,
+          "sha256": "3eaaaa04d0b2e1cef0e754f419bbe6fd6af8ca3ed84611309b09176276a93581"
+        },
+        "request.json": {
+          "cksum": "3390989204",
+          "bytes": 6625,
+          "sha256": "bf94f04dfa3fbf362ab73ed3591fb1e13d6257f568348f0d3d068aa0b1abf4c0"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065331-3250f3442cf7",
+      "files": {
+        "owner.json": {
+          "cksum": "3451549206",
+          "bytes": 165,
+          "sha256": "06218e2561e8f06af5b6e76c6a30129d374ffab25314660f46c92616acf55c87"
+        },
+        "request.json": {
+          "cksum": "2974391162",
+          "bytes": 6557,
+          "sha256": "58bfd76b6d9465f6aaa253a82501c5cae2e58d4a11d649f635f57fc5fbf271f5"
+        },
+        "timeout-ack.json": {
+          "cksum": "1503955069",
+          "bytes": 236,
+          "sha256": "5eea635954d62f19fe64ea2dc16dc07ce110cc01b9b30805712b4cf9abe7f849"
+        },
+        "timeout-launch.json": {
+          "cksum": "2775704762",
+          "bytes": 192,
+          "sha256": "e09266e3e2e5579ab9caabd5481a0c83995f7dbdd4e537bbef53202afd52da54"
+        },
+        "timeout-plan.json": {
+          "cksum": "1849820316",
+          "bytes": 1783,
+          "sha256": "5a822fccac5066b72dd1e1d74a5714ac4958323139cc5077b4ea128351f85bd8"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065327-c8d435e5722f",
+      "files": {
+        "owner.json": {
+          "cksum": "3942550469",
+          "bytes": 165,
+          "sha256": "bc9d532466965bd26d717149da3536cf45bb79ce9d0ff57cf393f402a44fe4d3"
+        },
+        "request.json": {
+          "cksum": "603193697",
+          "bytes": 6547,
+          "sha256": "613bbf4df28f901f3a1e592b69e030252a59140564cba9314c1314a8243b9f88"
+        },
+        "timeout-ack.json": {
+          "cksum": "1725126187",
+          "bytes": 236,
+          "sha256": "038d62f744e045994b280f7b33e618f7daa15b7b7adc068bdc17827144cfa3a0"
+        },
+        "timeout-launch.json": {
+          "cksum": "4074602383",
+          "bytes": 192,
+          "sha256": "8c3d5fb8b3b8144e097e7dfb65505834a73f5e9f00e62c9691d552acc495f736"
+        },
+        "timeout-plan.json": {
+          "cksum": "3554886626",
+          "bytes": 1778,
+          "sha256": "a162192ca7fcbc1de79f08b960f7ef1ded8207a864a109e38c93fd30ab072fae"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065348-37c5ac4ab06b",
+      "files": {
+        "owner.json": {
+          "cksum": "1116778121",
+          "bytes": 165,
+          "sha256": "5e93f205609709a41c2fa43d205676adb6500c48abc4cc4342bc67b613523f97"
+        },
+        "request.json": {
+          "cksum": "2522014318",
+          "bytes": 6592,
+          "sha256": "f36d3451570eb47fce3516f06fc75761dab5bca4a7491f27ef70347aeb11290c"
+        },
+        "signal-ack.json": {
+          "cksum": "949897925",
+          "bytes": 233,
+          "sha256": "cac2175cf7ff1923ee1192f762344e8190debdfb35d684b6ffa42a11ae906508"
+        },
+        "signal-launch.json": {
+          "cksum": "940154591",
+          "bytes": 191,
+          "sha256": "b7880857ba671cd5001e802df704d12d48b65a74c2d09f2c8ae1e2401f678c46"
+        },
+        "signal-plan.json": {
+          "cksum": "1352316387",
+          "bytes": 1818,
+          "sha256": "0ff1d6d354f29c88e3f2f3654fdc429ab82b406d50185d5d88baf17b55a0a35d"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065306-707a83ab089b",
+      "files": {
+        "complete-first-ack.json": {
+          "cksum": "3522408331",
+          "bytes": 257,
+          "sha256": "4d17d6689cf536e14c4ba1eb6fbab112e32a6feee4cbfc658beefe9c21b381b5"
+        },
+        "complete-first-launch.json": {
+          "cksum": "3659188699",
+          "bytes": 199,
+          "sha256": "efa31df3a14e610eec61c26ced5cdf75ca1d7008c5217db78356aa83f51af245"
+        },
+        "complete-first-plan.json": {
+          "cksum": "470969834",
+          "bytes": 1794,
+          "sha256": "fc16824a15c434fcb787ba12fa186d3c0241c2e1986946bed7f2340fb00e43f6"
+        },
+        "owner.json": {
+          "cksum": "3529098753",
+          "bytes": 165,
+          "sha256": "c22f1fd1109bb5e1b60ade529a4485271ea0ad370b7b227ae4080481945bbb2e"
+        },
+        "request.json": {
+          "cksum": "1700301529",
+          "bytes": 6563,
+          "sha256": "f6fed1b30c9fe15880d2e879dc6e041ea9538da9f00c82c7c3757d85485ef9ba"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065214-8b52d84b2c56",
+      "files": {
+        "owner.json": {
+          "cksum": "4100485042",
+          "bytes": 165,
+          "sha256": "ecc1be65d524528ee697797542849e732016d5b503f8ea691d24a7a793ee49d7"
+        },
+        "request.json": {
+          "cksum": "76274035",
+          "bytes": 6522,
+          "sha256": "54acb4e785c19a9400164249518b35a48967d45d6d7dc5c2a3694d6ffdfe83e6"
+        },
+        "signal-ack.json": {
+          "cksum": "2409277130",
+          "bytes": 233,
+          "sha256": "ab2d9ef32e904300efae762129299c2c44d995906e66a113380ea9b200298a0b"
+        },
+        "signal-launch.json": {
+          "cksum": "1686125799",
+          "bytes": 191,
+          "sha256": "ae3ef359a30330714b5a5b239159f4912d0d0d561fcd84bceba94aaa70a2fbfa"
+        },
+        "signal-plan.json": {
+          "cksum": "992801046",
+          "bytes": 1753,
+          "sha256": "0f3c8f81fa01560956c7acd2a42636a3587b0c8d813338a0ebdfceaeb49c760c"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065230-d642373a6075",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "3514279633",
+          "bytes": 242,
+          "sha256": "8f07f25fb71e55700c79e6b6e7112e6fdc0b0d423353e4523b75b15f8b870ff2"
+        },
+        "departure-launch.json": {
+          "cksum": "3782354984",
+          "bytes": 194,
+          "sha256": "5f138d0304963277ca20b1a8cf5e0122384e65380d953698729fce559925297c"
+        },
+        "departure-plan.json": {
+          "cksum": "1059171584",
+          "bytes": 1746,
+          "sha256": "ceb000ffc59cdda5bd62f7eeae3fa73fbc97ca118695334a1e5d381473a3fdbe"
+        },
+        "owner.json": {
+          "cksum": "250829104",
+          "bytes": 165,
+          "sha256": "e7ef630621056a7a54c69c25576dc336f70d35713e98867436e14c3d418e7698"
+        },
+        "request.json": {
+          "cksum": "2783775043",
+          "bytes": 6520,
+          "sha256": "235521a413b8e5c7e6bf63a1c3ccfe4a6cc5aceff4f6bfaeff3f18c0992d218c"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065354-ef84f9d6b8df",
+      "files": {
+        "departure-ack.json": {
+          "cksum": "1117961692",
+          "bytes": 242,
+          "sha256": "ec47a941dbbbd6608049b591067e645026295150ee3c324688fa9014a8e8f418"
+        },
+        "departure-launch.json": {
+          "cksum": "1677490541",
+          "bytes": 194,
+          "sha256": "8f19c6d0a2ee2ed7a09e0702c5c59acf1dc39c86df34d83734ec7deb9f25fb7f"
+        },
+        "departure-plan.json": {
+          "cksum": "1658440354",
+          "bytes": 1801,
+          "sha256": "6e1d0abbac972421ee6624c48cf2a6e8b6cad44b30c9711044d3f6e5f514f725"
+        },
+        "owner.json": {
+          "cksum": "851854495",
+          "bytes": 165,
+          "sha256": "451b52a802452609c238ac8532849564d936082d56d6d35a06ebda29817ee3c5"
+        },
+        "request.json": {
+          "cksum": "904149466",
+          "bytes": 6570,
+          "sha256": "cba5e3cd80546dea834d9fa3952f890c875d4b6edab194a7883722d865f397b9"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065429-d447aff74a36",
+      "files": {
+        "owner.json": {
+          "cksum": "3102262599",
+          "bytes": 165,
+          "sha256": "c5dde1f4cc219a0838f6cd3709749c8a208546ab74f588576c1f7b34584f4572"
+        },
+        "repeat-ack.json": {
+          "cksum": "205579022",
+          "bytes": 233,
+          "sha256": "d380484e946935ffdedf6d1f551ec1ffada1ceed6ac9bd77f5b8603cfaf09ec1"
+        },
+        "repeat-launch.json": {
+          "cksum": "744608101",
+          "bytes": 191,
+          "sha256": "67c57189bc35202fbe6f7cb82f8104146166d84e0fdb240d88337c3a48f0d993"
+        },
+        "repeat-plan.json": {
+          "cksum": "3905816737",
+          "bytes": 1795,
+          "sha256": "a3a6a937c4add999cc6a026a4575fe1cc4d38dbc002e1c7cad9f3103d266f125"
+        },
+        "request.json": {
+          "cksum": "3194983744",
+          "bytes": 6567,
+          "sha256": "d2c92e815a05f21d5a3d13fb2608bb65e6f72b3c27e71d610735f1ee201c7896"
+        }
+      },
+      "directory_guard_retained": true
+    },
+    {
+      "run_id": "r-20261107065321-80a3bb50201f",
+      "files": {
+        "owner.json": {
+          "cksum": "2315449536",
+          "bytes": 165,
+          "sha256": "ab38a2a5c4af2d413f5abe884170807de4c7ca5b2429f3efd0add96e4f79fa36"
+        },
+        "request.json": {
+          "cksum": "678887204",
+          "bytes": 6526,
+          "sha256": "f58f50a2593cb8af74878667f4f45abc7015a18b9d260761ba7e93d4405ab77d"
+        },
+        "signal-ack.json": {
+          "cksum": "1842765528",
+          "bytes": 233,
+          "sha256": "5553fa1b9776a4f1fb33ab293dee0c89738f9f6dcd10335d1c6e69ca7519d322"
+        },
+        "signal-launch.json": {
+          "cksum": "1465077277",
+          "bytes": 191,
+          "sha256": "696c5796a542186d6f27a3fbb0acad1c5c1607a33fdcb292e83ca4b87c98db69"
+        },
+        "signal-plan.json": {
+          "cksum": "1458582946",
+          "bytes": 1757,
+          "sha256": "95bc84df5aa8a0eec70bb50549d825ed5b33614104131d9506fe4f896f7834b2"
+        }
+      },
+      "directory_guard_retained": true
+    }
+  ]
+}

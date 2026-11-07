@@ -1,0 +1,4 @@
+Run r-20261107070759-b49a5041c12e-timeout, case timeout, attempt1.
+FAIL / complete: duplicate_terminal_attempt.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

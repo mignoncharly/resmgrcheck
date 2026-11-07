@@ -48,6 +48,10 @@ class Evidence:
                 if d['pid'] not in self.spawned or d['producer']!=self.child_producers[d['pid']]:self.read_error='evidence_invalid'
                 if d['producer']=='worker' and d['cycle']!=self.spawn_cycles.get(d['pid']):self.read_error='evidence_invalid'
                 if d['event']=='started' and d['data']['operation']!=self.spawned.get(d['pid']):self.read_error='evidence_invalid'
+        for d in self.select('signal_sent')+self.select('termination_observation')+self.select('fixture_stop'):
+            child=d['data']['child_pid']
+            if child not in self.spawned or d['event']=='fixture_stop' and self.child_producers.get(child)!='fixture':
+                self.read_error='evidence_invalid'
         exits=self.select('process_exit');exit_ids=[d['data']['child_pid'] for d in exits]
         if len(set(exit_ids))!=len(exit_ids) or any(pid not in self.spawned for pid in exit_ids):self.read_error='evidence_invalid'
         final=self.select('run_final')
@@ -57,7 +61,7 @@ class Evidence:
         if any(p['data']['reason'] not in NATIVE_ERRORS for p in self.problems):self.read_error='evidence_invalid'
         if not self.select('unsupported') and not self.select('case_not_run'):
             ready=self.select('ready')
-            expected=plan.profile.data['service']['device']+'-'+plan.data['service_instance_id']
+            expected=plan.profile.data['service']['device']+('' if plan.profile.data['service']['mode']=='external-attach' else '-'+plan.data['service_instance_id'])
             if len(ready)>1 or (ready and ready[0]['data']!={'path':expected,'mode':plan.data['fixture_mode']}):self.read_error='service_interference'
             if sum(p=='fixture' for p in self.child_producers.values())>1:self.read_error='service_interference'
             settings=self.select('settings')
@@ -94,7 +98,7 @@ def _evaluate(plan,raw):
     structural=ev.read_error is not None
     required=set(plan.profile.data['capabilities']['required'])
     bad_signal_mode=plan.profile.data['suite'].get('signal_mode','non-restart-no-retry')!='non-restart-no-retry'
-    unsupported=required-set(ev.manifest['capabilities']) or plan.profile.data['service']['mode']!='managed-fixture' or bad_signal_mode
+    unsupported=required-set(ev.manifest['capabilities']) or (plan.profile.data['service']['mode']=='external-attach' and plan.data['case_id']!='external-health') or bad_signal_mode
     withheld=ev.select('case_not_run')
     if withheld:
         valid=len(withheld)==1 and not ev.spawned and not structural and final and final['data']['cleanup_ok']==1
@@ -104,7 +108,11 @@ def _evaluate(plan,raw):
         valid=len(ev.select('unsupported'))==1 and not ev.spawned and not structural and len(cleanup)==1 and cleanup[0]['data']=={'all_reaped':1,'evidence_error':0} and final and final['data']['cleanup_ok']==1
         assertion(('required_capability_missing' if required-set(ev.manifest['capabilities']) else 'signal_mode_unsupported' if bad_signal_mode else 'service_mode_unsupported') if valid else 'capability_preflight','UNSUPPORTED' if valid else 'ERROR',ev.select('unsupported'))
         if valid:assertion('evidence_completeness','PASS',[final]);result['completion']='complete'
+    elif plan.data['case_id']=='external-health':
+        from .external import evaluate_external
+        return evaluate_external(plan,ev,result)
     elif plan.data['case_id'] not in {'timeout','signal'}:
+
         from .scenarios import evaluate_family
         return evaluate_family(plan,ev,result)
     else:

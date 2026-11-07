@@ -295,6 +295,7 @@ static int identifier(const char *s) {
     return 1;
 }
 int main(int argc,char **argv) {
+    if (argc==2 && !strcmp(argv[1],"--describe")) { rmc_describe();return 0; }
     int persist=0,lab_seen=0;const char *lab="none",*after=NULL;
     if (argc<2) return 2;
     for (int i=2;i<argc;++i) {
@@ -307,7 +308,8 @@ int main(int argc,char **argv) {
     plan_path=argv[1];rmc_plan_environment(&plan);
     const char *slash=strrchr(argv[0],'/');if (!slash || (size_t)(slash-argv[0])>=sizeof(directory)) return 2;
     memcpy(directory,argv[0],(size_t)(slash-argv[0]));
-    snprintf(service_path,sizeof(service_path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
+    if (plan.external) snprintf(service_path,sizeof(service_path),"%s",plan.path);
+    else snprintf(service_path,sizeof(service_path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
     struct sigaction action={0};sigemptyset(&action.sa_mask);action.sa_handler=SIG_DFL;
     if (sigaction(SIGCHLD,&action,NULL)) return 2;
     action.sa_handler=SIG_IGN;if (sigaction(SIGPIPE,&action,NULL)) return 2;
@@ -326,7 +328,7 @@ int main(int argc,char **argv) {
         event("supervisor","dependency","predecessor_id=%s state=%s",after,clean==1 ? "clean" : clean==0 ? "contaminated" : "unestablished");
         if (clean!=1) { event("supervisor","case_not_run","predecessor_id=%s reason=%s",after,clean==0 ? "prior_cleanup_failed" : "predecessor_unestablished");early=4; }
     }
-    if (!early && (plan.external || plan.signal_unsupported || (plan.required_caps & ~plan.adapter->capabilities))) {
+    if (!early && ((plan.external && strcmp(plan.scenario,"external-health")) || plan.signal_unsupported || (plan.required_caps & ~plan.adapter->capabilities))) {
         event("supervisor","unsupported","reason=%s",plan.external ? "external_attach_not_implemented" : plan.signal_unsupported ? "signal_mode_not_implemented" : "missing_capability");early=3;
     }
     rmc_child *fixture=NULL,*timed=NULL;int flow_complete=0,cleaned=1;
@@ -335,6 +337,11 @@ int main(int argc,char **argv) {
     }
     execution_end=mono_ns()+(uint64_t)plan.execution_ms*1000000ULL;
     event("supervisor","settings","mode=%s timeout_ms=%u allowance_ms=%u path=%s case_ms=%u cleanup_ms=%u",plan.mode,plan.operation_ms,plan.cancellation_ms,service_path,plan.execution_ms,plan.cleanup_ms);
+    if (plan.external) {
+        event("supervisor","external_scope","path=%s read_only=1 service_build_verified=0 instance_verified=0",service_path);
+        if (!worker("ready",NULL) || !worker("normal",NULL) || !worker("message",NULL) || !worker("health",NULL) || !worker("state",NULL)) goto done;
+        flow_complete=1;goto done;
+    }
     fixture=spawn_child(1,plan.mode);
     if (!fixture || await_event(fixture,"ready",0,mono_ns()+(uint64_t)plan.setup_ms*1000000ULL)<0) { if (!run_error) problem("service_unavailable",fixture,0);goto done; }
     if (rmc_lab_is("service_unavailable")) { signal_owned(fixture,SIGTERM);await_child(fixture,mono_ns()+500000000ULL); }

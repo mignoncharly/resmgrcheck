@@ -9,4 +9,4 @@ ASSERTION_REASONS={'pending_precondition':'precondition_not_established',
  'terminal_reply_observation':'evidence_incomplete','state_observation':'evidence_incomplete',
  'signal_handler_observation':'evidence_incomplete',
  'evidence_completeness':'evidence_incomplete','baseline_validity':'baseline_invalid',
- 'state_facts':'unexpected_service_state'}
+ 'state_facts':'unexpected_service_state', 'external_public_state':'unexpected_service_state'}

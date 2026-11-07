@@ -1,0 +1,17 @@
+{
+  "kind": "target-configuration",
+  "schema_version": 1,
+  "targets": {
+    "lab": {
+      "ssh_alias": "resmgrcheck-qnx",
+      "ssh_config": ".local/ssh_config",
+      "uid": 0,
+      "processor": "x86_64",
+      "machine": "x86pc",
+      "release": "8.0.0",
+      "recipe_id": "0000000000000000000000000000000000000000000000000000000000000000",
+      "root": "/data/resmgrcheck",
+      "timeout_s": 8
+    }
+  }
+}

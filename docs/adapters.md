@@ -33,7 +33,7 @@ Control facts and result facts are exact registered key sets in profiles. Native
 pids/rcvids/timestamps use decimal JSON strings in observations.
 
 Capabilities: pending, unblock, state, release, health, timeout, signal, departure,
-repeat, ordering and error-probe. Both reviewed adapters implement all six native
+repeat, ordering, error-probe and external-health. Both reviewed adapters implement all six native
 families (E011); only the job adapter supplies error-probe. Known capability names
 alone never imply implemented/qualified coverage.
 Missing required capabilities produce native preflight and host UNSUPPORTED,
@@ -96,8 +96,7 @@ fresh run IDs and output files. A meaningful adapter qualification requires real
 QNX baselines, confirmed pending cancellation, post-state and new-client results,
 plus negative/error/capability validation. See E007 for actual commands/artifacts.
 
-External attach, multiple-job scheduling/consumption policies, dynamic adapters
-and application transport commands remain later scope. Adding a service with a different operation requires an adapter, registered
+Multiple-job scheduling/consumption policies and dynamic adapters remain later scope. Adding a service with a different operation requires an adapter, registered
 typed facts and real observation hooks; it is not automatically supported by a
 new device path alone.
 
@@ -134,3 +133,26 @@ references before final free. Actual duplicated-FD and forced-departure callback
 order was recorded on both services. QNX supplied nonzero close receive IDs in
 these runs; synthetic-zero handling is guarded but not claimed as natively seen.
 The fixture is single-threaded; multithread extensions need explicit serialization.
+
+
+## Explicit external attachment (Phase 7)
+
+`profiles/sensor-external.json` and `profiles/job-external.json` select registered
+adapters, explicit lab device paths and `service.mode=external-attach`.
+`run --suite health` requires external-health/state/health. Supervised workers open
+O_RDONLY and record actual `fcntl(F_GETFL)` access mode, query public state, compare
+ordinary/prepared results and open a fresh health connection. The supervisor never
+opens the service. No fixture is launched or stopped; there is no hold, release,
+submit, restart or reconfiguration. Product cleanup owns only its workers.
+
+This diagnostic explicitly records `service_build_verified=0` and
+`instance_verified=0`. It cannot establish original-instance survival or private
+pending cleanup. Lifecycle remains UNSUPPORTED until an adapter supplies a
+run-scoped pending/unblock observer feed. Changed-build external replay likewise
+requires identification of the actual running service; selecting a local manifest
+alone is insufficient. No diagnostic PASS replaces unavailable required coverage.
+
+E013 separately owns real lab fixtures, confirms the same external PIDs remain
+alive after attachment, then explicitly stops and observes reaping in its test
+owner. That owner process is outside the product's ownership scope. The complete
+host workflow is documented in [cli.md](cli.md).

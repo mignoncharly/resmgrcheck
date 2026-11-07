@@ -8,6 +8,7 @@ static volatile sig_atomic_t signal_seen;
 static void interruption(int number) { (void)number;signal_seen=1; }
 
 int main(int argc, char **argv) {
+    if (argc==2 && !strcmp(argv[1],"--describe")) { rmc_describe();return 0; }
     if (argc != 3 && argc != 4) return 2;
     rmc_plan plan;
     if (!rmc_plan_load(argv[1], &plan)) { fputs("invalid worker plan\n",stderr); return 2; }
@@ -28,13 +29,21 @@ int main(int argc, char **argv) {
     if ((!strcmp(op,"cycle") && strcmp(plan.scenario,"repeat")) ||
         ((!strcmp(op,"ordered") || !strcmp(op,"arm_complete") || !strcmp(op,"drain_stale") || !strcmp(op,"hold_next") || !strcmp(op,"park") || !strcmp(op,"state_before") || !strcmp(op,"health_next")) && !ordering) ||
         (!strcmp(op,"finish_first") && strcmp(plan.scenario,"complete-first"))) { cJSON_Delete(plan.root);return 2; }
+    if (plan.external && strcmp(op,"ready") && strcmp(op,"normal") && strcmp(op,"message") && strcmp(op,"health") && strcmp(op,"state")) { cJSON_Delete(plan.root);return 2; }
     event("worker","started","operation=%s",op);
     rmc_lab_worker(op);
     char path[256];
-    snprintf(path,sizeof(path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
-    int fd=open(path,O_RDWR);
+    if (plan.external) snprintf(path,sizeof(path),"%s",plan.path);
+    else snprintf(path,sizeof(path),"%s-%s",plan.path,json_string(plan.root,"service_instance_id"));
+    int fd=open(path,plan.external ? O_RDONLY : O_RDWR);
     if (fd == -1) { event("worker","open_error","error=%d",errno); event("worker","worker_final","exit_code=2"); cJSON_Delete(plan.root); return 2; }
     int exit_code=0;
+    if (plan.external) {
+        int flags=fcntl(fd,F_GETFL),error=flags<0 ? errno : 0;
+        int read_only=flags>=0 && (flags&O_ACCMODE)==O_RDONLY;
+        event("worker","external_open","read_only=%d error=%d",read_only,error);
+        if (error || !read_only) { exit_code=2;goto close_worker; }
+    }
     if (!strcmp(op,"signal") || !strcmp(op,"ordered") || !strcmp(op,"park") || !strcmp(op,"finish_first")) {
                 struct sigaction action={0};action.sa_handler=interruption;sigemptyset(&action.sa_mask);
                 sigset_t mask;sigemptyset(&mask);sigaddset(&mask,SIGUSR1);

@@ -1,0 +1,65 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "job-unsupported-signal",
+  "version": 1,
+  "adapter": {
+    "id": "job-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "managed-fixture",
+    "device": "/dev/resmgrcheck-job"
+  },
+  "operation": {
+    "id": "wait-result",
+    "parameters": {
+      "job_id": 1
+    },
+    "result_shape": "integer-record",
+    "convention": "devctl"
+  },
+  "capabilities": {
+    "required": [
+      "pending",
+      "unblock",
+      "state",
+      "release",
+      "health",
+      "signal"
+    ],
+    "optional": [
+      "error-probe"
+    ]
+  },
+  "expectations": {
+    "cancel_error": "EINTR",
+    "pending_after": 0,
+    "require_unblock": true,
+    "health": {
+      "job_id": 1,
+      "value": 420
+    },
+    "state_after": {
+      "job_exists": 1,
+      "job_ready": 0
+    }
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "signal"
+    ],
+    "optional": [],
+    "cycles": 1,
+    "reset": "new-instance",
+    "signal_mode": "auto-restart"
+  }
+}

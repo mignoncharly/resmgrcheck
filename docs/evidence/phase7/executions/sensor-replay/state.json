@@ -1,0 +1,1 @@
+{"cases":{"cancel-first":"collected","complete-first":"collected","departure":"collected","repeat":"collected","signal":"collected","timeout":"collected"},"error":null,"kind":"host-run-state","request_sha256":"9654f731a85b0ee015074166ee0e86559ce0963c6417d041a3bc9f6179a16536","run_id":"p7gate3-sensor-replay","schema_version":1,"state":"collected"}

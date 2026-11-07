@@ -1,0 +1,1042 @@
+[
+  {
+    "argv": [
+      "make",
+      "qnx",
+      "QNX_VARIANT=gcc_ntox86_64"
+    ],
+    "exit": 0,
+    "stdout": "python3 scripts/check-qnx-build.py\nQNX build prerequisites available; compiler licensing and native execution still require their own checks.\npython3 scripts/record-build.py\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "validate",
+      "profiles/sensor.json"
+    ],
+    "exit": 0,
+    "stdout": "profile valid\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "deploy",
+      "--target",
+      "lab",
+      "--build",
+      "build/qnx-x86_64"
+    ],
+    "exit": 0,
+    "stdout": "deployed 38ebbf253df0bacce8a52cf7572fcb1ff83b19a54621023a3543f789ccda9084; target lab\ncandidate manifest: build/qnx-x86_64/manifest.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--out",
+      ".local/evidence/phase7-p7gate3/doctor.json"
+    ],
+    "exit": 0,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: PASS - {'processor': 'x86_64', 'machine': 'x86pc', 'release': '8.0.0', 'uid': 0}\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_capabilities: PASS - 2 actual compiled adapter declarations; missing required: none\nservice_instance_capabilities: UNKNOWN - no service instance was launched; private observers are qualified during run, not inferred here\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "pidin ar"
+    ],
+    "exit": 0,
+    "stdout": "     pid Arguments\n       1 procnto-smp-instr -mr -d 0777 -u 0777 \n   16387 slogger2 -U 21:21 \n   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg \n   49157 devc-ser8250 -e \n   57351 ksh ksh \n   61446 fsevmgr \n   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low \n  131081 random -U 22:22 -s /data/var/random/rnd-seed \n  143370 pipe -U 24:24 \n  155659 devc-pty -U 37:37 \n  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores \n  163853 io-sock -m phy -m pci -m usb -d vtnet_pci \n  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks \n  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config \n  253966 qconn \n  258063 mqueue \n  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci \n482476034 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n482488338 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n482488340 sh -c sh \n482492437 pidin ar \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "df /data"
+    ],
+    "exit": 0,
+    "stdout": "/dev/hd0t179              125192     77176     48016      62%  /data/          \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/sensor-fixed",
+      "--run-id",
+      "p7gate3-sensor-fixed"
+    ],
+    "exit": 0,
+    "stdout": "run p7gate3-sensor-fixed; target lab; output runs/p7gate3/sensor-fixed\ntimeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; PASS (1.0s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; PASS (1.0s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (16.1s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.6s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; PASS (1.2s)\nresult: runs/p7gate3/sensor-fixed/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "ignore-unblock",
+      "--out",
+      "runs/p7gate3/sensor-broken",
+      "--run-id",
+      "p7gate3-sensor-broken"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate3-sensor-broken; target lab; output runs/p7gate3/sensor-broken\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (3.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; FAIL (3.0s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; ERROR (3.1s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (3.6s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.5s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; FAIL (3.0s)\nresult: runs/p7gate3/sensor-broken/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "status",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-sensor-fixed",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\"cases\":[{\"case_id\":\"timeout\",\"run_id\":\"p7gate3-sensor-fixed-timeout\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"timeout\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"6d19943422edb54addf8b35711d0ba3c40e62687a8cb5e192577ca9cda94f6ec\",\"run_id\":\"p7gate3-sensor-fixed-timeout\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-timeout\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33249974534841\",\"state\":\"complete\",\"supervisor_pid\":\"483160086\",\"unresolved\":[]}},{\"case_id\":\"signal\",\"run_id\":\"p7gate3-sensor-fixed-signal\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"signal\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"93a9e24d9b862f608217222400b340d4b05a474ed458e31255972b24a19cdc87\",\"run_id\":\"p7gate3-sensor-fixed-signal\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-signal\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33251934433920\",\"state\":\"complete\",\"supervisor_pid\":\"483581974\",\"unresolved\":[]}},{\"case_id\":\"departure\",\"run_id\":\"p7gate3-sensor-fixed-departure\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"departure\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"9f9b9a5154e685fd68cf4781c80cdd414032665e8f0ba9863779fcf9ff42d68c\",\"run_id\":\"p7gate3-sensor-fixed-departure\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-departure\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33253420497123\",\"state\":\"complete\",\"supervisor_pid\":\"483930134\",\"unresolved\":[]}},{\"case_id\":\"repeat\",\"run_id\":\"p7gate3-sensor-fixed-repeat\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"repeat\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"34f2dbcda0631e7083976696584dae3e2dd7515972848c2b29da653cb6f482ce\",\"run_id\":\"p7gate3-sensor-fixed-repeat\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-repeat\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33254877640641\",\"state\":\"complete\",\"supervisor_pid\":\"484282390\",\"unresolved\":[]}},{\"case_id\":\"complete-first\",\"run_id\":\"p7gate3-sensor-fixed-complete-first\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"complete-first\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"8ecce9e855623a4d5d410c8d6481c3642d04dd1728db3b187e7e0fd38181a8c0\",\"run_id\":\"p7gate3-sensor-fixed-complete-first\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-complete-first\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33271428547781\",\"state\":\"complete\",\"supervisor_pid\":\"486580246\",\"unresolved\":[]}},{\"case_id\":\"cancel-first\",\"run_id\":\"p7gate3-sensor-fixed-cancel-first\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"cancel-first\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"8ff42fbdcb23c408898b9d0d7d6ed1e34cf491dccbaa9b98690eb6821444d931\",\"run_id\":\"p7gate3-sensor-fixed-cancel-first\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-sensor-fixed-cancel-first\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33273421851576\",\"state\":\"complete\",\"supervisor_pid\":\"487014422\",\"unresolved\":[]}}],\"run_id\":\"p7gate3-sensor-fixed\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "collect",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-sensor-fixed",
+      "--out",
+      "runs/p7gate3/sensor-recovered",
+      "--wait"
+    ],
+    "exit": 0,
+    "stdout": "collected p7gate3-sensor-fixed; result runs/p7gate3/sensor-recovered/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      "runs/p7gate3/sensor-broken/replay.json",
+      "--target",
+      "lab",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/sensor-replay",
+      "--run-id",
+      "p7gate3-sensor-replay"
+    ],
+    "exit": 0,
+    "stdout": "timeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; PASS (1.0s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; PASS (1.1s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (16.2s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.5s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; PASS (1.2s)\nreplay: incomparable; result runs/p7gate3/sensor-replay/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "compare",
+      "runs/p7gate3/sensor-broken",
+      "runs/p7gate3/sensor-replay",
+      "--out",
+      "runs/p7gate3/control-comparison"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "comparison: incomparable\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "runs/p7gate3/sensor-replay",
+      "--out",
+      "runs/p7gate3/sensor-replay/report.html"
+    ],
+    "exit": 0,
+    "stdout": "report: runs/p7gate3/sensor-replay/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "junit",
+      "runs/p7gate3/sensor-fixed",
+      "runs/p7gate3/sensor-broken",
+      "runs/p7gate3/sensor-replay",
+      "--output",
+      ".local/evidence/phase7-p7gate3/workflow.xml"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "qcc",
+      "-Vgcc_ntox86_64",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "tests/qnx/external-owner.c",
+      "-o",
+      ".local/p7-external-owner"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "mkdir /data/resmgrcheck/p7gate3-external"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      ".local/p7-external-owner",
+      "resmgrcheck-qnx:/data/resmgrcheck/p7gate3-external/owner"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate3/sensor-external-profile.json",
+      "--suite",
+      "health",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/sensor-external",
+      "--run-id",
+      "p7gate3-sensor-external"
+    ],
+    "exit": 0,
+    "stdout": "run p7gate3-sensor-external; target lab; output runs/p7gate3/sensor-external\nexternal-health: starting; baseline pending\nexternal-health: baseline PASS; PASS (0.9s)\nresult: runs/p7gate3/sensor-external/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate3/sensor-external-profile.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/sensor-external-lifecycle",
+      "--run-id",
+      "p7gate3-sensor-external-lifecycle"
+    ],
+    "exit": 3,
+    "stdout": "run p7gate3-sensor-external-lifecycle; target lab; output runs/p7gate3/sensor-external-lifecycle\ntimeout: starting; baseline pending\ntimeout: baseline not established; UNSUPPORTED (0.9s)\nsignal: starting; baseline pending\nsignal: baseline not established; UNSUPPORTED (0.8s)\ndeparture: starting; baseline pending\ndeparture: baseline not established; UNSUPPORTED (0.8s)\nrepeat: starting; baseline pending\nrepeat: baseline not established; UNSUPPORTED (0.8s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline not established; UNSUPPORTED (0.8s)\ncancel-first: starting; baseline pending\ncancel-first: baseline not established; UNSUPPORTED (0.8s)\nresult: runs/p7gate3/sensor-external-lifecycle/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cat /data/resmgrcheck/p7gate3-external/sensor-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":1,\"ns\":\"33344530993084\",\"event\":\"ready\",\"data\":{\"path\":\"/dev/resmgrcheck-external-p7gate3-sensor\",\"mode\":\"corrected\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":2,\"ns\":\"33344531264092\",\"event\":\"close_dup\",\"data\":{\"ocb\":1,\"client_pid\":\"497393685\",\"rcvid\":\"0\",\"synthetic\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":3,\"ns\":\"33344531290251\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":1,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":4,\"ns\":\"33344531304968\",\"event\":\"close_ocb\",\"data\":{\"ocb\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":5,\"ns\":\"33344531319274\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":1,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":6,\"ns\":\"33344531378753\",\"event\":\"close_dup\",\"data\":{\"ocb\":2,\"client_pid\":\"497393685\",\"rcvid\":\"0\",\"synthetic\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":7,\"ns\":\"33344531392869\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":2,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":8,\"ns\":\"33344531405002\",\"event\":\"close_ocb\",\"data\":{\"ocb\":2}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":9,\"ns\":\"33344531418216\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":2,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":10,\"ns\":\"33347236452246\",\"event\":\"close_dup\",\"data\":{\"ocb\":3,\"client_pid\":\"498049050\",\"rcvid\":\"4613093397605908481\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":11,\"ns\":\"33347236640102\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":3,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":12,\"ns\":\"33347236686938\",\"event\":\"close_ocb\",\"data\":{\"ocb\":3}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":13,\"ns\":\"33347236991037\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":3,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":14,\"ns\":\"33347255422103\",\"event\":\"received\",\"data\":{\"logical\":\"1\",\"generation\":\"1\",\"rcvid\":\"4613937822536040449\",\"client_pid\":\"498065431\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":15,\"ns\":\"33347255492162\",\"event\":\"sample\",\"data\":{\"logical\":\"1\",\"generation\":\"1\",\"bytes\":10}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":16,\"ns\":\"33347255633903\",\"event\":\"close_dup\",\"data\":{\"ocb\":4,\"client_pid\":\"498065431\",\"rcvid\":\"4614219297512751105\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":17,\"ns\":\"33347255706887\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":4,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":18,\"ns\":\"33347255757861\",\"event\":\"close_ocb\",\"data\":{\"ocb\":4}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":19,\"ns\":\"33347255882710\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":4,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":20,\"ns\":\"33347283923781\",\"event\":\"received\",\"data\":{\"logical\":\"2\",\"generation\":\"1\",\"rcvid\":\"4615063722442883073\",\"client_pid\":\"498073623\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":21,\"ns\":\"33347284251103\",\"event\":\"sample\",\"data\":{\"logical\":\"2\",\"generation\":\"1\",\"bytes\":10}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":22,\"ns\":\"33347284577944\",\"event\":\"close_dup\",\"data\":{\"ocb\":5,\"client_pid\":\"498073623\",\"rcvid\":\"4615345197419593729\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":23,\"ns\":\"33347284664433\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":5,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":24,\"ns\":\"33347284708103\",\"event\":\"close_ocb\",\"data\":{\"ocb\":5}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":25,\"ns\":\"33347284737047\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":5,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":26,\"ns\":\"33347305412851\",\"event\":\"received\",\"data\":{\"logical\":\"3\",\"generation\":\"1\",\"rcvid\":\"4616189622349725697\",\"client_pid\":\"498077719\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":27,\"ns\":\"33347305493700\",\"event\":\"sample\",\"data\":{\"logical\":\"3\",\"generation\":\"1\",\"bytes\":10}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":28,\"ns\":\"33347305576763\",\"event\":\"close_dup\",\"data\":{\"ocb\":6,\"client_pid\":\"498077719\",\"rcvid\":\"4616471097326436353\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":29,\"ns\":\"33347305648605\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":6,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":30,\"ns\":\"33347305688178\",\"event\":\"close_ocb\",\"data\":{\"ocb\":6}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":31,\"ns\":\"33347305719856\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":6,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":32,\"ns\":\"33347324896112\",\"event\":\"close_dup\",\"data\":{\"ocb\":7,\"client_pid\":\"498085911\",\"rcvid\":\"4617596997233278977\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":33,\"ns\":\"33347324996767\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":7,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":34,\"ns\":\"33347325345358\",\"event\":\"close_ocb\",\"data\":{\"ocb\":7}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"497397782\",\"seq\":35,\"ns\":\"33347325443018\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":7,\"status\":0}}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate3/job-external-profile.json",
+      "--suite",
+      "health",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/job-external",
+      "--run-id",
+      "p7gate3-job-external"
+    ],
+    "exit": 0,
+    "stdout": "run p7gate3-job-external; target lab; output runs/p7gate3/job-external\nexternal-health: starting; baseline pending\nexternal-health: baseline PASS; PASS (0.9s)\nresult: runs/p7gate3/job-external/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate3/job-external-profile.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/job-external-lifecycle",
+      "--run-id",
+      "p7gate3-job-external-lifecycle"
+    ],
+    "exit": 3,
+    "stdout": "run p7gate3-job-external-lifecycle; target lab; output runs/p7gate3/job-external-lifecycle\ntimeout: starting; baseline pending\ntimeout: baseline not established; UNSUPPORTED (0.8s)\nsignal: starting; baseline pending\nsignal: baseline not established; UNSUPPORTED (0.8s)\ndeparture: starting; baseline pending\ndeparture: baseline not established; UNSUPPORTED (0.8s)\nrepeat: starting; baseline pending\nrepeat: baseline not established; UNSUPPORTED (0.8s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline not established; UNSUPPORTED (0.8s)\ncancel-first: starting; baseline pending\ncancel-first: baseline not established; UNSUPPORTED (0.8s)\nresult: runs/p7gate3/job-external-lifecycle/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cat /data/resmgrcheck/p7gate3-external/job-events.jsonl"
+    ],
+    "exit": 0,
+    "stdout": "{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":1,\"ns\":\"33357943711464\",\"event\":\"ready\",\"data\":{\"path\":\"/dev/resmgrcheck-external-p7gate3-job\",\"mode\":\"corrected\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":2,\"ns\":\"33357944332056\",\"event\":\"close_dup\",\"data\":{\"ocb\":1,\"client_pid\":\"500580373\",\"rcvid\":\"0\",\"synthetic\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":3,\"ns\":\"33357944469839\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":1,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":4,\"ns\":\"33357944505054\",\"event\":\"close_ocb\",\"data\":{\"ocb\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":5,\"ns\":\"33357944523127\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":1,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":6,\"ns\":\"33357944602383\",\"event\":\"close_dup\",\"data\":{\"ocb\":2,\"client_pid\":\"500580373\",\"rcvid\":\"0\",\"synthetic\":1}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":7,\"ns\":\"33357944617811\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":2,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":8,\"ns\":\"33357944630745\",\"event\":\"close_ocb\",\"data\":{\"ocb\":2}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":9,\"ns\":\"33357944643498\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":2,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":10,\"ns\":\"33360646751918\",\"event\":\"close_dup\",\"data\":{\"ocb\":3,\"client_pid\":\"501235738\",\"rcvid\":\"4613093397605908481\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":11,\"ns\":\"33360648500464\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":3,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":12,\"ns\":\"33360648575061\",\"event\":\"close_ocb\",\"data\":{\"ocb\":3}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":13,\"ns\":\"33360648634831\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":3,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":14,\"ns\":\"33360667854117\",\"event\":\"received\",\"data\":{\"logical\":\"1\",\"generation\":\"1\",\"rcvid\":\"4613937822536040449\",\"client_pid\":\"501252119\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":15,\"ns\":\"33360669408756\",\"event\":\"sample\",\"data\":{\"logical\":\"1\",\"generation\":\"1\",\"bytes\":16}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":16,\"ns\":\"33360669508871\",\"event\":\"close_dup\",\"data\":{\"ocb\":4,\"client_pid\":\"501252119\",\"rcvid\":\"4614219297512751105\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":17,\"ns\":\"33360669582125\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":4,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":18,\"ns\":\"33360669602613\",\"event\":\"close_ocb\",\"data\":{\"ocb\":4}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":19,\"ns\":\"33360669625094\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":4,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":20,\"ns\":\"33360699812341\",\"event\":\"received\",\"data\":{\"logical\":\"2\",\"generation\":\"1\",\"rcvid\":\"4615063722442883073\",\"client_pid\":\"501260311\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":21,\"ns\":\"33360699895524\",\"event\":\"sample\",\"data\":{\"logical\":\"2\",\"generation\":\"1\",\"bytes\":16}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":22,\"ns\":\"33360700380396\",\"event\":\"close_dup\",\"data\":{\"ocb\":5,\"client_pid\":\"501260311\",\"rcvid\":\"4615345197419593729\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":23,\"ns\":\"33360700463258\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":5,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":24,\"ns\":\"33360700485760\",\"event\":\"close_ocb\",\"data\":{\"ocb\":5}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":25,\"ns\":\"33360700541282\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":5,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":26,\"ns\":\"33360719849922\",\"event\":\"received\",\"data\":{\"logical\":\"3\",\"generation\":\"1\",\"rcvid\":\"4616189622349725697\",\"client_pid\":\"501264407\"}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":27,\"ns\":\"33360721065908\",\"event\":\"sample\",\"data\":{\"logical\":\"3\",\"generation\":\"1\",\"bytes\":16}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":28,\"ns\":\"33360721244707\",\"event\":\"close_dup\",\"data\":{\"ocb\":6,\"client_pid\":\"501264407\",\"rcvid\":\"4616471097326436353\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":29,\"ns\":\"33360721331426\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":6,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":30,\"ns\":\"33360721363205\",\"event\":\"close_ocb\",\"data\":{\"ocb\":6}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":31,\"ns\":\"33360721470913\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":6,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":32,\"ns\":\"33360752623646\",\"event\":\"close_dup\",\"data\":{\"ocb\":7,\"client_pid\":\"501268503\",\"rcvid\":\"4617596997233278977\",\"synthetic\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":33,\"ns\":\"33360752735672\",\"event\":\"close_dup_default\",\"data\":{\"ocb\":7,\"status\":0}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":34,\"ns\":\"33360752759385\",\"event\":\"close_ocb\",\"data\":{\"ocb\":7}}\n{\"kind\":\"producer-event\",\"schema_version\":1,\"run_id\":\"external-owner\",\"case_id\":\"external-owner\",\"attempt_id\":\"attempt1\",\"service_instance_id\":\"external-owner\",\"cycle\":1,\"producer\":\"fixture\",\"pid\":\"500584470\",\"seq\":35,\"ns\":\"33360752802044\",\"event\":\"close_ocb_default\",\"data\":{\"ocb\":7,\"status\":0}}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "missing"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: target: unknown name missing; configure it locally\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/unreachable-target.local.json",
+      "--out",
+      ".local/evidence/phase7-p7gate3/unreachable-doctor.json"
+    ],
+    "exit": 2,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: ERROR - transport_command_failed: exit 255; ssh: connect to host 127.0.0.1 port 38177: Connection refused\ntarget_compatibility: UNKNOWN - not established after an earlier prerequisite failure\nssh_command_path: UNKNOWN - not established after an earlier prerequisite failure\ntransfer: UNKNOWN - not established after an earlier prerequisite failure\ntarget_capabilities: UNKNOWN - not established after an earlier prerequisite failure\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/unreachable-target.local.json",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--run-id",
+      "p7gate3-unreachable",
+      "--out",
+      "runs/p7gate3/unreachable"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate3-unreachable; target lab; output runs/p7gate3/unreachable\n",
+    "stderr": "ERROR: transport_command_failed: exit 255; ssh: connect to host 127.0.0.1 port 38177: Connection refused\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "test ! -e /data/resmgrcheck/runs/p7gate3-unreachable-timeout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate3/invalid-profile.json",
+      "--out",
+      "runs/p7gate3/invalid"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: timing.operation_ms: integer outside 100..5000\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--out",
+      "runs/p7gate3/occupied"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: out: directory already exists; preserve it and choose a new output\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/wrong-architecture-target.local.json",
+      "--out",
+      ".local/evidence/phase7-p7gate3/wrong-architecture-doctor.json"
+    ],
+    "exit": 2,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: ERROR - processor: incompatible target (expected aarch64, observed x86_64)\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_probe: ERROR - deployment/target incompatible: architecture\ntarget_capabilities: UNKNOWN - not established after an earlier prerequisite failure\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/wrong-architecture-target.local.json",
+      "--profile",
+      "profiles/sensor.json",
+      "--out",
+      "runs/p7gate3/wrong-architecture"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: deployment/target incompatible: architecture\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/incompatible-target-target.local.json",
+      "--out",
+      ".local/evidence/phase7-p7gate3/incompatible-target-doctor.json"
+    ],
+    "exit": 2,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: ERROR - release: incompatible target (expected 7.1.0, observed 8.0.0)\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_probe: ERROR - deployment/target incompatible: release\ntarget_capabilities: UNKNOWN - not established after an earlier prerequisite failure\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--config",
+      ".local/evidence/phase7-p7gate3/incompatible-target-target.local.json",
+      "--profile",
+      "profiles/sensor.json",
+      "--out",
+      "runs/p7gate3/incompatible-target"
+    ],
+    "exit": 2,
+    "stdout": "",
+    "stderr": "ERROR: deployment/target incompatible: release\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor-unsupported-capability.json",
+      "--out",
+      ".local/evidence/phase7-p7gate3/unsupported-doctor.json"
+    ],
+    "exit": 3,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: PASS - {'processor': 'x86_64', 'machine': 'x86pc', 'release': '8.0.0', 'uid': 0}\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_capabilities: UNSUPPORTED - 2 actual compiled adapter declarations; missing required: error-probe\nservice_instance_capabilities: UNKNOWN - no service instance was launched; private observers are qualified during run, not inferred here\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor-unsupported-capability.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate3/unsupported",
+      "--run-id",
+      "p7gate3-unsupported"
+    ],
+    "exit": 3,
+    "stdout": "run p7gate3-unsupported; target lab; output runs/p7gate3/unsupported\ntimeout: starting; baseline pending\ntimeout: baseline not established; UNSUPPORTED (0.8s)\nresult: runs/p7gate3/unsupported/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "mkdir /data/resmgrcheck/sessions/p7gate3-occupied-session && printf preserve > /data/resmgrcheck/sessions/p7gate3-occupied-session/unrelated"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--run-id",
+      "p7gate3-occupied-session",
+      "--out",
+      "runs/p7gate3/occupied-session"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate3-occupied-session; target lab; output runs/p7gate3/occupied-session\n",
+    "stderr": "ERROR: transport_command_failed: exit 2; targetctl: create-session rejected (ownership, identity or file check), errno=17\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "cat /data/resmgrcheck/sessions/p7gate3-occupied-session/unrelated"
+    ],
+    "exit": 0,
+    "stdout": "preserve",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "test ! -e /data/resmgrcheck/runs/p7gate3-occupied-session-timeout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--out",
+      "runs/p7gate3/uncertain",
+      "--run-id",
+      "p7gate3-uncertain"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate3-uncertain; target lab; output runs/p7gate3/uncertain\ntimeout: starting; baseline pending\n",
+    "stderr": "ERROR: transport_command_failed: exit 255; qualification: actual launch response dropped\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "status",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-uncertain",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\"cases\":[{\"case_id\":\"timeout\",\"run_id\":\"p7gate3-uncertain-timeout\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"timeout\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"668f601283e81ef470adbb4ac2e105872851d82002848f299ce949c72e621f70\",\"run_id\":\"p7gate3-uncertain-timeout\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-uncertain-timeout\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33388592535477\",\"state\":\"complete\",\"supervisor_pid\":\"507703318\",\"unresolved\":[]}}],\"run_id\":\"p7gate3-uncertain\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "collect",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-uncertain",
+      "--out",
+      "runs/p7gate3/uncertain",
+      "--wait"
+    ],
+    "exit": 0,
+    "stdout": "collected p7gate3-uncertain; result runs/p7gate3/uncertain/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor-repeat.json",
+      "--suite",
+      "profile",
+      "--out",
+      "runs/p7gate3/interrupted",
+      "--run-id",
+      "p7gate3-interrupted"
+    ],
+    "exit": 130,
+    "stdout": "run p7gate3-interrupted; target lab; output runs/p7gate3/interrupted\nrepeat: starting; baseline pending\n",
+    "stderr": "Interrupted. Preserve this output and recover its existing run ID with status/collect.\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "status",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-interrupted",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\"cases\":[{\"case_id\":\"repeat\",\"run_id\":\"p7gate3-interrupted-repeat\",\"state\":\"running\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"repeat\",\"cleanup_ok\":false,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":-1,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"f3434d919a4b641aec139b6a2f30453f2abf3c8c5b8d9e666d9fc1dc0a162158\",\"run_id\":\"p7gate3-interrupted-repeat\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-interrupted-repeat\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33393643252498\",\"state\":\"running\",\"supervisor_pid\":\"508751894\",\"unresolved\":[{\"pid\":\"508755989\",\"role\":\"fixture\"},{\"pid\":\"508940290\",\"role\":\"worker\"}]}}],\"run_id\":\"p7gate3-interrupted\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "collect",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-interrupted",
+      "--out",
+      "runs/p7gate3/interrupted",
+      "--wait"
+    ],
+    "exit": 0,
+    "stdout": "collected p7gate3-interrupted; result runs/p7gate3/interrupted/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "status",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-uncertain",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\"cases\":[{\"case_id\":\"timeout\",\"run_id\":\"p7gate3-uncertain-timeout\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"timeout\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"668f601283e81ef470adbb4ac2e105872851d82002848f299ce949c72e621f70\",\"run_id\":\"p7gate3-uncertain-timeout\",\"schema_version\":1,\"service_instance_id\":\"p7gate3-uncertain-timeout\",\"source_tree_sha256\":\"6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249\",\"started_ns\":\"33388592535477\",\"state\":\"complete\",\"supervisor_pid\":\"507703318\",\"unresolved\":[]}}],\"run_id\":\"p7gate3-uncertain\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "collect",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate3-uncertain",
+      "--out",
+      "runs/p7gate3/receipt-recovered",
+      "--wait"
+    ],
+    "exit": 0,
+    "stdout": "collected p7gate3-uncertain; result runs/p7gate3/receipt-recovered/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--candidate-manifest",
+      ".local/evidence/phase7-p7gate3/wrong-hash-manifest.json",
+      "--out",
+      "runs/p7gate3/wrong-hash",
+      "--run-id",
+      "p7gate3-wrong-hash"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate3-wrong-hash; target lab; output runs/p7gate3/wrong-hash\n",
+    "stderr": "ERROR: deployed hash mismatch: runner\n"
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "test ! -e /data/resmgrcheck/runs/p7gate3-wrong-hash-timeout"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "ignore-unblock",
+      "--out",
+      "runs/p7gate3/sensor-source-before",
+      "--run-id",
+      "p7gate3-sensor-source-before"
+    ],
+    "exit": 1,
+    "stdout": "run p7gate3-sensor-source-before; target lab; output runs/p7gate3/sensor-source-before\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (3.6s)\nresult: runs/p7gate3/sensor-source-before/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/job.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "ignore-unblock",
+      "--out",
+      "runs/p7gate3/job-source-before",
+      "--run-id",
+      "p7gate3-job-source-before"
+    ],
+    "exit": 1,
+    "stdout": "run p7gate3-job-source-before; target lab; output runs/p7gate3/job-source-before\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (3.6s)\nresult: runs/p7gate3/job-source-before/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "make",
+      "-C",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source",
+      "qnx",
+      "QNX_VARIANT=gcc_ntox86_64"
+    ],
+    "exit": 0,
+    "stdout": "make: Entering directory '/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source'\npython3 scripts/check-qnx-build.py\nQNX build prerequisites available; compiler licensing and native execution still require their own checks.\npython3 scripts/record-build.py\nmake: Leaving directory '/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source'\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "deploy",
+      "--target",
+      "lab",
+      "--build",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64"
+    ],
+    "exit": 0,
+    "stdout": "deployed a27b7aa4010ba444b96096325554f6904573ec1c76636b5107359a8a24a33bd9; target lab\ncandidate manifest: /home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/manifest.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "-C",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source",
+      "show",
+      "--format=fuller",
+      "--no-ext-diff",
+      "HEAD",
+      "--",
+      "native/fixtures/sensor.c",
+      "native/fixtures/job.c"
+    ],
+    "exit": 0,
+    "stdout": "commit c26365e91f8f0810a531726937c6b2c4bd923837\nAuthor:     Codex <codex@openai.com>\nAuthorDate: Sat Nov 7 05:37:13 2026 +0000\nCommit:     Codex <codex@openai.com>\nCommitDate: Sat Nov 7 05:37:13 2026 +0000\n\n    Fix ignored unblock in dedicated before-after replay candidate\n\ndiff --git a/native/fixtures/job.c b/native/fixtures/job.c\nindex 41f6c28..25f38b5 100644\n--- a/native/fixtures/job.c\n+++ b/native/fixtures/job.c\n@@ -13,7 +13,6 @@ static struct pending queue[MAX_PENDING];\n  * owns the job; short-lived submitters/waiters do not own its lifetime. */\n static struct job_state state = {.generation=1, .job_exists=1, .job_ready=1};\n static unsigned next_request;\n-static int ignore_unblock;\n static int job_value=420;\n static int owner(const struct pending *p, const struct _msg_info *info) {\n     return p->pid == info->pid && p->tid == info->tid &&\n@@ -49,11 +48,6 @@ static int job_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *ocb\n             event(\"fixture\",\"barrier_wait\",\"logical=%u generation=%u rcvid=%\" PRId64,p->logical,p->generation,(int64_t)p->rcvid);\n             return _RESMGR_NOREPLY;\n         }\n-        if (ignore_unblock) {\n-            event(\"fixture\", \"ignored_unblock\", \"logical=%u generation=%u pending=%u\",\n-                  p->logical, p->generation, state.pending);\n-            return _RESMGR_NOREPLY;\n-        }\n         /* -1 is valid only here: a live, owned, current unblock request. */\n         int rc = MsgError(p->rcvid, -1);\n         int error = rc == -1 ? errno : 0;\n@@ -144,7 +138,6 @@ int main(int argc, char **argv) {\n     const char *mode = argc == 2 ? \"corrected\" : argv[2];\n     if (strcmp(mode,\"corrected\") && strcmp(mode,\"ignore-unblock\") && strcmp(mode,\"retain-waiter\") && strcmp(mode,\"retain-third\") && strcmp(mode,\"duplicate-terminal\") && strcmp(mode,\"drop-job\")) return 2;\n     fixture_mode=mode;\n-    ignore_unblock = !strcmp(mode, \"ignore-unblock\");\n     dispatch_t *dpp = dispatch_create();\n     if (!dpp) { perror(\"dispatch_create\"); return 2; }\n     resmgr_connect_funcs_t connect_funcs;\ndiff --git a/native/fixtures/sensor.c b/native/fixtures/sensor.c\nindex cec21ed..8e06b99 100644\n--- a/native/fixtures/sensor.c\n+++ b/native/fixtures/sensor.c\n@@ -16,7 +16,7 @@ struct pending {\n static struct pending queue[MAX_PENDING];\n static struct sensor_state state = {.generation = 1};\n static unsigned next_request;\n-static int hold, ignore_unblock;\n+static int hold;\n static int sample_value=42;\n static char sample[64]=SAMPLE;\n \n@@ -83,11 +83,6 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *\n             event(\"fixture\",\"barrier_wait\",\"logical=%u generation=%u rcvid=%\" PRId64,p->logical,p->generation,(int64_t)p->rcvid);\n             return _RESMGR_NOREPLY;\n         }\n-        if (ignore_unblock) {\n-            event(\"fixture\", \"ignored_unblock\", \"logical=%u generation=%u pending=%u\",\n-                  p->logical, p->generation, state.pending);\n-            return _RESMGR_NOREPLY;\n-        }\n         /* -1 is valid only here: a live, owned, current unblock request. */\n         int rc = MsgError(p->rcvid, -1);\n         int error = rc == -1 ? errno : 0;\n@@ -146,7 +141,6 @@ int main(int argc, char **argv) {\n     const char *mode = argc == 2 ? \"corrected\" : argv[2];\n     if (strcmp(mode,\"corrected\") && strcmp(mode,\"ignore-unblock\") && strcmp(mode,\"retain-waiter\") && strcmp(mode,\"retain-third\") && strcmp(mode,\"duplicate-terminal\")) return 2;\n     fixture_mode=mode;\n-    ignore_unblock = !strcmp(mode, \"ignore-unblock\");\n     dispatch_t *dpp = dispatch_create();\n     if (!dpp) { perror(\"dispatch_create\"); return 2; }\n     resmgr_connect_funcs_t connect_funcs;\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      "runs/p7gate3/sensor-source-before/replay.json",
+      "--target",
+      "lab",
+      "--candidate-manifest",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/manifest.json",
+      "--out",
+      "runs/p7gate3/sensor-source-after",
+      "--run-id",
+      "p7gate3-sensor-source-after"
+    ],
+    "exit": 0,
+    "stdout": "timeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.4s)\nreplay: fixed; result runs/p7gate3/sensor-source-after/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "compare",
+      "runs/p7gate3/sensor-source-before",
+      "runs/p7gate3/sensor-source-after",
+      "--out",
+      "runs/p7gate3/sensor-source-comparison"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "comparison: fixed\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      "runs/p7gate3/job-source-before/replay.json",
+      "--target",
+      "lab",
+      "--candidate-manifest",
+      "/home/mignon/projects/resmgrcheck/.local/phase6-fixed-source/build/qnx-x86_64/manifest.json",
+      "--out",
+      "runs/p7gate3/job-source-after",
+      "--run-id",
+      "p7gate3-job-source-after"
+    ],
+    "exit": 0,
+    "stdout": "timeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.6s)\nreplay: fixed; result runs/p7gate3/job-source-after/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "compare",
+      "runs/p7gate3/job-source-before",
+      "runs/p7gate3/job-source-after",
+      "--out",
+      "runs/p7gate3/job-source-comparison"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "comparison: fixed\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "deploy",
+      "--target",
+      "lab",
+      "--build",
+      "build/qnx-x86_64"
+    ],
+    "exit": 0,
+    "stdout": "deployed 38ebbf253df0bacce8a52cf7572fcb1ff83b19a54621023a3543f789ccda9084; target lab\ncandidate manifest: build/qnx-x86_64/manifest.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "verify",
+      "--target",
+      "lab",
+      "--suite",
+      "release",
+      "--out",
+      "runs/p7gate3/release"
+    ],
+    "exit": 0,
+    "stdout": "verify sensor-timeout-corrected\nsensor-timeout-corrected: PASS (expected)\nverify sensor-timeout-ignore-unblock\nsensor-timeout-ignore-unblock: FAIL (expected)\nverify sensor-timeout-retain-waiter\nsensor-timeout-retain-waiter: FAIL (expected)\nverify sensor-timeout-duplicate-terminal\nsensor-timeout-duplicate-terminal: FAIL (expected)\nverify sensor-signal-corrected\nsensor-signal-corrected: PASS (expected)\nverify sensor-signal-ignore-unblock\nsensor-signal-ignore-unblock: FAIL (expected)\nverify sensor-departure-corrected\nsensor-departure-corrected: PASS (expected)\nverify sensor-departure-retain-waiter\nsensor-departure-retain-waiter: FAIL (expected)\nverify sensor-departure-ignore-unblock\nsensor-departure-ignore-unblock: ERROR (expected)\nverify sensor-repeat-corrected\nsensor-repeat-corrected: PASS (expected)\nverify sensor-repeat-retain-third\nsensor-repeat-retain-third: FAIL (expected)\nverify sensor-repeat-ignore-unblock\nsensor-repeat-ignore-unblock: FAIL (expected)\nverify sensor-complete-first-corrected\nsensor-complete-first-corrected: PASS (expected)\nverify sensor-complete-first-duplicate-terminal\nsensor-complete-first-duplicate-terminal: FAIL (expected)\nverify sensor-cancel-first-corrected\nsensor-cancel-first-corrected: PASS (expected)\nverify sensor-cancel-first-duplicate-terminal\nsensor-cancel-first-duplicate-terminal: FAIL (expected)\nverify sensor-unsupported-signal\nsensor-unsupported-signal: UNSUPPORTED (expected)\nverify sensor-unsupported-capability\nsensor-unsupported-capability: UNSUPPORTED (expected)\nverify job-timeout-corrected\njob-timeout-corrected: PASS (expected)\nverify job-timeout-ignore-unblock\njob-timeout-ignore-unblock: FAIL (expected)\nverify job-timeout-retain-waiter\njob-timeout-retain-waiter: FAIL (expected)\nverify job-timeout-duplicate-terminal\njob-timeout-duplicate-terminal: FAIL (expected)\nverify job-signal-corrected\njob-signal-corrected: PASS (expected)\nverify job-signal-ignore-unblock\njob-signal-ignore-unblock: FAIL (expected)\nverify job-departure-corrected\njob-departure-corrected: PASS (expected)\nverify job-departure-retain-waiter\njob-departure-retain-waiter: FAIL (expected)\nverify job-departure-ignore-unblock\njob-departure-ignore-unblock: ERROR (expected)\nverify job-departure-drop-job\njob-departure-drop-job: FAIL (expected)\nverify job-repeat-corrected\njob-repeat-corrected: PASS (expected)\nverify job-repeat-retain-third\njob-repeat-retain-third: FAIL (expected)\nverify job-repeat-ignore-unblock\njob-repeat-ignore-unblock: FAIL (expected)\nverify job-complete-first-corrected\njob-complete-first-corrected: PASS (expected)\nverify job-complete-first-duplicate-terminal\njob-complete-first-duplicate-terminal: FAIL (expected)\nverify job-cancel-first-corrected\njob-cancel-first-corrected: PASS (expected)\nverify job-cancel-first-duplicate-terminal\njob-cancel-first-duplicate-terminal: FAIL (expected)\nverify job-unsupported-signal\njob-unsupported-signal: UNSUPPORTED (expected)\nverification PASS; individual verdicts unchanged; runs/p7gate3/release\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "pidin ar"
+    ],
+    "exit": 0,
+    "stdout": "     pid Arguments\n       1 procnto-smp-instr -mr -d 0777 -u 0777 \n   16387 slogger2 -U 21:21 \n   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg \n   49157 devc-ser8250 -e \n   57351 ksh ksh \n   61446 fsevmgr \n   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low \n  131081 random -U 22:22 -s /data/var/random/rnd-seed \n  143370 pipe -U 24:24 \n  155659 devc-pty -U 37:37 \n  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores \n  163853 io-sock -m phy -m pci -m usb -d vtnet_pci \n  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks \n  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config \n  253966 qconn \n  258063 mqueue \n  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci \n556244994 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n556257298 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n556257300 sh -c sh \n556261397 pidin ar \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "df /data"
+    ],
+    "exit": 0,
+    "stdout": "/dev/hd0t179              125192    117992      7200      95%  /data/          \n",
+    "stderr": ""
+  }
+]

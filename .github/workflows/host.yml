@@ -1,0 +1,16 @@
+name: Host contract and evidence tests
+on: [push, pull_request]
+jobs:
+  host:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Host-only tests over synthetic mutations and saved QNX observations
+        run: python -m unittest discover -s tests/host -v
+# This job performs no QNX build or execution and is not the native release gate.

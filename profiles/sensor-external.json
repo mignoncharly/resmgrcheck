@@ -1,0 +1,53 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "sensor-external",
+  "version": 1,
+  "adapter": {
+    "id": "sensor-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "external-attach",
+    "device": "/dev/resmgrcheck-external-sensor"
+  },
+  "operation": {
+    "id": "sample",
+    "parameters": {},
+    "result_shape": "integer-record",
+    "convention": "errno"
+  },
+  "capabilities": {
+    "required": [
+      "state",
+      "health",
+      "external-health"
+    ],
+    "optional": []
+  },
+  "expectations": {
+    "cancel_error": "NOT_APPLICABLE",
+    "pending_after": 0,
+    "require_unblock": false,
+    "health": {
+      "value": 42
+    },
+    "state_after": {}
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "external-health"
+    ],
+    "optional": [],
+    "cycles": 1,
+    "reset": "external-unchanged"
+  }
+}

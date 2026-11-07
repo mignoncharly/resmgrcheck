@@ -1,0 +1,4 @@
+Run p7gate3-sensor-broken-cancel-first, case cancel-first, attempt1.
+FAIL / aborted: cancellation_not_completed, ordering_incomplete.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

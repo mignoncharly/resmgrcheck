@@ -169,3 +169,20 @@ def inspect_bundle(path):
     manifest = BundleManifest.parse(loads(bounded_read(path / 'bundle.json'))).data
     require({p.name for p in path.iterdir()} == FILES | {'bundle.json'}, 'unknown or missing bundle member')
     return _validate_payload(path, manifest)
+
+
+def guard_derived_output(destination, sources):
+    """Reports may live beside evidence, never overwrite its inputs or records."""
+    destination = Path(destination).resolve()
+    for source in sources:
+        source = Path(source).resolve()
+        if (source / 'bundle.json').exists():
+            require(destination != source and source not in destination.parents, 'derived output must be outside the immutable bundle')
+        if (source / 'request.json').exists():
+            protected = {source / n for n in ('request.json', 'replay.json', 'state.json', 'result.json')}
+            for case in (source / 'cases').iterdir():
+                if not case.is_dir(): continue
+                protected.update(case / n for n in ('plan.json', 'ack.json', 'status.json', 'events.jsonl', 'partial-events.jsonl', 'stderr.txt', 'result.json'))
+                bundle = case / 'bundle'
+                require(destination != bundle and bundle not in destination.parents, 'derived output must be outside immutable case bundles')
+            require(destination not in protected and source / 'history' not in destination.parents, 'derived output cannot overwrite execution evidence or history')

@@ -4,14 +4,15 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 6 gate passed E012; Phase 7 next |
+| Current phase | Phase 7 passed; Phase 8 next |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
 | Target | Existing QNX 8.0.0 build 2026/06/05-16:26:03EDT, x86_64 KVM, one CPU / 1 GiB |
 | Active blocker | None |
 | Phase 6 | Immutable bundles, explicit changed-build replay on both services, comparison/JUnit passed |
-| Phases 7–10 | Not started |
+| Phase 7 | Full native workflow/negative/recovery gate passed E013; 95 host tests |
+| Phases 8–10 | Not started |
 
 Both services use the same generic runner, worker, scenario machinery and Python
 evaluator. Normal API/MsgSendv/duplicate-descriptor/deferred baselines, timeout,
@@ -58,8 +59,15 @@ regenerating views leaves raw bytes unchanged. Eighty host tests pass. Full Phas
 exit gate is passed; native/host source identities are recorded separately. Clean host checkpoint
 a96c627 passed the complete replay gate again (evidence/phase6-clean).
 
-Next: Phase7 host workflow (target config/check/deploy/run/status/collect/inspect/
-report), owned lab cleanup boundaries and help. Replay currently supports the
-reviewed lab deployment route; full product transport commands are not complete.
-Preserve SDK, images and local authentication. Use fresh run IDs; target records
-remain /data/resmgrcheck/runs/RUN_ID.
+Phase7 now implements named target configuration, doctor, immutable SFTP-verified
+deployment, six-family run/replay, persistent status/collection, candidate selection,
+minimal offline HTML and expected-outcome release verification. External attachment
+is an explicit read-only health diagnostic with unverified build/instance identity;
+private lifecycle remains UNSUPPORTED. E013 records the final source-qualified end-to-end, negative and recovery matrix,
+75 distinct native cases and36 exact release expectations. The Phase7 exit gate
+passed. Next: Phase8 detailed offline report, comparison view and browser checks.
+
+Preserve SDK, images and local authentication. Use fresh run IDs; native records
+remain /data/resmgrcheck/runs/RUN_ID, host sessions /data/resmgrcheck/sessions/ID.
+The small guest has3072 file entries. Verified historical archives preserve bytes
+and start guards; monitor target storage before another large matrix.

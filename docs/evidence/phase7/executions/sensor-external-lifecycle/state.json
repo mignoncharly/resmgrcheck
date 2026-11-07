@@ -1,0 +1,1 @@
+{"cases":{"cancel-first":"collected","complete-first":"collected","departure":"collected","repeat":"collected","signal":"collected","timeout":"collected"},"error":null,"kind":"host-run-state","request_sha256":"e38b1bec322724baacb0f13d13a5a6249f81a4b66ce467996b90b9e13ae99b58","run_id":"p7gate3-sensor-external-lifecycle","schema_version":1,"state":"collected"}

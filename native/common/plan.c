@@ -88,7 +88,7 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     const char *ids[] = {"run_id","case_id","attempt_id","service_instance_id"};
     for (unsigned i=0; i<4; ++i) NEED(ident(json_string(p->root,ids[i]),64));
     p->scenario=json_string(p->root,"case_id");
-    NEED(!strcmp(p->scenario,"timeout") || !strcmp(p->scenario,"signal") || !strcmp(p->scenario,"departure") || !strcmp(p->scenario,"repeat") || !strcmp(p->scenario,"complete-first") || !strcmp(p->scenario,"cancel-first"));
+    NEED(!strcmp(p->scenario,"timeout") || !strcmp(p->scenario,"signal") || !strcmp(p->scenario,"departure") || !strcmp(p->scenario,"repeat") || !strcmp(p->scenario,"complete-first") || !strcmp(p->scenario,"cancel-first") || !strcmp(p->scenario,"external-health"));
     p->extended=strcmp(p->scenario,"timeout") && strcmp(p->scenario,"signal");
     NEED(json_integer(p->root,"cycle",1,1,NULL));
     NEED(hash(json_string(p->root,"profile_sha256"),64) && hash(json_string(p->root,"suite_sha256"),64));
@@ -109,6 +109,8 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     const char *service_mode = json_string(service,"mode");
     NEED(service_mode && (!strcmp(service_mode,"managed-fixture") || !strcmp(service_mode,"external-attach")));
     p->external = !strcmp(service_mode,"external-attach");
+    int external_health=!strcmp(p->scenario,"external-health");
+    NEED(!external_health || (p->external && !strcmp(p->mode,"corrected")));
     p->path = json_string(service,"device");
     NEED(p->path && !strncmp(p->path,"/dev/resmgrcheck-",17) && ident(p->path+17,96));
     const cJSON *operation = cJSON_GetObjectItemCaseSensitive(p->profile,"operation");
@@ -120,10 +122,11 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     const cJSON *expect = cJSON_GetObjectItemCaseSensitive(p->profile,"expectations");
     int ordering=!strcmp(p->scenario,"complete-first") || !strcmp(p->scenario,"cancel-first");
     NEED(json_keys(expect,ordering ? "cancel_error pending_after require_unblock health state_after next_health" : "cancel_error pending_after require_unblock health state_after"));
-    NEED(json_string(expect,"cancel_error") && !strcmp(json_string(expect,"cancel_error"),!strcmp(p->scenario,"departure") ? "PROCESS_EXIT" : (!strcmp(p->scenario,"signal") || ordering) ? "EINTR" : "ETIMEDOUT"));
+    NEED(json_string(expect,"cancel_error") && !strcmp(json_string(expect,"cancel_error"),external_health ? "NOT_APPLICABLE" : !strcmp(p->scenario,"departure") ? "PROCESS_EXIT" : (!strcmp(p->scenario,"signal") || ordering) ? "EINTR" : "ETIMEDOUT"));
     NEED(json_integer(expect,"pending_after",0,0,NULL));
     const cJSON *requires_unblock = cJSON_GetObjectItemCaseSensitive(expect,"require_unblock");
     NEED(cJSON_IsBool(requires_unblock));
+    NEED(!external_health || !cJSON_IsTrue(requires_unblock));
     const cJSON *fact_objects[] = {cJSON_GetObjectItemCaseSensitive(expect,"health"),cJSON_GetObjectItemCaseSensitive(expect,"state_after")};
     NEED(json_keys(fact_objects[0],p->adapter->result_fact_keys) && json_keys(fact_objects[1],p->adapter->state_fact_keys));
     for (unsigned i=0; i<2; ++i) for (const cJSON *v=fact_objects[i]->child; v; v=v->next)
@@ -161,7 +164,7 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
     }
     NEED(!(masks[0] & masks[1])); p->required_caps=masks[0];
     NEED(!cJSON_IsTrue(requires_unblock) || (masks[0] & RMC_CAP_UNBLOCK));
-    unsigned needed=RMC_CAP_PENDING|RMC_CAP_STATE|RMC_CAP_HEALTH|RMC_CAP_RELEASE|(!strcmp(p->scenario,"departure") ? RMC_CAP_DEPARTURE : ordering ? RMC_CAP_ORDERING|RMC_CAP_SIGNAL : !strcmp(p->scenario,"repeat") ? RMC_CAP_REPEAT|RMC_CAP_TIMEOUT : !strcmp(p->scenario,"signal") ? RMC_CAP_SIGNAL : RMC_CAP_TIMEOUT);
+    unsigned needed=external_health ? RMC_CAP_STATE|RMC_CAP_HEALTH|RMC_CAP_EXTERNAL_HEALTH : RMC_CAP_PENDING|RMC_CAP_STATE|RMC_CAP_HEALTH|RMC_CAP_RELEASE|(!strcmp(p->scenario,"departure") ? RMC_CAP_DEPARTURE : ordering ? RMC_CAP_ORDERING|RMC_CAP_SIGNAL : !strcmp(p->scenario,"repeat") ? RMC_CAP_REPEAT|RMC_CAP_TIMEOUT : !strcmp(p->scenario,"signal") ? RMC_CAP_SIGNAL : RMC_CAP_TIMEOUT);
     NEED((masks[0] & needed)==needed);
     const cJSON *suite = cJSON_GetObjectItemCaseSensitive(p->profile,"suite");
     NEED(json_keys(suite,!strcmp(p->scenario,"signal") ? "required optional cycles reset signal_mode" : "required optional cycles reset") && json_integer(suite,"cycles",1,!strcmp(p->scenario,"repeat") ? 20 : 1,&p->cycles));
@@ -170,7 +173,7 @@ int rmc_plan_load(const char *path, rmc_plan *p) {
         NEED(mode && (!strcmp(mode,"non-restart-no-retry") || !strcmp(mode,"auto-restart")));
         p->signal_unsupported=strcmp(mode,"non-restart-no-retry")!=0;
     }
-    NEED(json_string(suite,"reset") && !strcmp(json_string(suite,"reset"),!strcmp(p->scenario,"repeat") ? "same-instance" : "new-instance"));
+    NEED(json_string(suite,"reset") && !strcmp(json_string(suite,"reset"),external_health ? "external-unchanged" : !strcmp(p->scenario,"repeat") ? "same-instance" : "new-instance"));
     const cJSON *required = cJSON_GetObjectItemCaseSensitive(suite,"required");
     NEED(cJSON_IsArray(required) && cJSON_GetArraySize(required)==1 && cJSON_IsString(required->child) && !strcmp(required->child->valuestring,p->scenario));
     const cJSON *optional = cJSON_GetObjectItemCaseSensitive(suite,"optional");
@@ -226,4 +229,16 @@ void rmc_manifest(const rmc_plan *p) {
     cJSON *signals=json_object();add_number(signals,"SIGUSR1",SIGUSR1);add_number(signals,"SIGKILL",SIGKILL);
     if (!cJSON_AddItemToObject(m,"signal_codes",signals)) _exit(120);
     add_string(m,"fixture_mode",p->mode); json_write(m); cJSON_Delete(m);
+}
+
+void rmc_describe(void) {
+    cJSON *o=json_object(),*list=cJSON_CreateArray();
+    add_string(o,"kind","engine-info");add_number(o,"schema_version",1);add_number(o,"adapter_abi",1);
+    for (unsigned i=0;rmc_adapter_at(i);++i) {
+        const rmc_adapter_v1 *a=rmc_adapter_at(i);cJSON *entry=json_object(),*caps=cJSON_CreateArray();
+        add_string(entry,"id",a->id);add_string(entry,"fixture",a->fixture_binary);
+        for (unsigned bit=0;rmc_cap_name(bit);++bit) if (a->capabilities&(1U<<bit)) cJSON_AddItemToArray(caps,cJSON_CreateString(rmc_cap_name(bit)));
+        cJSON_AddItemToObject(entry,"capabilities",caps);cJSON_AddItemToArray(list,entry);
+    }
+    cJSON_AddItemToObject(o,"adapters",list);json_write(o);cJSON_Delete(o);
 }

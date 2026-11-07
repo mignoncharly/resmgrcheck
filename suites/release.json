@@ -1,0 +1,414 @@
+{
+  "kind": "verification-suite",
+  "schema_version": 1,
+  "id": "release",
+  "cases": [
+    {
+      "id": "sensor-timeout-corrected",
+      "profile": "profiles/sensor.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-timeout-ignore-unblock",
+      "profile": "profiles/sensor.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-timeout-retain-waiter",
+      "profile": "profiles/sensor.json",
+      "fixture_mode": "retain-waiter",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-timeout-duplicate-terminal",
+      "profile": "profiles/sensor.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "sensor-signal-corrected",
+      "profile": "profiles/sensor-signal.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-signal-ignore-unblock",
+      "profile": "profiles/sensor-signal.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-departure-corrected",
+      "profile": "profiles/sensor-departure.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-departure-retain-waiter",
+      "profile": "profiles/sensor-departure.json",
+      "fixture_mode": "retain-waiter",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-departure-ignore-unblock",
+      "profile": "profiles/sensor-departure.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "ERROR",
+        "reasons": [
+          "departure_unobserved"
+        ]
+      }
+    },
+    {
+      "id": "sensor-repeat-corrected",
+      "profile": "profiles/sensor-repeat.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-repeat-retain-third",
+      "profile": "profiles/sensor-repeat.json",
+      "fixture_mode": "retain-third",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "repetition_incomplete",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-repeat-ignore-unblock",
+      "profile": "profiles/sensor-repeat.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "repetition_incomplete",
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "sensor-complete-first-corrected",
+      "profile": "profiles/sensor-complete-first.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-complete-first-duplicate-terminal",
+      "profile": "profiles/sensor-complete-first.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "sensor-cancel-first-corrected",
+      "profile": "profiles/sensor-cancel-first.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "sensor-cancel-first-duplicate-terminal",
+      "profile": "profiles/sensor-cancel-first.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "sensor-unsupported-signal",
+      "profile": "profiles/sensor-unsupported-signal.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "UNSUPPORTED",
+        "reasons": [
+          "signal_mode_unsupported"
+        ]
+      }
+    },
+    {
+      "id": "sensor-unsupported-capability",
+      "profile": "profiles/sensor-unsupported-capability.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "UNSUPPORTED",
+        "reasons": [
+          "required_capability_missing"
+        ]
+      }
+    },
+    {
+      "id": "job-timeout-corrected",
+      "profile": "profiles/job.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-timeout-ignore-unblock",
+      "profile": "profiles/job.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-timeout-retain-waiter",
+      "profile": "profiles/job.json",
+      "fixture_mode": "retain-waiter",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-timeout-duplicate-terminal",
+      "profile": "profiles/job.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "job-signal-corrected",
+      "profile": "profiles/job-signal.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-signal-ignore-unblock",
+      "profile": "profiles/job-signal.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-departure-corrected",
+      "profile": "profiles/job-departure.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-departure-retain-waiter",
+      "profile": "profiles/job-departure.json",
+      "fixture_mode": "retain-waiter",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-departure-ignore-unblock",
+      "profile": "profiles/job-departure.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "ERROR",
+        "reasons": [
+          "departure_unobserved"
+        ]
+      }
+    },
+    {
+      "id": "job-departure-drop-job",
+      "profile": "profiles/job-departure.json",
+      "fixture_mode": "drop-job",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "unexpected_service_state",
+          "unexpected_operation_result"
+        ]
+      }
+    },
+    {
+      "id": "job-repeat-corrected",
+      "profile": "profiles/job-repeat.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-repeat-retain-third",
+      "profile": "profiles/job-repeat.json",
+      "fixture_mode": "retain-third",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "repetition_incomplete",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-repeat-ignore-unblock",
+      "profile": "profiles/job-repeat.json",
+      "fixture_mode": "ignore-unblock",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "repetition_incomplete",
+          "cancellation_not_completed",
+          "pending_state_not_released"
+        ]
+      }
+    },
+    {
+      "id": "job-complete-first-corrected",
+      "profile": "profiles/job-complete-first.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-complete-first-duplicate-terminal",
+      "profile": "profiles/job-complete-first.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "job-cancel-first-corrected",
+      "profile": "profiles/job-cancel-first.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "PASS",
+        "reasons": [
+          "all_obligations_satisfied"
+        ]
+      }
+    },
+    {
+      "id": "job-cancel-first-duplicate-terminal",
+      "profile": "profiles/job-cancel-first.json",
+      "fixture_mode": "duplicate-terminal",
+      "expected": {
+        "verdict": "FAIL",
+        "reasons": [
+          "duplicate_terminal_attempt"
+        ]
+      }
+    },
+    {
+      "id": "job-unsupported-signal",
+      "profile": "profiles/job-unsupported-signal.json",
+      "fixture_mode": "corrected",
+      "expected": {
+        "verdict": "UNSUPPORTED",
+        "reasons": [
+          "signal_mode_unsupported"
+        ]
+      }
+    }
+  ]
+}

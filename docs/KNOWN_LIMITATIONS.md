@@ -2,8 +2,8 @@
 
 Updated: 2026-11-07.
 
-- Phases 1–6 have passed their stated native gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Full application transport and HTML remain later phases.
-- Each expanded plan selects exactly one family. Repeat plans run 1–20 cycles (default20) on the same fixture, with no service reset between cycles. Independent family runs use a new instance. External attach is UNSUPPORTED; automatic-restart signal mode is UNSUPPORTED. Required missing capabilities never PASS.
+- Phases 1–7 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI and minimal offline HTML; detailed report experience is Phase8.
+- Each expanded plan selects exactly one family. Repeat plans run 1–20 cycles (default20) on the same fixture, with no service reset between cycles. Independent family runs use a new instance. External lifecycle is UNSUPPORTED; explicit read-only health attachment is supported with unverified build/instance identity; automatic-restart signal mode is UNSUPPORTED. Required missing capabilities never PASS.
 - The job fixture has one lab job slot and up to eight waiters, with non-consuming completed results until explicit resubmission. Retained jobs and leaked waiters are observed separately. This is a fixture, not a general scheduler.
 - Departure and duplicate-FD/final-OCB bookkeeping passed on this single-dispatch-thread fixture. Observed close callbacks had nonzero receive IDs; the synthetic rcvid==0 branch is guarded and delegated but was not observed natively. Concurrent multithreaded OCB access is not qualified.
 - Directed completion/cancellation barriers, an obsolete real notification and a real unmatched control cancellation were exercised. These checks do not cover all receive-ID reuse patterns or exhaustive concurrency. Reconnect success and bounded counters do not establish absence of memory leaks; no memory measurement was performed.
@@ -22,8 +22,29 @@ Updated: 2026-11-07.
 - Recovery journaling is bounded to 512 frames / 2 MiB for legacy timeout/signal, 2048 / 4 MiB for extended single cases and 8192 / 8 MiB for repeated runs and depends on a separate writable descriptor and supervisor memory. Simultaneous/global storage failure, supervisor death or a stalled VM can prevent sealing; the host must report infrastructure ERROR and cannot infer successful remote cleanup. No power-loss durability or hard real-time scheduling guarantee is claimed.
 - The cleanup-failure experiment withholds the measured fixture-stop escape and records a real unresolved original cleanup, followed by separate owned lab recovery. Unknown ownership is tested by deliberately discarding wait status. Neither experiment authorizes cleanup using stale persisted PIDs, nor does recovery supply original-instance health.
 
-- Phase6 replay currently reuses the reviewed local SSH alias/configuration and one x86_64/x86pc lab deployment layout. It verifies actual target architecture and deployed artifact hashes; it does not deploy arbitrary remote applications. Full target/config/deploy/run/status/collect/report workflow remains Phase7.
+- The Phase7 CLI uses a configured OpenSSH alias and one qualified QNX8.0.0 x86_64/x86pc lab layout under /data/resmgrcheck. It verifies target compatibility and actual SFTP artifact hashes. Other architectures/releases, arbitrary remote applications and dynamic adapters are not supported. VM startup, SDK licensing and SSH authentication remain manual prerequisites.
 - Native replay changes a committed qualification fixture source branch (c26365e) while preserving the original ignore-unblock setting and contract. Main keeps its deliberate defect controls. This proves changed-build reproduction/fix behavior for both fixtures, without guaranteeing scheduler interleaving or arbitrary production-service portability.
 - Evidence bundle hashes/read-only modes detect changes and bind identities; they are not malicious-target attestation, trusted timestamps or power-loss guarantees. Git copies preserve evidence bytes but do not enforce runtime read-only file permissions. The repository form currently records evaluator Git/source identity; packaging outside a Git checkout is later distribution work.
 - All currently expanded families/cycles are required. Optional scenario names do not execute optional cases, and no export option waives required coverage. JUnit emits skipped plus suite-level error for unavailable required coverage. Native lab fault controls are not portable replay settings and are rejected by replay.
-- A lost replay launch acknowledgement preserves the request/run ID and partial observations when reachable; it does not prove that nothing launched. There is no automatic relaunch. Full collection/recovery CLI after arbitrary host interruption remains Phase7; native persistent status/SSH-loss recovery stays qualified from Phase4.
+- A lost replay launch acknowledgement preserves the request/run ID and partial observations when reachable; it does not prove that nothing launched. There is no automatic relaunch. Phase7 status/collect retrieves the exact stored request by ID, including loss of local deployment selection. It cannot guarantee recovery after VM/storage loss. Native persistent status/SSH-loss recovery stays qualified from Phase4.
+
+- Doctor observes actual host tools, compiler variant discovery, target uname/UID,
+  SSH command path, SFTP roundtrip and deployed compiled-engine capabilities.
+  Service-instance capabilities remain UNKNOWN until execution observes them.
+  Before first deployment, UNKNOWN readiness may return3 and require build/deploy.
+- External-health uses only registered read-only operations. Private lifecycle
+  observers and running external-service build identity are unavailable, so full
+  lifecycle and candidate-build replay remain UNSUPPORTED. Public health does not
+  establish original-instance survival, absence of restart or private queue cleanup.
+- The reused guest data filesystem has3072 file entries; inode exhaustion occurred
+  during qualification with free data blocks remaining. Historical completed logs
+  were verified/archived locally before removing redundant target file copies.
+  Native start-directory guards remain. Archived IDs require their offline copies;
+  status/collect cannot recover bytes removed from the target. There is no automatic
+  retention/garbage collector. Monitor `df -g /data` before large release matrices.
+- Published deployment modes/host readback hashes are integrity checks in a trusted
+  lab, without malicious-root attestation. A partially published deployment is
+  preserved and rejected. Metadata bootstrap writes a fresh owned helper directory;
+  it does not clean up unknown storage or infer process ownership.
+- Host-only CI is provided for Python3.10/3.12; no hosted run is claimed until the
+  workflow actually executes. Local qualification used the installed Python version.

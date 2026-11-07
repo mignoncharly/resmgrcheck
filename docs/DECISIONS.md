@@ -297,3 +297,96 @@ references. Required UNSUPPORTED/NOT_RUN remains skipped plus a synthetic covera
 error; all-skipped required coverage cannot look green. Keep every failed assertion
 under later errors. Test-execution exit precedence is130 >2 >3 >1 >0. Offline
 inspect/bundle/export/compare may succeed while processing valid red evidence.
+
+## D023: Configure targets and publish verified immutable deployments
+
+**Date:** 2026-11-07. **State:** Phase7 gate verified in E013.
+
+A named local target selects the existing OpenSSH alias/configuration and expected
+QNX compatibility metadata. Authentication stays local. Use strict host-key checking,
+argument arrays and a small quoted remote command surface; profiles carry no shell
+commands. Real SFTP readback hashes associate actual deployed bytes with the full
+source/build record. Preserve earlier deployments under immutable content IDs.
+
+The qcc-built targetctl checks UID, regular-file/directory types, no-follow paths,
+bounded input, exclusive creation and completed publication markers. It has no
+process-signalling or recursive-delete command. Payloads are verified before
+publication, then reverified before launch. Directory permission changes use the
+QNX-supported fchmodat path. The prototype's manifest-only reuse check was rejected:
+a partial publication must not look complete. Final marker/owner/mode checks preserve
+unknown/incomplete destinations rather than adopting or overwriting them.
+
+## D024: Recover a stored request, never guess or repeat a launch
+
+**Date:** 2026-11-07. **State:** Phase7 gate verified in E013.
+
+Store the exact request/plans and launch-intent receipt on the target before the
+single launch attempt. Requested, acknowledged, status-observed and collected are
+separate facts. A missing acknowledgement cannot prove absence of a process or
+permit automatic relaunch. Recover the same IDs through status/collect. A verified
+local controller can bootstrap metadata recovery when local deployment-selection
+state is unavailable. Stored PIDs remain evidence, never cleanup authority.
+
+Preserve earlier host outcomes and partial bytes in collection history snapshots.
+Replays reserve distinct persistent attempt ordinals, including failed preflights.
+Collection does not launch later unrequested cases; those remain NOT_RUN. Within a
+suite, native --after dependencies preserve quarantine after unresolved cleanup.
+Default output shows current family, baseline status, elapsed time and artifact
+location; detailed diagnostics/tracebacks require explicit options or saved files.
+
+## D025: Make external diagnostic scope explicit
+
+**Date:** 2026-11-07. **State:** Phase7 gate verified in E013.
+
+Registered external profiles can request a read-only health diagnostic. All opens,
+fcntl checks, normal/prepared operations and probes remain supervised workers.
+Actual external FD read-only mode is recorded. No hold/release/submit, service
+restart, reconfiguration or external-process signal is allowed. External service
+build and instance identity remain explicitly unverified.
+
+This diagnostic does not substitute for lifecycle coverage. Full external lifecycle
+requests remain UNSUPPORTED without run-scoped pending/unblock observation feeds.
+Changed-build replay likewise cannot verify an external running service without an
+adapter identity mechanism. Native qualification separately owns two lab fixtures,
+proves their same PIDs remain alive after product attachment, then explicitly stops/
+reaps them in the owner driver. That owner cleanup is not product cleanup evidence.
+
+## D026: Preserve red results in the complete CLI demonstration
+
+**Date:** 2026-11-07. **State:** Phase7 gate verified in E013.
+
+Lifecycle expands all six required families, default20 repeat cycles, independently
+reset fixtures between families and no intercycle reset. Preserve all requested
+capabilities while promoting family observers; never remove a missing capability
+to get a green suite. Fixed aliases corrected. The full broken suite can exit2
+because departure-unobserved ERROR accompanies retained service FAILs. Required
+NOT_RUN/UNSUPPORTED keeps exit3 precedence over a completed FAIL.
+
+A disclosed same-build fixed-mode contrast is incomparable to an unchanged saved
+fixture setting; it is not the source-fix demonstration. Candidate replay explicitly
+selects the deployed manifest and preserves both build identities. Release verify
+checks36 exact expected outcomes while leaving individual PASS/FAIL/ERROR/
+UNSUPPORTED and cycle NOT_RUN results unchanged. Host-only CI cannot claim QNX ran.
+
+## D027: Treat target inode exhaustion as infrastructure failure
+
+**Date:** 2026-11-07. **State:** actual ENOSPC observed during Phase7 qualification.
+
+The reused guest data filesystem has3072 file entries. Its inode exhaustion can
+return ENOSPC while data blocks remain. A failed session-manifest write remains
+infrastructure ERROR and unlaunched required cases stay NOT_RUN; it cannot become
+a capability success or service verdict. Record this failed experiment separately.
+
+Closed earlier project histories were archived with target POSIX cksum/length and
+host SHA256 verification, then redundant target file copies were removed. Every
+native directory start guard remains. All379 archived statuses passed the typed
+final-status/clean-ownership audit;20 unestablished histories were left untouched.
+Archive storage preserves all original evidence, without signalling any process,
+recreating the VM/SDK or changing credentials. Old archived IDs require their
+preserved offline copies; absence of an on-target status never means success.
+
+The superseded full Phase7 experiment p7gate2 was also archived after a stricter
+host ownership check required a final rerun:75 completed native histories and50
+exact request-bound session records were copied and cksum/SHA256 verified. Empty
+native/session directory guards remain. The final p7gate3 histories are retained
+on target. Archive indices are included with E013; complete bytes remain local.

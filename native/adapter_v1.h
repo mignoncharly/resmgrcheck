@@ -16,6 +16,7 @@
 #define RMC_CAP_ERROR_PROBE (1U << 8)
 #define RMC_CAP_REPEAT (1U << 9)
 #define RMC_CAP_ORDERING (1U << 10)
+#define RMC_CAP_EXTERNAL_HEALTH (1U << 11)
 #define RMC_BASE_CAPS (RMC_CAP_PENDING | RMC_CAP_UNBLOCK | RMC_CAP_STATE | RMC_CAP_RELEASE | RMC_CAP_HEALTH | RMC_CAP_TIMEOUT)
 
 typedef enum { RMC_OK, RMC_TIMEOUT, RMC_INTERRUPTED, RMC_API_ERROR, RMC_INVALID_REPLY } rmc_outcome;
@@ -53,6 +54,8 @@ typedef struct rmc_adapter_v1 {
     void (*finish)(const rmc_prepared *prepared, int raw, int error, rmc_result *result);
 } rmc_adapter_v1;
 const rmc_adapter_v1 *rmc_adapter_find(const char *id);
+const rmc_adapter_v1 *rmc_adapter_at(unsigned index);
+void rmc_describe(void);
 const char *rmc_cap_name(unsigned bit);
 unsigned rmc_cap_value(const char *name);
 int rmc_fixture_mode(const rmc_adapter_v1 *adapter,const char *mode);

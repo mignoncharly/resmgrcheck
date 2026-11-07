@@ -1,0 +1,1 @@
+{"cases":{"cancel-first":"collected","complete-first":"collected","departure":"collected","repeat":"collected","signal":"collected","timeout":"collected"},"error":null,"kind":"host-run-state","request_sha256":"2d7b63f0eb2233216829765c43a3f926ce185a81442c01afbecea0aed52cf9ea","run_id":"p7gate3-job-external-lifecycle","schema_version":1,"state":"collected"}

@@ -1,0 +1,1 @@
+{"cases":{"cancel-first":"collected","complete-first":"collected","departure":"collected","repeat":"collected","signal":"collected","timeout":"collected"},"error":null,"kind":"host-run-state","request_sha256":"ddd84e92fcefd126d29e0e583e3e123aef47f9546839c5d5525436f089573f84","run_id":"p7gate3-sensor-fixed","schema_version":1,"state":"collected"}

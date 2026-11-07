@@ -951,3 +951,108 @@ those redundant target binaries. Final Phase5/Phase6 deployments and evidence we
 retained, as were old run-status guards and original SDK/images/authentication.
 The next ordered work is Phase7; no Phase7 gate or external-service attachment is
 claimed by this checkpoint.
+
+
+## E013: Phase 7 complete host workflow on real QNX
+
+**Date:** 2026-11-07. **Gate:** passed. Full command:
+`source /home/mignon/qnx800/qnxsdp-env.sh` then
+`python3 tests/qnx/qualify-phase7.py --prefix p7gate3` (exit0).
+[Qualification index](evidence/phase7/qualification/index.json),
+[actual commands/output](evidence/phase7/qualification/commands.json),
+[reviewed copy inventory](evidence/phase7/curation.json) and
+[95 passing host tests](evidence/phase7/p7-host95-final.txt) preserve the distinction
+between host validation and native integration. Python was3.12.3. Added CI targets
+Python3.10/3.12, host-only; no hosted CI execution is claimed.
+
+The actual source was base557c313d53b65b912eb4bb32be6e2a54af11f106, dirty=true,
+source SHA256 6a5aa7f33f89f11b806e3beda81d3a4ad4ec8131b838053f80421dfe7f9b6249. This is the precommit implementation, not a clean-base
+native claim. The qualifier required identical start/end source identities.
+Make used real qcc gcc_ntox86_64, C11, Wall/Wextra/Werror. Native records and each
+bundle bind exact executable hashes and separate evaluator/source identities.
+The existing KVM QNX8.0.0 x86_64/x86pc guest, SDP, image and local SSH credentials
+were reused. Neither host services/firewall nor original SDK/images were changed.
+
+### Complete workflow
+
+The documented doctor/validate/build/deploy/run/replay/compare/report/verify commands
+ran through argparse and the configured OpenSSH alias/SFTP route. Doctor observed
+host/SDK/compiler variant, actual target uname/UID, command path, byte transfer and
+deployed engine capabilities. Service-instance capability knowledge stayed UNKNOWN
+until execution. Deployment transferred complete owned bundles, checked downloaded
+SHA256/lengths, published final ownership markers and rechecked before launch.
+A partial publication is rejected; unrelated storage is preserved.
+
+There were75 distinct native case IDs (82 collected bundle copies including
+same-ID recovery collections). The fixed sensor lifecycle passed all six families,
+including20 same-instance reconnect cycles. The full broken lifecycle retained
+FAIL/FAIL/ERROR/FAIL/PASS/FAIL and exit2; departure_unobserved remains an
+infrastructure observation failure alongside independent service failures.
+The fixed-mode replay passed, with comparison explicitly incomparable because its
+fixture setting changed. New-directory collection preserved exact request and raw
+bytes. Offline report and JUnit generation succeeded without changing verdicts.
+
+The candidate workflow rebuilt/deployed committed source correction c26365e91f8f0810a531726937c6b2c4bd923837,
+with actual fixture hashes changed and ignore-unblock/profile/timing unchanged.
+Both before runs and same saved contracts retained their FAILs; explicit candidate
+replays passed and comparisons were fixed. Original/candidate builds and the exact
+[source patch](evidence/phase7/qualification/source-correction.patch) remain recorded.
+This uses an actual handler correction, not only a defect-mode switch.
+
+External-health attached through both registered profiles using actual O_RDONLY
+worker FDs and recorded F_GETFL checks. Public normal/prepared/state/fresh-health
+checks passed. The separate owner observed both original service PIDs still alive;
+product launched/stopped no external fixture. Explicit owner STOP/reap was recorded
+separately. All12 private lifecycle requests were UNSUPPORTED before service child
+launch. Running external build/instance identity remains unverified; changed-build
+external replay is unavailable without adapter identity support.
+
+### Negative and recovery qualification
+
+- Missing configured target, invalid profile/timing, occupied output, actual refused
+  SSH route, wrong target processor and incompatible QNX release returned2. Existing
+  unrelated bytes and an unknown remote session marker were preserved.
+- Unavailable required capability returned3/UNSUPPORTED; no missing observation
+  became PASS. Native unsupported cases launched no service workers.
+- A proxy forwarded actual OpenSSH traffic and dropped the real native launch ACK.
+  Initial exit2/uncertainty remained in history; status/collect recovered the same
+  run and supervisor PID. No duplicate launch or replacement ACK was created.
+- A separate real running status was observed before SIGINT of the exact local CLI.
+  Exit130 and partial bytes were preserved. Collection recovered the same remote
+  supervisor,20-cycle result and matching raw prefix. Local SSH termination/reaping
+  did not authorize signalling persisted remote PIDs.
+- With the local active-deployment receipt temporarily moved, status/collect
+  bootstrapped the trusted local controller and recovered the stored remote request
+  by ID. The original selection bytes were restored; no manual PID/plan reconstruction.
+- An isolated lab injector published a self-consistent manifest with an intentionally
+  wrong expected runner hash. Product SFTP verification detected actual byte mismatch
+  before native launch. Incompatible build/target bindings likewise failed preflight.
+- Independent FAIL reasons remain separate. Synthetic host mutation of an unknown
+  signal child proves evidence_invalid/ERROR without erasing established service FAILs.
+  This mutation is a host test, not claimed native fault execution.
+
+`verify --suite release` completed36 exact expected outcomes:12 PASS,19 FAIL,
+2 ERROR/departure_unobserved,3 UNSUPPORTED. Its exit0 qualifies the checker; the
+underlying red service cases and later NOT_RUN repeat cycles remain unchanged.
+Native before/after process inventories show no unresolved project children.
+The full run retains actual status/reaping facts and bounded evidence channels.
+
+### Failed experiment and storage maintenance
+
+Earlier p7gate1 stopped with real targetctl errno28/ENOSPC while writing an external
+session request. [Preserved failed execution](evidence/phase7/failed-inode-experiment/execution/result.json)
+is incomplete/exit2, all six unlaunched cases NOT_RUN; it is not a passed gate or
+service failure. The guest has3072 file entries and exhausted them despite free
+blocks. D027 records verified archival of379 closed earlier native histories;
+20 unestablished histories were untouched. Before the final stricter source rerun,
+75 superseded p7gate2 native histories and50 bound session records were similarly
+archived. Target cksum/length and local SHA256 were verified before removing only
+redundant copied files. Exclusive native/session directory guards remain. No process
+was signalled and the final p7gate3 histories remain on target. Archive indices are
+under evidence/phase7/maintenance; complete original bytes remain local.
+
+Reviewed copies omit generated binaries, machine-specific target/OpenSSH
+configuration and redundant unsealed raw copies where sealed bundles retain the
+same bytes. Evidence bytes were not edited. SDK, images, license and authentication
+material remain outside Git. Phase7's exit gate passes; the next ordered work is
+Phase8 detailed offline report and browser qualification.

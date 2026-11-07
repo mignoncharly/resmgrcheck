@@ -1,0 +1,1 @@
+{"cases":{"cancel-first":"collected","complete-first":"collected","departure":"collected","repeat":"collected","signal":"collected","timeout":"collected"},"error":null,"kind":"host-run-state","request_sha256":"359d61fff450b99fcd85c2a0bc2951751694c48d6fabc53b18ec166d5767a4a7","run_id":"p7gate3-sensor-broken","schema_version":1,"state":"collected"}

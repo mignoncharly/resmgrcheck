@@ -10,7 +10,7 @@ from resmgrcheck.build_identity import source_hash
 from resmgrcheck.registrations import REGISTRY
 root=Path(__file__).resolve().parents[1]
 out=root/'build/qnx-x86_64'
-names=['runner','worker']+sorted({r.fixture for r in REGISTRY.values()})
+names=['runner','worker','targetctl']+sorted({r.fixture for r in REGISTRY.values()})
 value={'kind':'native-build-record','schema_version':1,
        'source_revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
        'dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=root,text=True)),

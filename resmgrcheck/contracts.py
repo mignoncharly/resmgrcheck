@@ -13,7 +13,7 @@ ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}\Z')
 DECIMAL = re.compile(r'(0|[1-9][0-9]{0,18})\Z')
 HASH = re.compile(r'[0-9a-f]{64}\Z')
 HEXREV = re.compile(r'[0-9a-f]{40}\Z')
-SCENARIOS = {'timeout','signal','departure','repeat','complete-first','cancel-first'}
+SCENARIOS = {'timeout','signal','departure','repeat','complete-first','cancel-first','external-health'}
 FIXTURE_MODES = {'corrected','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}
 
 VERDICTS = {'PASS', 'FAIL', 'ERROR', 'UNSUPPORTED', 'NOT_RUN'}
@@ -51,7 +51,7 @@ def enum(value, choices):
     return value
 
 def device(value):
-    require(type(value) is str and re.fullmatch(r'/dev/resmgrcheck-[A-Za-z0-9][A-Za-z0-9_-]{0,95}', value) is not None, 'unsafe lab device path')
+    require(type(value) is str and re.fullmatch(r'/dev/resmgrcheck-[A-Za-z0-9][A-Za-z0-9_-]{0,95}', value) is not None, 'service.device: unsafe lab device path')
     return value
 
 def strings(value, allowed):
@@ -131,7 +131,9 @@ class Timing:
     @classmethod
     def parse(cls, d):
         obj(d, 'setup_ms operation_ms cancellation_ms probe_ms execution_ms cleanup_ms', 'timing')
-        for k, v in d.items(): integer(v, 100, 30000 if k == 'execution_ms' else 5000)
+        for k, v in d.items():
+            try: integer(v, 100, 30000 if k == 'execution_ms' else 5000)
+            except Invalid as error: raise Invalid('timing.'+k+': '+str(error)) from error
         require(d['execution_ms'] >= d['operation_ms'] + d['cancellation_ms'] + d['setup_ms'] + d['probe_ms'], 'execution bound too small')
         return cls(**d)
 
@@ -148,13 +150,15 @@ class Profile:
     def parse(cls, d):
         obj(d, 'kind schema_version id version adapter service operation capabilities expectations timing suite', 'profile')
         version(d, 'profile'); text(d['id']); integer(d['version'], 1, 1000000)
-        a = obj(d['adapter'], 'id abi'); enum(a['id'], REGISTRY); integer(a['abi'], 1, 1)
+        a = obj(d['adapter'], 'id abi', 'adapter'); enum(a['id'], REGISTRY); integer(a['abi'], 1, 1)
         reg = REGISTRY[a['id']]
-        s = obj(d['service'], 'mode device'); enum(s['mode'], {'managed-fixture', 'external-attach'}); device(s['device'])
-        o = obj(d['operation'], 'id parameters result_shape convention')
-        enum(o['id'], {reg.operation}); enum(o['convention'], {reg.convention}); enum(o['result_shape'], {'integer-record'})
+        s = obj(d['service'], 'mode device', 'service'); enum(s['mode'], {'managed-fixture', 'external-attach'}); device(s['device'])
+        o = obj(d['operation'], 'id parameters result_shape convention', 'operation')
+        require(o['id']==reg.operation,'operation.id: unknown registered operation'); require(o['convention']==reg.convention,'operation.convention: incompatible return convention'); require(o['result_shape']=='integer-record','operation.result_shape: unsupported shape')
         require(type(o['parameters']) is dict and set(o['parameters']) == set(reg.parameters), 'wrong operation parameters')
-        for k, bounds in reg.parameters.items(): integer(o['parameters'][k], *bounds)
+        for k, bounds in reg.parameters.items():
+            try: integer(o['parameters'][k], *bounds)
+            except Invalid as error: raise Invalid('operation.parameters.'+k+': '+str(error)) from error
         suite = obj(d['suite'], 'required optional cycles reset'+(' signal_mode' if type(d['suite']) is dict and 'signal_mode' in d['suite'] else ''), 'suite')
         scenarios=strings(suite['required'],SCENARIOS)
         require(len(scenarios)==1,'one explicit scenario family required')
@@ -165,14 +169,16 @@ class Profile:
             require('signal_mode' in suite,'signal mode required')
             enum(suite['signal_mode'],{'non-restart-no-retry','auto-restart'})
         else:require('signal_mode' not in suite,'unexpected signal mode')
-        integer(suite['cycles'],1,20 if scenario=='repeat' else 200); enum(suite['reset'], {'same-instance' if scenario=='repeat' else 'new-instance'})
-        c = obj(d['capabilities'], 'required optional')
+        integer(suite['cycles'],1,20 if scenario=='repeat' else 200); enum(suite['reset'], {'external-unchanged' if scenario=='external-health' else 'same-instance' if scenario=='repeat' else 'new-instance'})
+        if scenario=='external-health':require(s['mode']=='external-attach','external-health requires external-attach mode')
+        c = obj(d['capabilities'], 'required optional', 'capabilities')
         required = strings(c['required'], CAPABILITIES); optional = strings(c['optional'], CAPABILITIES)
         require(not set(required) & set(optional), 'required/optional overlap')
-        require(({'pending','state','health','release'} | ({'repeat','timeout'} if scenario=='repeat' else {'ordering','signal'} if scenario in {'complete-first','cancel-first'} else {scenario})) <= set(required), 'strict scenario profile must require its observers')
+        require((({'state','health','external-health'} if scenario=='external-health' else {'pending','state','health','release'}) | ({'repeat','timeout'} if scenario=='repeat' else {'ordering','signal'} if scenario in {'complete-first','cancel-first'} else {scenario})) <= set(required), 'strict scenario profile must require its observers')
         e = obj(d['expectations'], 'cancel_error pending_after require_unblock health state_after'+(' next_health' if scenario in {'complete-first','cancel-first'} else ''))
-        enum(e['cancel_error'], {'PROCESS_EXIT' if scenario=='departure' else 'ETIMEDOUT' if scenario in {'timeout','repeat'} else 'EINTR'}); integer(e['pending_after'], 0, 0); boolean(e['require_unblock'])
+        enum(e['cancel_error'], {'NOT_APPLICABLE' if scenario=='external-health' else 'PROCESS_EXIT' if scenario=='departure' else 'ETIMEDOUT' if scenario in {'timeout','repeat'} else 'EINTR'}); integer(e['pending_after'], 0, 0); boolean(e['require_unblock'])
         require(not e['require_unblock'] or 'unblock' in required, 'unblock observation must be required')
+        if scenario=='external-health':require(not e['require_unblock'],'external health does not claim unblock coverage')
         facts(e['health'], reg.result_facts); require(set(e['health']) == reg.result_facts, 'incomplete result predicate')
         facts(e['state_after'], reg.state_facts); require(set(e['state_after']) == reg.state_facts, 'incomplete state predicate')
         if scenario in {'complete-first','cancel-first'}:
@@ -210,6 +216,7 @@ class Plan:
         text(d['profile_sha256'], HASH); require(d['profile_sha256'] == digest(profile.data), 'profile hash mismatch')
         text(d['suite_sha256'], HASH); require(d['suite_sha256'] == digest(profile.data['suite']), 'suite hash mismatch')
         enum(d['fixture_mode'], profile.registration.fixture_modes); builds(d['builds'])
+        if profile.data['service']['mode']=='external-attach':require(d['fixture_mode']=='corrected','external mode cannot configure fixture defects')
         require(d['cycle']==1,'aggregate plan starts at cycle one')
         require(d['case_id']=='repeat' or profile.data['suite']['cycles']==1,'single-case cycle count')
         return cls(loads(canonical(d)), profile)
@@ -325,6 +332,7 @@ class EvaluatedResult:
         if d['case_id']=='departure':required={'baseline_validity','pending_precondition','client_departure','ocb_lifetime','pending_state_cleanup','state_facts','fresh_client_health','single_instance','owned_process_cleanup','evidence_completeness'}
         if d['case_id'] in {'complete-first','cancel-first'}:required={'baseline_validity','pending_precondition','ordering_result','signal_handler_observation','terminal_ownership','terminal_reply_observation','stale_notification','fresh_result','unmatched_notification','pending_state_cleanup','state_facts','fresh_client_health','single_instance','owned_process_cleanup','evidence_completeness','ordering_coverage','directed_order'}
         if d['case_id']=='complete-first':required.add('completion_before_trigger')
+        if d['case_id']=='external-health':required={'external_scope','baseline_validity','state_observation','external_public_state','fresh_client_health','owned_process_cleanup','evidence_completeness'}
         if d['case_id']=='repeat':
             required={'baseline_validity','single_instance','repeat_coverage','owned_process_cleanup','evidence_completeness'}
             require(d['verdict']!='PASS' or ('cycles' in d and all(c['verdict']=='PASS' for c in d['cycles'])),'missing passed cycles')
@@ -353,6 +361,8 @@ def _runtime_device(v):
 def _facts(v): return facts(v)
 
 EVENT_FIELDS = {
+ 'external_open': {'read_only':_flag,'error':_number},
+ 'external_scope': {'path':_runtime_device,'read_only':_flag,'service_build_verified':_flag,'instance_verified':_flag},
  'request_ocb': {'logical':decimal,'generation':decimal,'client_pid':decimal,'ocb':_count},
  'close_dup': {'ocb':_count,'client_pid':decimal,'rcvid':decimal,'synthetic':_flag},
  'close_dup_default': {'ocb':_count,'status':_number},
@@ -457,6 +467,7 @@ def event_payload(d):
 EVENT_PRODUCERS = {name:'supervisor' for name in EVENT_FIELDS}
 for _name in ('request_ocb', 'close_dup', 'close_dup_default', 'close_ocb', 'close_ocb_default', 'terminal_attempt', 'retained_request', 'barrier_wait', 'stale_checked', 'cycle_ready', 'parked', 'park_completed'):EVENT_PRODUCERS[_name]='fixture'
 EVENT_PRODUCERS['descriptor_closed']='worker'
+EVENT_PRODUCERS['external_open']='worker'
 EVENT_PRODUCERS['descriptor_duplicated']='worker'
 for _name in ('ready','received','sample','pending','released','removed','unblock','ignored_unblock','cancel_completed','obsolete_unblock','unmatched_unblock','state_changed'):
     EVENT_PRODUCERS[_name]='fixture'

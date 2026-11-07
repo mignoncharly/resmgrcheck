@@ -1,0 +1,59 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "job-external",
+  "version": 1,
+  "adapter": {
+    "id": "job-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "external-attach",
+    "device": "/dev/resmgrcheck-external-job"
+  },
+  "operation": {
+    "id": "wait-result",
+    "parameters": {
+      "job_id": 1
+    },
+    "result_shape": "integer-record",
+    "convention": "devctl"
+  },
+  "capabilities": {
+    "required": [
+      "state",
+      "health",
+      "external-health"
+    ],
+    "optional": []
+  },
+  "expectations": {
+    "cancel_error": "NOT_APPLICABLE",
+    "pending_after": 0,
+    "require_unblock": false,
+    "health": {
+      "job_id": 1,
+      "value": 420
+    },
+    "state_after": {
+      "job_exists": 1,
+      "job_ready": 1
+    }
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "external-health"
+    ],
+    "optional": [],
+    "cycles": 1,
+    "reset": "external-unchanged"
+  }
+}

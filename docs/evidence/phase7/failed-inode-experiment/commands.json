@@ -1,0 +1,309 @@
+[
+  {
+    "argv": [
+      "make",
+      "qnx",
+      "QNX_VARIANT=gcc_ntox86_64"
+    ],
+    "exit": 0,
+    "stdout": "python3 scripts/check-qnx-build.py\nQNX build prerequisites available; compiler licensing and native execution still require their own checks.\nqcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/runner.c native/common/event.c native/common/plan.c native/common/result.c native/common/persistence.c native/common/lab.c native/common/journal.c native/common/process.c native/common/protocol.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/runner\nqcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/worker.c native/common/event.c native/common/plan.c native/common/result.c native/common/persistence.c native/common/lab.c native/common/journal.c native/common/process.c native/common/protocol.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/worker\nqcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/sensor.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/sensor-v1-fixture\nqcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/fixtures/job.c native/common/event.c third_party/cjson/cJSON.c -lm -o build/qnx-x86_64/job-v1-fixture\nqcc -Vgcc_ntox86_64 -std=c11 -Wall -Wextra -Werror -DRMC_EVENT_V1 -DCJSON_NESTING_LIMIT=12 -Ithird_party/cjson native/targetctl.c native/common/event.c native/common/plan.c native/common/result.c native/common/persistence.c native/common/lab.c native/common/journal.c native/common/process.c native/common/protocol.c third_party/cjson/cJSON.c native/adapters/registry.c native/adapters/sensor.c native/adapters/job.c -lm -o build/qnx-x86_64/targetctl\npython3 scripts/record-build.py\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "validate",
+      "profiles/sensor.json"
+    ],
+    "exit": 0,
+    "stdout": "profile valid\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "deploy",
+      "--target",
+      "lab",
+      "--build",
+      "build/qnx-x86_64"
+    ],
+    "exit": 0,
+    "stdout": "deployed f7afca29f1b670f811dcadb9c130267c01ab08bd7d6683e1f004c559b72ebf42; target lab\ncandidate manifest: build/qnx-x86_64/manifest.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "lab",
+      "--out",
+      ".local/evidence/phase7-p7gate1/doctor.json"
+    ],
+    "exit": 0,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: PASS - {'processor': 'x86_64', 'machine': 'x86pc', 'release': '8.0.0', 'uid': 0}\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_capabilities: PASS - 2 actual compiled adapter declarations; missing required: none\nservice_instance_capabilities: UNKNOWN - no service instance was launched; private observers are qualified during run, not inferred here\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "pidin ar"
+    ],
+    "exit": 0,
+    "stdout": "     pid Arguments\n       1 procnto-smp-instr -mr -d 0777 -u 0777 \n   16387 slogger2 -U 21:21 \n   28676 pci-server --aspace-enable --config=/proc/boot/pci_server.cfg \n   49157 devc-ser8250 -e \n   57351 ksh ksh \n   61446 fsevmgr \n   65544 devb-eide cam user=20:20 blk cache=64M,auto=partition,vnode=2000,ncache=2000,commit=low \n  131081 random -U 22:22 -s /data/var/random/rnd-seed \n  143370 pipe -U 24:24 \n  155659 devc-pty -U 37:37 \n  159756 dumper -U 30:30 -d /data/var/dumper -M 1000 -D cores \n  163853 io-sock -m phy -m pci -m usb -d vtnet_pci \n  225297 dhcpcd: [manager] [ip4] [ip6] -bq -f /system/etc/dhcpcd/dhcpcd.conf -c /system/etc/dhcpcd/dhcpcd-run-hooks \n  245776 /system/bin/sshd -f /system/etc/ssh/sshd_config \n  253966 qconn \n  258063 mqueue \n  282643 io-usb-otg -d hcd-uhci -d hcd-ehci -d hcd-xhci \n312766466 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n312778770 /system/bin/sshd-session -f /system/etc/ssh/sshd_config -R \n312778772 sh -c sh \n312782869 pidin ar \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "df /data"
+    ],
+    "exit": 0,
+    "stdout": "/dev/hd0t179              125192    109384     15808      88%  /data/          \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate1/sensor-fixed",
+      "--run-id",
+      "p7gate1-sensor-fixed"
+    ],
+    "exit": 0,
+    "stdout": "run p7gate1-sensor-fixed; target lab; output runs/p7gate1/sensor-fixed\ntimeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; PASS (1.0s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; PASS (1.1s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (16.5s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.6s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; PASS (1.2s)\nresult: runs/p7gate1/sensor-fixed/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "ignore-unblock",
+      "--out",
+      "runs/p7gate1/sensor-broken",
+      "--run-id",
+      "p7gate1-sensor-broken"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate1-sensor-broken; target lab; output runs/p7gate1/sensor-broken\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (3.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; FAIL (3.1s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; ERROR (3.2s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (3.6s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.5s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; FAIL (3.0s)\nresult: runs/p7gate1/sensor-broken/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "status",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate1-sensor-fixed",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\"cases\":[{\"case_id\":\"timeout\",\"run_id\":\"p7gate1-sensor-fixed-timeout\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"timeout\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"6d19943422edb54addf8b35711d0ba3c40e62687a8cb5e192577ca9cda94f6ec\",\"run_id\":\"p7gate1-sensor-fixed-timeout\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-timeout\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31733970751875\",\"state\":\"complete\",\"supervisor_pid\":\"313450518\",\"unresolved\":[]}},{\"case_id\":\"signal\",\"run_id\":\"p7gate1-sensor-fixed-signal\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"signal\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"93a9e24d9b862f608217222400b340d4b05a474ed458e31255972b24a19cdc87\",\"run_id\":\"p7gate1-sensor-fixed-signal\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-signal\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31735915539013\",\"state\":\"complete\",\"supervisor_pid\":\"313872406\",\"unresolved\":[]}},{\"case_id\":\"departure\",\"run_id\":\"p7gate1-sensor-fixed-departure\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"departure\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"9f9b9a5154e685fd68cf4781c80cdd414032665e8f0ba9863779fcf9ff42d68c\",\"run_id\":\"p7gate1-sensor-fixed-departure\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-departure\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31737342686324\",\"state\":\"complete\",\"supervisor_pid\":\"314220566\",\"unresolved\":[]}},{\"case_id\":\"repeat\",\"run_id\":\"p7gate1-sensor-fixed-repeat\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"repeat\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"34f2dbcda0631e7083976696584dae3e2dd7515972848c2b29da653cb6f482ce\",\"run_id\":\"p7gate1-sensor-fixed-repeat\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-repeat\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31738855449822\",\"state\":\"complete\",\"supervisor_pid\":\"314576918\",\"unresolved\":[]}},{\"case_id\":\"complete-first\",\"run_id\":\"p7gate1-sensor-fixed-complete-first\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"complete-first\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"8ecce9e855623a4d5d410c8d6481c3642d04dd1728db3b187e7e0fd38181a8c0\",\"run_id\":\"p7gate1-sensor-fixed-complete-first\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-complete-first\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31755804290508\",\"state\":\"complete\",\"supervisor_pid\":\"316874774\",\"unresolved\":[]}},{\"case_id\":\"cancel-first\",\"run_id\":\"p7gate1-sensor-fixed-cancel-first\",\"state\":\"complete\",\"status\":{\"attempt_id\":\"attempt1\",\"case_id\":\"cancel-first\",\"cleanup_ok\":true,\"cycle\":1,\"event_file\":\"events.jsonl\",\"exit_code\":0,\"kind\":\"run-status\",\"lab_control\":\"none\",\"profile_sha256\":\"8ff42fbdcb23c408898b9d0d7d6ed1e34cf491dccbaa9b98690eb6821444d931\",\"run_id\":\"p7gate1-sensor-fixed-cancel-first\",\"schema_version\":1,\"service_instance_id\":\"p7gate1-sensor-fixed-cancel-first\",\"source_tree_sha256\":\"6a6cca508e2cb3003d1e043053303bc115f38425d45cb5423b22ca6619827327\",\"started_ns\":\"31757798579334\",\"state\":\"complete\",\"supervisor_pid\":\"317308950\",\"unresolved\":[]}}],\"run_id\":\"p7gate1-sensor-fixed\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "collect",
+      "--target",
+      "lab",
+      "--run-id",
+      "p7gate1-sensor-fixed",
+      "--out",
+      "runs/p7gate1/sensor-recovered",
+      "--wait"
+    ],
+    "exit": 0,
+    "stdout": "collected p7gate1-sensor-fixed; result runs/p7gate1/sensor-recovered/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "replay",
+      "runs/p7gate1/sensor-broken/replay.json",
+      "--target",
+      "lab",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate1/sensor-replay",
+      "--run-id",
+      "p7gate1-sensor-replay"
+    ],
+    "exit": 0,
+    "stdout": "timeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.5s)\nsignal: starting; baseline pending\nsignal: baseline PASS; PASS (1.0s)\ndeparture: starting; baseline pending\ndeparture: baseline PASS; PASS (1.0s)\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (16.7s)\ncomplete-first: starting; baseline pending\ncomplete-first: baseline PASS; PASS (1.5s)\ncancel-first: starting; baseline pending\ncancel-first: baseline PASS; PASS (1.2s)\nreplay: incomparable; result runs/p7gate1/sensor-replay/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "compare",
+      "runs/p7gate1/sensor-broken",
+      "runs/p7gate1/sensor-replay",
+      "--out",
+      "runs/p7gate1/control-comparison"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": "comparison: incomparable\n"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "runs/p7gate1/sensor-replay",
+      "--out",
+      "runs/p7gate1/sensor-replay/report.html"
+    ],
+    "exit": 0,
+    "stdout": "report: runs/p7gate1/sensor-replay/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "junit",
+      "runs/p7gate1/sensor-fixed",
+      "runs/p7gate1/sensor-broken",
+      "runs/p7gate1/sensor-replay",
+      "--output",
+      ".local/evidence/phase7-p7gate1/workflow.xml"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "qcc",
+      "-Vgcc_ntox86_64",
+      "-std=c11",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "tests/qnx/external-owner.c",
+      "-o",
+      ".local/p7-external-owner"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      ".local/ssh_config",
+      "resmgrcheck-qnx",
+      "mkdir /data/resmgrcheck/p7gate1-external"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "scp",
+      "-F",
+      ".local/ssh_config",
+      ".local/p7-external-owner",
+      "resmgrcheck-qnx:/data/resmgrcheck/p7gate1-external/owner"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate1/sensor-external-profile.json",
+      "--suite",
+      "health",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate1/sensor-external",
+      "--run-id",
+      "p7gate1-sensor-external"
+    ],
+    "exit": 0,
+    "stdout": "run p7gate1-sensor-external; target lab; output runs/p7gate1/sensor-external\nexternal-health: starting; baseline pending\nexternal-health: baseline PASS; PASS (0.9s)\nresult: runs/p7gate1/sensor-external/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--target",
+      "lab",
+      "--profile",
+      ".local/evidence/phase7-p7gate1/sensor-external-profile.json",
+      "--suite",
+      "lifecycle",
+      "--fixture-mode",
+      "fixed",
+      "--out",
+      "runs/p7gate1/sensor-external-lifecycle",
+      "--run-id",
+      "p7gate1-sensor-external-lifecycle"
+    ],
+    "exit": 2,
+    "stdout": "run p7gate1-sensor-external-lifecycle; target lab; output runs/p7gate1/sensor-external-lifecycle\n",
+    "stderr": "ERROR: transport_command_failed: exit 2; targetctl: put-session rejected (ownership, identity or file check), errno=28\n"
+  }
+]

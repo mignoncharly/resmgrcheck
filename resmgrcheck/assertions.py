@@ -72,6 +72,14 @@ def expected_value(name, plan, cycle):
         'scenario_execution': {'flow_complete': 1},
         'remote_cleanup': {'cleanup_observed': True},
     }
+    if family == 'external-health':
+        values.update(external_scope={'path': profile['service']['device'], 'read_only': 1,
+                                     'service_build_verified': 0, 'instance_verified': 0},
+                      baseline_validity={'normal': 1, 'message': 1, 'facts': expectation['health']},
+                      state_observation={'error': 0},
+                      external_public_state={'pending': expectation['pending_after'], 'facts': expectation['state_after']},
+                      fresh_client_health={'normalized': 'OK', 'facts': expectation['health'],
+                                           'instance_identity': 'unverified', 'path': profile['service']['device']})
     return values.get(name, {'absent_problem': REASONS.get(name, name)})
 
 

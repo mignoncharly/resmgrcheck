@@ -56,8 +56,9 @@ profiles use the same 500/2000 ms timeout/allowance and 10 s case bound as Phase
 
 Repeat expansion supports1–20 cycles (reviewed default20); other multiple-cycle
 requests are rejected at expansion rather than silently running one. Optional scenario
-names do not imply those cases executed. External attach is validated as a mode
-but currently becomes UNSUPPORTED before any process launch.
+names do not imply those cases executed. External lifecycle becomes UNSUPPORTED before any process launch. External-health
+uses external-attach, one cycle/external-unchanged reset, NOT_APPLICABLE cancellation
+and explicit read-only public-state/health expectations.
 
 ## Expanded scenario plan (`kind: scenario-plan`)
 
@@ -434,3 +435,38 @@ completed contract FAIL),0 (complete required PASS). Offline bundle/inspect/juni
 compare return0 when valid failed evidence was successfully processed. Their
 success never changes the recorded test result. Legacy native collector code4
 still means withheld dependent execution; host test execution maps it to3.
+
+
+## Phase 7 host/transport records
+
+`config/targets.example.json` documents the strict local target schema. Unknown
+keys and targets are rejected. Authentication remains in OpenSSH; records contain
+routing/compatibility metadata, never secrets. See `transport.Target`.
+
+`deployment.Deployment` validates `deployed-build` version1: full content-derived
+identity, fixed destination, actual file SHA256/lengths, native source/build record,
+independently bound management-helper identity, compatibility/recipe/UID and
+per-adapter candidate manifests. `native/targetctl.c` uses protocol1 completed
+publication/ownership markers. A manifest file alone cannot establish publication.
+
+`workflow.Request` validates exact `execution-request` version1: root run ID,
+target name, complete immutable deployment, ordered case plans and profile
+snapshots. `suite-replay` points to that saved request and its digest; replay
+requires an explicit candidate deployment manifest to change the selected build.
+Persistent attempt ordinals include failed preflight attempts. Run IDs have a
+bounded ASCII letter/digit/underscore/hyphen grammar; the root ID has at most40
+characters to leave room for native family suffixes.
+
+Remote session storage is `/data/resmgrcheck/sessions/RUN_ID`; native case storage
+remains `/data/resmgrcheck/runs/CASE_RUN_ID`. Exclusive directories, UID/type/mode
+checks and request/plan hashes establish their binding. Launch intent precedes the
+single invocation. Acknowledged, status-observed and collected are separate facts.
+`state.json` preserves uncertainty; `result.json` binds every required case to its
+sealed bundle or explicit uncollected result. Collection history keeps old result,
+state and partial raw bytes. It never supplies absent acknowledgements or launches
+withheld cases. Deleted/archived target status is UNKNOWN, never a PASS.
+
+All metadata is bounded and parsed through duplicate-key/type/field validation.
+Actual SFTP hashes are required before native launch. Producer signal/termination
+records must name ledger-owned children; fixture-stop must name a fixture role.
+Saved PIDs are observations only and never authorize later cleanup.

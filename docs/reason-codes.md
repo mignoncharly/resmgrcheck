@@ -85,3 +85,14 @@ ABI/architecture, mismatched candidate hashes or invalid replay selection are in
 evidence ERROR with execution exit2. No candidate launch occurs after preflight
 hash failure. JUnit required-coverage/error denotes incomplete required obligations;
 its skipped cases retain their original capability/contamination explanation.
+
+
+Phase7 external-health adds an explicit scoped diagnostic. Full external lifecycle
+uses `service_mode_unsupported`; absent observers use
+`required_capability_missing`. Unsupported signal semantics remain
+`signal_mode_unsupported`. External scope/access-mode inconsistencies are harness
+errors (`external_scope`), not private lifecycle failures. Unexpected
+signal/termination/fixture-stop child identities invalidate evidence even when an
+independent service FAIL is also established. Host transport/launch uncertainty is
+an infrastructure ERROR; it is recorded alongside original per-case reasons.
+No missing deployment, transfer mismatch or unknown capability is a successful run.

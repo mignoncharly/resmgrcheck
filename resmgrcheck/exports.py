@@ -22,13 +22,17 @@ def execution_exit(results, interrupted=False):
 
 def junit(bundles):
     """All currently expanded families/cycles are required; never waive them here."""
+    return junit_runs([(b.plan.data, b.result.data, b.manifest.data['bundle_id'], str(b.path)) for b in bundles])
+
+
+def junit_runs(runs):
+    """A missing native bundle stays explicitly uncollected, never a forged ID."""
     root = ET.Element('testsuites')
-    for bundle in bundles:
-        plan, result = bundle.plan.data, bundle.result.data
+    for plan, result, bundle_id, reference in runs:
         suite = ET.SubElement(root, 'testsuite', name='resmgrcheck.' + plan['profile']['id'])
         properties = ET.SubElement(suite, 'properties')
-        for name, value in {'bundle_id': bundle.manifest.data['bundle_id'],
-                            'bundle_path': json.dumps(str(bundle.path), ensure_ascii=True),
+        for name, value in {'bundle_id': bundle_id or 'uncollected',
+                            'bundle_path': json.dumps(reference, ensure_ascii=True),
                             'profile_sha256': plan['profile_sha256'], 'attempt_id': plan['attempt_id'],
                             'source_revision': plan['builds']['source_revision']}.items():
             ET.SubElement(properties, 'property', name=name, value=value)
@@ -41,13 +45,13 @@ def junit(bundles):
             if tag:
                 child = ET.SubElement(case, tag, type=verdict, message=', '.join(entry['reasons']))
                 child.text = json.dumps(entry, sort_keys=True, ensure_ascii=True)
-            ET.SubElement(case, 'system-out').text = json.dumps({'bundle_id': bundle.manifest.data['bundle_id'],
+            ET.SubElement(case, 'system-out').text = json.dumps({'bundle_id': bundle_id,
                                                                'assertions': entry['assertions']}, sort_keys=True, ensure_ascii=True)
         incomplete = result['completion'] != 'complete' or any(e['verdict'] in {'UNSUPPORTED', 'NOT_RUN'} for _, e in cases)
         if incomplete:
             case = ET.SubElement(suite, 'testcase', name='required-coverage', classname='resmgrcheck.coverage')
             ET.SubElement(case, 'error', type='incomplete_required_coverage',
-                          message='Required cases or obligations did not complete; inspect bundle ' + bundle.manifest.data['bundle_id'])
+                          message='Required cases or obligations did not complete; inspect ' + (bundle_id or reference))
         for key, tag in [('failures', 'failure'), ('errors', 'error'), ('skipped', 'skipped')]:
             suite.set(key, str(len(suite.findall('testcase/' + tag))))
         suite.set('tests', str(len(suite.findall('testcase'))))
