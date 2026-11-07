@@ -1,0 +1,135 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>ResMgrCheck comparison</title><style>
+:root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 system-ui,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}h1{font-size:2rem;line-height:1.2}h2{margin-top:2rem}h3{margin-top:1.5rem}
+a{color:#084f9e}a:hover{text-decoration-thickness:3px}:focus-visible{outline:3px solid #965200;outline-offset:3px}
+p,li,td,th,dd,code,summary{overflow-wrap:anywhere}code,pre{font-family:ui-monospace,monospace;font-size:.875rem}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0;max-width:100%}nav{display:flex;gap:1rem;flex-wrap:wrap}
+section,.case-detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px;margin:16px 0}
+.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:800px;font-size:.9rem}caption{text-align:left;font-weight:700;padding:8px 0}
+th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}th{background:#eef2f5}th:first-child{min-width:110px}
+.badge{font-weight:750;padding:2px 7px;border:1px solid currentColor;border-radius:4px;white-space:nowrap;display:inline-block}
+.PASS{color:#075b34;background:#e6f6ed}.FAIL{color:#8a2020;background:#ffecec}.ERROR{color:#793900;background:#fff0da}
+.UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
+.muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
+summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
+@media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
+@media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
+</style></head><body><main><h1>ResMgrCheck comparison</h1><section><h2>Comparison summary</h2><p class="badge">fixed</p><p>This view displays saved comparison metadata; it does not independently revalidate its source bundles. Verify the original/candidate bundle IDs in the source reports. A changed service build, contract and target are separate facts.</p><dl class="facts"><dt>Original evidence</dt><dd>runs/p10demo2-broken</dd><dt>Candidate evidence</dt><dd>runs/p10demo2-after</dd><dt>Original fixture setting</dt><dd>ignore-unblock</dd><dt>Candidate fixture setting</dt><dd>ignore-unblock</dd></dl><details><summary>Full comparison identities and configured targets</summary><pre>{
+  &quot;candidate_deployment&quot;: &quot;44d2629791e9d91982f2858162dee97aa386a81a17e6be5ce0d43eda026c4caf&quot;,
+  &quot;candidate_location&quot;: &quot;runs/p10demo2-after&quot;,
+  &quot;candidate_mode&quot;: &quot;ignore-unblock&quot;,
+  &quot;candidate_request_sha256&quot;: &quot;2b59f229831163056b263e073f4dd74e2c9f75599d76c6050455d71b92470900&quot;,
+  &quot;candidate_target_configuration&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;processor&quot;: &quot;x86_64&quot;,
+    &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;root&quot;: &quot;/data/resmgrcheck&quot;,
+    &quot;uid&quot;: 0
+  },
+  &quot;fixture_mode_changed&quot;: false,
+  &quot;kind&quot;: &quot;execution-comparison&quot;,
+  &quot;label&quot;: &quot;fixed&quot;,
+  &quot;original_deployment&quot;: &quot;ae1211e774c0b0ef7b30d11085f064cea99f891424359fcb3e2941cff964bfcf&quot;,
+  &quot;original_location&quot;: &quot;runs/p10demo2-broken&quot;,
+  &quot;original_mode&quot;: &quot;ignore-unblock&quot;,
+  &quot;original_request_sha256&quot;: &quot;63aec83136615a5b5b394580bd529da4929cf73e2dd7b616ffc407311c121d73&quot;,
+  &quot;original_target_configuration&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;processor&quot;: &quot;x86_64&quot;,
+    &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;root&quot;: &quot;/data/resmgrcheck&quot;,
+    &quot;uid&quot;: 0
+  },
+  &quot;schema_version&quot;: 1
+}</pre></details></section><section><h2>timeout</h2><p>Result: <strong>fixed</strong></p><p>Same declared contract/settings: <strong>True</strong>. Changed fields: none.</p><p>Same recorded target/recipe context: <strong>True</strong>. Recipe changed: False.</p><div class="table-scroll"><table><caption>Saved outcome reasons</caption><thead><tr><th scope="col">Original</th><th scope="col">Candidate</th></tr></thead><tbody><tr><td>cancellation_not_completed, pending_state_not_released</td><td>all_obligations_satisfied</td></tr></tbody></table></div><div class="table-scroll"><table><caption>Build, contract and target context</caption><thead><tr><th scope="col">Context</th><th scope="col">Original</th><th scope="col">Candidate</th></tr></thead><tbody><tr><td>Native source / executable hashes</td><td><pre>{
+  &quot;binaries&quot;: {
+    &quot;adapter&quot;: &quot;d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43&quot;,
+    &quot;fixture&quot;: &quot;020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174&quot;,
+    &quot;runner&quot;: &quot;2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334&quot;,
+    &quot;worker&quot;: &quot;d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43&quot;
+  },
+  &quot;compiler_variant&quot;: &quot;gcc_ntox86_64&quot;,
+  &quot;dirty&quot;: false,
+  &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+  &quot;source_revision&quot;: &quot;d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357&quot;,
+  &quot;source_tree_sha256&quot;: &quot;02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b&quot;
+}</pre></td><td><pre>{
+  &quot;binaries&quot;: {
+    &quot;adapter&quot;: &quot;d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43&quot;,
+    &quot;fixture&quot;: &quot;99a511d86617ab807efc3ec1ac9b4d100b8c42fec8a4c358bff908562a48078e&quot;,
+    &quot;runner&quot;: &quot;2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334&quot;,
+    &quot;worker&quot;: &quot;d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43&quot;
+  },
+  &quot;compiler_variant&quot;: &quot;gcc_ntox86_64&quot;,
+  &quot;dirty&quot;: false,
+  &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+  &quot;source_revision&quot;: &quot;39b99d7a163c21c88d831456cc438e3c02a56ac9&quot;,
+  &quot;source_tree_sha256&quot;: &quot;08b20033edf22f6e0427b75b754a96d8f9fcdb358b8bbea51d224a4cc9e7e041&quot;
+}</pre></td></tr><tr><td>Observed QNX target</td><td><pre>{
+  &quot;machine&quot;: &quot;x86pc&quot;,
+  &quot;priority&quot;: 10,
+  &quot;release&quot;: &quot;8.0.0&quot;,
+  &quot;scheduling_policy&quot;: 2,
+  &quot;sysname&quot;: &quot;QNX&quot;,
+  &quot;version&quot;: &quot;2026/06/05-16:26:03EDT&quot;
+}</pre></td><td><pre>{
+  &quot;machine&quot;: &quot;x86pc&quot;,
+  &quot;priority&quot;: 10,
+  &quot;release&quot;: &quot;8.0.0&quot;,
+  &quot;scheduling_policy&quot;: 2,
+  &quot;sysname&quot;: &quot;QNX&quot;,
+  &quot;version&quot;: &quot;2026/06/05-16:26:03EDT&quot;
+}</pre></td></tr></tbody></table></div><details><summary>Case comparison facts and bundle identities</summary><pre>{
+  &quot;candidate_bundle_id&quot;: &quot;f5a1d7c3ee52dd4cb170fe576195539aafc69ec7e53493226f5eee93de07fdc3&quot;,
+  &quot;candidate_failures&quot;: [],
+  &quot;candidate_reasons&quot;: [
+    &quot;all_obligations_satisfied&quot;
+  ],
+  &quot;case_id&quot;: &quot;timeout&quot;,
+  &quot;contract_changes&quot;: {
+    &quot;case_id&quot;: false,
+    &quot;fixture_mode&quot;: false,
+    &quot;profile_sha256&quot;: false,
+    &quot;suite_sha256&quot;: false
+  },
+  &quot;kind&quot;: &quot;run-comparison&quot;,
+  &quot;label&quot;: &quot;fixed&quot;,
+  &quot;new_failures&quot;: [],
+  &quot;original_bundle_id&quot;: &quot;58db59fec146ed83b1a56cf422c7c9f3be02abb111a347a9cfb9273a25d49b96&quot;,
+  &quot;original_failures&quot;: [
+    &quot;cancellation_not_completed&quot;,
+    &quot;pending_state_not_released&quot;
+  ],
+  &quot;original_reasons&quot;: [
+    &quot;cancellation_not_completed&quot;,
+    &quot;pending_state_not_released&quot;
+  ],
+  &quot;recipe_changed&quot;: false,
+  &quot;reproduced&quot;: false,
+  &quot;same_contract&quot;: true,
+  &quot;schema_version&quot;: 1,
+  &quot;target_compatible&quot;: true
+}</pre></details></section><section><h2>Evidence and replay</h2><p>Open the original and candidate run reports for obligations, observations and replay inputs. Unknown target metadata is not evidence of compatibility.</p><a href="comparison.json">Saved comparison JSON</a></section><footer><p class="muted">ResMgrCheck · Offline evidence view · No network assets. Saved evaluator outcomes are authoritative; filters only change presentation.</p></footer></main><script>
+const controls = document.getElementById('filters');
+const select = document.getElementById('verdict-filter');
+if (controls && select) {
+  controls.hidden = false;
+  select.addEventListener('change', () => {
+    document.querySelectorAll('[data-verdict]').forEach(node => {
+      node.hidden = select.value !== 'ALL' && node.dataset.verdict !== select.value;
+    });
+  });
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    select.value = 'ALL'; select.dispatchEvent(new Event('change')); select.focus();
+  });
+}
+function discloseAnchor() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) { target.hidden = false; let parent = target; while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
+}
+window.addEventListener('hashchange', discloseAnchor); discloseAnchor();
+</script></body></html>

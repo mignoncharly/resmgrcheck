@@ -1,0 +1,8 @@
+{
+  "kind": "tracked-source-release-scan",
+  "schema_version": 1,
+  "revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+  "files_checked": 4616,
+  "findings": [],
+  "scope": "Tracked source/evidence only; literal private-key and common token signatures plus ELF/private-path checks; not a complete secret detector."
+}

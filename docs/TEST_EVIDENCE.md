@@ -1254,3 +1254,73 @@ Reviewed text copies preserve exact native bytes; binaries/readbacks, SDK/images
 credentials and machine configuration remain ignored. The Phase9 exit gate passes.
 Next: prepare and rehearse Phase10's concrete demonstration/submission package;
 publication/submission remain separate authorization-dependent actions.
+
+
+## E016: Phase10 actual QNX demonstration and local submission package
+
+**Date:** 2026-11-07. **Preparation:** complete. Engineering complete; candidate
+publication, public video URL, entrant attestations and confirmed submission remain
+separate pending operator actions. Existing GitHub repository visibility was
+observed public through its read-only connector; no remote mutation occurred.
+The official rules were freshly fetched successfully and are linked in
+submission/rules-check.md; no full rule text or website metadata is redistributed.
+
+The final actual recording command used the installed local SDK/browser tooling:
+
+```sh
+source /home/mignon/qnx800/qnxsdp-env.sh
+PLAYWRIGHT_BROWSERS_PATH="$PWD/.local/browser-binaries" .local/browser-test/bin/python tests/demo/record_demo.py --prefix p10demo2 --out .local/submission/demo2 --fixed-source .local/phase10-fixed-source
+```
+
+[Recording manifest](evidence/phase10/manifest.json),
+[full actual command output](evidence/phase10/commands.json),
+[qualification](evidence/phase10/qualification.json),
+[ffprobe](evidence/phase10/ffprobe.json) and screenshots bind the result.
+Original/host source was clean d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357,
+runtime SHA256 02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b.
+The separately committed actual correction was39b99d7, removing the intentional
+ignored-unblock early return from both fixtures. qcc force-builds/deployments and
+actual SFTP/hash verification preceded execution. The existing QNX guest was reused.
+No SDK reinstall, new credentials, host service/firewall change or reboot.
+
+Five distinct native runs matched: corrected sensor PASS; intentional broken
+sensor FAIL/exit1 with both cancellation_not_completed and pending_state_not_released;
+unchanged-setting explicit candidate replay PASS/fixed; exact-worker departure
+PASS with actual exit/default close/reap and original-instance fresh health;
+job PASS with retained job/fresh420. The worker and runner hashes are shared across
+both services and both builds; the fixture hash actually changed. All final statuses
+have observed cleanup and no unresolved children. After recording, the original
+main deployment was reselected and verified so the normal release workflow retains
+its planted negative controls.
+
+The capture streams actual host CLI output into a local browser viewer and opens
+the generated offline report. Pending/unblock, expired result limit, separate
+cleanup, source patch, native qcc build/replay, default close callbacks and shared
+worker hash are readable in inspected frames. The final encoded MP4 is exactly
+170.000 seconds, H.264,1280x720 at25 fps, with English on-screen explanation and no
+audio/music. It is `.local/submission/demo2/demo.mp4`; its SHA256 is in
+submission/demo-metadata.json. Optional narration/SRT and exact cues are committed.
+The first170-second successful rehearsal remains local with its manifest; the final
+take improves readability without rewriting native verdicts or reusing run IDs.
+All actual raw/status/result/profile/build/replay bytes remain preserved. These
+five current-runtime native cases supplement E015's full clean release gate; no
+unchanged earlier phase was relabelled or claimed to run on a documentation successor.
+
+E015 histories were later verified/archived to free the small guest filesystem for
+capture:54 completed native histories and39 bound sessions, retaining all directory
+guards and the four source-before/after histories. The typed controller, SFTP,
+cksum/length and SHA256 checks preceded exact-file removal; no process was signalled.
+Committed/offline copies preserve the full58-case gate. Unknown histories and
+immutable original/candidate deployments were not removed. Retention index is
+submission/retention-before-demo.json. Archived IDs need their offline copies.
+
+Source/evidence/release text, codelab, worked adapter guide, evidence map, description,
+metadata, readiness distinctions and a real local video are reviewable. A tracked
+source scan checked4616 files at the capture candidate and found no ELF/private
+paths or matched private-key/common-token signatures; this is not an exhaustive
+secret-detection claim. Binaries, SDK/images, private configuration and authentication
+material remain excluded. The final source review package has independent hashes.
+
+No candidate push, YouTube upload, terms acceptance or contest submission was
+performed. Public candidate/license/video/codelab verification and entrant fields
+must be completed after operator authorization; submission success is not claimed.

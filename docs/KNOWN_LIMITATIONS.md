@@ -72,3 +72,11 @@ Updated: 2026-11-07.
   it did not recreate a fresh target. Native/build/engine files are bound to clean
   d2e0a43. A report-only summary correction has separate107-host/four-view browser
   evidence and explicit source equivalence, without relabelling native observations.
+
+- Phase10's real local video is170 seconds with English on-screen explanation and
+  no audio/music. Its SDK/native runs are actual; the capture surface is the host
+  CLI viewer and generated offline report. Public YouTube upload, new candidate
+  publication/license detection, codelab URL and submission confirmation are pending.
+- For demo storage,54 completed Phase9 histories/39 sessions were verified/archived,
+  retaining start guards and all four source-before/after histories. Offline/Git
+  evidence remains; archived on-target IDs cannot be collected as present bytes.

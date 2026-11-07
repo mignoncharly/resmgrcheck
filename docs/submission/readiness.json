@@ -1,0 +1,23 @@
+{
+  "kind": "release-and-submission-readiness",
+  "schema_version": 1,
+  "checked_at": "2026-11-07T08:38:10.420070+00:00",
+  "engineering_complete": true,
+  "local_submission_preparation_complete": true,
+  "submission_ready": false,
+  "candidate_package_published": false,
+  "submitted": false,
+  "submission_confirmation": null,
+  "existing_repository_public": true,
+  "candidate_revision_at_remote_verified": false,
+  "public_video_url": null,
+  "remaining_operator_actions": [
+    "Review the local source/video/evidence package",
+    "Authorize publication/push of the completed candidate and verify public license detection",
+    "Upload the reviewed video publicly to YouTube and verify the real URL",
+    "Provide entrant/team and eligibility/ownership attestations in the actual form",
+    "Verify current official fields/rules, enter final URLs and submit; preserve confirmation"
+  ],
+  "no_technical_blocker": true,
+  "credentials_or_licensed_runtime_redistributed": false
+}

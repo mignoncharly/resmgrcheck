@@ -1,0 +1,34 @@
+{
+  "kind": "reviewed-local-demo",
+  "schema_version": 1,
+  "title": "ResMgrCheck: QNX lifecycle contracts and source-fix replay",
+  "local_video": "/home/mignon/projects/resmgrcheck/.local/submission/demo2/demo.mp4",
+  "video_sha256": "65a9bcaca896bc9da39a965d5c3de127c9b1f3ec7a3c801ef46eb65e84ab06e7",
+  "duration_seconds": 170,
+  "codec": "H.264",
+  "resolution": [
+    1280,
+    720
+  ],
+  "frame_rate": "25/1",
+  "audio": "none; English on-screen captions; optional narration script provided",
+  "actual_capture_surface": "Host CLI output streamed into a local browser viewer and actual offline reports; commands execute against the existing QNX lab",
+  "original_host_source": {
+    "dirty": false,
+    "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+    "source_tree_sha256": "02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b"
+  },
+  "candidate_source": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+  "source_settings_unchanged": true,
+  "native_case_count": 5,
+  "verdicts": {
+    "normal": "PASS",
+    "broken": "FAIL",
+    "after": "PASS",
+    "departure": "PASS",
+    "job": "PASS"
+  },
+  "public_video_url": null,
+  "uploaded": false,
+  "retained_first_rehearsal": ".local/submission/demo1"
+}

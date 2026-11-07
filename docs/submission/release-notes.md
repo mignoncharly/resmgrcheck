@@ -17,3 +17,11 @@ The complete source will be packaged from a committed revision; proprietary/gene
 runtime inputs stay outside Git. Local assets are not a published release or a
 submitted contest entry. Public candidate/video URLs require verification after
 operator-authorized publication.
+
+The final inspected local demo is170 seconds (English on-screen explanation, no
+audio/music), with five actual current-runtime QNX cases and unchanged-settings
+source-fix replay. Manifest/original/candidate identities and ffprobe/checksums are
+committed; encoded media stays in the local review bundle. The capture source is
+d9d2a1a/runtime02b34132..., correction39b99d7; documentation successors retain the
+same runtime fingerprint. All public URL/eligibility/submission states remain
+explicit in readiness.json. Public uploads are not implied by these release notes.

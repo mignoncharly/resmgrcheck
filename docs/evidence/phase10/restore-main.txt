@@ -1,0 +1,2 @@
+deployed ae1211e774c0b0ef7b30d11085f064cea99f891424359fcb3e2941cff964bfcf; target lab
+candidate manifest: build/qnx-x86_64/manifest.json

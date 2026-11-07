@@ -447,3 +447,23 @@ cksum and local SHA256. Three no-status/unknown destinations were untouched. Emp
 start guards remain; committed/offline copies retain all evidence. Archived target
 IDs cannot be collected as though bytes were still present. Original deployments,
 SDK/images and credentials remain unchanged.
+
+## D030: Finish a real local demo and separate publication states
+
+**Date:**2026-11-07. **State:** local preparation complete E016.
+
+Record actual command output/native runs and actual HTML in a local browser capture,
+with English explanation. The final170-second H.264 video shows current pending/
+unblock records, independent defect reasons, a real handler patch/qcc candidate,
+unchanged-setting replay, exact-worker/default-close/reap and job retrieval using
+the shared worker. A first successful rehearsal is retained; the second improves
+source/pending/default-close readability. Raw verdicts are preserved.
+
+The public rules were freshly verified; the existing repository is public, but
+these completed checkpoints were not pushed and no video was uploaded. Keep
+engineering complete, local preparation, public-asset readiness, publication and
+confirmed submission as separate states. Prepare actual review assets before any
+publication approval. Operator identity/eligibility/ownership fields and actual
+public video/codelab URLs remain pending. No terms/submission action is inferred
+from implementation authorization. Original main deployment is restored after
+recording so routine release verification retains its negative controls.

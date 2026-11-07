@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:20,000
+Real QNX8.0 lab. Corrected ordinary/prepared baselines and fresh-client health use supervised native workers.
+
+2
+00:00:20,000 --> 00:00:55,000
+Intentional fixture defect: a live pending request ignores its unblock. Cancellation and pending cleanup fail independently; cleanup facts remain separate.
+
+3
+00:00:55,000 --> 00:01:20,000
+Actual saved report: declared obligation, observed values and source references. Missing health is unestablished.
+
+4
+00:01:20,000 --> 00:01:55,000
+Actual source correction and qcc candidate build. Replay keeps the contract, timing and ignore-unblock setting unchanged, with verified new fixture hashes.
+
+5
+00:01:55,000 --> 00:02:20,000
+Pending first; terminate only the owned worker. Actual exit/reaping and default close bookkeeping precede same-instance fresh-client health.
+
+6
+00:02:20,000 --> 00:02:45,000
+Job adapter, same native engine. Cancellation releases the waiter while the job survives; a fresh client retrieves job1/value420.
+
+7
+00:02:45,000 --> 00:02:50,000
+Reproduce with README, the codelab and immutable evidence. Qualified lab scope; unsupported and incomplete results stay visible.
