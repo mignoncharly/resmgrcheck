@@ -156,3 +156,41 @@ E013 separately owns real lab fixtures, confirms the same external PIDs remain
 alive after attachment, then explicitly stops and observes reaping in its test
 owner. That owner process is outside the product's ownership scope. The complete
 host workflow is documented in [cli.md](cli.md).
+
+## Worked job adapter checklist for another implementer
+
+The second service was implemented and qualified by the project agent; no separate
+external developer followed this guide. Use the following actual boundaries:
+
+1. Define the service's fixed request/reply/state types in
+   `native/fixtures/job_protocol.h`. Job1 is fixture-owned; completed results are
+   non-consuming until SUBMIT. Distinguish jobs from waiters in public facts.
+2. Implement `job_devctl` and `job_unblock` in `native/fixtures/job.c`, preserving
+   `iofunc_*_default` delegation and live MsgInfo/owner checks. Include the shared
+   `lifecycle.h` and `message_bounds.h` helpers. Validate exact current payload,
+   declared size, actual reply capacity and access mode before state changes.
+   Mutating commands need writable OCBs; public state/result retrieval needs read.
+   Combined custom operations are outside this fixed protocol.
+3. Implement validate_parameters/control/ordinary/prepare/finish in
+   `native/adapters/job.c`. Prepare installed io_devctl_t and separate payload iovs
+   before the core arms TimerTimeout. Preserve direct devctl errors independently
+   of errno, and validate MsgSendv reply status/size/reserved fields and typed facts.
+4. Register the static ABI1 instance in `native/adapters/registry.c` and its typed
+   fact/capability/fixture/ordering metadata in `resmgrcheck/registrations.py`.
+   Add the fixture target in Make and `profiles/job.json`; do not add branches for
+   this service in runner/worker/scenario/evaluator. Schema changes need an explicit
+   versioned contract review, not an arbitrary fact/string escape hatch.
+5. Build with real qcc, validate the profile, deploy actual bytes with readback
+   hashes and run fixed/defect profiles. Prove ordinary/prepared/deferred baselines,
+   observed pending, cancellation, zero waiters, retained job, original-instance
+   fresh retrieval and exact owned cleanup. Qualify departure,20 reconnect cycles
+   and both directed orders through the same generic path. Missing observers are
+   UNSUPPORTED, never a substitute health PASS.
+6. Run `tests/qnx/qualify-input-bounds.py` with a fresh stage and the release suite.
+   The focused input driver covers actual malformed/short/readonly rejection and
+   unchanged state/fresh health; its test supervisor owns/reaps exact children.
+   E015 records the clean current-source gate, qcc analysis and explicit limitations.
+
+Neither dynamic loading, arbitrary raw messages, multiple-job scheduling nor
+external lifecycle instrumentation is supplied by registering a name. An external
+running-build identity mechanism is required for candidate verification there.

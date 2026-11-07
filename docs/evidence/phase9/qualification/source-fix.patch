@@ -1,0 +1,40 @@
+commit 3d0d7b17c2b08040d064d3adfea5bd21839f0949
+Author:     Codex <codex@openai.com>
+AuthorDate: Sat Nov 7 07:41:36 2026 +0000
+Commit:     Codex <codex@openai.com>
+CommitDate: Sat Nov 7 07:41:36 2026 +0000
+
+    Correct saved unblock defect for Phase 9 source replay
+
+diff --git a/native/fixtures/job.c b/native/fixtures/job.c
+index 6ed153f..0b95f25 100644
+--- a/native/fixtures/job.c
++++ b/native/fixtures/job.c
+@@ -49,11 +49,6 @@ static int job_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *ocb
+             event("fixture","barrier_wait","logical=%u generation=%u rcvid=%" PRId64,p->logical,p->generation,(int64_t)p->rcvid);
+             return _RESMGR_NOREPLY;
+         }
+-        if (ignore_unblock) {
+-            event("fixture", "ignored_unblock", "logical=%u generation=%u pending=%u",
+-                  p->logical, p->generation, state.pending);
+-            return _RESMGR_NOREPLY;
+-        }
+         /* -1 is valid only here: a live, owned, current unblock request. */
+         int rc = MsgError(p->rcvid, -1);
+         int error = rc == -1 ? errno : 0;
+diff --git a/native/fixtures/sensor.c b/native/fixtures/sensor.c
+index bc21fc4..58ad1a2 100644
+--- a/native/fixtures/sensor.c
++++ b/native/fixtures/sensor.c
+@@ -85,11 +85,6 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *
+             event("fixture","barrier_wait","logical=%u generation=%u rcvid=%" PRId64,p->logical,p->generation,(int64_t)p->rcvid);
+             return _RESMGR_NOREPLY;
+         }
+-        if (ignore_unblock) {
+-            event("fixture", "ignored_unblock", "logical=%u generation=%u pending=%u",
+-                  p->logical, p->generation, state.pending);
+-            return _RESMGR_NOREPLY;
+-        }
+         /* -1 is valid only here: a live, owned, current unblock request. */
+         int rc = MsgError(p->rcvid, -1);
+         int error = rc == -1 ? errno : 0;

@@ -7,6 +7,7 @@
 | Python3.10+ standard library | Host runtime/HTML/XML | External interpreter; no pip product dependencies |
 | QNX SDP8.0/qcc gcc_ntox86_64 | Cross compiler and headers | Operator-installed/licensed; excluded from Git |
 | QNX8.0.0 x86_64 OS/libc/libm | Target | Existing owned guest; proprietary image/binaries excluded |
+| Git | Source revision/dirty-state provenance | External tool; use a Git checkout, not an unversioned archive |
 | Make and OpenSSH ssh/scp with SFTP | Build and transfer | External locally installed tools, separately licensed |
 | QEMU/KVM | Qualified virtual lab | External tools; disk/IFS artifacts excluded |
 | Playwright1.64.1 / Chromium156.0.8078.4 | Optional browser qualification | Ignored local development environment; not product dependencies or redistributed binaries |

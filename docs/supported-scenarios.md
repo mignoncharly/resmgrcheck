@@ -35,3 +35,12 @@ claimed. See evidence/phase5/index.json for exact individual identities/reasons.
 Run `python3 tests/qnx/qualify-phase5.py --prefix UNIQUE` after `make qnx` for the
 terminal demonstration. The command succeeds only if every actual case matches
 its expected verdict/reason set. It never substitutes PASS for a planted failure.
+
+
+Phase9 clean release confirmation (E015) preserves all six families on both
+services:36 exact expected outcomes with12 PASS,19 FAIL,2 ERROR and3 UNSUPPORTED,
+plus required NOT_RUN cycles. Focused fixed-message input checks separately prove
+25 exact API/rejection results and unchanged state/fresh-client health. Custom
+combined wire operations remain unsupported; observed prefixes were framework
+rejections and the tail was not executed. This does not add arbitrary raw-message
+scenarios to the profile/adapter contract.

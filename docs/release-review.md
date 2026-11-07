@@ -1,8 +1,8 @@
 # Release candidate review
 
 This is a source/self-review by the implementation agent. No independent developer,
-external adoption or security certification is claimed. Phase9 remains in progress
-until clean source reproduction and the full expected-outcome release gate pass.
+external adoption or security certification is claimed. Phase9 passed clean source reproduction and the full expected-outcome release
+gate in E015. The renderer-only follow-up is qualified separately there.
 
 ## Native ownership and QNX bookkeeping
 
@@ -115,4 +115,6 @@ The script follows README's actual commands, including the initial UNKNOWN docto
 then the complete expected-outcome release matrix, focused native input gate and
 explicit changed-build replay on both services. It preserves commands/output,
 JSON/JUnit/HTML, hashes, actual source identity and reused-target disclosure.
-A successful script is still required before marking the full Phase9 gate passed.
+E015 records the successful clean-checkout execution, actual source identities and
+reused-target state. Native/build/engine equivalence and the small report-only
+follow-up are bound separately; earlier bytes were not relabelled.

@@ -49,6 +49,14 @@ class Reports(unittest.TestCase):
         text=self.render(RUNS/'job-external')
         self.assertIn('running service build and instance identity are unverified',text)
         self.assertIn('External changed-build replay is UNSUPPORTED',text)
+    def test_required_not_run_cycles_do_not_relabel_an_established_failure(self):
+        text=self.render(RUNS/'release/sensor-repeat-retain-third')
+        summary=text.split('<section id="summary">',1)[1].split('<section id="cases">',1)[0]
+        self.assertTrue(summary.startswith('<h2>Run summary</h2><span class="badge FAIL">FAIL</span>'))
+        self.assertIn('Required coverage: <strong>INCOMPLETE / unavailable',summary)
+        self.assertIn('NOT_RUN',text)
+        self.assertEqual(load(RUNS/'release/sensor-repeat-retain-third/result.json')['execution_exit'],3)
+
     def test_partial_or_empty_data_has_no_passing_conclusion(self):
         source=self.root/'empty';source.mkdir()
         for i in range(2):

@@ -1,0 +1,4 @@
+Run r-20261107074523-fb8e9414b295-departure, case departure, attempt1.
+ERROR / incomplete: departure_unobserved.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

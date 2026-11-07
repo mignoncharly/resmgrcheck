@@ -1,0 +1,4 @@
+Run r-20261107074557-0b7c1f46468b-repeat, case repeat, attempt1.
+FAIL / aborted: repetition_incomplete, cancellation_not_completed, pending_state_not_released.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

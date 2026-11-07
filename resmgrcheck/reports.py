@@ -173,7 +173,7 @@ class Renderer:
         counts = Counter(c.result['verdict'] for c in cases)
         required_missing = any(v in counts for v in ('UNSUPPORTED', 'NOT_RUN')) or not complete or not cases
         root_exit = summary.get('execution_exit')
-        outcome = ('ERROR' if root_exit in {2, 130} else 'UNSUPPORTED' if root_exit == 3 else
+        outcome = ('ERROR' if root_exit in {2, 130} else
                    'FAIL' if 'FAIL' in counts else 'ERROR' if 'ERROR' in counts else
                    'UNSUPPORTED' if 'UNSUPPORTED' in counts else 'NOT_RUN' if required_missing else 'PASS')
         body = '<nav aria-label="Report sections">' + ''.join('<a href="#' + k + '">' + label + '</a>' for k, label in [('summary','Summary'),('cases','Cases'),('timeline','Timeline'),('replay','Replay'),('evidence','Evidence')]) + '</nav>'

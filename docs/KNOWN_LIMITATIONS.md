@@ -2,7 +2,7 @@
 
 Updated: 2026-11-07.
 
-- Phases 1–8 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI; Phase8 adds the detailed offline report.
+- Phases 1–9 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI; Phase8 adds the detailed offline report.
 - Each expanded plan selects exactly one family. Repeat plans run 1–20 cycles (default20) on the same fixture, with no service reset between cycles. Independent family runs use a new instance. External lifecycle is UNSUPPORTED; explicit read-only health attachment is supported with unverified build/instance identity; automatic-restart signal mode is UNSUPPORTED. Required missing capabilities never PASS.
 - The job fixture has one lab job slot and up to eight waiters, with non-consuming completed results until explicit resubmission. Retained jobs and leaked waiters are observed separately. This is a fixture, not a general scheduler.
 - Departure and duplicate-FD/final-OCB bookkeeping passed on this single-dispatch-thread fixture. Observed close callbacks had nonzero receive IDs; the synthetic rcvid==0 branch is guarded and delegated but was not observed natively. Concurrent multithreaded OCB access is not qualified.
@@ -67,3 +67,8 @@ Updated: 2026-11-07.
 - Completed p7gate3 target histories/sessions were subsequently verified/archived
   for Phase9 storage. Their committed/offline copies remain available; exclusive
   start guards are retained. Status/collect cannot retrieve archived target bytes.
+
+- E015 clean source reproduction reused the existing guest and local authentication;
+  it did not recreate a fresh target. Native/build/engine files are bound to clean
+  d2e0a43. A report-only summary correction has separate107-host/four-view browser
+  evidence and explicit source equivalence, without relabelling native observations.

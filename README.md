@@ -4,15 +4,18 @@ Test declared cancellation and client-lifecycle contracts on QNX 8.0, preserve
 native evidence, and replay the same inputs against an explicitly selected fix.
 The sensor and job examples use one generic C11 runner/worker and Python evaluator.
 
-Phases 1–8 have passed their stated gates. Phase 9 is next; see
+Phases 1–9 have passed their stated gates. Phase 10 preparation is next; see
 [current status](docs/STATUS.md) and [actual evidence](docs/TEST_EVIDENCE.md).
 The [implementation plan](docs/IMPLEMENTATION_PLAN.md) defines the remaining gates.
+The [codelab](docs/codelab.md) walks through an actual source correction;
+[dependencies/environment](docs/dependencies.md) and [release review](docs/release-review.md)
+state the supported boundary. E015 records clean source/reused-target reproduction.
 The [offline report guide](docs/reports.md) explains cases, timelines, replay and
 comparison context; E014 records browser inspection.
 
 ## Prerequisites
 
-Use Python 3.10+, Make and OpenSSH on Linux, an installed locally licensed QNX SDP
+Use Python 3.10+, Git, Make and OpenSSH on Linux, an installed locally licensed QNX SDP
 8.0 with `qcc`/`gcc_ntox86_64`, and the already booted owned QNX 8.0.0 x86_64/x86pc
 lab guest. This CLI does not install the SDK, start the VM, create credentials or
 configure SSH authentication. Keep SDK files, images, keys and generated binaries

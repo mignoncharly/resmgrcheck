@@ -1171,3 +1171,86 @@ This is file retention maintenance, not process cleanup or a PASS for missing da
 Next: commit the input-hardening candidate, reproduce README/release verification
 from a separate clean checkout against the explicitly reused target, and finish
 the codelab/adapter/release records. A focused input gate does not finish Phase9.
+
+
+## E015: Phase9 clean source reproduction and release candidate
+
+**Date:** 2026-11-07. **Gate:** passed. The separate checkout
+.local/phase9-reproduction was clean at d2e0a43872b80353480838665e754bafbacf11ae,
+source SHA256 f13da86d12a15b4a1206e53019c7e9f406e57f23f4a3f9820214519f593cf81b.
+Actual command after loading the existing SDP environment:
+
+```sh
+python3 tests/qnx/qualify-phase9.py --out /home/mignon/projects/resmgrcheck/.local/evidence/phase9-clean --fixed-source /home/mignon/projects/resmgrcheck/.local/phase9-fixed-source --input-prefix p9clean-input
+```
+
+[Clean gate index](evidence/phase9/qualification/index.json),
+[actual commands/stdout/stderr](evidence/phase9/qualification/commands.json),
+[106 clean-checkout host tests](evidence/phase9/clean-host106.txt) and the copied
+native execution trees preserve actual source/build/evaluator identities.
+The existing KVM QNX8.0.0 x86_64/x86pc guest was explicitly reused. No VM/image/SDK
+recreation, host reboot/service/firewall change or authentication recreation took
+place. Ignored local target metadata pointed to the existing verified OpenSSH route;
+credentials/configuration contents were not copied into evidence. This is a clean
+source build against a reused target, not a fresh-target reproduction.
+
+The README sequence ran literally: initial doctor returned3 with UNKNOWN undeployed
+checks; validation and real qcc gcc_ntox86_64 Make build succeeded; complete immutable
+SFTP/readback-verified deployment and second doctor succeeded. Corrected sensor
+lifecycle passed all six families; the explicit broken lifecycle exited2 with
+preserved FAILs plus departure_unobserved ERROR. Fixed-mode replay passed and was
+correctly incomparable because its setting changed. Compare, JUnit and offline HTML
+succeeded. Git was identified as an implicit source-identity prerequisite and was
+made explicit in README/dependencies. Manual startup/licensing/SSH setup stays explicit.
+
+There were58 distinct canonical native case IDs across43 requests. Release verify
+matched36 exact outcomes:12 PASS,19 FAIL,2 ERROR,3 UNSUPPORTED. Expected checker
+success never changed those individual verdicts or withheld NOT_RUN cycles. Its
+full native failure/corrected matrix covered both services/all six families.
+The standard JUnit export retained81 tests,5 failures,4 errors,19 skipped; required
+coverage errors remain visible. Final statuses establish observed cleanup with no
+unresolved children. Before/after actual target/process/storage snapshots are saved.
+
+The clean native input gate additionally proved25 exact accepted/rejected messages,
+unchanged generation/pending state, original-instance fresh client42/420 and actual
+reaping of all six owned preflight/probe/fixture children. Combined prefixes remain
+framework rejections, not evidence that the custom tail executed. See E015a and
+qualification/input-bounds; no unsupported raw-wire support was introduced.
+
+Both saved single-timeout source-before cases exited1/FAIL. Separately committed
+source fix3d0d7b1 removed only the intentional ignored-unblock early return in both
+fixtures. Actual qcc build/deploy and explicit --candidate-manifest replay passed
+both unchanged contracts/settings. Actual fixture hashes changed; runner/worker
+remained generic and shared. Comparisons were fixed with equal recorded target/
+recipe context, and original/candidate identities are preserved. The actual
+[source patch](evidence/phase9/qualification/source-fix.patch) is used by the
+[codelab](codelab.md). The worked job adapter guide lists exact files/boundaries.
+No independent external developer review/adoption is claimed.
+
+### Presentation-only follow-up
+
+Review of a required-coverage result found that the HTML summary mapped every
+exit3 to UNSUPPORTED, even with an independently established service FAIL and later
+NOT_RUN cycles. The view now preserves the saved aggregate FAIL and its separate
+incomplete-coverage warning. Canonical JSON/JUnit/CLI exits were not changed.
+[107 host tests](evidence/phase9/host107-followup.txt) and
+[four actual browser views](evidence/phase9/report-followup/index.json) passed for
+that real retained-third result and a clean replay, at laptop/narrow widths with
+and without JavaScript. No external requests/page overflow occurred.
+
+[Source equivalence](evidence/phase9/native-source-equivalence.json) verifies every
+native C/header, vendored C input, Make/build script and host engine module equals
+the clean qualified checkout; only reports.py differs in runtime code. This host
+presentation correction does not invalidate native IPC prerequisites. Its host
+source digest is recorded separately from the frozen clean native/evaluator gate;
+no old native evidence is relabelled as the follow-up revision.
+
+The [review record](release-review.md) links current official QNX default-close,
+unblock, devctl and message-boundary guidance. Actual qcc -fanalyzer/Wall/Wextra/
+Werror compilation of16 owned C files emitted no diagnostics. Target sanitizers,
+memory-leak absence, exhaustive concurrency and broad security auditing are not
+claimed. Dependency/license/environment records and concrete limitations are current.
+Reviewed text copies preserve exact native bytes; binaries/readbacks, SDK/images,
+credentials and machine configuration remain ignored. The Phase9 exit gate passes.
+Next: prepare and rehearse Phase10's concrete demonstration/submission package;
+publication/submission remain separate authorization-dependent actions.

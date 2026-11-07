@@ -1,4 +1,4 @@
-# Continue into Phase 9
+# Continue into Phase 10
 
 Read AGENTS.md, STATUS.md, Phase9 in IMPLEMENTATION_PLAN.md, E013/E014 in
 TEST_EVIDENCE.md, DECISIONS.md, KNOWN_LIMITATIONS.md, cli.md and reports.md.
@@ -48,3 +48,24 @@ Historical native streams in E014 were resealed on the host, not reexecuted.
 No push/publication/submission authorized or performed. Prepare concrete reviewable
 Phase10 assets before requesting any publication authorization. An actual video or
 explicit manual recording handoff is required; a storyboard is not a recording.
+
+
+## Phase9 completion
+
+Phase9 passed E015. Clean checkout .local/phase9-reproduction is d2e0a43 (dirtyfalse,
+f13da86d12a15b4a1206e53019c7e9f406e57f23f4a3f9820214519f593cf81b), with58 native cases,
+36 exact release expectations,106 clean host tests and actual input/reaping gate.
+The source-fixed .local/phase9-fixed-source is3d0d7b1. Both source-before FAILs replay
+PASS with unchanged settings and changed fixture hashes; main keeps defects.
+A presentation-only exit3 badge correction has107 host/four browser views and
+native/build/host-engine equivalence proof; do not relabel old native provenance.
+
+Phase10 next: read exact plan, recheck official current Devpost rules, prepare
+QNX evidence map, submission/category text, timed2m45–2m55 demo/video or explicit
+manual recording handoff, release metadata/package and readiness distinctions.
+ffmpeg/ffprobe and optional local Playwright/Chromium exist. No publication,
+remote push, upload or submission is authorized. Prepare concrete assets first.
+Use only the intended lab, exact owned processes and preserved local credentials.
+Archived p7gate3 histories now require their committed/offline copies. Check
+actual target file-entry/block space before any fresh demo execution. Do not delete
+unknown histories, immutable original/candidate deployments or start guards.

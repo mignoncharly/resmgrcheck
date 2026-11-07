@@ -1,0 +1,4 @@
+Run r-20261107074516-232a02f6f07b-departure, case departure, attempt1.
+PASS / complete: all_obligations_satisfied.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

@@ -1,0 +1,765 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>ResMgrCheck report</title><style>
+:root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 system-ui,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}h1{font-size:2rem;line-height:1.2}h2{margin-top:2rem}h3{margin-top:1.5rem}
+a{color:#084f9e}a:hover{text-decoration-thickness:3px}:focus-visible{outline:3px solid #965200;outline-offset:3px}
+p,li,td,th,dd,code,summary{overflow-wrap:anywhere}code,pre{font-family:ui-monospace,monospace;font-size:.875rem}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0;max-width:100%}nav{display:flex;gap:1rem;flex-wrap:wrap}
+section,.case-detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px;margin:16px 0}
+.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:800px;font-size:.9rem}caption{text-align:left;font-weight:700;padding:8px 0}
+th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}th{background:#eef2f5}th:first-child{min-width:110px}
+.badge{font-weight:750;padding:2px 7px;border:1px solid currentColor;border-radius:4px;white-space:nowrap;display:inline-block}
+.PASS{color:#075b34;background:#e6f6ed}.FAIL{color:#8a2020;background:#ffecec}.ERROR{color:#793900;background:#fff0da}
+.UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
+.muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
+summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
+@media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
+@media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
+</style></head><body><main><h1>ResMgrCheck report</h1><nav aria-label="Report sections"><a href="#summary">Summary</a><a href="#cases">Cases</a><a href="#timeline">Timeline</a><a href="#replay">Replay</a><a href="#evidence">Evidence</a></nav><section id="summary"><h2>Run summary</h2><span class="badge PASS">PASS</span><p>Completion: <strong>complete</strong>. Required coverage: <strong>complete</strong>.</p><dl class="facts"><dt>Run ID</dt><dd>r-20261107074653-feca0b316de7</dd><dt>Profile / adapter</dt><dd>job / job-v1</dd><dt>Configured service path</dt><dd>/dev/resmgrcheck-job</dd><dt>Observed target</dt><dd>QNX 8.0.0 / x86pc</dd><dt>Native source</dt><dd>3d0d7b17c2b08040d064d3adfea5bd21839f0949 (clean)</dd><dt>Fixture setting</dt><dd>ignore-unblock</dd><dt>Case counts</dt><dd>PASS=1, FAIL=0, ERROR=0, UNSUPPORTED=0, NOT_RUN=0</dd><dt>Source location</dt><dd><code>runs/job-source-after</code></dd></dl><details><summary>Configured target and deployment · lab</summary><pre>{
+  &quot;compatibility&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;processor&quot;: &quot;x86_64&quot;,
+    &quot;recipe_id&quot;: &quot;6cb923cc6f93fb122c8d36d63a8359663681db0357d826d6890ea7ddbfdc254f&quot;,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;root&quot;: &quot;/data/resmgrcheck&quot;,
+    &quot;uid&quot;: 0
+  },
+  &quot;deployment_id&quot;: &quot;c6ba8f90d5100c1cfc833473a28b5a0d73226f5b44d8b5be4c658ca73065a7bb&quot;,
+  &quot;management_helper&quot;: {
+    &quot;dirty&quot;: false,
+    &quot;sha256&quot;: &quot;94ceecc0da95a8fbe64fe514fca10d582e5267d8da1354d6edbe39afa24d728e&quot;,
+    &quot;source_revision&quot;: &quot;d2e0a43872b80353480838665e754bafbacf11ae&quot;,
+    &quot;source_tree_sha256&quot;: &quot;f13da86d12a15b4a1206e53019c7e9f406e57f23f4a3f9820214519f593cf81b&quot;
+  },
+  &quot;native_build&quot;: {
+    &quot;binaries&quot;: {
+      &quot;job-v1-fixture&quot;: &quot;4dcc02efab57872cc654358b4613342bf1c8eda716954da12209ef4813bded7c&quot;,
+      &quot;runner&quot;: &quot;2e33a3fb14996fca493117ff7429f4e91cb36887e0c595ffd2aae75cbc95e334&quot;,
+      &quot;sensor-v1-fixture&quot;: &quot;99a511d86617ab807efc3ec1ac9b4d100b8c42fec8a4c358bff908562a48078e&quot;,
+      &quot;targetctl&quot;: &quot;94ceecc0da95a8fbe64fe514fca10d582e5267d8da1354d6edbe39afa24d728e&quot;,
+      &quot;worker&quot;: &quot;d90e77e28be08e6dcbab2697586a5305b4b189365ab83425f43b0cd253d23c43&quot;
+    },
+    &quot;compiler_variant&quot;: &quot;gcc_ntox86_64&quot;,
+    &quot;dirty&quot;: false,
+    &quot;kind&quot;: &quot;native-build-record&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;source_revision&quot;: &quot;3d0d7b17c2b08040d064d3adfea5bd21839f0949&quot;,
+    &quot;source_tree_sha256&quot;: &quot;439151c4b84f61d66d74536477322fd8bcec5b4be92d376ed581f614a6e0bbd0&quot;
+  },
+  &quot;target&quot;: &quot;lab&quot;
+}</pre></details><details><summary>Observed QNX target / evaluator · timeout</summary><pre>{
+  &quot;adapter_abi&quot;: 1,
+  &quot;bundle_id&quot;: &quot;eb026aa515325664bcb8343a3583113503d8ac552f8d93d921adbc34ec1e12c6&quot;,
+  &quot;capabilities&quot;: [
+    &quot;pending&quot;,
+    &quot;unblock&quot;,
+    &quot;state&quot;,
+    &quot;release&quot;,
+    &quot;health&quot;,
+    &quot;timeout&quot;,
+    &quot;signal&quot;,
+    &quot;departure&quot;,
+    &quot;error-probe&quot;,
+    &quot;repeat&quot;,
+    &quot;ordering&quot;,
+    &quot;external-health&quot;
+  ],
+  &quot;evaluator&quot;: {
+    &quot;dirty&quot;: false,
+    &quot;source_revision&quot;: &quot;d2e0a43872b80353480838665e754bafbacf11ae&quot;,
+    &quot;source_tree_sha256&quot;: &quot;f13da86d12a15b4a1206e53019c7e9f406e57f23f4a3f9820214519f593cf81b&quot;
+  },
+  &quot;target&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;priority&quot;: 10,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;scheduling_policy&quot;: 2,
+    &quot;sysname&quot;: &quot;QNX&quot;,
+    &quot;version&quot;: &quot;2026/06/05-16:26:03EDT&quot;
+  },
+  &quot;tool_version&quot;: &quot;0.3.0&quot;
+}</pre></details><details><summary>Service usability and recovery scope</summary><p><strong>timeout</strong>: fresh_client_health <span class="badge PASS">PASS</span>; owned_process_cleanup <span class="badge PASS">PASS</span></p><p class="muted">Health obligations refer to the original managed service instance. Recovery after restart cannot satisfy them.</p></details></section><section id="cases"><h2>Required cases and cycles</h2><p>Each repeat cycle is required. Aggregate and cycle verdicts are saved separately.</p><div id="filters" class="filter" hidden><label for="verdict-filter">Show verdict: </label><select id="verdict-filter"><option value="ALL">All recorded outcomes</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option><option value="ERROR">ERROR</option><option value="UNSUPPORTED">UNSUPPORTED</option><option value="NOT_RUN">NOT_RUN</option></select><button type="button" id="reset-filter">Show all</button></div><noscript><p>All cases and details are available without JavaScript.</p></noscript><div class="table-scroll"><table><caption>Saved evaluated outcomes</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Cycle</th><th scope="col">Attempt</th><th scope="col">Verdict</th><th scope="col">Reasons</th><th scope="col">Elapsed observed interval</th><th scope="col">Pending precondition</th></tr></thead><tbody><tr data-verdict="PASS"><td><a href="#case-1">timeout</a></td><td>aggregate</td><td>attempt2</td><td><span class="badge PASS">PASS</span></td><td>all_obligations_satisfied</td><td>763.61 ms</td><td>PASS</td></tr></tbody></table></div></section><section><h2>Case details</h2><p>Open a case to compare the declared obligation with exact recorded values. Event numbers reference zero-based NDJSON records.</p><details class="case-detail" id="case-1" data-verdict="PASS"><summary><span class="badge PASS">PASS</span> timeout · aggregate</summary><dl class="facts"><dt>Attempt</dt><dd>attempt2</dd><dt>Completion</dt><dd>complete</dd><dt>Reasons</dt><dd>all_obligations_satisfied</dd><dt>Elapsed observed interval</dt><dd>763.61 ms</dd></dl><div class="table-scroll"><table><caption>Declared obligations and actual observations</caption><thead><tr><th scope="col">Obligation / verdict / reason</th><th scope="col">Expected</th><th scope="col">Observed / source event references</th></tr></thead><tbody><tr><td>baseline_validity<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;deferred_release&quot;: true,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;message&quot;: 1,
+  &quot;normal&quot;: 2
+}</pre></td><td><a href="#event-timeout-28">#28</a> <a href="#event-timeout-89">#89</a> <a href="#event-timeout-43">#43</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;normal&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 28
+    },
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;normal&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 89
+    },
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;MsgSendv&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;message&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 43
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>pending_precondition<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;confirmed_before_trigger&quot;: true,
+  &quot;live_unblock_required&quot;: true,
+  &quot;pending&quot;: 1
+}</pre></td><td><a href="#event-timeout-127">#127</a> <a href="#event-timeout-126">#126</a> <a href="#event-timeout-128">#128</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;deadline_ns&quot;: &quot;35889234227848&quot;,
+        &quot;operation&quot;: &quot;timed&quot;,
+        &quot;timeout_ms&quot;: 500
+      },
+      &quot;event&quot;: &quot;deadline&quot;,
+      &quot;ref&quot;: 127
+    },
+    {
+      &quot;data&quot;: {
+        &quot;client_pid&quot;: &quot;704389138&quot;,
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;logical&quot;: &quot;4&quot;,
+        &quot;pending&quot;: 1,
+        &quot;rcvid&quot;: &quot;4618722897140121601&quot;
+      },
+      &quot;event&quot;: &quot;pending&quot;,
+      &quot;ref&quot;: 126
+    },
+    {
+      &quot;data&quot;: {
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;live&quot;: 1,
+        &quot;logical&quot;: &quot;4&quot;,
+        &quot;mode&quot;: &quot;ignore-unblock&quot;,
+        &quot;rcvid&quot;: &quot;4618722897140121601&quot;
+      },
+      &quot;event&quot;: &quot;unblock&quot;,
+      &quot;ref&quot;: 128
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>cancellation_completion<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;allowance_ms&quot;: 2000,
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+  &quot;raw_return&quot;: -1
+}</pre></td><td><a href="#event-timeout-134">#134</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;MsgSendv&quot;,
+        &quot;api_error&quot;: 260,
+        &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+        &quot;facts&quot;: {},
+        &quot;normalized&quot;: &quot;TIMEOUT&quot;,
+        &quot;operation&quot;: &quot;timed&quot;,
+        &quot;raw_errno&quot;: 260,
+        &quot;raw_return&quot;: -1,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 134
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>terminal_reply_observation<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;primary_reply_error&quot;: 0,
+  &quot;primary_reply_rc&quot;: 0
+}</pre></td><td><a href="#event-timeout-130">#130</a> <a href="#event-timeout-131">#131</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;error&quot;: 0,
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;logical&quot;: &quot;4&quot;,
+        &quot;rc&quot;: 0
+      },
+      &quot;event&quot;: &quot;cancel_completed&quot;,
+      &quot;ref&quot;: 130
+    },
+    {
+      &quot;data&quot;: {
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;logical&quot;: &quot;4&quot;,
+        &quot;pending&quot;: 0,
+        &quot;reason&quot;: &quot;cancellation&quot;
+      },
+      &quot;event&quot;: &quot;removed&quot;,
+      &quot;ref&quot;: 131
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>state_observation<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;error&quot;: 0,
+  &quot;same_generation&quot;: true
+}</pre></td><td><a href="#event-timeout-148">#148</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 148
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>pending_state_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;pending&quot;: 0
+}</pre></td><td><a href="#event-timeout-148">#148</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 148
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>state_facts<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;job_exists&quot;: 1,
+  &quot;job_ready&quot;: 0
+}</pre></td><td><a href="#event-timeout-148">#148</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 148
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>fresh_client_health<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;original_instance&quot;: true
+}</pre></td><td><a href="#event-timeout-178">#178</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;health&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 178
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>owned_process_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;all_owned_children_reaped&quot;: true
+}</pre></td><td><a href="#event-timeout-189">#189</a> <a href="#event-timeout-16">#16</a> <a href="#event-timeout-31">#31</a> <a href="#event-timeout-46">#46</a> <a href="#event-timeout-59">#59</a> <a href="#event-timeout-73">#73</a> <a href="#event-timeout-92">#92</a> <a href="#event-timeout-94">#94</a> <a href="#event-timeout-118">#118</a> <a href="#event-timeout-137">#137</a> <a href="#event-timeout-151">#151</a> <a href="#event-timeout-166">#166</a> <a href="#event-timeout-181">#181</a> <a href="#event-timeout-187">#187</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;all_reaped&quot;: 1,
+        &quot;evidence_error&quot;: 0
+      },
+      &quot;event&quot;: &quot;cleanup&quot;,
+      &quot;ref&quot;: 189
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704344082&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 16
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704352276&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 31
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704360466&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 46
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704364562&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 59
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704372754&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 73
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704376850&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 92
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704376855&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 94
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704385042&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 118
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704389138&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 137
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704495618&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 151
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704499714&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 166
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704503810&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 181
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;704335893&quot;,
+        &quot;raw_status&quot;: 15
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 187
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>evidence_completeness<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;complete_required_evidence&quot;: true
+}</pre></td><td><a href="#event-timeout-190">#190</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cleanup_ok&quot;: 1,
+        &quot;evidence_error&quot;: 0,
+        &quot;flow_complete&quot;: 1
+      },
+      &quot;event&quot;: &quot;run_final&quot;,
+      &quot;ref&quot;: 190
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>target_completion_status<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;finalized&quot;: true,
+  &quot;identity_and_ownership_bound&quot;: true
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: {
+    &quot;attempt_id&quot;: &quot;attempt2&quot;,
+    &quot;case_id&quot;: &quot;timeout&quot;,
+    &quot;cleanup_ok&quot;: true,
+    &quot;cycle&quot;: 1,
+    &quot;event_file&quot;: &quot;events.jsonl&quot;,
+    &quot;exit_code&quot;: 0,
+    &quot;kind&quot;: &quot;run-status&quot;,
+    &quot;lab_control&quot;: &quot;none&quot;,
+    &quot;profile_sha256&quot;: &quot;511cb8cc217ff0ced3df4d9ddf16e381118210845e120a59e35b205f46e6e438&quot;,
+    &quot;run_id&quot;: &quot;r-20261107074653-feca0b316de7-timeout&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;service_instance_id&quot;: &quot;r-20261107074653-feca0b316de7-timeout&quot;,
+    &quot;source_tree_sha256&quot;: &quot;439151c4b84f61d66d74536477322fd8bcec5b4be92d376ed581f614a6e0bbd0&quot;,
+    &quot;started_ns&quot;: &quot;35888518870867&quot;,
+    &quot;state&quot;: &quot;complete&quot;,
+    &quot;supervisor_pid&quot;: &quot;704331798&quot;,
+    &quot;unresolved&quot;: []
+  }
+}</pre></td></tr></tbody></table></div></details></section><section id="timeline"><h2>Observed event timeline</h2><p>Times are target CLOCK_MONOTONIC offsets within each native case, not wall-clock or host durations. A configured/armed deadline is not an observed expiry. No events are invented to fill gaps.</p><details><summary>timeout · 190 producer observations</summary><p>Pending: observed (2)</p><p>Arming / directed trigger: observed (1)</p><p>Operation result: observed (6)</p><p>State: observed (1)</p><p>Fresh client: observed (1)</p><p>Cleanup: observed (15)</p><div class="table-scroll"><table><caption>Actual events and assertion source references</caption><thead><tr><th scope="col">Record</th><th scope="col">Target offset ms</th><th scope="col">Cycle</th><th scope="col">Producer / PID</th><th scope="col">Event</th><th scope="col">Recorded values</th></tr></thead><tbody><tr><td><span id="event-timeout-6">#6</span></td><td>18.986</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;ready&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-9">#9</span></td><td>35.849</td><td>1</td><td>worker 704344082</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;1&quot;,
+  &quot;operation&quot;: &quot;ready&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-16">#16</span></td><td>37.492</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704344082&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-19">#19</span></td><td>37.747</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;normal&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-28">#28</span></td><td>52.905</td><td>1</td><td>worker 704352276</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;normal&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-31">#31</span></td><td>55.056</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704352276&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-34">#34</span></td><td>55.491</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;message&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-43">#43</span></td><td>77.480</td><td>1</td><td>worker 704360466</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;message&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-46">#46</span></td><td>79.366</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704360466&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-49">#49</span></td><td>79.846</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;negative&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-52">#52</span></td><td>97.893</td><td>1</td><td>worker 704364562</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 2,
+  &quot;error_name&quot;: &quot;ENOENT&quot;,
+  &quot;facts&quot;: {},
+  &quot;normalized&quot;: &quot;API_ERROR&quot;,
+  &quot;operation&quot;: &quot;negative&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 2,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-59">#59</span></td><td>99.307</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704364562&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-62">#62</span></td><td>99.765</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;hold&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-67">#67</span></td><td>117.817</td><td>1</td><td>worker 704372754</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;operation&quot;: &quot;hold&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-73">#73</span></td><td>122.829</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704372754&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-80">#80</span></td><td>143.951</td><td>1</td><td>fixture 704335893</td><td>pending</td><td><pre>{
+  &quot;client_pid&quot;: &quot;704376850&quot;,
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;logical&quot;: &quot;3&quot;,
+  &quot;pending&quot;: 1,
+  &quot;rcvid&quot;: &quot;4616189622349725697&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-81">#81</span></td><td>144.331</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;release&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-89">#89</span></td><td>164.431</td><td>1</td><td>worker 704376850</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;normal&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-102">#102</span></td><td>164.580</td><td>1</td><td>worker 704376855</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;operation&quot;: &quot;release&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-92">#92</span></td><td>165.774</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704376850&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-94">#94</span></td><td>165.991</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704376855&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-107">#107</span></td><td>167.021</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;hold&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-112">#112</span></td><td>181.509</td><td>1</td><td>worker 704385042</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;hold&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-118">#118</span></td><td>182.643</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704385042&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-121">#121</span></td><td>182.906</td><td>1</td><td>supervisor 704331798</td><td>stage</td><td><pre>{
+  &quot;name&quot;: &quot;deferred_release_complete&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-127">#127</span></td><td>200.329</td><td>1</td><td>worker 704389138</td><td>deadline</td><td><pre>{
+  &quot;deadline_ns&quot;: &quot;35889234227848&quot;,
+  &quot;operation&quot;: &quot;timed&quot;,
+  &quot;timeout_ms&quot;: 500
+}</pre></td></tr><tr><td><span id="event-timeout-126">#126</span></td><td>200.631</td><td>1</td><td>fixture 704335893</td><td>pending</td><td><pre>{
+  &quot;client_pid&quot;: &quot;704389138&quot;,
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;logical&quot;: &quot;4&quot;,
+  &quot;pending&quot;: 1,
+  &quot;rcvid&quot;: &quot;4618722897140121601&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-128">#128</span></td><td>700.396</td><td>1</td><td>fixture 704335893</td><td>unblock</td><td><pre>{
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;live&quot;: 1,
+  &quot;logical&quot;: &quot;4&quot;,
+  &quot;mode&quot;: &quot;ignore-unblock&quot;,
+  &quot;rcvid&quot;: &quot;4618722897140121601&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-134">#134</span></td><td>700.734</td><td>1</td><td>worker 704389138</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;api_error&quot;: 260,
+  &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+  &quot;facts&quot;: {},
+  &quot;normalized&quot;: &quot;TIMEOUT&quot;,
+  &quot;operation&quot;: &quot;timed&quot;,
+  &quot;raw_errno&quot;: 260,
+  &quot;raw_return&quot;: -1,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-130">#130</span></td><td>700.767</td><td>1</td><td>fixture 704335893</td><td>cancel_completed</td><td><pre>{
+  &quot;error&quot;: 0,
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;logical&quot;: &quot;4&quot;,
+  &quot;rc&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-131">#131</span></td><td>700.800</td><td>1</td><td>fixture 704335893</td><td>removed</td><td><pre>{
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;logical&quot;: &quot;4&quot;,
+  &quot;pending&quot;: 0,
+  &quot;reason&quot;: &quot;cancellation&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-137">#137</span></td><td>702.073</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704389138&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-140">#140</span></td><td>702.377</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;state&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-148">#148</span></td><td>718.545</td><td>1</td><td>worker 704495618</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 1,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;state&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 1
+}</pre></td></tr><tr><td><span id="event-timeout-151">#151</span></td><td>719.863</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704495618&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-155">#155</span></td><td>720.524</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;release&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-160">#160</span></td><td>735.099</td><td>1</td><td>worker 704499714</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 1,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;release&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 1
+}</pre></td></tr><tr><td><span id="event-timeout-166">#166</span></td><td>735.980</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704499714&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-169">#169</span></td><td>736.501</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;health&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-178">#178</span></td><td>750.940</td><td>1</td><td>worker 704503810</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;health&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-181">#181</span></td><td>751.842</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704503810&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-184">#184</span></td><td>752.107</td><td>1</td><td>supervisor 704331798</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;cleanup&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-185">#185</span></td><td>752.122</td><td>1</td><td>supervisor 704331798</td><td>fixture_stop</td><td><pre>{
+  &quot;blocked_worker_reaped&quot;: 1,
+  &quot;child_pid&quot;: &quot;704335893&quot;
+}</pre></td></tr><tr><td><span id="event-timeout-186">#186</span></td><td>752.146</td><td>1</td><td>supervisor 704331798</td><td>signal_sent</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704335893&quot;,
+  &quot;error&quot;: 0,
+  &quot;rc&quot;: 0,
+  &quot;signal&quot;: 15
+}</pre></td></tr><tr><td><span id="event-timeout-187">#187</span></td><td>752.843</td><td>1</td><td>supervisor 704331798</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;704335893&quot;,
+  &quot;raw_status&quot;: 15
+}</pre></td></tr><tr><td><span id="event-timeout-189">#189</span></td><td>752.966</td><td>1</td><td>supervisor 704331798</td><td>cleanup</td><td><pre>{
+  &quot;all_reaped&quot;: 1,
+  &quot;evidence_error&quot;: 0
+}</pre></td></tr><tr><td><span id="event-timeout-190">#190</span></td><td>763.610</td><td>1</td><td>supervisor 704331798</td><td>run_final</td><td><pre>{
+  &quot;cleanup_ok&quot;: 1,
+  &quot;evidence_error&quot;: 0,
+  &quot;flow_complete&quot;: 1
+}</pre></td></tr></tbody></table></div><p><a href="cases/timeout/bundle/observations.jsonl">Complete raw event stream</a></p></details></section><section id="replay"><h2>Replay these saved inputs</h2><p>Run from the repository root with the lab prerequisites from README. Use a new output directory. Do not automatically retry an uncertain launch.</p><p>Saved inputs: <a href="replay.json">runs/job-source-after/replay.json</a></p><pre>python3 -m resmgrcheck replay runs/job-source-after/replay.json --target lab --out runs/replay-new</pre><p>Original selected deployment: <code>c6ba8f90d5100c1cfc833473a28b5a0d73226f5b44d8b5be4c658ca73065a7bb</code>. Native source/build and hashes are shown in the summary.</p><h3>Replay origin and disclosed changes</h3><pre>{
+  &quot;attempt&quot;: 2,
+  &quot;candidate_changed&quot;: true,
+  &quot;mode_changed&quot;: false,
+  &quot;request_sha256&quot;: &quot;be38a543c518613fd2dac429982b63a5ce3503b8c3dabdd2cdf0368ad15dc067&quot;,
+  &quot;source&quot;: &quot;runs/job-source-before&quot;
+}</pre><p>Without candidate selection, workflow replay retains the original immutable deployment. To test an actual source correction, build and deploy it, then add <code>--candidate-manifest build/qnx-x86_64/manifest.json</code>. Keep the saved contract and fixture setting unchanged. Changing fixture mode is a disclosed incomparable contrast.</p></section><section id="evidence"><h2>Evidence and instrumentation</h2><p>Managed examples use explicit lab pending/unblock/state and ordering instrumentation. Deliberate defect settings remain disclosed and are checked against the corrected contract. These directed tests do not establish exhaustive concurrency or absence of memory leaks.</p><ul><li><a href="request.json">request.json</a></li><li><a href="replay.json">replay.json</a></li><li><a href="state.json">state.json</a></li><li><a href="result.json">result.json</a></li><li><a href="comparison.json">comparison.json</a></li></ul><details><summary>timeout raw artifacts</summary><ul><li><a href="cases/timeout/bundle/bundle.json">bundle.json</a></li><li><a href="cases/timeout/bundle/plan.json">plan.json</a></li><li><a href="cases/timeout/bundle/profile.json">profile.json</a></li><li><a href="cases/timeout/bundle/builds.json">builds.json</a></li><li><a href="cases/timeout/bundle/target-manifest.json">target-manifest.json</a></li><li><a href="cases/timeout/bundle/observations.jsonl">observations.jsonl</a></li><li><a href="cases/timeout/bundle/status.json">status.json</a></li><li><a href="cases/timeout/bundle/result.json">result.json</a></li><li><a href="cases/timeout/bundle/replay.json">replay.json</a></li><li><a href="cases/timeout/bundle/notes.txt">notes.txt</a></li></ul></details></section><footer><p class="muted">ResMgrCheck · Offline evidence view · No network assets. Saved evaluator outcomes are authoritative; filters only change presentation.</p></footer></main><script>
+const controls = document.getElementById('filters');
+const select = document.getElementById('verdict-filter');
+if (controls && select) {
+  controls.hidden = false;
+  select.addEventListener('change', () => {
+    document.querySelectorAll('[data-verdict]').forEach(node => {
+      node.hidden = select.value !== 'ALL' && node.dataset.verdict !== select.value;
+    });
+  });
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    select.value = 'ALL'; select.dispatchEvent(new Event('change')); select.focus();
+  });
+}
+function discloseAnchor() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) { target.hidden = false; let parent = target; while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
+}
+window.addEventListener('hashchange', discloseAnchor); discloseAnchor();
+</script></body></html>

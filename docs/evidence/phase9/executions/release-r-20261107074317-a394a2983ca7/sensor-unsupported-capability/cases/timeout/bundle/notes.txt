@@ -1,0 +1,4 @@
+Run r-20261107074445-5468073e6757-timeout, case timeout, attempt1.
+UNSUPPORTED / complete: required_capability_missing.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

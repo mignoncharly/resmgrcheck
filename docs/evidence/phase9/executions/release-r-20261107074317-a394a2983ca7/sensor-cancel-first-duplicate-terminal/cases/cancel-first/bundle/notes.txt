@@ -1,0 +1,4 @@
+Run r-20261107074439-0e6af367b58d-cancel-first, case cancel-first, attempt1.
+FAIL / complete: duplicate_terminal_attempt.
+Raw observations and status are preserved bytes. The final bundle marker seals
+artifact integrity; it does not assert a passing service or successful cleanup.

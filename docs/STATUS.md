@@ -4,7 +4,7 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 9 in progress: input review and clean reproduction |
+| Current phase | Phase 9 passed; Phase 10 preparation next |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
@@ -13,8 +13,8 @@ Updated: 2026-11-07.
 | Phase 6 | Immutable bundles, explicit changed-build replay on both services, comparison/JUnit passed |
 | Phase 7 | Full native workflow/negative/recovery gate passed E013; 95 host tests |
 | Phase 8 | Offline HTML, honest comparison, 105 host tests /45 browser views passed E014 |
-| Phase 9 | Input-boundary fixes qualified on both services; full clean release reproduction pending |
-| Phase 10 | Not started |
+| Phase 9 | Clean source/reused-target workflow passed E015:58 native cases,36 release expectations |
+| Phase 10 | Next: concrete demo/package; publication/submission not authorized |
 
 Both services use the same generic runner, worker, scenario machinery and Python
 evaluator. Normal API/MsgSendv/duplicate-descriptor/deferred baselines, timeout,
@@ -69,8 +69,10 @@ private lifecycle remains UNSUPPORTED. E013 records the final source-qualified e
 75 distinct native cases and36 exact release expectations. The Phase7 exit gate
 passed. Phase8 passed E014:15 actual/synthetic-scoped reports,45 offline browser views,
 no external requests, every artifact link valid, raw/JSON/JUnit unchanged.
-Next: Phase9 frozen release candidate, clean source build/reused-target reproduction,
-ownership/evidence/input review, codelab and distribution records.
+Phase9 completed source/input/ownership review, codelab, adapter and dependency
+records. E015 has58 clean-source native cases, both real source-fix replays and
+36 exact release expectations; clean host106 and report-follow-up107 tests passed.
+Next: Phase10 concrete demo, evidence map and submission/release package.
 
 Preserve SDK, images and local authentication. Use fresh run IDs; native records
 remain /data/resmgrcheck/runs/RUN_ID, host sessions /data/resmgrcheck/sessions/ID.
@@ -82,7 +84,7 @@ commands, bounded current-message input/reply handling and writable-OCB checks.
 Focused actual QNX input checks passed on both services as p9-input3, including
 exact rejection errors and unchanged state/fresh-client health. Combined custom
 wire operations are outside the fixed lab protocol; tested prefixes were rejected
-by the framework, without claiming the tail ran. Full Phase9 gate is not passed.
+by the framework, without claiming the tail ran. Full Phase9 gate subsequently passed E015 from clean d2e0a43.
 The completed p7gate3 target histories/sessions have subsequently been archived
 with owned-helper/SFTP/cksum/SHA256 verification; all start guards remain. Use their
 committed/offline copies. Unknown/missing status never becomes PASS.
