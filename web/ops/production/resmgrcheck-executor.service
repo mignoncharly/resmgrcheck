@@ -1,0 +1,48 @@
+[Unit]
+Description=ResMgrCheck bounded private QNX dispatcher
+Requires=resmgrcheck-db.service
+After=resmgrcheck-db.service
+ConditionPathExists=/etc/resmgrcheck/executor/registry.json
+
+[Service]
+User=resmgr-exec
+Group=resmgr-exec
+SupplementaryGroups=resmgr-dbclients resmgr-evidence
+WorkingDirectory=/opt/resmgrcheck/current/web
+EnvironmentFile=/etc/resmgrcheck/executor.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=RMC_WEB_SECRET_KEY_FILE=%d/application-key
+LoadCredential=application-key:/etc/resmgrcheck/keys/application-key
+ExecStartPre=/opt/resmgrcheck/current/.venv/bin/python manage.py runtime_check
+ExecStart=/opt/resmgrcheck/current/.venv/bin/python manage.py dispatch
+Restart=on-failure
+RestartSec=5
+# Local CLI owns its session and reaps children. Expired leases recover the same ID.
+KillMode=control-group
+TimeoutStopSec=15
+UMask=0027
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectProc=invisible
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1/32
+InaccessiblePaths=/etc/resmgrcheck/ai /etc/resmgrcheck/keys /var/backups/resmgrcheck
+ReadWritePaths=/var/lib/resmgrcheck/evidence /var/lib/resmgrcheck/private/executor /var/lib/resmgrcheck/engine-state
+MemoryMax=768M
+CPUQuota=100%
+TasksMax=48
+LimitNOFILE=256
+
+[Install]
+WantedBy=multi-user.target

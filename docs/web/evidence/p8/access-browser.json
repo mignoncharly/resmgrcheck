@@ -1,0 +1,322 @@
+{
+  "passed": true,
+  "kind": "actual-access-model-browser-qualification",
+  "browser": "156.0.8078.4",
+  "views": [
+    {
+      "audience": "access-code",
+      "page": "overview",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "projects",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "targets",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "history",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "project",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "failed-run",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "replay",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "job",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "compare",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "session",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "foreign-project",
+      "width": 1440,
+      "javascript": true,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "unselected-evidence",
+      "width": 1440,
+      "javascript": true,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "admin-management",
+      "width": 1440,
+      "javascript": true,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "native-launch",
+      "width": 1440,
+      "javascript": true,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "ai-disabled",
+      "width": 1440,
+      "javascript": true,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "overview",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "projects",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "targets",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "history",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "project",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "failed-run",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "replay",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "job",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "compare",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "session",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "access-code",
+      "page": "foreign-project",
+      "width": 390,
+      "javascript": false,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "unselected-evidence",
+      "width": 390,
+      "javascript": false,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "admin-management",
+      "width": 390,
+      "javascript": false,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "native-launch",
+      "width": 390,
+      "javascript": false,
+      "status": 404
+    },
+    {
+      "audience": "access-code",
+      "page": "ai-disabled",
+      "width": 390,
+      "javascript": false,
+      "status": 404
+    },
+    {
+      "audience": "anonymous",
+      "page": "/access/",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "anonymous",
+      "page": "/administrator/login/",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "anonymous",
+      "page": "/demo/",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "anonymous",
+      "page": "/access/",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "anonymous",
+      "page": "/administrator/login/",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "anonymous",
+      "page": "/demo/",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "overview",
+      "violations": []
+    },
+    {
+      "page": "projects",
+      "violations": []
+    },
+    {
+      "page": "targets",
+      "violations": []
+    },
+    {
+      "page": "history",
+      "violations": []
+    },
+    {
+      "page": "project",
+      "violations": []
+    },
+    {
+      "page": "failed-run",
+      "violations": []
+    },
+    {
+      "page": "replay",
+      "violations": []
+    },
+    {
+      "page": "job",
+      "violations": []
+    },
+    {
+      "page": "compare",
+      "violations": []
+    },
+    {
+      "page": "session",
+      "violations": []
+    }
+  ],
+  "screenshots": [
+    "desktop-overview.png",
+    "desktop-failed-run.png",
+    "desktop-session.png",
+    "mobile-no-js-overview.png",
+    "mobile-no-js-failed-run.png",
+    "mobile-no-js-session.png"
+  ],
+  "administrator_actual_password_totp_login": true,
+  "actual_admin_code_creation_single_display": true,
+  "code_saved_to_disk": false,
+  "cookie_state_saved_to_disk": false,
+  "maximum_sessions_denial": true,
+  "single_session_revocation": true,
+  "code_revocation": true,
+  "cross_project_evidence_denial": true,
+  "legacy_email_routes_absent": true,
+  "code_detail_path": "/administrator/codes/d0d4c69d-383e-40c7-ae13-07d8179b4370/",
+  "foreign_project_path": "/app/projects/bb890634-b854-4409-8ee7-ed53bb8189de/",
+  "native_execution_performed": false,
+  "provider_calls": 0
+}

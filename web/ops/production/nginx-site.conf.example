@@ -1,0 +1,55 @@
+# Not enabled by prepare.py. Certificate issuance/verification and public exposure
+# require the remaining security/release gates and an operator-reviewed vhost check.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name qnx-resmgrcheck.gestionatech.de;
+    access_log /var/log/nginx/resmgrcheck-access.log resmgrcheck_safe;
+    location / { return 308 https://qnx-resmgrcheck.gestionatech.de$request_uri; }
+}
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name qnx-resmgrcheck.gestionatech.de;
+    ssl_certificate /etc/letsencrypt/live/qnx-resmgrcheck.gestionatech.de/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/qnx-resmgrcheck.gestionatech.de/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_session_cache shared:resmgrcheck_tls:1m;
+    ssl_session_tickets off;
+    server_tokens off;
+    client_max_body_size 256k;
+    client_body_timeout 10s;
+    client_header_timeout 10s;
+    send_timeout 30s;
+    access_log /var/log/nginx/resmgrcheck-access.log resmgrcheck_safe;
+    # Warn/error logs remain root-protected; never enable request/body debug logging.
+    error_log /var/log/nginx/resmgrcheck-error.log crit;
+    add_header Strict-Transport-Security 'max-age=31536000' always;
+    location /static/ {
+        # Replace EXACT_RELEASE_SHA with the approved immutable release identity.
+        alias /var/lib/resmgrcheck/static/EXACT_RELEASE_SHA/;
+        autoindex off;
+        add_header X-Content-Type-Options nosniff always;
+        add_header Strict-Transport-Security 'max-age=31536000' always;
+    }
+    location ~ ^/(access/|administrator/login/)$ {
+        limit_req zone=resmgrcheck_auth burst=8 nodelay;
+        limit_req_status 429;
+        proxy_pass http://unix:/run/resmgrcheck-web/application.sock;
+        proxy_set_header Host qnx-resmgrcheck.gestionatech.de;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For '';
+        proxy_hide_header Strict-Transport-Security;
+        proxy_read_timeout 35s;
+    }
+    location / {
+        proxy_pass http://unix:/run/resmgrcheck-web/application.sock;
+        proxy_set_header Host qnx-resmgrcheck.gestionatech.de;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-For '';
+        proxy_hide_header Strict-Transport-Security;
+        proxy_read_timeout 35s;
+    }
+}

@@ -1,0 +1,27 @@
+[Unit]
+Description=ResMgrCheck protected operational status snapshot
+After=resmgrcheck-db.service
+
+[Service]
+Type=oneshot
+User=root
+UMask=0077
+ExecStart=/opt/resmgrcheck/current/.venv/bin/python /opt/resmgrcheck/current/web/ops/production/runtime.py --config /etc/resmgrcheck/backup.json manage.py operations_status
+TimeoutStartSec=30
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+InaccessiblePaths=/etc/resmgrcheck/executor /etc/resmgrcheck/ai /var/lib/resmgrcheck/private/executor
+MemoryMax=192M
+TasksMax=16
+
+[Install]
+WantedBy=multi-user.target

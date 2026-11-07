@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "browser": "156.0.8078.4",
+  "views": [
+    {
+      "audience": "administrator",
+      "page": "team",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "codes",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "code-detail",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "security",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "password",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "sessions",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "audit",
+      "width": 1440,
+      "javascript": true,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "team",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "codes",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "code-detail",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "security",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "password",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "sessions",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    },
+    {
+      "audience": "administrator",
+      "page": "audit",
+      "width": 390,
+      "javascript": false,
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "team",
+      "violations": []
+    },
+    {
+      "page": "codes",
+      "violations": []
+    },
+    {
+      "page": "code-detail",
+      "violations": []
+    },
+    {
+      "page": "security",
+      "violations": []
+    },
+    {
+      "page": "password",
+      "violations": []
+    },
+    {
+      "page": "sessions",
+      "violations": []
+    },
+    {
+      "page": "audit",
+      "violations": []
+    }
+  ],
+  "real_password_mfa": true,
+  "secrets_or_cookie_state_saved": false,
+  "native_or_provider_calls": 0
+}

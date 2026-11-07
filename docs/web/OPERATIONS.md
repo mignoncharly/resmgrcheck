@@ -71,7 +71,7 @@ with cross-organization powers; avoid it for routine scoped administration.
 Open `/administrator/login/`, enter the local username/password and enroll TOTP
 before privileged access. Preserve offline second-factor recovery codes securely.
 Password changes and "revoke all sessions" require the current password plus MFA
-assurance. Administrators can inspect/revoke individual browser sessions. A lost
+assurance. Administrators can inspect browser sessions and revoke them globally. A lost
 password/MFA requires the protected local operator procedure:
 
 ```sh
@@ -123,3 +123,24 @@ after browser authority is revoked. Inspect the exact run/cleanup facts; do not
 interpret revocation as a QNX process kill. Queued work is reauthorized before
 owned child creation. Same-ID recovery collects existing evidence under service
 authority and must not launch a replacement. Unknown target state stays quarantined.
+
+## Encrypted snapshot and local status tools
+
+`manage.py backup_snapshot create --archive EXACT_NEW_PATH --key-file PRIVATE_KEY`
+requires the protected local operator, a private destination directory and a
+separate owned/private32-byte key. Existing destinations are refused. It streams
+an authenticated encrypted PostgreSQL/evidence snapshot; it never contacts QNX.
+`restore-drill` with the same arguments authenticates and restores only into an
+exact new temporary DB, verifies identities/hashes/canonical histories and audit,
+then drops only that DB. It does not overwrite the live database. Keep external
+application/MFA keys separately; the encrypted data still contains sensitive DB
+authentication state. Do not print it or the backup key. Production retention/
+off-host copy/key-custody and actual least-privilege service drills remain required.
+
+`manage.py operations_status --backup-dir PRIVATE_DIRECTORY` emits local queue,
+lease/quarantine/disk/backup-receipt facts and explicit concerns, with no QNX probe.
+Receipt age is not restore proof; unit activity is not native service health.
+Missing/stale facts cause a nonzero exit. Actual staging use passed with no queued
+work, expired lease or quarantine. Production unit/HTTPS alerts are not qualified
+until the dedicated root installation runs. [PRIVATE_INSTALL.md](PRIVATE_INSTALL.md)
+provides the exact next root command and service/backup/rollback qualification steps.

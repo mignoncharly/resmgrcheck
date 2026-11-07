@@ -87,6 +87,13 @@ def account_settings(request):
     return render(request,'control/account.html',{'sessions_form':PasswordConfirmation(),'sessions':UserSession.objects.filter(user=request.user).order_by('-created_at')[:30]})
 
 @administrator
+@require_GET
+def administrator_sessions(request):
+    # No legacy allauth email/manage template and no session keys in rendered HTML.
+    sessions=UserSession.objects.filter(user=request.user).order_by('-created_at')[:100]
+    return render(request,'control/administrator_sessions.html',{'sessions':sessions,'sessions_form':PasswordConfirmation()})
+
+@administrator
 @require_POST
 def logout_all(request):
     form=PasswordConfirmation(request.POST)

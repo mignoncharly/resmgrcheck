@@ -12,6 +12,17 @@ from .models import Artifact
 
 ROOT_FILES={'request.json','replay.json','state.json','result.json','comparison.json','report.html','comparison.html'}
 
+def share_verified_file(path,group_id):
+    """Give the dedicated evidence group read access without changing sealed bytes."""
+    descriptor=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
+    try:
+        info=os.fstat(descriptor)
+        if not stat.S_ISREG(info.st_mode) or info.st_uid!=os.getuid() or info.st_gid!=group_id or info.st_nlink!=1:raise PolicyError('evidence_sharing_ownership_unknown')
+        # Preserve owner-write state, including native read-only seals. No executable,
+        # group-write or public access; enclosing setgid directories supply the group.
+        os.fchmod(descriptor,(stat.S_IMODE(info.st_mode)&0o600)|0o040)
+    finally:os.close(descriptor)
+
 def open_artifact(artifact):
     """Open every component relative to the private root without following symlinks."""
     relative=PurePosixPath(artifact.relative_path)
@@ -93,6 +104,10 @@ def seal(run):
         relative=member.relative_to(path).as_posix()
         inventory[relative]={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw)}
     if sum(v['bytes'] for v in inventory.values())>64*1024*1024:raise PolicyError('run_storage_quota_exceeded')
+    if settings.ENVIRONMENT=='production':
+        import grp
+        group_id=grp.getgrnam('resmgr-evidence').gr_gid
+        for member in sorted(set(sealed)):share_verified_file(member,group_id)
     seal_data={'kind':'web-evidence-inventory','schema_version':2,'run_id':str(run.pk),'native_run_id':run.native_run_id,
                'organization_id':str(run.project.organization_id),'project_id':str(run.project_id),'files':inventory}
     marker=path/'web-evidence-v2.json';encoded=canonical(seal_data)+b'\n'

@@ -1,0 +1,47 @@
+[Unit]
+Description=ResMgrCheck optional evidence-only AI dispatcher
+Requires=resmgrcheck-db.service
+After=resmgrcheck-db.service network-online.target
+ConditionPathExists=/etc/resmgrcheck/ai/provider.json
+
+[Service]
+User=resmgr-ai
+Group=resmgr-ai
+SupplementaryGroups=resmgr-dbclients resmgr-evidence
+WorkingDirectory=/opt/resmgrcheck/current/web
+EnvironmentFile=/etc/resmgrcheck/ai.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=RMC_WEB_SECRET_KEY_FILE=%d/application-key
+LoadCredential=application-key:/etc/resmgrcheck/keys/application-key
+ExecStartPre=/opt/resmgrcheck/current/.venv/bin/python manage.py runtime_check
+ExecStart=/opt/resmgrcheck/current/.venv/bin/python manage.py dispatch_ai
+Restart=on-failure
+RestartSec=10
+KillMode=control-group
+TimeoutStopSec=30
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectProc=invisible
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+IPAddressDeny=127.0.0.0/8 ::1/128 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 169.254.0.0/16 fc00::/7 fe80::/10
+IPAddressAllow=127.0.0.53/32
+InaccessiblePaths=/etc/resmgrcheck/executor /etc/resmgrcheck/keys /var/lib/resmgrcheck/private/executor /var/backups/resmgrcheck
+ReadWritePaths=/var/lib/resmgrcheck/private/ai
+MemoryMax=384M
+CPUQuota=50%
+TasksMax=24
+LimitNOFILE=128
+
+[Install]
+WantedBy=multi-user.target

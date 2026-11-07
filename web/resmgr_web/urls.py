@@ -9,7 +9,7 @@ urlpatterns=[
  path('administrator/reauthenticate/',account.ReauthenticateView.as_view(),name='account_reauthenticate'),
  path('administrator/password/change/',administrator(account.PasswordChangeView.as_view(template_name='control/administrator_password.html')),name='account_change_password'),
  path('administrator/2fa/',include('allauth.mfa.urls')),
- path('administrator/sessions/',include('allauth.usersessions.urls')),
+ path('administrator/sessions/',views.administrator_sessions,name='usersessions_list'),
  path('access/',access_views.developer_access,name='developer_access'),path('sign-out/',access_views.sign_out,name='account_logout'),
  path('app/session/',access_views.session_settings,name='account_settings'),
  path('administrator/settings/',views.account_settings,name='administrator_settings'),path('administrator/logout-all/',views.logout_all,name='logout_all'),

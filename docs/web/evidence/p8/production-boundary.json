@@ -1,0 +1,12 @@
+{
+  "production_unit_runtime_qualification": "NOT_RUN",
+  "read_only_unit_verification_exit": 1,
+  "observed_findings": [
+    "Application executable paths not installed; actual service activation/namespace/peer-role checks cannot pass before root preparation.",
+    "Nonroot systemd verification also encountered an unreadable unrelated existing unit; no attempt was made to change it."
+  ],
+  "production_tls_public_url_qualified": false,
+  "root_preparation_executed": false,
+  "sudo_n_status": "password required",
+  "unrelated_services_changed": false
+}

@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[3]
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',required=True);args=parser.parse_args()
 out=Path(args.out).resolve();out.mkdir(parents=True,exist_ok=False)
-credentials=json.loads((ROOT/'.local/web/private/acceptance-account.json').read_text())
+credentials=json.loads((ROOT/'.local/web/private/acceptance-administrator.json').read_text())
 refs=json.loads((ROOT/'.local/web/private/browser-manifest.json').read_text())
 axe=(ROOT/'.local/web/browser/node_modules/axe-core/axe.min.js').read_text()
 axe_version=json.loads((ROOT/'.local/web/browser/node_modules/axe-core/package.json').read_text())['version']

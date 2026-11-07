@@ -60,3 +60,19 @@ code redemption and fences revocation against local child creation. Run/source/A
 rows bind exactly one administrator or code-session identity; legacy authors/audit
 remain preserved. Browser sessions use opaque cookies with revocation/idle/absolute
 limits, not repeatedly transmitted raw codes or API bearer credentials.
+
+P8 preparation separates production configuration into web/executor/AI/operator/
+backup roles. HTTP receives neither registry nor provider settings and refuses
+private dispatcher commands; only its role can expose WSGI. Nonroot services receive
+only required systemd credentials. The fixed root-owned engine checkout has an
+explicit Git safe-directory binding and private state location, preserving real
+evaluator source identity. A verified owned-file read-sharing step preserves sealed
+bytes and owner-write state while giving only the evidence group read access.
+
+Encrypted backups use a synchronized PostgreSQL snapshot and a shared advisory
+lock that excludes local retention until artifact copying completes. Authenticated
+stream encryption and an exact isolated restore drill preserve native hashes/audit.
+The backup DB role is SELECT-only; protected local wrappers retain root only for
+key custody/peer authentication and are contained with no capabilities/home/IP
+network. These service/OS claims are intended configuration and require the pending
+actual root qualification; staging tests are not that proof. See PRIVATE_INSTALL.md.

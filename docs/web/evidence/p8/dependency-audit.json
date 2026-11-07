@@ -1,0 +1,82 @@
+{
+  "source": "https://api.osv.dev/v1/querybatch",
+  "observed_at_utc": "2026-11-07T16:42:11.864207+00:00",
+  "packages": [
+    {
+      "name": "argon2-cffi",
+      "version": "25.1.0",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "argon2-cffi-bindings",
+      "version": "26.1.0",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "asgiref",
+      "version": "3.13.0",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "cryptography",
+      "version": "50.0.2",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "Django",
+      "version": "5.2.19",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "django-allauth",
+      "version": "65.21.1",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "fido2",
+      "version": "2.2.1",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "gunicorn",
+      "version": "26.2.0",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.8",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.8",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "pycparser",
+      "version": "3.12",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "qrcode",
+      "version": "8.2",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "sqlparse",
+      "version": "0.6.1",
+      "vulnerability_ids": []
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "vulnerability_ids": []
+    }
+  ],
+  "passed": true
+}

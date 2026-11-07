@@ -69,6 +69,10 @@ def remove_exact(root,entries):
         finally:os.close(parent)
 
 def purge_run(identifier,apply=False):
+    from .backup import media_lock
+    with media_lock():return _purge_run(identifier,apply)
+
+def _purge_run(identifier,apply=False):
     now=timezone.now()
     with transaction.atomic():
         run=Run.objects.select_for_update(of=('self',)).select_related('project__organization','actor').get(pk=identifier)

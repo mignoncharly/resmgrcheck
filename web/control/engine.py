@@ -77,7 +77,8 @@ def limits():
 
 def command(argv,binding,heartbeat,timeout=600,on_started=None,start_guard=None):
     # No shell, inherited API keys, SDK authentication, arbitrary cwd or environment.
-    env={'PATH':'/usr/bin:/bin','HOME':str(Path.home()),'LANG':'C.UTF-8','PYTHONUNBUFFERED':'1'}
+    env={'PATH':'/usr/bin:/bin','HOME':str(Path.home()),'LANG':'C.UTF-8','PYTHONUNBUFFERED':'1','PYTHONDONTWRITEBYTECODE':'1',
+         'GIT_CONFIG_COUNT':'1','GIT_CONFIG_KEY_0':'safe.directory','GIT_CONFIG_VALUE_0':str(binding.engine_root)}
     from contextlib import nullcontext
     process=None
     try:

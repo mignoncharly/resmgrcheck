@@ -1,0 +1,13 @@
+[Unit]
+Description=ResMgrCheck private control-plane socket
+
+[Socket]
+ListenStream=/run/resmgrcheck-web/application.sock
+SocketUser=resmgr-web
+SocketGroup=www-data
+SocketMode=0660
+DirectoryMode=0755
+RemoveOnStop=true
+
+[Install]
+WantedBy=sockets.target

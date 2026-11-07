@@ -1,0 +1,47 @@
+[Unit]
+Description=ResMgrCheck HTTPS control plane (private socket only)
+Requires=resmgrcheck-db.service resmgrcheck-web.socket
+After=resmgrcheck-db.service resmgrcheck-web.socket
+
+[Service]
+User=resmgr-web
+Group=resmgr-web
+SupplementaryGroups=resmgr-dbclients resmgr-evidence
+WorkingDirectory=/opt/resmgrcheck/current/web
+EnvironmentFile=/etc/resmgrcheck/web.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=RMC_WEB_SECRET_KEY_FILE=%d/application-key
+Environment=RMC_WEB_MFA_KEY_FILE=%d/mfa-key
+LoadCredential=application-key:/etc/resmgrcheck/keys/application-key
+LoadCredential=mfa-key:/etc/resmgrcheck/keys/mfa-key
+ExecStartPre=/opt/resmgrcheck/current/.venv/bin/python manage.py runtime_check
+ExecStart=/opt/resmgrcheck/current/.venv/bin/python -m gunicorn resmgr_web.wsgi:application --config /opt/resmgrcheck/current/web/ops/gunicorn.conf.py --bind fd://3
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=40
+KillMode=mixed
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectProc=invisible
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+InaccessiblePaths=/etc/resmgrcheck/executor /etc/resmgrcheck/ai /etc/resmgrcheck/keys /var/lib/resmgrcheck/private/executor /var/backups/resmgrcheck
+ReadWritePaths=/var/lib/resmgrcheck/private/web
+MemoryMax=512M
+CPUQuota=100%
+TasksMax=48
+LimitNOFILE=256
+
+[Install]
+WantedBy=multi-user.target

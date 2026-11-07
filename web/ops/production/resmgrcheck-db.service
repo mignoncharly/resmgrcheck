@@ -1,0 +1,35 @@
+[Unit]
+Description=ResMgrCheck dedicated socket-only PostgreSQL
+After=local-fs.target
+
+[Service]
+Type=simple
+User=resmgr-db
+Group=resmgr-dbclients
+RuntimeDirectory=resmgrcheck-db
+RuntimeDirectoryMode=0750
+ExecStart=/usr/lib/postgresql/16/bin/postgres -D /var/lib/resmgrcheck/database
+KillSignal=SIGINT
+KillMode=mixed
+TimeoutStopSec=45
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX
+ReadWritePaths=/var/lib/resmgrcheck/database /run/resmgrcheck-db
+MemoryMax=384M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

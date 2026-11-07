@@ -40,3 +40,10 @@ validates replay/candidate identities, checks deployed binaries, preserves attem
 and derives comparison/JUnit through one canonical evaluator. Host evaluator source
 identity and native build identity are separate. Full host target/deployment/
 collection commands, HTML interaction and distribution remain later phases.
+
+The feature/production-web-ai control plane is documented separately in
+[web/ARCHITECTURE.md](web/ARCHITECTURE.md). It preserves this native/CLI architecture
+and canonical evaluator. The approved web access model uses only locally provisioned
+administrator password/MFA identities and scoped developer access-code sessions,
+without signup/email/SMTP. Its staging and production gates are tracked separately
+in [web/STATUS.md](web/STATUS.md); web work does not requalify arbitrary QNX services.

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "scope": "Installed Nginx -t on proposed templates; listen ports replaced by high loopback-only ports and disposable private syntax-only certificate/log paths. No server start/reload/existing config change. Original privileged-port check reached syntax OK but was denied bind permission.",
+  "nginx_test_exit": 0,
+  "test_ports_closed_afterward": true,
+  "production_port_binding_verified": false,
+  "trusted_public_certificate_verified": false,
+  "public_https_verified": false,
+  "temporary_certificate_removed": true
+}

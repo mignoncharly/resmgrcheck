@@ -1,0 +1,13 @@
+# Reviewed template ONLY. Install/enable after the private production/P9 gates.
+# Place these http-context definitions in a dedicated new conf.d file.
+limit_req_zone $binary_remote_addr zone=resmgrcheck_auth:1m rate=10r/m;
+map $uri $resmgrcheck_area {
+    default public;
+    ~^/administrator/ administrator;
+    ~^/access/ access;
+    ~^/app/ application;
+    ~^/api/ api;
+    ~^/demo/ playback;
+}
+# Deliberately excludes URI/query/body/cookie/Authorization and raw client IP.
+log_format resmgrcheck_safe '$request_id $request_method $resmgrcheck_area $status $request_time';

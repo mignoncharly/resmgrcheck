@@ -95,6 +95,11 @@ class AdministratorTests(TestCase):
         self.assertEqual(first.post(reverse('logout_all'),{'password':'incorrect'}).status_code,400)
         self.assertEqual(first.post(reverse('logout_all'),{'password':PASSWORD}).status_code,302)
         self.assertEqual(second.get('/app/').status_code,302)
+    def test_administrator_session_view_is_mfa_scoped_without_email_dependencies(self):
+        account=user('session-list-admin@example.test',mfa=True);client=signed_client(account,mfa=True)
+        response=client.get(reverse('usersessions_list'));self.assertContains(response,'Browser sessions');self.assertContains(response,'Revoke all sessions')
+        self.assertNotContains(response,client.session.session_key)
+        self.assertIn('reauthenticate',signed_client(account).get(reverse('usersessions_list')).url)
     def test_get_logout_never_changes_a_session(self):
         account=user('logout-admin@example.test',mfa=True);client=signed_client(account,mfa=True)
         self.assertEqual(client.get(reverse('account_logout')).status_code,405);self.assertIn('_auth_user_id',client.session)

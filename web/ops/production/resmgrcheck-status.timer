@@ -1,0 +1,10 @@
+[Unit]
+Description=ResMgrCheck minute operational status checks
+
+[Timer]
+OnBootSec=90s
+OnUnitActiveSec=60s
+Unit=resmgrcheck-status.service
+
+[Install]
+WantedBy=timers.target

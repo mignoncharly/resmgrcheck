@@ -80,3 +80,12 @@ Updated: 2026-11-07.
 - For demo storage,54 completed Phase9 histories/39 sessions were verified/archived,
   retaining start guards and all four source-before/after histories. Offline/Git
   evidence remains; archived on-target IDs cannot be collected as present bytes.
+
+- The production-web feature branch is separate from the published CLI/jury release.
+  Its revised locally provisioned administrator/MFA and scoped access-code model is
+  qualified in private PostgreSQL/browser/real-QNX staging; no SMTP/user signup is
+  required. Production OS roles, trusted HTTPS, off-host backup/key custody, rollback
+  and independent operator UAT remain gates. Optional real AI provider access is
+  unconfigured/unverified; disabled AI leaves deterministic testing available. See
+  docs/web/STATUS.md and docs/web/PRIVATE_INSTALL.md. These web changes do not extend
+  the existing native adapter/external-service compatibility claims.

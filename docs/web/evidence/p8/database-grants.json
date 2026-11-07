@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "kind": "actual-postgresql-runtime-grant-qualification",
+  "negative_checks": [
+    {
+      "role": "resmgr_web",
+      "operation": "schema-create",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_web",
+      "operation": "audit-rewrite",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_web",
+      "operation": "trigger-disable",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_web",
+      "operation": "executor-lease-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_web",
+      "operation": "provider-state-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_exec",
+      "operation": "schema-create",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_exec",
+      "operation": "audit-rewrite",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_exec",
+      "operation": "trigger-disable",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_exec",
+      "operation": "administrator-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_exec",
+      "operation": "code-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "schema-create",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "audit-rewrite",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "trigger-disable",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "administrator-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "code-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_ai",
+      "operation": "native-job-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "schema-create",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "audit-rewrite",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "trigger-disable",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "administrator-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "code-write",
+      "sqlstate": "42501",
+      "denied": true
+    },
+    {
+      "role": "resmgr_backup",
+      "operation": "native-job-write",
+      "sqlstate": "42501",
+      "denied": true
+    }
+  ],
+  "roles_nonprivileged_and_nonowner": true,
+  "evidence_select_permitted": true,
+  "all_role_and_acl_changes_rolled_back": true,
+  "qnx_contacted": false,
+  "production_os_isolation_qualified": false,
+  "scope": "Private staging transaction with real SET ROLE and PostgreSQL permission checks. Actual production peer mappings/service identities are a separate pending root qualification."
+}

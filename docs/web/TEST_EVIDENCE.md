@@ -411,3 +411,78 @@ or supported adapter changed, so no redundant native matrix was repeated. Arbitr
 customer lifecycle/agent onboarding is explicitly UNSUPPORTED and unavailable for
 launch. P7 passes this truthful limited scope. P8 hardening is next; no public
 service or unrelated VPS configuration changed.
+
+## W009 — P8 staging hardening; actual root gate still pending
+
+Base6447fb0 with uncommitted hardening changes. [Source observation](evidence/p8/source-observation.json)
+records gate-close web hashes, not a clean P9 release reproduction. The original
+engine runtime still matches02b34132…; no native source, original evidence or release
+branch changed. No unchanged QNX matrix/build was repeated; W007's six actual
+access-authorized cases and earlier evidence retain their actual source identities.
+
+[All152 PostgreSQL-backed tests](evidence/p8/host-tests.txt) passed in41.031s.
+[Eleven focused configuration checks](evidence/p8/focused-config.txt) subsequently
+passed in1.068s, including refusal of WSGI exposure by the private executor role. These cover
+production protected/no-follow secret files and hostname/origin/path checks,
+separate service roles, no HTTP dispatcher/provider credentials, no HTTP-role
+private dispatcher/WSGI, safe logging, code/credential redaction inside exceptions,
+read-only evidence sharing with unchanged bytes, hardlink refusal, private symlink
+boundaries in installation permissions, unexpected deployment-warning refusal,
+authenticated encryption tamper/key-mode/link/traversal rejection, actual isolated
+PostgreSQL restore, bounded retention/snapshot exclusion and missing-archive receipt
+denial. `pip check`, Python compilation, migration drift and diff checks passed.
+
+[Actual PostgreSQL grant checks](evidence/p8/database-grants.json) used four temporary
+nonprivileged/nonowner roles and real SET ROLE:22 operations returned42501, including
+schema creation, audit rewrite/trigger disable, inappropriate code/administrator,
+lease/provider/native-job writes. Evidence SELECT was allowed. The complete test
+role/ACL transaction rolled back; no permanent roles/ACL/data changed. This validates
+the proposed SQL permissions, not actual production peer mappings/OS identities.
+
+The new streaming AES-256-GCM [snapshot](evidence/p8/backup.json) and
+[restore drill](evidence/p8/restore.json) passed against the actual private staging
+application:245 artifact hashes,14 collected histories and database identity/audit
+trigger verified. Thirteen histories contain actual native cases; one is the real
+failed-transfer/no-native-launch record. Only the exact new temporary restore DB
+was removed. Original data/evidence remained intact. The encrypted backup hash is
+7f5bfc7896a3552cb0f1985c1bc0be1928598461ce16fba75f2e09e5bb38751d.
+Archive/key remain ignored/private. This does not qualify production service/
+backup-role execution, independent off-host copy/key custody or disaster recovery.
+[Local operations status](evidence/p8/operations.json) reported no queued work,
+expired lease or quarantine and explicit native health `not_measured`; a fresh
+receipt is not represented as restore proof.
+
+[36 developer/public browser views](evidence/p8/access-browser.json) and
+[14 additional administrator views](evidence/p8/administrator-browser.json) passed
+in actual Chromium156 at1440px/390px, with JavaScript disabled on mobile. Seventeen
+axe scans had zero serious/critical findings. Actual administrator password/TOTP,
+code creation/redemption/limits/revocation and scope denials were exercised without
+persisting raw codes/cookies or secret screenshots. The extra administrator checks
+initially found one real keyboard-scroll issue and a500 from the legacy session
+page's missing humanize template dependency. The audit table is now keyboard
+focusable and the session page uses a dedicated MFA-protected administrator view,
+without the obsolete allauth email/manage template. It exposes no session keys and
+offers password-confirmed global revocation, which also invalidates queued actor
+fingerprints. Both browser failures were corrected and the complete14-view rerun
+passed. No accessibility threshold or authorization check was weakened.
+
+The live [OSV audit](evidence/p8/dependency-audit.json) returned no listed
+vulnerabilities for all15 exact installed runtime packages on2026-11-07. This is
+point-in-time OSV coverage, not absence-of-vulnerability certification. Installed
+Nginx accepted the proposed [isolated template check](evidence/p8/nginx-template.json)
+using high loopback ports and a disposable syntax-only certificate. The original
+privileged-port test reached syntax OK but bind permission was denied. No production
+listener/server/reload occurred; temporary test ports were verified closed. No
+trusted certificate/public HTTPS verification is claimed.
+
+[Production boundary](evidence/p8/production-boundary.json): actual root preparation,
+unit activation/namespace/BPF/peer roles, production backup/restore/off-host custody,
+TLS/cookies/CSRF, quotas/retention/rollback and independent P9 UAT remain NOT_RUN.
+Read-only systemd verification cannot qualify absent application executable paths.
+The process is UID1000 and `sudo -n true` still requires a password. No credentials
+were requested or printed. [PRIVATE_INSTALL.md](PRIVATE_INSTALL.md) gives the concrete
+next root action and dedicated private resource plan. That preparation starts no
+public app/SSH/database listener, touches no Nginx/DNS/TLS/firewall, and starts no
+executor/AI/timer. Prepared code is not a claim that those production controls have
+actually run. P8 remains IN PROGRESS; P9/P10 do not advance on this evidence. SMTP
+is superseded; optional AI is unconfigured, so real provider qualification is NOT_RUN.

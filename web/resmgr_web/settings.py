@@ -1,5 +1,5 @@
 """Separate web runtime; never imports authenticated QNX configuration into HTTP."""
-import os
+import os,stat
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 
@@ -8,16 +8,26 @@ REPO_ROOT = BASE_DIR.parent
 ENVIRONMENT = os.environ.get('RMC_WEB_ENV', 'production')
 if ENVIRONMENT not in {'production', 'staging', 'test'}:
     raise ImproperlyConfigured('RMC_WEB_ENV must be production, staging or test')
+SERVICE_ROLE=os.environ.get('RMC_WEB_ROLE','web')
+if SERVICE_ROLE not in {'web','executor','ai','operator','backup'}:raise ImproperlyConfigured('Unknown private service role')
 
 def secret(name, required=True):
     filename = os.environ.get(name + '_FILE')
-    value = Path(filename).read_text().strip() if filename else os.environ.get(name, '')
+    if ENVIRONMENT=='production' and not filename:raise ImproperlyConfigured(name+' requires a protected credential file in production')
+    if filename:
+        descriptor=os.open(filename,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        try:
+            info=os.fstat(descriptor)
+            if not stat.S_ISREG(info.st_mode) or info.st_uid not in {0,os.getuid()} or info.st_mode&0o077 or info.st_size>4096:raise ImproperlyConfigured(name+' credential file permissions/type invalid')
+            value=os.read(descriptor,4097).decode().strip()
+        finally:os.close(descriptor)
+    else:value=os.environ.get(name, '')
     if required and len(value) < 32:
         raise ImproperlyConfigured(name + ' must be configured privately (32+ characters)')
     return value
 
 SECRET_KEY = secret('RMC_WEB_SECRET_KEY')
-MFA_ENCRYPTION_KEY = secret('RMC_WEB_MFA_KEY')
+MFA_ENCRYPTION_KEY = secret('RMC_WEB_MFA_KEY') if SERVICE_ROLE in {'web','operator'} else ''
 DEBUG = False
 ALLOWED_HOSTS = os.environ.get('RMC_WEB_ALLOWED_HOSTS', 'qnx-resmgrcheck.gestionatech.de').split(',')
 CSRF_TRUSTED_ORIGINS = [v for v in os.environ.get('RMC_WEB_CSRF_ORIGINS', 'https://qnx-resmgrcheck.gestionatech.de').split(',') if v]
@@ -96,7 +106,7 @@ USE_TZ = True
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 CACHES = {'default':{'BACKEND':'django.core.cache.backends.db.DatabaseCache','LOCATION':'control_cache'}}
-LOGGING = {'version':1,'disable_existing_loggers':False,'handlers':{'console':{'class':'logging.StreamHandler'}},
+LOGGING = {'version':1,'disable_existing_loggers':False,'formatters':{'private':{'()':'control.logging.PrivateFormatter'}},'handlers':{'console':{'class':'logging.StreamHandler','formatter':'private'}},
            'root':{'handlers':['console'],'level':'WARNING'},'loggers':{'django.request':{'handlers':['console'],'level':'ERROR','propagate':False}}}
 # No request bodies, credentials or raw provider errors are logged.
 ACCOUNT_ADAPTER = 'control.auth.AccountAdapter'
@@ -112,3 +122,13 @@ MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'allau
 MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'control.access_middleware.AccessSessionMiddleware')
 
 LOGIN_URL = '/administrator/login/'
+
+if ENVIRONMENT=='production':
+    if ALLOWED_HOSTS!=['qnx-resmgrcheck.gestionatech.de'] or CSRF_TRUSTED_ORIGINS!=['https://qnx-resmgrcheck.gestionatech.de']:raise ImproperlyConfigured('Production host/origin must match the approved hostname')
+    if not DATABASES['default']['HOST'].startswith('/') or DATABASES['default']['PASSWORD']:raise ImproperlyConfigured('Production requires the dedicated peer-auth Unix-socket database')
+    for name in ['RMC_WEB_STATIC_ROOT','RMC_WEB_ARTIFACT_ROOT','RMC_WEB_PRIVATE_ROOT']:
+        value=os.environ.get(name,'')
+        if not value or not Path(value).is_absolute() or '.local' in Path(value).parts:raise ImproperlyConfigured(name+' requires an explicit dedicated absolute production path')
+    if SERVICE_ROLE=='web' and (EXECUTOR_REGISTRY or AI_CONFIG):raise ImproperlyConfigured('Public web service must not receive executor/provider configuration')
+    if SERVICE_ROLE=='executor' and (not EXECUTOR_REGISTRY or AI_CONFIG):raise ImproperlyConfigured('Executor requires its private registry and no AI provider configuration')
+    if SERVICE_ROLE=='ai' and EXECUTOR_REGISTRY:raise ImproperlyConfigured('AI worker must not receive executor configuration')

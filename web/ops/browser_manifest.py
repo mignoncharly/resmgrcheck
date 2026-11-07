@@ -6,7 +6,7 @@ import django
 django.setup()
 from django.conf import settings
 from control.models import Run,Target,Project
-credentials=json.loads((settings.PRIVATE_ROOT/'acceptance-account.json').read_text())
+credentials=json.loads((settings.PRIVATE_ROOT/'acceptance-administrator.json').read_text())
 project=Project.objects.get(pk=credentials['project_id']);target=Target.objects.get(project=project,approved=True,kind='managed-lab')
 runs=Run.objects.filter(project=project)
 result={'project_id':str(project.pk),'organization_id':str(project.organization_id),'target_id':str(target.pk),

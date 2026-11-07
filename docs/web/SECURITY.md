@@ -63,3 +63,22 @@ environment label alone cannot grant staging recovery access: the development
 exception also checks the owned workspace and exact private staging/test database.
 Legacy account tables/author IDs remain archived, with unprovisioned accounts
 disabled rather than automatically promoted. See ACCESS_MODEL and test evidence.
+
+P8 staging checks now include protected no-follow secret files, production-only
+hostname/origin/path/role validation, refusal of executor/provider configuration in
+HTTP, and dispatcher role barriers. The logging formatter redacts complete raw
+code/provider-key patterns even inside exception text or attacker-chosen paths.
+Nginx templates exclude URI/query/body/cookie/IP from their access-log format.
+The per-service role grant SQL was tested on real PostgreSQL:22 permission denials,
+nonowner/nonprivileged roles and readable evidence; all test role/ACL changes rolled
+back. Actual peer mappings/systemd containment remain NOT_RUN without root.
+
+Snapshot/restore tests authenticate ciphertext before any extraction/SQL, reject
+links/traversal/unknown members, preserve the live database, verify245 artifact hashes
+and14 collected histories, and prove the restored audit trigger. A real retention/
+snapshot lock-conflict test demonstrates bounded exclusion. Backups contain sensitive
+DB authentication state and stay encrypted/private; off-host custody, production
+backup role/service execution and rollback are still unqualified. No proprietary
+QNX content or private runtime archive/key is in Git. An OSV query of all15 pinned
+runtime packages returned no listed vulnerabilities on2026-11-07; that is point-in-
+time database coverage, not proof of absence or an independent security audit.
