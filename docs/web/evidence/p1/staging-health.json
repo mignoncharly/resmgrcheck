@@ -1,0 +1,10 @@
+{
+  "transport": "loopback HTTP only",
+  "port": 8431,
+  "readiness_status": 200,
+  "readiness": {
+    "status": "ready"
+  },
+  "production": false,
+  "postgres": "separate private Unix-socket cluster"
+}

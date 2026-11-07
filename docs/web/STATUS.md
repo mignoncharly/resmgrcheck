@@ -6,8 +6,9 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | Gate | State | Evidence |
 | --- | --- | --- |
 | P0 baseline/threat model | PASS | Inventory, preserved baseline, dependency/security review, explicit deployment blockers |
-| P1 foundation | IN PROGRESS | Isolated Django/PostgreSQL staging; no public deployment |
-| P2–P10 | NOT_RUN | Must satisfy each gate in order |
+| P1 foundation | PASS | 15 pinned/hashed wheel dependencies; real PG migrations, four tests, isolated Gunicorn readiness200 |
+| P2 identity/authorization | IN PROGRESS | Email/MFA, memberships and negative authorization qualification |
+| P3–P10 | NOT_RUN | Must satisfy each gate in order |
 
 Actually running production web features: none. No production hostname/TLS or
 ResMgrCheck vhost currently exists. Original engine runtime digest remains

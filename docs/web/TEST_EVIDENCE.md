@@ -29,3 +29,26 @@ MFA integration follows https://docs.allauth.org/en/latest/mfa/introduction.html
 P0 passes inventory/threat-model readiness with explicit downstream production
 blockers. P1–P10 are not passed by this record. No AI provider or public HTTPS result
 is claimed. See SECURITY, DEPLOYMENT and OPERATIONS for constraints and rollback.
+
+## W001 — P1 foundation
+
+Django5.2.19, allauth65.21.1 and psycopg3.3.8 installed in the private web virtualenv;
+all15 installed/transitive Linux x86_64/Python3.12 wheels are exact-version/hash
+pinned in web/requirements.lock. Native CLI dependencies/source remain unchanged.
+Real PostgreSQL16 staging was initialized in ignored .local/web/pgdata with
+listen_addresses empty, peer auth over a private0700 socket directory, port5438
+within that directory. No existing database/cluster/service was altered.
+
+Actual commands used web/ops/staging.py to run manage.py makemigrations control,
+migrate --noinput, createcachetable, check, and test tests.test_foundation --noinput.
+[All four tests](evidence/p1/tests.txt) passed against a separately created/destroyed
+PostgreSQL test database. Identity case-fold uniqueness, Argon2 hashing, real scoped
+records, empty initial data, liveness/readiness and HTTP method restrictions passed.
+[Migrations/checks](evidence/p1/migrations.txt) succeeded with zero system issues.
+
+An actual one-worker/two-thread Gunicorn was started at127.0.0.1:8431;
+[readiness](evidence/p1/staging-health.json) returnedHTTP200 and the actual database
+SELECT passed. It is isolated private staging under the development user, not a
+public or production OS-isolation result. No seed activity or mock target exists.
+Root provisioning, DNS, production mail and operator UAT remain downstream blockers.
+P1 passed; secure account/tenant policies are P2 work, not asserted from foundation.

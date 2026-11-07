@@ -1,0 +1,6 @@
+Django==5.2.19
+django-allauth[mfa]==65.21.1
+psycopg[binary]==3.3.8
+gunicorn==26.2.0
+cryptography==50.0.2
+argon2-cffi==25.1.0
