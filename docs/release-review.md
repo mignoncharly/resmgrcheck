@@ -103,3 +103,16 @@ compile of16 owned C files emitted no diagnostics. This is static analysis, with
 native IPC/concurrency or malicious-target attestation. Native execution remains
 required. No target sanitizer or target memory measurement is claimed. cJSON stays
 pinned to the reviewed MIT revision; no SDK/runtime code is redistributed.
+
+## Clean qualification procedure
+
+From a separate clean checkout with ignored local target routing configured and
+SDP loaded, use `tests/qnx/qualify-phase9.py --out NEW_IGNORED_DIRECTORY
+--fixed-source CLEAN_CORRECTED_SOURCE --input-prefix UNIQUE_LAB_ID`. The source-fix
+checkout must be separately committed; remove only the intentional ignore-unblock
+early-return block from both fixture handlers. Keep profile/settings unchanged.
+The script follows README's actual commands, including the initial UNKNOWN doctor,
+then the complete expected-outcome release matrix, focused native input gate and
+explicit changed-build replay on both services. It preserves commands/output,
+JSON/JUnit/HTML, hashes, actual source identity and reused-target disclosure.
+A successful script is still required before marking the full Phase9 gate passed.
