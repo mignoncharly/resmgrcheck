@@ -392,3 +392,22 @@ staging. P6 qualifies optional-disabled operation: real provider/account/usage r
 NOT_RUN until dedicated local configuration and actual exercise. SMTP is superseded,
 not a blocker. P7 customer scope and P8–P10 production isolation/backup/HTTPS/rollback/
 independent operator UAT still require their own gates; no public deployment occurred.
+
+## W008 — P7 truthful customer target boundary
+
+Base05078d8; [operator onboarding guide](CUSTOMER_TARGETS.md) documents the actual
+request/approval/immutable-build/inventory/code boundary and external limitations.
+Local target/build approval now uses the same production-root/private-staging
+operator guard as administrator provisioning. No approval HTTP endpoint exists.
+[All48 focused PostgreSQL scheduling/access tests](evidence/p7/scope-tests.txt) passed
+in10.196s, including injected target fields, unknown required capability, external
+lifecycle denial before dispatch, target/code administration denial, cross-project
+bindings, queued revocation, code session concurrency and bounded host children.
+
+W007 supplies actual supported managed-fixture native/replay proof; W003 transport
+recovery/failure observations and original CLI external-health qualifications are
+preserved, not falsely relabelled as new external customer execution. No native code
+or supported adapter changed, so no redundant native matrix was repeated. Arbitrary
+customer lifecycle/agent onboarding is explicitly UNSUPPORTED and unavailable for
+launch. P7 passes this truthful limited scope. P8 hardening is next; no public
+service or unrelated VPS configuration changed.

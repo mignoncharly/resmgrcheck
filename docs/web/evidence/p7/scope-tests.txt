@@ -1,0 +1,10 @@
+Creating test database for alias 'default'...
+..........................Forbidden (CSRF cookie not set.): /access/
+......................
+----------------------------------------------------------------------
+Ran 48 tests in 10.196s
+
+OK
+Destroying test database for alias 'default'...
+Found 48 test(s).
+System check identified no issues (0 silenced).

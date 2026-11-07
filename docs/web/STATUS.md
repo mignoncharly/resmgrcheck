@@ -12,7 +12,9 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
-| P7–P10 | NOT_RUN | Must satisfy each gate in order |
+| P7 customer target story | PASS for documented limited scope | W008:48 PG negative checks; managed fixtures/operator approval only, arbitrary external lifecycle UNSUPPORTED |
+| P8 hardening | IN PROGRESS | Production OS/database/backup/HTTPS/rollback qualification required |
+| P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
 Actually running production web features: none. A later read-only check found DNS
 now resolves, but no matching enabled ResMgrCheck vhost and no verified HTTPS health

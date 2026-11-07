@@ -9,6 +9,7 @@ from resmgrcheck.transport import Target as EngineTarget
 from resmgrcheck.deployment import Deployment
 from resmgrcheck.contracts import load,canonical
 from resmgrcheck.artifacts import atomic_write
+from .provision_administrator import local_operator
 
 class Command(BaseCommand):
     help='Approve an existing private engine route/build for one explicit project. Local operator only.'
@@ -17,6 +18,7 @@ class Command(BaseCommand):
         p.add_argument('--target');p.add_argument('--name',default='Approved private QNX lab');p.add_argument('--build-label',default='Operator-verified build')
         p.add_argument('--kind',choices=['managed-lab','external-health'],default='managed-lab')
     def handle(self,*args,**o):
+        local_operator()
         project=Project.objects.get(pk=o['project']);root=Path(o['engine_root']).resolve();configuration=Path(o['config']).resolve()
         if not (root/'resmgrcheck/__main__.py').is_file():raise CommandError('Pinned CLI checkout is required')
         target_data=EngineTarget.read(o['alias'],configuration)

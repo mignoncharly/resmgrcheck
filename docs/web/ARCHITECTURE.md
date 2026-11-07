@@ -52,6 +52,8 @@ and disabled-browser checks do not establish provider access or successful outpu
 Customer targets require an approved dedicated runner/route for that tenant.
 This release will not accept arbitrary shared-host SSH or claim external lifecycle
 observers that do not exist. Public demo uses isolated recorded evidence only.
+The implemented approval/request boundary and precise limitations are documented
+in [CUSTOMER_TARGETS.md](CUSTOMER_TARGETS.md); approval is a protected local action.
 
 ACCESS_MODEL.md records the approved replacement decision. PostgreSQL serializes
 code redemption and fences revocation against local child creation. Run/source/AI
