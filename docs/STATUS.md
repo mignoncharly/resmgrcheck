@@ -4,7 +4,7 @@ Updated: 2026-11-07.
 
 | Item | State |
 | --- | --- |
-| Current phase | Phase 9 passed; Phase 10 preparation next |
+| Current phase | Phase 10 in progress: local demo and submission package |
 | Phases 1–4 | Previously passed; only affected supervision prerequisites rechecked |
 | Phase 5 | Full 40-case native matrix; 63 host tests |
 | Qualified source | 9d4a10d, dirty=false; complete 40-case confirmation in evidence/phase5-clean-lifecycle |
@@ -14,7 +14,7 @@ Updated: 2026-11-07.
 | Phase 7 | Full native workflow/negative/recovery gate passed E013; 95 host tests |
 | Phase 8 | Offline HTML, honest comparison, 105 host tests /45 browser views passed E014 |
 | Phase 9 | Clean source/reused-target workflow passed E015:58 native cases,36 release expectations |
-| Phase 10 | Next: concrete demo/package; publication/submission not authorized |
+| Phase 10 | Local copy/rules/evidence map prepared; actual recording/package pending |
 
 Both services use the same generic runner, worker, scenario machinery and Python
 evaluator. Normal API/MsgSendv/duplicate-descriptor/deferred baselines, timeout,

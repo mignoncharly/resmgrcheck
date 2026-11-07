@@ -1,0 +1,14 @@
+{
+  "kind": "official-submission-requirements-check",
+  "schema_version": 1,
+  "checked_at": "2026-11-07T08:12:01.823200+00:00",
+  "source_url": "https://qnx.devpost.com/rules",
+  "http_status": 200,
+  "fresh_fetch_requested": true,
+  "deadline_utc": "2026-12-15T19:00:00Z",
+  "category": "Developer Tooling & Host Tools",
+  "video_maximum_seconds": 180,
+  "required_video_host": "public YouTube",
+  "raw_page_or_metadata_redistributed": false,
+  "operator_eligibility_attestation": "pending"
+}

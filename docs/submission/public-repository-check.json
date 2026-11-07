@@ -1,0 +1,11 @@
+{
+  "kind": "read-only-public-repository-check",
+  "schema_version": 1,
+  "checked_at": "2026-11-07T08:12:01.823418+00:00",
+  "repository": "https://github.com/mignoncharly/resmgrcheck",
+  "observed_visibility": "public",
+  "default_branch": "main",
+  "candidate_revision_publicly_verified": false,
+  "push_or_mutation_performed": false,
+  "license_detection_at_new_revision": "pending after authorized publication"
+}
