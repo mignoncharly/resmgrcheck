@@ -1,0 +1,11 @@
+Migrations for 'control':
+  control/migrations/0002_ratebucket_user_session_version_accountdeletion_and_more.py
+    + Create model RateBucket
+    + Add field session_version to user
+    + Create model AccountDeletion
+    + Create model Invitation
+Operations to perform:
+  Apply all migrations: account, admin, auth, contenttypes, control, mfa, sessions, sites, usersessions
+Running migrations:
+  Applying control.0002_ratebucket_user_session_version_accountdeletion_and_more... OK
+  Applying control.0003_audit_append_only... OK

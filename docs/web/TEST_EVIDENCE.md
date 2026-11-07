@@ -52,3 +52,37 @@ SELECT passed. It is isolated private staging under the development user, not a
 public or production OS-isolation result. No seed activity or mock target exists.
 Root provisioning, DNS, production mail and operator UAT remain downstream blockers.
 P1 passed; secure account/tenant policies are P2 work, not asserted from foundation.
+
+## W002 — P2 identity and authorization
+
+[All34 PostgreSQL-backed foundation/identity tests](evidence/p2/tests.txt) passed
+in6.572s. Actual allauth request flows verified signup, POST-only email confirmation,
+invalid confirmation rejection, password reset, explicit password reauthentication,
+TOTP enrollment with encrypted secret/recovery codes, actual second-factor login
+and step-up before first organization creation. Test mail uses Django's isolated
+outbox; this proves the protocol, not external SMTP delivery. Staging mail files
+remain private; production mail is an explicit external configuration requirement.
+
+Negative cases deny anonymous/unverified access, MFA enrollment without authenticated
+session assurance, expired assurance, cross-tenant project/API/team/audit access,
+viewer mutation, missing CSRF, cross-tenant assignment and overprivileged project
+roles. Last-owner removal and admin-to-owner promotion are denied. Revocation
+affects only that organization and is checked immediately; unrelated tenant access
+remains valid. Password-confirmed logout-all invalidates session hashes globally.
+Account export excludes passwords/MFA/session material and other users; sole-owner
+deletion is blocked, eligible deletion disables access and schedules retention.
+
+PostgreSQL trigger rejects audit UPDATE/DELETE. Logs use safe actions/object IDs,
+not credentials. Shared database rate buckets and security headers are tested.
+TOTP/recovery secrets use the separate0600 private Fernet key through the installed
+allauth adapter; privileged owners/admins cannot remove required MFA.
+
+Initial tests found one real session-revocation bug (request.user is lazy, not a
+model class); the concrete User manager fix passed. Follow-up flow assertions were
+corrected to allauth's actual stronger behavior: explicit enrollment reauthentication
+and404 for invalid email confirmation. No security control was relaxed. Original
+failed logs remain private under .local/web/evidence.
+
+P2 passed the protocol/negative gate. Actual production SMTP, OS isolation and public
+HTTPS remain NOT_RUN/downstream blockers. No live QNX job has been launched through
+this foundation yet; P3 must prove it. No AI provider functionality is asserted.

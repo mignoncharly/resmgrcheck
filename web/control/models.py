@@ -17,12 +17,16 @@ class User(AbstractUser):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     username=None
     email=models.EmailField(unique=True)
+    session_version=models.PositiveIntegerField(default=1)
     USERNAME_FIELD='email'; REQUIRED_FIELDS=[]
     objects=UserManager()
     class Meta:
         constraints=[models.UniqueConstraint(Lower('email'),name='user_email_casefold_unique')]
     def save(self,*args,**kwargs):
         self.email=self.email.strip().lower();super().save(*args,**kwargs)
+    def _get_session_auth_hash(self,secret=None):
+        from django.utils.crypto import salted_hmac
+        return salted_hmac('resmgrcheck.User.session',f'{self.password}:{self.session_version}',secret=secret,algorithm='sha256').hexdigest()
 
 class Organization(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
@@ -71,3 +75,24 @@ class AuditEvent(models.Model):
     created_at=models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=['-created_at']
+
+class RateBucket(models.Model):
+    key=models.CharField(max_length=64,primary_key=True)
+    count=models.PositiveIntegerField(default=0)
+    expires_at=models.DateTimeField(db_index=True)
+
+class Invitation(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    organization=models.ForeignKey(Organization,on_delete=models.PROTECT)
+    email=models.EmailField()
+    role=models.CharField(max_length=16,choices=Membership.Role.choices)
+    token_hash=models.CharField(max_length=64,unique=True)
+    invited_by=models.ForeignKey(User,on_delete=models.PROTECT)
+    expires_at=models.DateTimeField()
+    accepted_at=models.DateTimeField(null=True)
+
+class AccountDeletion(models.Model):
+    user=models.OneToOneField(User,on_delete=models.PROTECT)
+    requested_at=models.DateTimeField(auto_now_add=True)
+    due_at=models.DateTimeField()
+    completed_at=models.DateTimeField(null=True)

@@ -1,0 +1,1 @@
+{% extends 'control/base.html' %}{% block content %}<h1>{{ organization.name }} audit log</h1>{% for event in events %}<article><h2>{{ event.action }}</h2><p>{{ event.created_at }} · {{ event.object_id }}</p><pre>{{ event.details }}</pre></article>{% empty %}<p>No organization audit events yet.</p>{% endfor %}{% endblock %}

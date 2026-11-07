@@ -106,3 +106,7 @@ LOGGING = {'version':1,'disable_existing_loggers':False,'handlers':{'console':{'
            'root':{'handlers':['console'],'level':'WARNING'},'loggers':{'django.request':{'handlers':['console'],'level':'ERROR','propagate':False}}}
 # No request bodies, credentials or raw provider errors are logged.
 EMAIL_FILE_PATH = PRIVATE_ROOT / 'mail'
+ACCOUNT_ADAPTER = 'control.auth.AccountAdapter'
+MFA_ADAPTER = 'control.auth.MFAAdapter'
+REGISTRATION_OPEN = os.environ.get('RMC_WEB_REGISTRATION_OPEN','1') == '1'
+MIDDLEWARE.append('control.middleware.PolicyMiddleware')
