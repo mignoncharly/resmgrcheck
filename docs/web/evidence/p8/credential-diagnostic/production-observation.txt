@@ -1,0 +1,25 @@
+Read-only nonprivileged command: systemctl show --property=Id,User,Group,ActiveState,SubState,Result,ExecStartPre,Restart,FragmentPath,DropInPaths resmgrcheck-web.service resmgrcheck-web.socket
+Exit: 0
+No privileged command, service restart, unit install or production key read performed by agent.
+Restart=on-failure
+Result=exit-code
+ExecStartPre={ path=/opt/resmgrcheck/current/.venv/bin/python ; argv[]=/opt/resmgrcheck/current/.venv/bin/python manage.py runtime_check ; ignore_errors=no ; start_time=[Sun 2026-11-08 19:42:58 UTC] ; stop_time=[Sun 2026-11-08 19:42:59 UTC] ; pid=618323 ; code=exited ; status=1 }
+User=resmgr-web
+Group=resmgr-web
+Id=resmgrcheck-web.service
+ActiveState=activating
+SubState=auto-restart
+FragmentPath=/etc/systemd/system/resmgrcheck-web.service
+DropInPaths=
+
+Result=success
+User=
+Group=
+Id=resmgrcheck-web.socket
+ActiveState=active
+SubState=listening
+FragmentPath=/etc/systemd/system/resmgrcheck-web.socket
+DropInPaths=
+
+Separate read-only observations: /opt/resmgrcheck/current points to releases/4ed4855f7633176baea06f2be53154630a9d4d1f; its static tree exists. /run/credentials/resmgrcheck-web.service was absent between attempts. Installed canonical unit file was permission denied for UID1000.
+Source key ownership/modes and specific Django failure text are operator-provided evidence; actual production credential metadata remains pending.

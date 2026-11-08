@@ -1,11 +1,80 @@
 # Private production qualification handoff
 
-Status: the operator's initial preparation failed during clone; no completed production installation. Public deployment
-remains withheld. The revised access gate passed W007; W009 records staging hardening
-and the remaining root/UAT work. W010 records the clone correction and recovery tests.
-No SMTP is needed; AI is optional and disabled.
+Status (2026-11-08, W011): the clone failure has been passed by an operator retry.
+The private web socket is active but the web service fails during ExecStartPre with
+`RMC_WEB_SECRET_KEY credential file permissions/type invalid`. No successful runtime
+isolation or readiness is claimed. Public deployment remains withheld. W007/W009
+record access/staging gates and W010 records the earlier clone correction. No SMTP
+is needed; AI is optional and disabled.
 
-## Next external action
+## Next external action: temporary in-unit credential metadata capture
+
+The source keys must remain root:root `0600`. Do not change their permissions,
+values, ownership, LoadCredential directives or the service user. Inspection of
+`/run/credentials/resmgrcheck-web.service` between attempts cannot determine the
+files' in-unit metadata: the directory follows the unit lifecycle and sandbox.
+
+The likely incompatibility is systemd255's root-owned file plus a named service-UID
+read ACL. Its ACL mask appears as `0440` to stat even when the owning group has no
+access; Django's current `mode & 077` rejects that. Systemd also supports ownership
+fallback with `0400`. **The real production UID/GID/mode/ACL has not been captured,
+so the root cause is not yet confirmed and the validator correction is withheld.**
+
+The standalone `credential_diagnostic.py` below has no Django dependency. Its
+temporary runtime drop-in inserts a metadata observer before the original
+`manage.py runtime_check`, and sets `Restart=no` for one attempt. All service
+identity, LoadCredential, environment, sandbox, ExecStart and runtime_check
+directives remain effective. The observer uses stat/fgetxattr only: it never reads,
+hashes or prints credential contents. Its JSON contains only credential identifiers,
+file UID/GID/mode/type and access ACL metadata (numeric permissions: read=4,
+write=2, execute/search=1), or a fixed metadata error with errno.
+
+Run these commands **locally as the operator**, from the committed diagnostic
+checkout. No privileged commands were run by the agent. The first Python command
+is a plan. Stop only the dedicated web socket/service; leave PostgreSQL, Nginx,
+QNX and other VPS applications running.
+
+```sh
+cd /home/mignon/projects/resmgrcheck
+python3 web/ops/production/credential_diagnostic.py
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service
+sudo /usr/bin/python3 web/ops/production/credential_diagnostic.py --install
+sudo systemctl daemon-reload
+sudo systemctl reset-failed resmgrcheck-web.service
+sudo systemctl start resmgrcheck-web.socket resmgrcheck-web.service
+```
+
+The final start may fail at the unchanged runtime_check. **Continue with capture
+and cleanup even if it returns nonzero.** Capture only the observer's JSON:
+
+```sh
+sudo journalctl -u resmgrcheck-web.service -b --no-pager -o cat \
+  --grep='resmgrcheck-credential-metadata' -n 1
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service
+sudo /usr/bin/python3 web/ops/production/credential_diagnostic.py --remove
+sudo systemctl daemon-reload
+```
+
+Share only that JSON line. Keep unrelated logs/configuration and secrets local.
+The temporary files are `/run/resmgrcheck-credential-diagnostic.py` and
+`/run/systemd/system/resmgrcheck-web.service.d/50-resmgrcheck-credential-diagnostic.conf`.
+Install/remove refuses unknown occupied files, links, existing overrides, changed
+canonical unit contents and active web units. It is repeatable after its own partial
+installation, never overwrites the canonical web unit, and removes only its exact
+known files; an empty override directory may remain. No service is started/reloaded
+by the Python script. Source keys, database, release/current pointer, preparation
+marker and other units are untouched. The temporary override also disappears on
+reboot; do not reboot as a diagnostic step.
+
+Leave the failed web service/socket stopped after cleanup until the metadata is
+reviewed and the smallest correction is committed. No application upgrade,
+cross-revision prepare run, database recreation, key regeneration or preparation
+marker edit is needed to capture metadata. **Do not rerun prepare.py with a newer
+SHA over this partial installation.** After confirmation, a separately reviewed
+correction must preserve the existing keys/config/database and qualify the actual
+systemd runtime_check and Unix-socket readiness before any production-ready claim.
+
+## Historical clone recovery (W010)
 
 The development process is UID1000. `sudo -n true` still returns "a password is
 required"; filesystem Full Access does not grant Linux root. Do not send a password

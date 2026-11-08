@@ -541,3 +541,75 @@ Read-only plan, Python syntax compilation and `git diff --check` passed. No nati
 code/engine/QNX evidence changed and no native build/run was repeated. Successful
 root preparation, namespace/peer roles, HTTPS, production backup/restore/rollback,
 off-host custody and independent UAT remain pending; P8 stays IN PROGRESS.
+
+## W011 — Temporary in-unit credential diagnostic; correction awaits metadata
+
+2026-11-08, branch `feature/production-web-ai`, base `d758972` plus this diagnostic.
+The operator retried preparation and reports that the private socket is active,
+the web service repeatedly fails during ExecStartPre with `RMC_WEB_SECRET_KEY
+credential file permissions/type invalid`, the original application/MFA source
+files remain root:root0600 and LoadCredential is configured. These source-key facts
+and the exception are operator-provided; no protected key content was accessed.
+
+[Read-only production observation](evidence/p8/credential-diagnostic/production-observation.txt)
+confirms `User=Group=resmgr-web`, socket listening, web service auto-restart,
+ExecStartPre `manage.py runtime_check` exited1, no drop-ins and the current release
+pointer still targeting4ed4855. A static tree now exists. Runtime credential paths
+were absent between attempts; the canonical installed unit file was unreadable to
+UID1000. Installed systemd is255.4-1ubuntu8.18. No privileged command, production
+unit installation, secret access, database change, Nginx change or QNX command
+was performed by the agent. W010's earlier absent-release/unit inventory is historical.
+
+The [upstream v255 credential implementation](https://github.com/systemd/systemd/blob/v255/src/core/exec-credential.c)
+prefers a root-owned credential with a named target-UID read ACL, falling back to
+target ownership when needed. Its ACL mask can appear as group-read in stat while
+the owning group's ACL grants no access. The current Django validator rejects any
+group mode bit; this is a plausible explanation, **not confirmed production file
+metadata**. The [credential interface documentation](https://systemd.io/CREDENTIALS/)
+and installed systemd.exec manual describe per-unit credential access/lifetime and
+namespace visibility. Owner clarification explicitly requires the actual unit's
+metadata before implementing the smallest production validator correction.
+
+`web/ops/production/credential_diagnostic.py` therefore supplies a temporary
+operator-run diagnostic only. Its root install/remove mode refuses active web
+socket/service, noncanonical installed unit contents, unknown overrides, files,
+links, wrong protection and mismatched prior diagnostic contents. It installs only
+its own root-owned public Python script and runtime web drop-in, without touching
+canonical units, release/current pointer, marker, source secrets or database. The
+drop-in inserts a stat/fgetxattr-only observer then the unchanged runtime_check,
+retains User/LoadCredential/sandbox/ExecStart and sets Restart=no for one attempt.
+Removal verifies exact bytes/ownership and deletes only those known files. It is
+repeatable after its own partial install. The observer always returns0 so a failed
+metadata capture never prevents the original runtime_check from running; only that
+original check controls application startup. It prints credential IDs and file
+UID/GID/mode/type/ACL metadata, or fixed metadata errors, never secret bytes or hashes.
+
+[Thirty-nine focused checks](evidence/p8/credential-diagnostic/focused-tests.txt)
+passed in1.704s:13 diagnostic tests,11 existing production-configuration checks and
+15 prior installer checks. No database setup was used. New coverage verifies that
+os.read is never called by the observer, values/modes remain unchanged, actual
+POSIX ACL metadata is decoded, leaf symlinks are reported without following them,
+malformed ACL bytes are not dumped, missing metadata leaves runtime_check intact,
+the override retains isolation, and install/remove preserves known/unknown resources.
+Root install/remove behavior used disposable UID1000 fixtures with the root guard
+mocked; this is not an actual privileged diagnostic installation.
+
+[Actual unprivileged systemd user-manager test](evidence/p8/credential-diagnostic/user-systemd.txt)
+used only synthetic LoadCredential sources. The final standalone probe succeeded
+with both runtime files UID/GID1000,0400,regular,no access ACL. After the unit exited,
+its runtime credential directory was verified absent. This tests the observer and
+real credential lifecycle, **not the production resmgr-web context or root-managed
+ACL branch**. D-Bus access from the sandbox initially failed; the approved external
+test still used the unprivileged user manager, without sudo. Earlier exploratory
+transient Environment properties left `%d` literal; explicit runtime paths fixed
+the test invocation. No production Environment settings were changed.
+
+Read-only default plan, syntax compilation and diff checks passed; settings.py,
+canonical web unit, original engine/native/evidence files remain unchanged. Source
+hashes and boundaries are in [checks.json](evidence/p8/credential-diagnostic/checks.json).
+The production validator correction is intentionally not committed/applied until
+the operator captures the real unit's JSON using PRIVATE_INSTALL.md and removes
+the temporary override. Existing installation/keys/database remain preserved;
+do not reset the original marker or run prepare with a new application revision.
+Actual runtime_check, readiness, namespace/peer-role security and later production
+gates remain unqualified. P8 remains IN PROGRESS; P9/P10 do not advance.

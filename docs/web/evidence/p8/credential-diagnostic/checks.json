@@ -1,0 +1,28 @@
+{
+  "base_revision": "d758972ed581d89dcb6e4a7e199b28291453b67e",
+  "python_sha256": {
+    "web/ops/production/credential_diagnostic.py": "483eef50b16834eb0fcbd1e83c9d9798934b6352ff564c0355436cd72205d42d",
+    "web/tests/test_credential_diagnostic.py": "a6ec59d5be3fd42cea36daf8c54434d720d6b57f577f12efbc40a164ead9042c"
+  },
+  "syntax_compilation": "PASS",
+  "focused_tests": 39,
+  "test_result": "PASS",
+  "unchanged_paths": [
+    "web/resmgr_web/settings.py",
+    "web/ops/production/resmgrcheck-web.service",
+    "native",
+    "resmgrcheck",
+    "tests/host",
+    "docs/evidence",
+    "docs/TEST_EVIDENCE.md"
+  ],
+  "unchanged_git_diff_exit": 0,
+  "privileged_commands_by_agent": false,
+  "production_diagnostic_installation": "NOT_RUN: operator action required",
+  "production_runtime_credential_metadata": "NOT_CAPTURED",
+  "production_credential_validator_correction": "WITHHELD pending actual metadata per operator instruction",
+  "production_runtime_check_and_readiness": "NOT_PASSED",
+  "real_user_manager_synthetic_probe": "PASS; scope distinct from production service",
+  "synthetic_unit_credential_directory_after_exit": "ABSENT",
+  "user_systemd_probe_scope_note": "Recorded user probe predates an install-mode startup-check guard; probe code unchanged."
+}

@@ -1,0 +1,12 @@
+Scope: synthetic credentials only; unprivileged user manager, NOT the production resmgr-web execution context.
+Command: systemd-run --user --wait --pipe --collect --unit=resmgrcheck-credential-diagnostic-regression [two synthetic LoadCredential sources and explicit runtime paths] /usr/bin/python3 web/ops/production/credential_diagnostic.py --probe
+Initial sandbox D-Bus access: denied. Approved outside-sandbox user-manager run, still UID1000, no sudo/root commands.
+Exit: 0
+Running as unit: resmgrcheck-credential-diagnostic-regression.service; invocation ID: c776e35d59f84f5b896c7b1c02ffa7ea
+{"probe": "resmgrcheck-credential-metadata", "credentials": [{"credential_id": "application-key", "uid": 1000, "gid": 1000, "mode": "0o400", "file_type": "regular", "access_acl": null}, {"credential_id": "mfa-key", "uid": 1000, "gid": 1000, "mode": "0o400", "file_type": "regular", "access_acl": null}]}
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 50ms
+CPU time consumed: 49ms
+Memory peak: 256.0K
+Memory swap peak: 0B
