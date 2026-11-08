@@ -83,6 +83,20 @@ QNX content or private runtime archive/key is in Git. An OSV query of all15 pinn
 runtime packages returned no listed vulnerabilities on2026-11-07; that is point-in-
 time database coverage, not proof of absence or an independent security audit.
 
+W014 corrects a restore-verification gap: an UPDATE matching zero rows never
+exercises a row-level audit trigger. The isolated verifier now checks the exact
+restored trigger/function definition and enabled state, then inserts a synthetic
+row in a forced-rollback transaction in its exact new temporary database. Both an
+actual action change and DELETE must raise the expected append-only SQLSTATE and
+message through separate savepoints. Metadata alone, permission errors and zero
+affected rows cannot qualify the guard. Rollback must preserve counts, remove the
+probe and preserve the snapshot database identity; only the database created by
+that invocation is dropped, without FORCE. Inspection reports metadata/counts and
+definition hashes only and always withholds a passing verdict. No live audit test
+or schema repair is performed. The original ciphertext, keys, audit records and
+unit isolation remain unchanged. Development PostgreSQL tests passed; the actual
+preserved production snapshot restore remains an operator gate, not yet PASS.
+
 W012 records the operator-confirmed systemd LoadCredential compatibility correction.
 The original root:root0600 files are preserved. In the actual ExecStartPre context,
 systemd supplied root:root0440 regular files whose ACL grants only owner read and

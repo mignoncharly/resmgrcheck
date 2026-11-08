@@ -1,0 +1,152 @@
+Creating test database for alias 'default' ('test_resmgrcheck_web')...
+Found 86 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: allauth, messages, staticfiles
+  Apply all migrations: account, admin, auth, contenttypes, control, mfa, sessions, sites, usersessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying control.0001_initial... OK
+  Applying account.0001_initial... OK
+  Applying account.0002_email_max_length... OK
+  Applying account.0003_alter_emailaddress_create_unique_verified_email... OK
+  Applying account.0004_alter_emailaddress_drop_unique_email... OK
+  Applying account.0005_emailaddress_idx_upper_email... OK
+  Applying account.0006_emailaddress_lower... OK
+  Applying account.0007_emailaddress_idx_email... OK
+  Applying account.0008_emailaddress_unique_primary_email_fixup... OK
+  Applying account.0009_emailaddress_unique_primary_email... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying control.0002_ratebucket_user_session_version_accountdeletion_and_more... OK
+  Applying control.0003_audit_append_only... OK
+  Applying control.0004_buildrelease_run_executorslot_target_run_target_and_more... OK
+  Applying control.0005_run_intent_guard... OK
+  Applying control.0006_immutable_artifacts... OK
+  Applying control.0007_retention_metadata... OK
+  Applying control.0008_sealed_graph... OK
+  Applying control.0009_optional_ai... OK
+  Applying control.0010_ai_intent_guard... OK
+  Applying control.0011_ai_output_integrity... OK
+  Applying control.0012_ai_output_guard... OK
+  Applying control.0013_administrator_access_codes... OK
+  Applying control.0014_access_authority_guards... OK
+  Applying control.0015_source_principal_constraint... OK
+  Applying control.0016_administrator_only_accounts... OK
+  Applying control.0017_session_and_scope_integrity... OK
+  Applying mfa.0001_initial... OK
+  Applying mfa.0002_authenticator_timestamps... OK
+  Applying mfa.0003_authenticator_type_uniq... OK
+  Applying sessions.0001_initial... OK
+  Applying sites.0001_initial... OK
+  Applying sites.0002_alter_domain_unique... OK
+  Applying usersessions.0001_initial...test_a_receipt_without_an_archive_cannot_satisfy_backup_freshness (tests.test_backup.OperationalStatusTests.test_a_receipt_without_an_archive_cannot_satisfy_backup_freshness) ... ok
+test_cleanup_failure_is_not_returned_as_restore_success (tests.test_restore_audit.RestoredAuditTests.test_cleanup_failure_is_not_returned_as_restore_success) ... ok
+test_cli_inspection_and_restore_are_explicit_and_keep_operator_guard (tests.test_restore_audit.RestoredAuditTests.test_cli_inspection_and_restore_are_explicit_and_keep_operator_guard) ... ok
+test_createdb_failure_never_drops_an_unowned_database (tests.test_restore_audit.RestoredAuditTests.test_createdb_failure_never_drops_an_unowned_database) ... ok
+test_empty_restored_table_old_update_is_zero_but_new_probe_proves_both_guards (tests.test_restore_audit.RestoredAuditTests.test_empty_restored_table_old_update_is_zero_but_new_probe_proves_both_guards) ... ok
+test_inspection_reports_metadata_without_mutation_or_false_pass (tests.test_restore_audit.RestoredAuditTests.test_inspection_reports_metadata_without_mutation_or_false_pass) ... ok
+test_metadata_alone_cannot_replace_the_behavioral_test_and_failed_probe_rolls_back (tests.test_restore_audit.RestoredAuditTests.test_metadata_alone_cannot_replace_the_behavioral_test_and_failed_probe_rolls_back) ... ok
+test_missing_disabled_replica_or_wrong_function_trigger_never_passes (tests.test_restore_audit.RestoredAuditTests.test_missing_disabled_replica_or_wrong_function_trigger_never_passes) ... ok
+test_missing_function_is_reported_by_inspection_without_a_pass (tests.test_restore_audit.RestoredAuditTests.test_missing_function_is_reported_by_inspection_without_a_pass) ... ok
+test_permission_error_is_not_accepted_as_an_append_only_trigger (tests.test_restore_audit.RestoredAuditTests.test_permission_error_is_not_accepted_as_an_append_only_trigger) ... ok
+test_populated_restored_table_uses_only_a_new_synthetic_row (tests.test_restore_audit.RestoredAuditTests.test_populated_restored_table_uses_only_a_new_synthetic_row) ... ok
+test_probe_refuses_the_source_database_before_any_modification (tests.test_restore_audit.RestoredAuditTests.test_probe_refuses_the_source_database_before_any_modification) ... ok
+test_restore_failure_drops_only_the_database_it_created (tests.test_restore_audit.RestoredAuditTests.test_restore_failure_drops_only_the_database_it_created) ... ok
+test_tampered_archive_never_creates_a_database (tests.test_restore_audit.RestoredAuditTests.test_tampered_archive_never_creates_a_database) ... ok
+test_when_filtered_trigger_is_not_the_restored_definition (tests.test_restore_audit.RestoredAuditTests.test_when_filtered_trigger_is_not_the_restored_definition) ... ok
+test_authenticated_archive_still_cannot_extract_traversal_or_links (tests.test_backup.ArchiveTests.test_authenticated_archive_still_cannot_extract_traversal_or_links) ... ok
+test_key_permissions_and_symlinks_are_denied (tests.test_backup.ArchiveTests.test_key_permissions_and_symlinks_are_denied) ... ok
+test_modified_ciphertext_or_tag_is_rejected_before_extraction (tests.test_backup.ArchiveTests.test_modified_ciphertext_or_tag_is_rejected_before_extraction) ... ok
+test_actual_snapshot_restore_preserves_data_evidence_and_audit_guards (tests.test_backup.PostgreSQLBackupTests.test_actual_snapshot_restore_preserves_data_evidence_and_audit_guards) ... ok
+test_retention_cannot_obtain_exclusive_lock_during_snapshot (tests.test_backup.PostgreSQLBackupTests.test_retention_cannot_obtain_exclusive_lock_during_snapshot) ... ok
+test_acl_outside_fixed_systemd_directory_is_rejected (tests.test_credentials.CredentialTests.test_acl_outside_fixed_systemd_directory_is_rejected) ... ok
+test_extra_users_groups_writes_and_other_permissions_are_rejected (tests.test_credentials.CredentialTests.test_extra_users_groups_writes_and_other_permissions_are_rejected) ... ok
+test_insecure_modes_and_ordinary_group_read_are_rejected (tests.test_credentials.CredentialTests.test_insecure_modes_and_ordinary_group_read_are_rejected) ... ok
+test_malformed_acl_and_missing_service_identity_fail_closed (tests.test_credentials.CredentialTests.test_malformed_acl_and_missing_service_identity_fail_closed) ... ok
+test_nonregular_hardlinked_and_oversized_files_are_rejected (tests.test_credentials.CredentialTests.test_nonregular_hardlinked_and_oversized_files_are_rejected) ... ok
+test_private_file_does_not_require_listing_ancestor_directories (tests.test_credentials.CredentialTests.test_private_file_does_not_require_listing_ancestor_directories) ... ok
+test_private_files_stay_accepted_and_unmodified (tests.test_credentials.CredentialTests.test_private_files_stay_accepted_and_unmodified) ... ok
+test_production_settings_use_acl_validator_and_require_files (tests.test_credentials.CredentialTests.test_production_settings_use_acl_validator_and_require_files) ... ok
+test_read_bound_is_rechecked_and_bad_encoding_does_not_leak (tests.test_credentials.CredentialTests.test_read_bound_is_rechecked_and_bad_encoding_does_not_leak) ... ok
+test_real_systemd_acl_mask_is_accepted_only_with_exact_context (tests.test_credentials.CredentialTests.test_real_systemd_acl_mask_is_accepted_only_with_exact_context) ... ok
+test_runtime_check_and_gunicorn_entrypoints_accept_observed_acl_fixture (tests.test_credentials.CredentialTests.test_runtime_check_and_gunicorn_entrypoints_accept_observed_acl_fixture) ... ok
+test_symlinks_in_file_and_ancestors_are_rejected (tests.test_credentials.CredentialTests.test_symlinks_in_file_and_ancestors_are_rejected) ... ok
+test_unexpected_file_and_directory_owners_are_rejected (tests.test_credentials.CredentialTests.test_unexpected_file_and_directory_owners_are_rejected) ... ok
+test_writable_systemd_directory_is_rejected (tests.test_credentials.CredentialTests.test_writable_systemd_directory_is_rejected) ... ok
+test_wrong_os_identity_and_untrusted_group_fail_closed (tests.test_credentials.CredentialTests.test_wrong_os_identity_and_untrusted_group_fail_closed) ... ok
+test_evidence_sharing_preserves_bytes_and_native_readonly_state (tests.test_production_config.ProductionConfigurationTests.test_evidence_sharing_preserves_bytes_and_native_readonly_state) ... ok
+test_executor_requires_registry_and_ai_role_cannot_receive_it (tests.test_production_config.ProductionConfigurationTests.test_executor_requires_registry_and_ai_role_cannot_receive_it) ... ok
+test_http_role_cannot_start_native_or_ai_dispatchers (tests.test_production_config.ProductionConfigurationTests.test_http_role_cannot_start_native_or_ai_dispatchers) ... ok
+test_http_role_refuses_executor_and_provider_configuration (tests.test_production_config.ProductionConfigurationTests.test_http_role_refuses_executor_and_provider_configuration) ... ok
+test_installation_public_permissions_do_not_follow_links_to_private_state (tests.test_production_config.ProductionConfigurationTests.test_installation_public_permissions_do_not_follow_links_to_private_state) ... ok
+test_private_executor_role_cannot_expose_wsgi (tests.test_production_config.ProductionConfigurationTests.test_private_executor_role_cannot_expose_wsgi) ... ok
+test_private_preparation_plan_cannot_expose_public_services (tests.test_production_config.ProductionConfigurationTests.test_private_preparation_plan_cannot_expose_public_services) ... ok
+test_production_refuses_exposed_keys_symlinks_env_values_and_bad_hosts (tests.test_production_config.ProductionConfigurationTests.test_production_refuses_exposed_keys_symlinks_env_values_and_bad_hosts) ... ok
+test_production_review_does_not_waive_an_unexpected_deployment_warning (tests.test_production_config.ProductionConfigurationTests.test_production_review_does_not_waive_an_unexpected_deployment_warning) ... ok
+test_production_secure_cookie_https_defaults_and_valid_private_files (tests.test_production_config.ProductionConfigurationTests.test_production_secure_cookie_https_defaults_and_valid_private_files) ... ok
+test_untrusted_url_or_exception_cannot_log_raw_access_codes (tests.test_production_config.ProductionConfigurationTests.test_untrusted_url_or_exception_cannot_log_raw_access_codes) ... ok
+test_activation_and_repeat_leave_snapshots_keys_data_records_and_units_untouched (tests.test_restore_release.RestoreReleaseTests.test_activation_and_repeat_leave_snapshots_keys_data_records_and_units_untouched) ... ok
+test_audit_schema_changes_are_rejected_before_staging (tests.test_restore_release.RestoreReleaseTests.test_audit_schema_changes_are_rejected_before_staging) ... ok
+test_modified_completed_release_is_not_reused (tests.test_restore_release.RestoreReleaseTests.test_modified_completed_release_is_not_reused) ... ok
+test_nonroot_cannot_apply (tests.test_restore_release.RestoreReleaseTests.test_nonroot_cannot_apply) ... ok
+test_other_record_and_active_unit_or_operator_lock_block_upgrade (tests.test_restore_release.RestoreReleaseTests.test_other_record_and_active_unit_or_operator_lock_block_upgrade) ... ok
+test_partial_clone_is_retained_when_retry_uses_new_attempt (tests.test_restore_release.RestoreReleaseTests.test_partial_clone_is_retained_when_retry_uses_new_attempt) ... ok
+test_pointer_rollback_preserves_all_releases_and_backup (tests.test_restore_release.RestoreReleaseTests.test_pointer_rollback_preserves_all_releases_and_backup) ... ok
+test_resume_before_and_after_pointer_switch (tests.test_restore_release.RestoreReleaseTests.test_resume_before_and_after_pointer_switch) ... ok
+test_unknown_backup_unit_is_not_overwritten (tests.test_restore_release.RestoreReleaseTests.test_unknown_backup_unit_is_not_overwritten) ... ok
+test_unknown_release_is_not_adopted_or_permission_repaired (tests.test_restore_release.RestoreReleaseTests.test_unknown_release_is_not_adopted_or_permission_repaired) ... ok
+test_active_units_and_overrides_stop_before_staging (tests.test_credential_release.CredentialReleaseTests.test_active_units_and_overrides_stop_before_staging) ... ok
+test_atomic_publication_never_replaces_even_an_empty_unknown_directory (tests.test_credential_release.CredentialReleaseTests.test_atomic_publication_never_replaces_even_an_empty_unknown_directory) ... ok
+test_concurrent_activation_lock_refuses_second_operator (tests.test_credential_release.CredentialReleaseTests.test_concurrent_activation_lock_refuses_second_operator) ... ok
+test_extra_untracked_content_is_not_chmodded_or_deleted (tests.test_credential_release.CredentialReleaseTests.test_extra_untracked_content_is_not_chmodded_or_deleted) ... ok
+test_foreign_intent_and_manifest_are_not_overwritten (tests.test_credential_release.CredentialReleaseTests.test_foreign_intent_and_manifest_are_not_overwritten) ... ok
+test_interrupted_clone_is_retained_and_retry_uses_fresh_attempt (tests.test_credential_release.CredentialReleaseTests.test_interrupted_clone_is_retained_and_retry_uses_fresh_attempt) ... ok
+test_modified_completed_release_is_refused (tests.test_credential_release.CredentialReleaseTests.test_modified_completed_release_is_refused) ... ok
+test_new_release_activation_and_repeat_preserve_original_and_secrets (tests.test_credential_release.CredentialReleaseTests.test_new_release_activation_and_repeat_preserve_original_and_secrets) ... ok
+test_nonroot_cannot_apply (tests.test_credential_release.CredentialReleaseTests.test_nonroot_cannot_apply) ... ok
+test_out_of_scope_dependency_change_stops_before_deployment (tests.test_credential_release.CredentialReleaseTests.test_out_of_scope_dependency_change_stops_before_deployment) ... ok
+test_protected_source_key_mode_is_not_repaired (tests.test_credential_release.CredentialReleaseTests.test_protected_source_key_mode_is_not_repaired) ... ok
+test_resume_after_completed_stage_before_pointer_switch (tests.test_credential_release.CredentialReleaseTests.test_resume_after_completed_stage_before_pointer_switch) ... ok
+test_resume_after_pointer_switch_is_idempotent (tests.test_credential_release.CredentialReleaseTests.test_resume_after_pointer_switch_is_idempotent) ... ok
+test_rollback_preserves_both_releases_and_all_data (tests.test_credential_release.CredentialReleaseTests.test_rollback_preserves_both_releases_and_all_data) ... ok
+test_unknown_canonical_unit_is_preserved (tests.test_credential_release.CredentialReleaseTests.test_unknown_canonical_unit_is_preserved) ... ok
+test_unknown_current_pointer_is_refused (tests.test_credential_release.CredentialReleaseTests.test_unknown_current_pointer_is_refused) ... ok
+test_unknown_release_is_not_adopted_or_overwritten (tests.test_credential_release.CredentialReleaseTests.test_unknown_release_is_not_adopted_or_overwritten) ... ok
+test_active_units_and_concurrent_operators_block_upgrade (tests.test_socket_release.SocketReleaseTests.test_active_units_and_concurrent_operators_block_upgrade) ... ok
+test_changed_socket_unit_is_refused_without_repair (tests.test_socket_release.SocketReleaseTests.test_changed_socket_unit_is_refused_without_repair) ... ok
+test_credential_changes_are_out_of_scope (tests.test_socket_release.SocketReleaseTests.test_credential_changes_are_out_of_scope) ... ok
+test_interrupted_clone_is_retained_on_retry (tests.test_socket_release.SocketReleaseTests.test_interrupted_clone_is_retained_on_retry) ... ok
+test_isolation_changes_are_rejected (tests.test_socket_release.SocketReleaseTests.test_isolation_changes_are_rejected) ... ok
+test_modified_completed_release_blocks_retry (tests.test_socket_release.SocketReleaseTests.test_modified_completed_release_blocks_retry) ... ok
+test_resume_after_pointer_switch (tests.test_socket_release.SocketReleaseTests.test_resume_after_pointer_switch) ... ok
+test_resume_after_unit_replacement_before_pointer_switch (tests.test_socket_release.SocketReleaseTests.test_resume_after_unit_replacement_before_pointer_switch) ... ok
+test_rollback_restores_original_binding_and_active_release_without_data_changes (tests.test_socket_release.SocketReleaseTests.test_rollback_restores_original_binding_and_active_release_without_data_changes) ... ok
+test_unknown_release_and_untracked_content_are_preserved (tests.test_socket_release.SocketReleaseTests.test_unknown_release_and_untracked_content_are_preserved) ... ok
+test_unknown_unit_is_never_overwritten (tests.test_socket_release.SocketReleaseTests.test_unknown_unit_is_never_overwritten) ... ok
+test_upgrade_and_retry_change_only_known_unit_suffix_and_current (tests.test_socket_release.SocketReleaseTests.test_upgrade_and_retry_change_only_known_unit_suffix_and_current) ... ok
+test_wrong_current_and_intent_are_not_repaired (tests.test_socket_release.SocketReleaseTests.test_wrong_current_and_intent_are_not_repaired) ... ok
+
+----------------------------------------------------------------------
+Ran 86 tests in 22.137s
+
+OK
+Destroying test database for alias 'default' ('test_resmgrcheck_web')...
+ OK
+System check identified no issues (0 silenced).

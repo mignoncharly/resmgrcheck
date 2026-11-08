@@ -8,10 +8,11 @@ from control.backup import snapshot,restore_drill
 class Command(BaseCommand):
     help='Protected local encrypted DB/evidence snapshot or isolated new-database restore drill. Never contacts QNX.'
     def add_arguments(self,parser):
-        parser.add_argument('operation',choices=['create','restore-drill']);parser.add_argument('--archive',required=True);parser.add_argument('--key-file',required=True)
+        parser.add_argument('operation',choices=['create','inspect-restore','restore-drill']);parser.add_argument('--archive',required=True);parser.add_argument('--key-file',required=True)
     def handle(self,*args,**options):
         local_operator()
-        result=(snapshot if options['operation']=='create' else restore_drill)(options['archive'],options['key_file'])
+        result=(snapshot(options['archive'],options['key_file']) if options['operation']=='create' else
+            restore_drill(options['archive'],options['key_file'],diagnostic_only=options['operation']=='inspect-restore'))
         if options['operation']=='create':
             receipt=Path(options['archive']+'.receipt.json')
             result['created_at']=datetime.fromtimestamp(Path(options['archive']).stat().st_mtime,timezone.utc).isoformat()

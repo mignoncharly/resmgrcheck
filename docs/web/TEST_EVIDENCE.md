@@ -789,3 +789,90 @@ in both activation modes, current-invocation runtime_check/identity/role/credent
 network boundaries, validated listener and private readyz HTTP200. All those new
 production observations remain **PENDING**. P8 stays IN PROGRESS; P9/P10/public
 deployment do not advance from host or user-manager results.
+
+## W014 — isolated restored audit proof, including empty tables (2026-11-08)
+
+The operator reports active immutable release
+`59158ade7da66475f3f1255e34aebd12fca29fce`, successful
+`resmgrcheck-backup.service` and preserved encrypted archive
+`/var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc`. Its isolated drill failed
+`backup_restored_audit_trigger_unproven`. Read-only systemd metadata corroborates
+backup success and an active web service/socket at that release. The agent did not
+open the protected archive/key, query production database rows or run a privileged
+deployment. The production archive's actual audit count and restored trigger state
+are **PENDING** operator `inspect-restore`; an empty production table is a
+hypothesis, not an observed fact. See the [provenance record](evidence/p8/restore-audit/operator-observation.json).
+
+A real encrypted development pg_dump/pg_restore reproduced the defect with zero
+audit rows and the correct enabled trigger/function: the old UPDATE returned
+rowcount 0 and raised no exception. PostgreSQL [row triggers execute per affected
+row](https://www.postgresql.org/docs/16/sql-createtrigger.html); a zero-row UPDATE
+cannot prove either presence or failure of append-only protection. A populated
+archive also passes the corrected proof without selecting original audit rows as
+mutation targets. The schema and append-only migration remain unchanged.
+
+`restored_audit_metadata` reports count, presence, definition-match flags, enabled
+state, replication role and definition hashes. It internally verifies the exact
+known zero-argument PL/pgSQL function body/properties, trigger/function linkage and
+BEFORE ROW UPDATE/DELETE shape with no WHEN/column/argument filters. Enabled `O`
+or `A` is required with replication role origin; disabled and replica-only triggers
+fail. The [PostgreSQL catalog](https://www.postgresql.org/docs/16/catalog-pg-trigger.html)
+documents these states. Raw function source, row values and backup contents are
+never included in diagnostic JSON. `inspect-restore` still performs authenticated
+restore, hashes, database identity, immutable evidence checks and exact cleanup,
+but intentionally returns `passed:false`/`audit_behavior_tested:false`.
+
+`prove_restored_audit` rejects the source/default DB and any connection not matching
+the exact generated `resmgrcheck_restore_<12hex>` name before DML. It requires an
+autocommit independent connection and locks the isolated table against concurrent
+schema/writes during proof. Within a full forced-rollback transaction it inserts
+one new UUID synthetic event, changes its action and attempts its deletion in
+separate savepoints. Both must produce SQLSTATE P0001 and exactly the expected
+append-only exception; permission denial or no exception fails. Psycopg's
+[transaction/savepoint and forced rollback semantics](https://www.psycopg.org/psycopg3/docs/basic/transactions.html)
+are exercised against real PostgreSQL. The verifier checks count/probe absence
+after rollback and full snapshot database identity again before returning. No
+application live-DB connection is repointed. The existing authenticated encryption,
+member hashes, owned private key, canonical collected-evidence checks and exact
+created-DB cleanup remain intact. Failed cleanup prevents a successful verdict;
+no broad termination or FORCE deletion was introduced.
+
+[86 focused regressions passed in 22.137s](evidence/p8/restore-audit/focused-tests.txt)
+on PostgreSQL 16.15, as the unprivileged development user in the existing private
+development cluster. This includes 14 new audit/restore tests, six existing archive/
+backup/status tests, ten new immutable-upgrade tests and 56 earlier credential/
+release/production-config tests. Cases cover empty/populated audit tables,
+metadata-only inspection, missing/disabled/replica/wrong/filtered guards, actual
+behavior required even with mocked valid metadata, wrong SQLSTATE, source-DB refusal,
+tampered ciphertext, createdb/pg_restore/cleanup failure and exact cleanup. The
+existing real snapshot test also validates sealed artifacts and collected execution
+inventories. After the suite, the test DB and all generated restore DBs were absent.
+An earlier exploratory run with a random test DB name correctly hit the existing
+local-operator guard in the operational-status test. Reusing its already approved
+test DB name, after confirming absence, passed; the guard was not weakened.
+
+`recover_restore_drill.py` is a specific third immutable upgrade from 59158ad. It
+verifies protected preparation/credential/socket records, clean old Git/index and
+shared virtualenv, unchanged canonical web/socket/backup units without overrides,
+source-key metadata without content reads, inactive dedicated jobs/web/socket and
+the exclusive existing release lock. It allows only restore verifier/CLI/helper
+and tests/docs changes, rejecting schema/migration/credential/dependency/unit/engine
+changes. An exact-target RESTORE_RELEASE intent and protected manifest govern a
+fresh independently cloned release, published atomically without replacing any
+occupied directory; only current switches. Retry/rollback preserve earlier releases,
+partial attempts, archives/receipts, keys, DB/audit, units and preparation records.
+Unknown resources or changed releases are refused. Ten tests exercise real
+disposable Git trees and modeled UID/unit contexts, including interrupted clone,
+pre/post pointer interruption, retries, rollback, active jobs/concurrent lock,
+schema changes and unknown/modified resources. These are not root deployment tests.
+
+[Source hashes and checks](evidence/p8/restore-audit/checks.json) distinguish real
+development PostgreSQL execution, modeled deployment and pending production
+qualification. No production service was restarted, no privileged deployment ran,
+and no live audit mutation, key/snapshot replacement, Nginx/public exposure, native
+build or QNX interaction occurred. PRIVATE_INSTALL.md provides the exact protected
+inspection/full-drill commands using the existing snapshot and operator CREATEDB
+profile, plus immutable activation/retry/rollback. The operator must record the
+actual inspection and successful isolated restore and reverify the private runtime/
+readiness/isolation before advancing this gate. **P8 remains IN PROGRESS; P9–P10
+and public deployment remain withheld.**

@@ -1,6 +1,131 @@
 # Private production qualification handoff
 
-Status (2026-11-08, W013): the credential correction works on immutable release
+Status (2026-11-08, W014): active immutable release is 59158ad. The production backup
+service succeeded and preserved `/var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc`,
+but its isolated restore failed `backup_restored_audit_trigger_unproven`. The old
+row-level UPDATE probe cannot fire on an empty table; that failure is reproduced
+with a valid restored trigger/function. The correction is prepared/tested. The
+protected production archive's actual audit count/trigger state still require the
+operator inspection below, and real corrected production restore remains pending.
+P8 is IN PROGRESS; no public deployment is authorized by this correction.
+
+## Next operator action: immutable restore-verifier upgrade
+
+Use the clean committed correction checkout. Do not patch current in place, edit
+prior manifests/markers, rotate keys, regenerate/overwrite the snapshot or change
+the live audit table/trigger. The new procedure accepts only the verified 59158ad
+installation and a descendant commit changing the restore verifier/command/helper
+plus tests/docs. It rejects schema/migration, grant, credential, unit, dependency,
+web assets, engine or native changes. No service reload is needed: all units and
+the working socket/credential configuration are unchanged.
+
+```sh
+cd /home/mignon/projects/resmgrcheck
+git status --short
+rmc_revision=$(git rev-parse HEAD)
+python3 -B web/ops/production/recover_restore_drill.py --revision "$rmc_revision"
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo /usr/bin/python3 -B web/ops/production/recover_restore_drill.py \
+  --revision "$rmc_revision" --apply
+```
+
+Stop on any failure. The helper verifies the original preparation, credential and
+socket deployment records; clean original code/index and shared virtualenv; unchanged
+web/socket/backup units with no overrides; source-key metadata without opening their
+contents; and inactive dedicated web/worker/timer units. Unexpected activity causes
+refusal, never automatic stopping of other jobs. The private database stays running.
+It never reads backups or DB contents, runs migrations/restores or starts services.
+
+An exclusive existing release lock and a protected exact-target RESTORE_RELEASE
+intent govern independent `.restore-stage-SHA-random` clones. A verified protected
+`.restore-release.json` and clean Git tree are published to a new commit directory
+with atomic no-replace semantics; only current is switched. Original releases,
+indices, packages, snapshots/receipts/keys, database/audit, config/static paths and
+units are preserved. Interrupted attempts remain; retry the same SHA to validate/
+reuse a completed release or stage a fresh attempt. Unknown or modified resources
+are refused, never removed or permission-repaired. A different target needs separate
+review, not edited records. This is a specific upgrade, not a general migration tool.
+
+## Inspect the preserved encrypted snapshot without an audit mutation probe
+
+Use the root operator profile (resmgr_owner/CREATEDB), not the SELECT-only backup
+profile. Authentication precedes extraction, member hashes and canonical evidence
+validation remain mandatory, and each command creates/restores/drops its own exact
+new random `resmgrcheck_restore_*` database. It never restores over live data.
+
+```sh
+sudo /opt/resmgrcheck/current/.venv/bin/python -B \
+  /opt/resmgrcheck/current/web/ops/production/runtime.py \
+  --config /etc/resmgrcheck/operator.json manage.py backup_snapshot inspect-restore \
+  --archive /var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc \
+  --key-file /etc/resmgrcheck/keys/backup-key
+```
+
+The result reports only restored audit row count, trigger/function presence,
+definition-match/enabled/replication-role facts and definition hashes. It never
+prints archived audit rows, function source, dump contents or keys. An empty audit
+table with valid metadata confirms the zero-row failure for this archive. Missing/
+disabled/changed metadata identifies a different protection problem: stop and
+investigate, rather than recreating/enabling a trigger to force the gate through.
+Inspection intentionally returns `passed:false`, `diagnostic_only:true` and
+`audit_behavior_tested:false`, even for correct metadata. Exit 0 means inspection
+completed; metadata presence alone never qualifies append-only protection.
+
+## Prove the restored audit guard, including an initially empty table
+
+```sh
+sudo /opt/resmgrcheck/current/.venv/bin/python -B \
+  /opt/resmgrcheck/current/web/ops/production/runtime.py \
+  --config /etc/resmgrcheck/operator.json manage.py backup_snapshot restore-drill \
+  --archive /var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc \
+  --key-file /etc/resmgrcheck/keys/backup-key
+```
+
+The verifier first requires the exact new DB connection, canonical enabled BEFORE
+ROW UPDATE/DELETE trigger linked to the known PL/pgSQL append-only function, with
+no WHEN/column filters or unexpected properties. It inserts a new synthetic UUID
+row only in that isolated DB within a forced-rollback transaction, attempts a real
+action change and deletion in separate savepoints, and requires exact SQLSTATE
+P0001 plus the expected append-only exception for both. Permission errors or an
+UPDATE affecting zero rows are not proof. It then rolls back the probe and verifies
+original row count, probe absence and complete database identity. Existing restored
+audit records are never selected as mutation targets. No live audit write occurs.
+
+Require `passed:true`, `diagnostic_only:false`, `audit_behavior_tested:true`, both
+`audit_update_denied`/`audit_delete_denied:true`, `audit_probe_rolled_back:true`, equal
+audit counts before/after rollback, verified metadata, database identity and exact
+temporary-DB cleanup. The encrypted archive hash must match the preserved snapshot.
+A failed cleanup raises an error instead of returning success. Do not use FORCE,
+broad session termination or guessed database deletion if cleanup fails; retain
+the exact diagnostic and inspect only the created temporary DB locally.
+
+Only after the real isolated restore succeeds, restart private web and recheck
+its current-invocation runtime_check and Unix readiness using the qualification
+procedure below. Do not expose it publicly or enable other unfinished gates.
+
+```sh
+sudo systemctl reset-failed resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo systemctl start resmgrcheck-web.socket resmgrcheck-web.service
+```
+
+If recovery requires rollback, keep web stopped and switch only to the preserved
+59158ad code. This leaves all data/keys/snapshots/units unchanged, but restores the
+known flawed audit-verification algorithm and does not qualify the restore gate:
+
+```sh
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo /usr/bin/python3 -B web/ops/production/recover_restore_drill.py \
+  --revision "$rmc_revision" --rollback --apply
+```
+
+The development tests used real encrypted pg_dump/pg_restore copies and transactions
+in the private development cluster. They did not inspect the protected production
+archive or run privileged deployment. Record the actual operator inspection/drill
+JSON before advancing this P8 gate; other operational/HTTPS/UAT gates still apply.
+
+## Historical socket correction (W013)
+
+Status at W013: the credential correction works on immutable release
 `d6513ba2ccaf13fa4c7491b5cac095d5ab572a16`; the operator reports actual runtime_check
 success under resmgr-web and the expected role/credential/network denials. Gunicorn
 then fails with EBADF and readiness times out (HTTP000). The duplicate FD consumption

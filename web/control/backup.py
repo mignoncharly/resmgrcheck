@@ -3,7 +3,7 @@
 No QNX contact or restoration over an existing database. Keys stay outside archives.
 """
 from contextlib import contextmanager
-import hashlib,io,json,os,re,secrets,stat,subprocess,tarfile,tempfile
+import hashlib,io,json,os,re,secrets,stat,subprocess,tarfile,tempfile,uuid
 from pathlib import Path,PurePosixPath
 from cryptography.hazmat.primitives.ciphers import Cipher,algorithms,modes
 from django.conf import settings
@@ -14,6 +14,7 @@ from .engine import PolicyError
 
 MAGIC=b'RMCBK001';LOCK=726301820497;BOUND=4*1024**3
 TABLES=('control_user','control_organization','control_project','control_run','control_artifact','control_auditevent','control_accesscode','control_accesssession','control_sourcesubmission','control_aianalysis')
+AUDIT_BODY="BEGIN RAISE EXCEPTION 'Audit events are append-only'; END;"
 
 @contextmanager
 def media_lock(shared=False):
@@ -129,7 +130,81 @@ def decrypt(source,destination,key_file):
     except Exception:
         Path(destination).unlink(missing_ok=True);raise
 
-def restore_drill(source,key_file):
+def restored_audit_metadata(restored):
+    """Counts/catalog facts only; never expose restored rows or function source."""
+    with restored.cursor() as cursor:
+        cursor.execute('SELECT count(*) FROM public.control_auditevent');count=cursor.fetchone()[0]
+        cursor.execute('SHOW session_replication_role');replication_role=cursor.fetchone()[0]
+        cursor.execute("""SELECT l.lanname,p.prorettype='pg_catalog.trigger'::regtype,
+            p.pronargs,p.prosecdef,p.proretset,p.proconfig,p.prosrc,pg_get_functiondef(p.oid)
+            FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_language l ON l.oid=p.prolang
+            WHERE p.oid=to_regprocedure('public.control_audit_append_only()')""")
+        function=cursor.fetchone()
+        cursor.execute("""SELECT t.tgenabled,t.tgtype,t.tgisinternal,t.tgqual IS NULL,
+            t.tgattr::text,t.tgnargs,t.tgfoid=to_regprocedure('public.control_audit_append_only()'),
+            pg_get_triggerdef(t.oid)
+            FROM pg_catalog.pg_trigger t
+            WHERE t.tgrelid='public.control_auditevent'::regclass
+            AND t.tgname='control_audit_no_update_delete'""")
+        trigger=cursor.fetchone()
+    function_matches=bool(function and function[:6]==('plpgsql',True,0,False,False,None) and function[6].strip()==AUDIT_BODY)
+    # ROW|BEFORE|DELETE|UPDATE = 1|2|8|16. No WHEN, column filter or arguments.
+    trigger_matches=bool(trigger and trigger[1:7]==(27,False,True,'',0,True))
+    return {'audit_rows':count,'session_replication_role':replication_role,
+        'function_present':bool(function),'function_definition_matches':function_matches,
+        'trigger_present':bool(trigger),'trigger_definition_matches':trigger_matches,
+        'trigger_enabled':trigger[0] if trigger else None,
+        'function_definition_sha256':hashlib.sha256(function[7].encode()).hexdigest() if function else None,
+        'trigger_definition_sha256':hashlib.sha256(trigger[7].encode()).hexdigest() if trigger else None}
+
+
+def prove_restored_audit(restored,temporary_database):
+    """Exercise a new synthetic row ONLY in the exact isolated DB, then roll back."""
+    import psycopg
+    if (not re.fullmatch(r'resmgrcheck_restore_[0-9a-f]{12}',temporary_database) or
+            temporary_database==settings.DATABASES['default']['NAME'] or not restored.autocommit):
+        raise PolicyError('backup_audit_probe_requires_isolated_restore')
+    with restored.cursor() as cursor:
+        cursor.execute('SELECT current_database()')
+        if cursor.fetchone()[0]!=temporary_database:raise PolicyError('backup_audit_probe_database_mismatch')
+    probe_id=uuid.uuid4();denied={}
+    try:
+        # This is a full transaction on an autocommit connection, not an implicit
+        # live-Django transaction. Never commit the probe, even on success.
+        with restored.transaction(force_rollback=True):
+            with restored.cursor() as cursor:cursor.execute('LOCK TABLE public.control_auditevent IN SHARE ROW EXCLUSIVE MODE')
+            metadata=restored_audit_metadata(restored)
+            if (not metadata['function_definition_matches'] or not metadata['trigger_definition_matches'] or
+                    metadata['trigger_enabled'] not in {'O','A'} or metadata['session_replication_role']!='origin'):
+                raise PolicyError('backup_restored_audit_metadata_invalid')
+            with restored.cursor() as cursor:
+                cursor.execute("""INSERT INTO public.control_auditevent
+                    (id,action,object_id,details,created_at) VALUES (%s,%s,'','{}'::jsonb,clock_timestamp())""",
+                    (probe_id,'backup.restore-drill.probe'))
+                if cursor.rowcount!=1:raise PolicyError('backup_restored_audit_probe_insert_unproven')
+            for operation,sql in [('update',"UPDATE public.control_auditevent SET action='backup.restore-drill.modified' WHERE id=%s"),
+                                  ('delete','DELETE FROM public.control_auditevent WHERE id=%s')]:
+                try:
+                    # Each expected trigger exception aborts only this savepoint.
+                    with restored.transaction():
+                        with restored.cursor() as cursor:cursor.execute(sql,(probe_id,))
+                except psycopg.Error as error:
+                    if error.sqlstate!='P0001' or error.diag.message_primary!='Audit events are append-only':
+                        raise PolicyError('backup_restored_audit_trigger_unexpected') from None
+                    denied[operation]=True
+                else:raise PolicyError('backup_restored_audit_trigger_unproven')
+    except psycopg.Error:
+        raise PolicyError('backup_restored_audit_probe_failed') from None
+    with restored.cursor() as cursor:
+        cursor.execute('SELECT count(*),count(*) FILTER (WHERE id=%s) FROM public.control_auditevent',(probe_id,))
+        after,remaining=cursor.fetchone()
+    if after!=metadata['audit_rows'] or remaining:raise PolicyError('backup_restored_audit_probe_rollback_unproven')
+    return {'audit_metadata':metadata,'audit_update_denied':denied['update'],
+        'audit_delete_denied':denied['delete'],'audit_probe_rolled_back':True,
+        'audit_rows_after_rollback':after,'audit_probe_scope':'synthetic row in isolated restore only'}
+
+
+def restore_drill(source,key_file,*,diagnostic_only=False):
     """Restore only an exact new temporary DB; authenticate before parsing its data."""
     name='resmgrcheck_restore_'+secrets.token_hex(6);created=False
     with tempfile.TemporaryDirectory(prefix='restore-',dir=settings.PRIVATE_ROOT) as temporary:
@@ -160,18 +235,20 @@ def restore_drill(source,key_file):
             # Independent connection to the restored database; never switch Django's live DB.
             import psycopg
             environment=pg_env()
-            with psycopg.connect(dbname=name,user=environment['PGUSER'],host=environment['PGHOST'],port=environment['PGPORT'],connect_timeout=5) as restored:
+            with psycopg.connect(dbname=name,user=environment['PGUSER'],host=environment['PGHOST'],port=environment['PGPORT'],connect_timeout=5,
+                    autocommit=True,options=environment['PGOPTIONS']) as restored:
                 with restored.cursor() as cursor:
                     if identity(cursor)!=record['database']:raise PolicyError('backup_restored_database_mismatch')
-                try:
-                    with restored.cursor() as cursor:cursor.execute('UPDATE control_auditevent SET action=action WHERE id=(SELECT id FROM control_auditevent LIMIT 1)')
-                except psycopg.Error as error:
-                    restored.rollback()
-                    if 'append-only' not in str(error):raise PolicyError('backup_restored_audit_trigger_unexpected') from None
-                else:raise PolicyError('backup_restored_audit_trigger_unproven')
+                if diagnostic_only:
+                    audit={'audit_metadata':restored_audit_metadata(restored),'audit_behavior_tested':False}
+                else:audit={**prove_restored_audit(restored,name),'audit_behavior_tested':True}
+                with restored.cursor() as cursor:
+                    if identity(cursor)!=record['database']:raise PolicyError('backup_restored_database_changed_by_probe')
             from resmgrcheck.workflow import inspect_execution
             executions=0
             for request in (stage/'evidence').glob('*/*/*/request.json'):inspect_execution(request.parent);executions+=1
-            return {'passed':True,'encrypted_sha256':digest_file(source),'restored_files':len(record['evidence']),'restored_collected_executions':executions,'database_identity_matches':True,'audit_update_denied':True,'temporary_database_removed_on_exit':True,'original_database_preserved':True,'qnx_contacted':False}
+            return {'passed':not diagnostic_only,'diagnostic_only':diagnostic_only,**audit,
+                'encrypted_sha256':digest_file(source),'restored_files':len(record['evidence']),'restored_collected_executions':executions,
+                'database_identity_matches':True,'temporary_database_removed_on_exit':True,'original_database_preserved':True,'qnx_contacted':False}
         finally:
             if created:pg('dropdb',['-w',name]) # Exact DB created above only; no force or broad termination.

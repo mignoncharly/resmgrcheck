@@ -13,18 +13,19 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
 | P7 customer target story | PASS for documented limited scope | W008:48 PG negative checks; managed fixtures/operator approval only, arbitrary external lifecycle UNSUPPORTED |
-| P8 hardening | IN PROGRESS; production socket startup qualification pending | W013: credential/runtime_check pass on d6513ba (operator); duplicate fd3 consumption reproduced/fixed;90 focused tests and four real unprivileged systemd cases pass; new root-managed activation/HTTP200/isolation and remaining P8 gates pending |
+| P8 hardening | IN PROGRESS; isolated production restore gate failing/pending correction | W014: active59158ad; backup service success, restore audit probe unproven (operator); empty-table failure reproduced; metadata + rolled-back synthetic UPDATE/DELETE proof and immutable upgrade tested; actual preserved production snapshot requalification pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
-Actually running production web features: none. A later read-only check found DNS
-now resolves, but no matching enabled ResMgrCheck vhost and no verified HTTPS health
-response. This task made no DNS/Nginx change. Original engine runtime digest remains
+The private web service/socket are active at 59158ad (read-only unit observation);
+this turn did not verify HTTP or public HTTPS. No matching enabled ResMgrCheck vhost
+or public deployment is claimed. This task made no DNS/Nginx change. Original engine runtime digest remains
 `02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.
 Existing QNX features/evidence remain qualified; this is separate from web execution.
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
-Remaining operator actions: immutable socket correction, explicit/triggered private
-HTTP200/isolation qualification, later public vhost/TLS and operational verification,
+Remaining operator actions: immutable restore-verifier correction, inspection and
+successful isolated restore of the preserved encrypted production snapshot,
+current private HTTP200/isolation verification, later vhost/TLS/operational verification,
 optional project-consented AI provider setup and independent UAT. No secrets should
 be sent in chat. PRIVATE_INSTALL.md gives the concrete operator-only procedure.
 Continue implementation/staging without changing unrelated VPS services.
@@ -85,5 +86,20 @@ publishes a new release and updates only the known web ExecStart and current poi
 No privileged production deployment ran by the agent. Real root-managed corrected
 activation, current-invocation runtime_check and readiness remain pending; P8 is
 IN PROGRESS, with P9/P10/public deployment withheld.
+
+W014: the operator activated 59158ad and the protected backup service completed
+successfully. The isolated drill of snapshot_20261108T224711Z.rmc failed
+backup_restored_audit_trigger_unproven. A real restored empty-table test shows
+the old UPDATE affects 0 rows even with the correct enabled trigger/function.
+The production archive's actual count/metadata remain unread by the agent because
+the archive/key are protected; inspect-restore now reports only those facts after
+authenticated isolated restoration, with no mutation probe and no passing verdict.
+Full verification requires exact metadata plus actual UPDATE/DELETE rejection on
+a new synthetic row in the isolated DB, savepoint recovery and full rollback/count/
+identity preservation. Missing/disabled/changed guards or permission errors fail.
+The immutable upgrade preserves all earlier releases, DB/audit, archive/keys,
+unit/socket/credential protections and records. No privileged deployment or live
+audit mutation was performed. Real corrected production restore remains pending;
+P8 stays IN PROGRESS and no public deployment/phase advancement is claimed.
 
 SMTP is no longer a product dependency or release blocker. Public signup, verification, email reset and invitations are removed. Administrators are locally provisioned; regular developers/testers use scoped access-code sessions. Earlier W002/W006 email requirements are historical and superseded. Original native/CLI identities and sealed bundles remain unchanged.

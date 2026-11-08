@@ -1,0 +1,23 @@
+{
+  "provenance": "Operator-provided actual production result; no protected archive/key/database inspection by the agent.",
+  "active_revision": "59158ade7da66475f3f1255e34aebd12fca29fce",
+  "backup_service_reported_success": true,
+  "preserved_archive": "/var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc",
+  "restore_error": "PolicyError: backup_restored_audit_trigger_unproven",
+  "actual_production_restored_audit_count": "PENDING operator metadata-only inspect-restore",
+  "actual_production_restored_trigger_function_and_enabled_state": "PENDING operator metadata-only inspect-restore",
+  "zero_row_update_defect": "CONFIRMED in real isolated development pg_restore with canonical enabled trigger and empty table; not inferred as an observed production row count",
+  "read_only_agent_systemd_observation": "Result=success\nExecMainStatus=0\nId=resmgrcheck-backup.service\nActiveState=inactive\nSubState=dead\n\nResult=success\nExecMainStatus=0\nId=resmgrcheck-web.service\nActiveState=active\nSubState=running\n\nResult=success\nId=resmgrcheck-web.socket\nActiveState=active\nSubState=running\nlrwxrwxrwx 1 root root 66 Nov  8 22:37 /opt/resmgrcheck/current -> /opt/resmgrcheck/releases/59158ade7da66475f3f1255e34aebd12fca29fce\n",
+  "additional_read_only_unit_states": {
+    "resmgrcheck-executor.service": "inactive/dead",
+    "resmgrcheck-ai.service": "inactive/dead",
+    "resmgrcheck-backup.timer": "inactive/dead",
+    "resmgrcheck-status.service": "inactive/dead",
+    "resmgrcheck-status.timer": "inactive/dead",
+    "resmgrcheck-db.service": "active/running"
+  },
+  "agent_production_archive_or_key_contents_read": false,
+  "agent_production_database_access": false,
+  "corrected_production_restore": "PENDING",
+  "P8": "IN_PROGRESS"
+}
