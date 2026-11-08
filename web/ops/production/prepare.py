@@ -4,11 +4,12 @@
 Default is a read-only plan. --apply requires root and an explicit committed SHA.
 This is not a public deployment command or a release-acceptance claim.
 """
-import argparse,grp,json,os,pwd,re,secrets,shutil,subprocess,sys,time
+import argparse,grp,json,os,pwd,re,secrets,shlex,shutil,stat,subprocess,sys,time
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent;SOURCE=HERE.parents[2]
 BASE=Path('/var/lib/resmgrcheck');CONFIG=Path('/etc/resmgrcheck');OPT=Path('/opt/resmgrcheck')
+BACKUP=Path('/var/backups/resmgrcheck');UNIT_ROOT=Path('/etc/systemd/system');RUNTIME=[Path('/run/resmgrcheck-db'),Path('/run/resmgrcheck-web')]
 USERS=['resmgr-web','resmgr-exec','resmgr-ai','resmgr-db'];GROUPS=['resmgr-evidence','resmgr-dbclients']
 ENGINE='ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0'
 UNITS=['resmgrcheck-db.service','resmgrcheck-web.socket','resmgrcheck-web.service','resmgrcheck-executor.service','resmgrcheck-ai.service','resmgrcheck-backup.service','resmgrcheck-backup.timer','resmgrcheck-status.service','resmgrcheck-status.timer']
@@ -27,8 +28,26 @@ def run(argv,*,input=None,user=None,env=None):
 
 def directory(path,mode=0o755,user='root',group='root'):
     path=Path(path)
-    if path.is_symlink():raise RuntimeError('Refusing a symlink directory')
-    path.mkdir(parents=True,exist_ok=True);os.chown(path,pwd.getpwnam(user).pw_uid,grp.getgrnam(group).gr_gid);path.chmod(mode)
+    uid=pwd.getpwnam(user).pw_uid;gid=grp.getgrnam(group).gr_gid
+    if any(parent.is_symlink() for parent in [path,*path.parents]):raise RuntimeError('Refusing a symlink directory')
+    if path.exists():
+        check_directory(path,mode,uid,gid)
+        return
+    path.mkdir();os.chown(path,uid,gid);path.chmod(mode)
+
+def check_directory(path,mode,uid,gid):
+    info=path.lstat()
+    if not stat.S_ISDIR(info.st_mode) or info.st_uid!=uid or info.st_gid!=gid or stat.S_IMODE(info.st_mode)!=mode:
+        raise RuntimeError('Existing directory protection mismatch: '+str(path))
+
+def check_private_file(path):
+    info=path.lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_uid!=os.geteuid() or info.st_nlink!=1 or stat.S_IMODE(info.st_mode)!=0o600:
+        raise RuntimeError('Preparation record protection mismatch: '+path.name)
+
+def protected_json(path):
+    check_private_file(path)
+    return json.loads(path.read_text())
 
 def write(path,raw,mode=0o600,user='root',group='root'):
     path=Path(path);raw=raw.encode() if isinstance(raw,str) else raw
@@ -40,13 +59,57 @@ def write(path,raw,mode=0o600,user='root',group='root'):
     os.chown(path,pwd.getpwnam(user).pw_uid,grp.getgrnam(group).gr_gid)
 
 def clone(destination,revision):
+    receipt=destination.parent/('.'+destination.name+'.clone.json')
+    identity={'kind':'resmgrcheck-private-clone','source':str(SOURCE),'destination':str(destination),'revision':revision}
     if destination.is_symlink():raise RuntimeError('Refusing a symlink release/engine root')
+    if receipt.exists() or receipt.is_symlink():
+        if protected_json(receipt)!=identity:raise RuntimeError('Clone receipt mismatch')
+    elif destination.exists():raise RuntimeError('Occupied clone has no completion receipt; preserve for local inspection')
     if destination.exists():
+        check_directory(destination,0o755,os.geteuid(),os.getegid())
+        if (destination/'.git').is_symlink() or not (destination/'.git').is_dir():raise RuntimeError('Occupied clone metadata mismatch')
         actual=run(['git','-c','safe.directory='+str(destination),'-C',str(destination),'rev-parse','HEAD']).decode().strip()
         if actual!=revision:raise RuntimeError('Occupied release has another revision')
+        origin=run(['git','-c','safe.directory='+str(destination),'-C',str(destination),'remote','get-url','origin']).decode().strip()
+        if origin!=str(SOURCE):raise RuntimeError('Occupied clone has another source')
+        changes=run(['git','-c','safe.directory='+str(destination),'-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',str(destination),'status','--porcelain','--untracked-files=no'])
+        if changes:raise RuntimeError('Occupied clone has tracked changes')
         return
-    run(['git','-c','safe.directory='+str(SOURCE),'-c','core.hooksPath=/dev/null','clone','--no-hardlinks','--no-checkout',str(SOURCE),str(destination)])
-    run(['git','-c','core.hooksPath=/dev/null','-C',str(destination),'checkout','--detach',revision])
+    if receipt.exists():raise RuntimeError('Completed clone is missing; preserve its receipt for inspection')
+    # Git's local clone ownership check and upload-pack are separate processes.
+    # -c on clone does not grant upload-pack trust. Force the transport route and
+    # scope the exception to its exact source metadata path, in that command only.
+    upload=shlex.join(['git','-c','safe.directory=','-c','safe.directory='+str(SOURCE/'.git'),'-c','core.hooksPath=/dev/null','upload-pack'])
+    run(['git','-c','safe.directory=','-c','safe.directory='+str(SOURCE),'-c','core.hooksPath=/dev/null','clone','--no-local','--no-checkout','--upload-pack='+upload,str(SOURCE),str(destination)])
+    run(['git','-c','safe.directory='+str(destination),'-c','core.hooksPath=/dev/null','-C',str(destination),'checkout','--detach',revision])
+    destination.chmod(0o755)
+    write(receipt,json.dumps(identity,sort_keys=True)+'\n')
+
+def check_early_resume(revision):
+    """Validate the known pre-clone layout before touching partially created resources.
+
+    Later failures keep their own immutable clone/configuration checks. Unknown or
+    interrupted clone trees are never removed or adopted automatically.
+    """
+    if any(p.exists() or p.is_symlink() for p in [OPT/'releases'/revision,OPT/'engine']):return
+    layout={BASE:(0o755,'root','root',{'PROVISIONED.json','private','evidence','engine-state'}),
+        CONFIG:(0o755,'root','root',{'keys','executor','ai','prepare-error.log'}),
+        OPT:(0o755,'root','root',{'releases'}),OPT/'releases':(0o755,'root','root',set()),
+        BASE/'private':(0o755,'root','root',{'web','executor','ai','operator','backup'}),
+        BASE/'evidence':(0o2750,'resmgr-exec','resmgr-evidence',set()),
+        BASE/'engine-state':(0o700,'resmgr-exec','resmgr-exec',set()),
+        CONFIG/'keys':(0o700,'root','root',set()),CONFIG/'executor':(0o700,'resmgr-exec','resmgr-exec',set()),
+        CONFIG/'ai':(0o700,'resmgr-ai','resmgr-ai',set()),BACKUP:(0o700,'root','root',set())}
+    for role,user in [('web','resmgr-web'),('executor','resmgr-exec'),('ai','resmgr-ai'),('operator','root'),('backup','root')]:
+        layout[BASE/'private'/role]=(0o700,user,user,set())
+    for path,(mode,user,group,allowed) in layout.items():
+        if path.exists() or path.is_symlink():
+            check_directory(path,mode,pwd.getpwnam(user).pw_uid,grp.getgrnam(group).gr_gid)
+            if any(child.name not in allowed for child in path.iterdir()):raise RuntimeError('Unknown resource in partial preparation: '+str(path))
+    diagnostic=CONFIG/'prepare-error.log'
+    if diagnostic.exists() or diagnostic.is_symlink():check_private_file(diagnostic)
+    for path in RUNTIME+[UNIT_ROOT/name for name in UNITS]:
+        if path.exists() or path.is_symlink():raise RuntimeError('Unexpected pre-clone resource: '+str(path))
 
 def public_code_permissions(root):
     # These trees contain only public Git source/hash-pinned Python packages/static
@@ -75,12 +138,13 @@ def prepare(revision):
     available=int(re.search(r'^MemAvailable:\s+([0-9]+)',Path('/proc/meminfo').read_text(),re.M)[1])*1024
     if available<1024**3 or shutil.disk_usage('/').free<2*1024**3:raise RuntimeError('Insufficient spare memory/disk; preserve existing services')
     marker=BASE/'PROVISIONED.json'
-    existing_marker=marker.is_file() and not marker.is_symlink() and marker.stat().st_uid==0
+    existing_marker=marker.exists() or marker.is_symlink()
     if existing_marker:
-        data=json.loads(marker.read_text())
+        data=protected_json(marker)
         if data.get('kind')!='resmgrcheck-private-preparation' or data.get('revision')!=revision:raise RuntimeError('Existing preparation differs; use a separately reviewed upgrade/rollback procedure')
+        check_early_resume(revision)
     else:
-        for path in [BASE,CONFIG,OPT,Path('/var/backups/resmgrcheck'),Path('/run/resmgrcheck-db'),Path('/run/resmgrcheck-web')]+[Path('/etc/systemd/system')/name for name in UNITS]:
+        for path in [BASE,CONFIG,OPT,BACKUP,*RUNTIME]+[UNIT_ROOT/name for name in UNITS]:
             if path.exists() or path.is_symlink():raise RuntimeError('Dedicated resource is already occupied: '+str(path))
         for name in USERS:
             try:pwd.getpwnam(name)
@@ -105,7 +169,7 @@ def prepare(revision):
     directory(BASE/'private')
     for role,user in [('web','resmgr-web'),('executor','resmgr-exec'),('ai','resmgr-ai'),('operator','root'),('backup','root')]:directory(BASE/'private'/role,0o700,user,user)
     directory(BASE/'evidence',0o2750,'resmgr-exec','resmgr-evidence');directory(BASE/'engine-state',0o700,'resmgr-exec','resmgr-exec')
-    directory('/var/backups/resmgrcheck',0o700);directory(OPT/'releases')
+    directory(BACKUP,0o700);directory(OPT/'releases')
     application=OPT/'releases'/revision;clone(application,revision);clone(OPT/'engine',ENGINE)
     local=OPT/'engine/.local';directory(local)
     state=local/'state'
@@ -119,7 +183,7 @@ def prepare(revision):
         key=CONFIG/'keys'/filename
         if not key.exists():write(key,raw)
         elif key.is_symlink() or key.stat().st_uid!=0 or key.stat().st_mode&0o077:raise RuntimeError('Existing private key protection mismatch')
-    for name in UNITS:write(Path('/etc/systemd/system')/name,(application/'web/ops/production'/name).read_bytes(),0o644)
+    for name in UNITS:write(UNIT_ROOT/name,(application/'web/ops/production'/name).read_bytes(),0o644)
     directory(BASE/'database',0o700,'resmgr-db','resmgr-dbclients')
     pgdata=BASE/'database'
     if not (pgdata/'PG_VERSION').exists():

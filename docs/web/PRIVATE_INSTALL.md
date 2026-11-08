@@ -1,25 +1,34 @@
 # Private production qualification handoff
 
-Status: preparation code, not an executed production installation. Public deployment
+Status: the operator's initial preparation failed during clone; no completed production installation. Public deployment
 remains withheld. The revised access gate passed W007; W009 records staging hardening
-and the remaining root/UAT work. No SMTP is needed; AI is optional and disabled.
+and the remaining root/UAT work. W010 records the clone correction and recovery tests.
+No SMTP is needed; AI is optional and disabled.
 
 ## Next external action
 
 The development process is UID1000. `sudo -n true` still returns "a password is
 required"; filesystem Full Access does not grant Linux root. Do not send a password
 or protected configuration. A local administrator must review and execute the
-dedicated private preparation command. From the clean implementation branch:
+dedicated private preparation command. For this failed installation, use the corrected
+script from the committed `feature/production-web-ai` checkout, retaining the original
+application revision below. The installer driver and the application revision are
+deliberately different: changing the requested revision to the correction's HEAD
+would conflict with the existing protected preparation marker. Do not edit that
+marker or delete partially created resources to bypass the check.
 
 ```sh
 cd /home/mignon/projects/resmgrcheck
-revision=$(git rev-parse HEAD)
+revision=4ed4855f7633176baea06f2be53154630a9d4d1f
 python3 web/ops/production/prepare.py --revision "$revision"
 # Review prepare.py, its unit files and database-grants.sql before this root action:
 sudo /usr/bin/python3 web/ops/production/prepare.py --revision "$revision" --apply
 ```
 
-The first command is a read-only resource plan. The root command refuses occupied
+The first Python command is a read-only resource plan, not a privileged resource
+validation. The root command verifies the protected marker and known early-install
+layout before resuming this same revision. For a genuinely fresh host only, select
+an exact reviewed application SHA instead. The root command refuses occupied
 unmarked resources/accounts/groups, creates only dedicated `resmgr-*` identities,
 `/etc/resmgrcheck`, `/opt/resmgrcheck`, `/var/lib/resmgrcheck`,
 `/var/backups/resmgrcheck` and named `resmgrcheck-*` units. It checks spare memory/
@@ -36,7 +45,46 @@ SDK, generate SSH credentials or modify the guest. Preparation is not an upgrade
 tool: a different existing release is refused. After a partial failure, inspect
 `/etc/resmgrcheck/prepare-error.log` locally; preserve resources/evidence, fix the
 precise issue and resume the same reviewed revision. Never dump that log or configs
-into chat. A root invocation has not yet been executed or qualified.
+into chat. The reported root invocation failed; successful root preparation and
+service isolation remain unqualified. This correction has not been applied as root.
+
+## Clone failure and partial-install recovery
+
+Git's source worktree trust is insufficient for this root-run clone. The local
+transport's `upload-pack` checks `/home/mignon/projects/resmgrcheck/.git` separately,
+and a top-level `git -c safe.directory=... clone` does not supply that child with
+the exception. The corrected driver uses `--no-local` and an explicit, shell-quoted
+`upload-pack` command with `safe.directory` set to exactly that source metadata
+directory. Clone itself trusts only the exact source worktree. Each command resets
+inherited safe-directory entries first; no global Git configuration is written,
+no wildcard is added and no ownership check is disabled. The transport creates
+independent objects without hardlinks. Checkout still selects the exact requested
+commit, even when source HEAD is newer.
+
+Read-only inspection found the dedicated accounts/groups, protected log and marker,
+role/private/evidence/state directories and empty release parent already present.
+The application release, its Git metadata, engine, database, static tree and current
+pointer are absent. All nine dedicated units are absent/inactive. The development
+user could not read the log/marker or list protected directories: `sudo -n` still
+requires local authentication. The operator supplied the dubious-ownership diagnosis;
+the exact protected log content was not independently read. Inspect it locally before
+retrying; do not send secrets or the raw log. W010 records the precise observed scope.
+
+On retry, existing directories must have the expected owner/group/mode; the driver
+does not repair an unknown directory by changing its ownership/permissions. Early
+recovery refuses unexpected entries, links and unexpected units/socket directories.
+The root-run checks must confirm the marker and protected directories that the
+development user could not inspect. Unknown resources remain untouched.
+
+Each completed new clone gets a root-owned `0600` sibling completion receipt.
+Subsequent attempts require that receipt, matching source/revision, clean tracked
+files and expected ownership. An occupied destination without a receipt (including
+an interrupted clone/checkout), mismatched receipt, missing completed clone or
+modified tracked file stops recovery. Preserve it for separately reviewed local
+inspection; the driver never deletes/replaces it or automatically adopts it.
+The observed failure left no destination, so it needs no clone cleanup. These checks
+qualify recovery of this early failure in disposable tests; they do not claim general
+recovery from every interrupted database/migration stage.
 
 ## Verify the private runtime
 

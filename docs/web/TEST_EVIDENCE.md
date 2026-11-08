@@ -486,3 +486,58 @@ public app/SSH/database listener, touches no Nginx/DNS/TLS/firewall, and starts 
 executor/AI/timer. Prepared code is not a claim that those production controls have
 actually run. P8 remains IN PROGRESS; P9/P10 do not advance on this evidence. SMTP
 is superseded; optional AI is unconfigured, so real provider qualification is NOT_RUN.
+
+## W010 — Private installer clone correction and early recovery
+
+2026-11-08, branch `feature/production-web-ai`, base `4ed4855` plus this correction.
+The operator reports running root preparation for full SHA
+`4ed4855f7633176baea06f2be53154630a9d4d1f`, failing in clone with Git dubious
+ownership, with no release directory/Git metadata left behind. This is operator
+evidence, not a root command executed by the agent. The protected log's exact content
+and marker content could not be read independently: a narrowly filtered read-only
+`sudo -n /usr/bin/python3 -c ...` attempt returned exit1, `sudo: a password is required`.
+No passwords/configuration were requested or printed; no privileged installer ran.
+
+[Read-only inventory](evidence/p8/installer-recovery/inventory.json) confirms all
+four dedicated users and six groups, root-owned top-level directories, a root-owned
+0600 log/marker, role/private/evidence/state directories and empty release parent.
+The exact release and `.git`, engine, current pointer, database and static tree are
+absent. Protected directory contents remain NOT_READ. [Direct systemctl observation](evidence/p8/installer-recovery/services.txt)
+found all nine dedicated units not-found/inactive; Nginx remained active/running and
+the host PostgreSQL umbrella active/exited. An initial Python-child systemctl probe
+returned1 with no stdout in the sandbox; the direct read-only command succeeded.
+No service/account/configuration mutation was performed against the host.
+
+Real disposable Git2.43.0 subprocesses, using `GIT_TEST_ASSUME_DIFFERENT_OWNER=1`,
+reproduced the original failure naming the source `.git`. Merely adding another
+top-level `-c safe.directory` did not cure it. The corrected clone uses `--no-local`
+and explicit shell-quoted upload-pack with command-scoped trust of that exact source
+metadata path; the outer clone trusts the exact worktree. Both reset inherited trust
+entries and disable hooks. No global/system Git configuration was changed, no
+wildcard exception was added and no Git security check was disabled.
+
+[Twenty-six focused checks](evidence/p8/installer-recovery/focused-tests.txt) passed
+in1.655s:15 new installer tests plus11 existing production-configuration checks.
+Command: existing private web venv `web/manage.py test tests.test_production_config
+tests.test_private_preparation --verbosity 2`, `RMC_WEB_ENV=test`, existing protected
+key paths. Django skipped database setup; no database or service was started.
+The new tests execute real cloning/checkout, including a quoted source path and an
+older requested commit than source HEAD, independent object inodes, repeat completed
+clone validation, unchanged isolated global config and continued denial for untrusted
+Git commands. They reproduce failure then recover the same marker/revision and
+exercise prepare through both real clones with OS identities mapped to disposable
+fixtures, stopping before venv/database/services. Negative cases preserve unknown
+files/interrupted destinations, reject mode/link/hardlink/receipt/revision/dirty-tree
+mismatches and require local root for apply. These are host regression tests with
+simulated ownership checks, not successful root-run production qualification.
+
+The original application SHA must remain the retry's `--revision`; run the corrected
+committed driver from the source checkout. The marker is never rewritten for a new
+SHA. Existing known directories are validated without automatic permission repair.
+Root must inspect/validate the protected state on retry. Unknown or interrupted clone
+trees have no automatic deletion/adoption path; later database/migration interruption
+recovery is not universally qualified. PRIVATE_INSTALL.md gives the concrete retry.
+Read-only plan, Python syntax compilation and `git diff --check` passed. No native
+code/engine/QNX evidence changed and no native build/run was repeated. Successful
+root preparation, namespace/peer roles, HTTPS, production backup/restore/rollback,
+off-host custody and independent UAT remain pending; P8 stays IN PROGRESS.

@@ -1,0 +1,247 @@
+{
+  "observed_at_utc": "2026-11-08T14:00:40.403709+00:00",
+  "agent_uid": 1000,
+  "git_version": "git version 2.43.0",
+  "operator_report": {
+    "attempted_revision": "4ed4855f7633176baea06f2be53154630a9d4d1f",
+    "failure": "Git dubious ownership during clone",
+    "release_and_git_metadata_absent": true,
+    "provenance": "user report; protected diagnostic content not independently read"
+  },
+  "protected_read_attempt": {
+    "command_kind": "sudo -n python3, read-only diagnostic allowlist and marker/directory inventory",
+    "exit": 1,
+    "result": "sudo: a password is required",
+    "protected_contents_read": false
+  },
+  "filesystem_metadata": {
+    "/etc/resmgrcheck": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o755",
+      "entry_names": [
+        "ai",
+        "executor",
+        "keys",
+        "prepare-error.log"
+      ]
+    },
+    "/etc/resmgrcheck/prepare-error.log": {
+      "kind": "file",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o600"
+    },
+    "/etc/resmgrcheck/keys": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/etc/resmgrcheck/executor": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/etc/resmgrcheck/ai": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/opt/resmgrcheck": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o755",
+      "entry_names": [
+        "releases"
+      ]
+    },
+    "/opt/resmgrcheck/releases": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o755",
+      "entry_names": []
+    },
+    "/opt/resmgrcheck/releases/4ed4855f7633176baea06f2be53154630a9d4d1f": {
+      "exists": false
+    },
+    "/opt/resmgrcheck/releases/4ed4855f7633176baea06f2be53154630a9d4d1f/.git": {
+      "exists": false
+    },
+    "/opt/resmgrcheck/engine": {
+      "exists": false
+    },
+    "/opt/resmgrcheck/current": {
+      "exists": false
+    },
+    "/var/lib/resmgrcheck": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o755",
+      "entry_names": [
+        "PROVISIONED.json",
+        "engine-state",
+        "evidence",
+        "private"
+      ]
+    },
+    "/var/lib/resmgrcheck/PROVISIONED.json": {
+      "kind": "file",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o600"
+    },
+    "/var/lib/resmgrcheck/private": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o755",
+      "entry_names": [
+        "ai",
+        "backup",
+        "executor",
+        "operator",
+        "web"
+      ]
+    },
+    "/var/lib/resmgrcheck/evidence": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o2750",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/engine-state": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/database": {
+      "exists": false
+    },
+    "/var/lib/resmgrcheck/static": {
+      "exists": false
+    },
+    "/var/backups/resmgrcheck": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/private/web": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/private/executor": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/private/ai": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/private/operator": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    },
+    "/var/lib/resmgrcheck/private/backup": {
+      "kind": "directory",
+      "uid": 65534,
+      "gid": 65534,
+      "mode": "0o700",
+      "entry_names": "NOT_READ: permission denied"
+    }
+  },
+  "dedicated_accounts": {
+    "resmgr-web": {
+      "uid": 982,
+      "gid": 974,
+      "home": "/nonexistent",
+      "shell": "/usr/sbin/nologin"
+    },
+    "resmgr-exec": {
+      "uid": 981,
+      "gid": 973,
+      "home": "/nonexistent",
+      "shell": "/usr/sbin/nologin"
+    },
+    "resmgr-ai": {
+      "uid": 980,
+      "gid": 972,
+      "home": "/nonexistent",
+      "shell": "/usr/sbin/nologin"
+    },
+    "resmgr-db": {
+      "uid": 979,
+      "gid": 971,
+      "home": "/nonexistent",
+      "shell": "/usr/sbin/nologin"
+    }
+  },
+  "dedicated_groups": {
+    "resmgr-web": {
+      "gid": 974,
+      "members": []
+    },
+    "resmgr-exec": {
+      "gid": 973,
+      "members": []
+    },
+    "resmgr-ai": {
+      "gid": 972,
+      "members": []
+    },
+    "resmgr-db": {
+      "gid": 971,
+      "members": []
+    },
+    "resmgr-evidence": {
+      "gid": 976,
+      "members": [
+        "resmgr-web",
+        "resmgr-exec",
+        "resmgr-ai"
+      ]
+    },
+    "resmgr-dbclients": {
+      "gid": 975,
+      "members": [
+        "resmgr-web",
+        "resmgr-exec",
+        "resmgr-ai"
+      ]
+    }
+  },
+  "read_only_systemctl_show": {
+    "exit": 1,
+    "stdout": "",
+    "scope": "Initial Python-child probe in sandbox; direct successful observation is services.txt"
+  },
+  "privileged_installation_run_by_agent": false,
+  "service_mutations_by_agent": false,
+  "qnx_commands_run": false
+}

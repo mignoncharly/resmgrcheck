@@ -1,0 +1,47 @@
+{
+  "base_revision": "4ed4855f7633176baea06f2be53154630a9d4d1f",
+  "changed_python_sha256": {
+    "web/ops/production/prepare.py": "df80ca6362a928a6edf1685c13362e974ed47e4da28cb2ee949f1f5994de5a62",
+    "web/tests/test_private_preparation.py": "ef1e507ccb7ce2beb8ba5bdb89b0c212f52032ca24377848d75a084697e8a747"
+  },
+  "syntax_compilation": "PASS",
+  "read_only_plan": {
+    "mode": "read-only plan",
+    "revision": "4ed4855f7633176baea06f2be53154630a9d4d1f",
+    "new_users": [
+      "resmgr-web",
+      "resmgr-exec",
+      "resmgr-ai",
+      "resmgr-db"
+    ],
+    "new_groups": [
+      "resmgr-evidence",
+      "resmgr-dbclients"
+    ],
+    "new_units": [
+      "resmgrcheck-db.service",
+      "resmgrcheck-web.socket",
+      "resmgrcheck-web.service",
+      "resmgrcheck-executor.service",
+      "resmgrcheck-ai.service",
+      "resmgrcheck-backup.service",
+      "resmgrcheck-backup.timer",
+      "resmgrcheck-status.service",
+      "resmgrcheck-status.timer"
+    ],
+    "new_paths": [
+      "/var/lib/resmgrcheck",
+      "/etc/resmgrcheck",
+      "/opt/resmgrcheck",
+      "/var/backups/resmgrcheck"
+    ],
+    "public_exposure": false,
+    "root_required_to_apply": true
+  },
+  "original_engine_and_qnx_evidence_git_diff_exit": 0,
+  "focused_test_count": 26,
+  "focused_test_result": "PASS",
+  "privileged_installation": "NOT_RUN",
+  "protected_log_content": "NOT_READ: local sudo authentication required",
+  "actual_root_run_clone_qualification": "NOT_RUN: differing-owner checks simulated in real disposable Git subprocesses"
+}
