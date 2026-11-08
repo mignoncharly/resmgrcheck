@@ -13,7 +13,7 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
 | P7 customer target story | PASS for documented limited scope | W008:48 PG negative checks; managed fixtures/operator approval only, arbitrary external lifecycle UNSUPPORTED |
-| P8 hardening | IN PROGRESS; web startup failing | W009 staging and W010 clone checks retained; W011 temporary in-unit metadata diagnostic prepared; real systemd credential ACL capture/runtime_check/readiness and later production gates pending |
+| P8 hardening | IN PROGRESS; corrected private runtime awaiting operator verification | W012: operator-confirmed systemd ACL-mask cause, narrow validator correction and immutable resumable activation/rollback;71 focused checks pass; actual new service/runtime_check/readiness and remaining P8 gates pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
 Actually running production web features: none. A later read-only check found DNS
@@ -42,7 +42,7 @@ sudo authentication is required. Retry with the corrected committed driver and
 the original application SHA in PRIVATE_INSTALL.md, not the correction's HEAD.
 No native engine/evidence or unrelated service changes; P8/P9/P10 do not advance.
 
-W011 supersedes W010's empty-install observation: the operator retry reached web
+W011 historically superseded W010's empty-install observation: the operator retry reached web
 startup. The current pointer targets application4ed4855; a static tree exists,
 the socket is listening and the service is in auto-restart after ExecStartPre
 credential validation failure. The operator confirms root:root0600 source keys
@@ -54,5 +54,19 @@ explicit cleanup. PRIVATE_INSTALL.md gives exact commands. No production credent
 validator/security change is committed before that evidence. No privileged command
 was run by the agent; only disposable unprivileged synthetic systemd tests ran.
 The existing keys, database, release marker, canonical units and QNX remain intact.
+
+W012 supersedes the pending diagnosis: the operator captured root:root0440 regular
+runtime credentials with owner-read/named-UID982-read/group-none/mask-read/other-none
+ACLs, and successfully removed the diagnostic. The ACL mask caused the old generic
+group-bit rejection. The new validator accepts only exact protected systemd path,
+ID, account, ownership and ACL context; ordinary private-file rules remain strict.
+The immutable replacement procedure preserves the original4ed4855 release/virtualenv,
+keys/configs/database/audit/static tree/units and preparation marker, publishes a new
+commit directory and atomically switches current. It is resumable with retained
+staging attempts and exact-target rollback; no privileged installation was run by
+the agent. Seventy-one focused checks pass, including UID982 entrypoint compatibility
+fixtures and real disposable Git recovery. Those fixtures simulate OS/DB/sandbox
+facts; real runtime_check and Gunicorn readiness under resmgr-web remain pending.
+Use PRIVATE_INSTALL.md's operator command; no P8/P9/P10 advancement yet.
 
 SMTP is no longer a product dependency or release blocker. Public signup, verification, email reset and invitations are removed. Administrators are locally provisioned; regular developers/testers use scoped access-code sessions. Earlier W002/W006 email requirements are historical and superseded. Original native/CLI identities and sealed bundles remain unchanged.

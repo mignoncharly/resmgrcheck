@@ -613,3 +613,91 @@ the temporary override. Existing installation/keys/database remain preserved;
 do not reset the original marker or run prepare with a new application revision.
 Actual runtime_check, readiness, namespace/peer-role security and later production
 gates remain unqualified. P8 remains IN PROGRESS; P9/P10 do not advance.
+
+## W012 — Confirmed credential ACL correction; immutable private release recovery
+
+2026-11-08, branch `feature/production-web-ai`, base `b278b30` plus this correction.
+The operator confirms the temporary diagnostic ran inside the actual systemd
+ExecStartPre context and was removed successfully. Both application/MFA runtime
+credentials were root:root0440 regular files with owner-read, named UID982-read,
+owning-group-none, mask-read and other-none ACL entries. Source keys remain
+root:root0600; canonical unit/source files are unchanged. The structured
+[operator confirmation](evidence/p8/credential-fix/operator-confirmation.json)
+records this provenance; no secret bytes or hashes were requested or captured.
+This supersedes W011's unconfirmed diagnosis. The old secret() rule treated the
+ACL mask's group mode bit as an unsafe group grant and rejected these credentials.
+
+`settings.secret()` now calls a standard-library credential reader. Ordinary
+trusted-owner0400/0600 files without access ACL remain private. Every component is
+opened without following links, using O_PATH for ancestors so directory-listing
+permission is not unnecessarily required. File descriptors establish regular
+single-inode type, owner and4096-byte bound before secret reads; the actual read
+is bounded again and UTF-8/NUL errors remain content-free. The delegated path
+requires a fixed role directory and exact credential ID, matching
+CREDENTIALS_DIRECTORY, effective nonroot UID matching the dedicated account,
+root:root0440 and exactly the observed five ACL entries. The pinned root:root0550
+directory must have the exact named-UID read/search ACL. Directory metadata was not
+part of the operator's supplied file report; it is an additional fail-closed
+context invariant derived from systemd255 and covered by fixtures, with actual
+acceptance still subject to the real unit gate. Arbitrary0440 files, extra/writable
+ACLs, unexpected ownership/path/principals/entries, hardlinks, malformed inputs and
+oversized files fail. Production file requirements and minimum secret length remain.
+
+[Seventy-one focused tests](evidence/p8/credential-fix/focused-tests.txt) passed in5.474s:
+15 credential checks,17 release-recovery checks,11 existing production configuration
+checks,13 diagnostic checks and15 earlier installer checks. Django skipped database
+setup. Positive ACL tests use real POSIX xattrs; root ownership is modeled over
+unprivileged files. Hostile unrelated-principal ACL bytes are injected where sandbox
+UID/GID mappings prohibit creating those principals. A fresh-process fixture models
+the exact UID982/root0440/read-only ACL and loads production settings through both
+the actual runtime_check management command and Gunicorn's application loader
+(`--check-config`). Both accept that credential model and reject an owning-group
+read grant without printing values. DB/sandbox/identity facts in that compatibility
+fixture are explicit mocks; it starts no server and is **not actual resmgr-web
+OS execution or production isolation qualification**.
+
+`recover_credentials.py` provides a narrowly scoped, reviewed operator procedure
+for the immutable4ed4855 installation. It rejects runtime changes outside credential
+validation/related operations and requires unchanged dependencies, templates/assets,
+models/migrations, unit files, engine and database-grant code. Before activation it
+checks the exact original marker/clone receipt, clean original source/index without
+optional Git index writes, original virtualenv, canonical unit, source-key metadata
+without opening key contents, removed diagnostics/overrides and inactive dedicated
+web/worker/timer units. It makes no database connection or migration, does not install
+packages, rewrite configuration/units or start/reload services, and never contacts QNX.
+
+An exclusive root-owned lock serializes the operation. An immutable exact-target
+intent identifies the recovery. A fresh independent Git clone is checked/sealed
+with its protected manifest, then published to a new commit directory and activated
+by atomic current-pointer replacement. The unchanged old virtualenv and static
+configuration are reused; the old release remains present/unmodified. Publication
+cannot overwrite even an empty preexisting destination: a real
+Linux/glibc renameat2(RENAME_NOREPLACE) check passes in disposable tests.
+Interrupted staging attempts are retained, and retries use new attempts or validate/reuse an
+already completed release. Unknown occupied directories, modified tracked/untracked
+content, alternate intent/manifests/current pointers and canonical-unit changes are
+refused. Pointer-only rollback preserves both releases and all data, returning to
+the known credential-failing original with web stopped, not a healthy rollback claim.
+Real disposable Git tests interrupt cloning and both sides of pointer switching,
+repeat activation, roll back/reapply, and reject unknown resources/dependency changes,
+active units, bad key modes and concurrent operators. Original key/database/audit,
+unit/marker/source/index bytes and original source/index modes/mtimes are verified
+unchanged. Root guards are mocked over disposable UID1000 fixtures; no privileged
+release deployment was performed by the agent.
+
+[Source/check boundaries](evidence/p8/credential-fix/checks.json) record actual hashes
+and syntax compilation. `runtime_check.py`, the canonical web unit and Gunicorn
+configuration are unchanged, as are dependency lock, migrations, templates/assets,
+native/engine and original QNX evidence. A nonprivileged service query found web
+failed, socket inactive and no drop-ins after the operator's diagnostic cleanup.
+No privileged commands, service mutations, Nginx/other PostgreSQL changes, SDK/QNX
+operations or credential copies occurred in this agent turn.
+
+PRIVATE_INSTALL.md gives the exact next operator plan/apply/qualification procedure.
+The new immutable commit must be activated, the actual systemd ExecStartPre
+runtime_check must pass under resmgr-web, and Gunicorn must return private readyz
+HTTP200 for the exact invocation before this startup gate is qualified. Those
+actual corrected-production observations remain **PENDING**, along with remaining
+P8 HTTPS/backup/restore/off-host/operational gates and independent P9/P10 acceptance.
+Do not advance P8–P10 from these host/compatibility tests or edit the original
+preparation marker to force an upgrade. Source secret values and protection remain.

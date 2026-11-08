@@ -1,13 +1,131 @@
 # Private production qualification handoff
 
-Status (2026-11-08, W011): the clone failure has been passed by an operator retry.
-The private web socket is active but the web service fails during ExecStartPre with
-`RMC_WEB_SECRET_KEY credential file permissions/type invalid`. No successful runtime
-isolation or readiness is claimed. Public deployment remains withheld. W007/W009
-record access/staging gates and W010 records the earlier clone correction. No SMTP
-is needed; AI is optional and disabled.
+Status (2026-11-08, W012): the operator confirmed the credential incompatibility
+inside the real ExecStartPre context. Both runtime files are root:root0440 regular
+files with owner read, named UID982 read, owning group none, mask read, other none.
+The old validator mistakes the ACL mask for an insecure group permission grant.
+Source keys remain root:root0600; the temporary diagnostic was removed successfully
+and the canonical unit is unchanged. The correction and immutable-release recovery
+are prepared/tested; actual corrected production startup/isolation/readiness remain
+pending. Public deployment is withheld. No SMTP is needed; AI is disabled.
 
-## Next external action: temporary in-unit credential metadata capture
+## Next external action: activate the immutable credential correction
+
+Use the committed correction checkout on `feature/production-web-ai`. Do not patch
+`/opt/resmgrcheck/current`, overwrite the installed4ed4855 release, reset its
+preparation marker or rerun prepare.py with a newer SHA. The narrowly scoped
+`recover_credentials.py` procedure accepts only this original private installation
+and a reviewed descendant commit whose runtime changes are confined to credential
+validation and the related operation scripts. Dependencies, templates/assets,
+models/migrations, database grants, unit files and engine must be unchanged.
+
+The corrected validator keeps ordinary files private (`0400`/`0600`, trusted owner,
+no access ACL, single regular inode, maximum4096 bytes). It adds an exact systemd
+path: the expected credential ID under the role's fixed `/run/credentials/...`
+directory, matching CREDENTIALS_DIRECTORY, nonroot effective UID matching the
+dedicated account, root:root0440 file and precisely the observed read-only ACL for
+that UID. The root-owned0550 store must also grant only that UID read/search via
+its matching ACL. All path components are opened without following symlinks.
+Ordinary0440 files, unrelated ACL principals, writes, other access, unexpected
+ownership/entries, hardlinks, invalid ACL/UTF-8/NUL and oversized input fail closed.
+The original source keys, LoadCredential, nonroot service and runtime_check stay intact.
+
+Review the read-only plan, then run the explicit root action locally:
+Run reset-failed/start only after the apply command exits0. If apply fails, keep
+web stopped, preserve the diagnostic/staging state and inspect the failure locally.
+
+```sh
+cd /home/mignon/projects/resmgrcheck
+git status --short                       # verify the reviewed checkout is clean
+rmc_revision=$(git rev-parse HEAD)         # full committed correction SHA
+python3 -B web/ops/production/recover_credentials.py --revision "$rmc_revision"
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service
+sudo /usr/bin/python3 -B web/ops/production/recover_credentials.py \
+  --revision "$rmc_revision" --apply
+sudo systemctl reset-failed resmgrcheck-web.service
+sudo systemctl start resmgrcheck-web.socket resmgrcheck-web.service
+```
+
+The helper verifies the original marker/clone receipt and clean source, root-owned
+source-key metadata without opening their contents, unchanged canonical web unit,
+removed diagnostics/overrides and inactive dedicated web/executor/AI/backup/status
+units/timers. It refuses unexpected activity instead of stopping other units. The
+dedicated database stays running. No daemon-reload is needed: no unit changes.
+
+It reserves an exact root-owned `CREDENTIAL_RELEASE.json` intent, stages an independent
+Git clone in a fresh `.credential-stage-SHA-random` directory, validates the exact
+commit/clean tree and a protected `.credential-release.json` completion manifest,
+then publishes `/opt/resmgrcheck/releases/SHA` and atomically switches `current`.
+Linux no-replace publication preserves even an empty destination created during
+publication; an occupied release directory is never replaced.
+The release reuses the unchanged original `.venv` through an exact root-owned
+symlink. Keep that original release: the correction depends on its pinned packages.
+Existing static-root configuration still selects the unchanged original static
+assets. No pip install, migration, key rotation, database/config/grant/unit write,
+service start/reload or QNX contact occurs in the Python helper.
+
+An exclusive release lock serializes operators. Retry the **same command/SHA** after
+an interruption. Completed releases are validated/reused; failed staging attempts
+are retained and a retry uses a fresh attempt. Unknown occupied destinations,
+modified tracked files, unexpected ignored/untracked content, mismatched manifests,
+pointer/marker changes or a different recorded release stop recovery. Nothing
+unknown is removed or permission-repaired. Repeated retained attempts can consume
+disk; staging requires1GiB spare and does not delete earlier evidence. This is a
+single-purpose initial-install correction, not a general cross-version updater or
+power-loss/disaster-recovery qualification.
+
+## Verify the actual corrected private runtime before advancing
+
+After a successful start, inspect only current-invocation metadata and readiness:
+
+```sh
+readlink -f /opt/resmgrcheck/current
+sudo systemctl show --property=ActiveState,SubState,Result,User,Group,ExecStartPre,MainPID \
+  resmgrcheck-web.service
+rmc_invocation=$(systemctl show --value --property=InvocationID resmgrcheck-web.service)
+sudo journalctl --no-pager -o cat "_SYSTEMD_INVOCATION_ID=$rmc_invocation" \
+  --grep='"nonroot_process"' -n 1
+sudo curl --fail --silent --show-error --max-time 10 \
+  --unix-socket /run/resmgrcheck-web/application.sock \
+  -H 'Host: qnx-resmgrcheck.gestionatech.de' -H 'X-Forwarded-Proto: https' \
+  --write-out '\nHTTP %{http_code}\n' http://localhost/readyz/
+```
+
+Require the exact new SHA pointer, active/running service with nonzero MainPID,
+User/Group=resmgr-web, successful ExecStartPre (exit0), a current-invocation
+runtime_check JSON that passes every original isolation/role condition, and
+`{"status":"ready"}` with HTTP200 from Gunicorn. Missing output or an old invocation
+does not pass. These observations confirm both consumers loaded the real credentials
+without printing them. Share only the unit properties, runtime_check JSON and
+readiness response; inspect any other failure locally without dumping keys/configs.
+Fresh-subprocess compatibility tests simulate UID982/ACLs and DB/sandbox facts;
+they do not establish actual OS isolation. No actual corrected service qualification
+has yet been performed by the agent or reported by the operator.
+
+If startup fails, keep the dedicated web socket/service stopped and preserve the
+new release and all data for diagnosis. A reviewed pointer-only rollback is:
+
+```sh
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service
+sudo /usr/bin/python3 -B web/ops/production/recover_credentials.py \
+  --revision "$rmc_revision" --rollback --apply
+```
+
+Rollback preserves both releases, keys, database/audit, configurations and units.
+It returns to the original **known-failing credential validator**; leave web stopped.
+It makes no healthy-runtime or database-restore claim. Keep the recorded intent;
+the same correction can be reapplied after review. A different release needs a
+separately reviewed procedure, not an edited/removed marker or receipt.
+
+P8 stays IN PROGRESS until independent private-runtime verification and its remaining
+HTTPS, backup/restore/off-host custody, quota/retention and rollback gates pass.
+Only then proceed to P9 independent acceptance and P10 public deployment. Nginx,
+other PostgreSQL instances, QNX guests, SSH material and original evidence are untouched.
+
+## Historical temporary diagnostic (W011, completed by operator)
+
+The instructions below record the earlier diagnostic stage. The operator has
+captured the metadata and removed it; do not reinstall it for normal recovery.
 
 The source keys must remain root:root `0600`. Do not change their permissions,
 values, ownership, LoadCredential directives or the service user. Inspection of

@@ -82,3 +82,42 @@ backup role/service execution and rollback are still unqualified. No proprietary
 QNX content or private runtime archive/key is in Git. An OSV query of all15 pinned
 runtime packages returned no listed vulnerabilities on2026-11-07; that is point-in-
 time database coverage, not proof of absence or an independent security audit.
+
+W012 records the operator-confirmed systemd LoadCredential compatibility correction.
+The original root:root0600 files are preserved. In the actual ExecStartPre context,
+systemd supplied root:root0440 regular files whose ACL grants only owner read and
+named UID982 read, with owning-group/other permissions zero. The group mode bits
+encode the ACL mask here; mode0440 alone is never accepted as evidence of safety.
+
+The shared credential reader opens every component with no-follow directory
+descriptors, requires a single regular inode with trusted ownership and at most
+4096 bytes, bounds the actual read again and rejects invalid UTF-8/NUL. Ordinary
+private files require0400/0600 without an access ACL. The delegated exception
+requires the fixed per-role `/run/credentials/resmgrcheck-*.service` path, matching
+CREDENTIALS_DIRECTORY and exact credential ID, current nonzero effective UID equal
+to the configured dedicated OS account, root:root0440 and the exact five ACL entries
+(owner read, named current UID read, owning group none, mask read, other none).
+The root-owned0550 parent must have the corresponding exact read/search ACL.
+Extra/duplicate/unrelated user/group/other grants, write/execute bits, malformed
+ACLs, missing ACL support, wrong owner/group/account/path/context and hardlinks
+fail closed. The exception cannot be enabled by an environment path or0440 mode
+alone. Production still requires credential files; environment-secret fallback,
+root web execution, source-key permission changes and runtime_check bypass are absent.
+
+The initial-install release correction checks the exact original marker/clone
+identity, unchanged canonical unit and inactive dedicated worker/timer contexts.
+It stages independent objects into new owned attempts, verifies a clean exact
+commit/manifest and publishes a new immutable directory before pointer activation.
+Atomic Linux no-replace publication also refuses an existing empty directory.
+Unknown resources are refused/preserved. No original release/index, dependencies,
+schema, data/audit, secrets, configs, grants, units or target state are overwritten;
+Git inspection uses no optional locks to avoid index refresh writes. An exclusive
+lock, exact immutable intent and idempotent validation support restart and pointer
+rollback. Failed attempts remain for inspection; no automatic cleanup or healthy
+rollback claim is made for the original credential-failing release.
+
+Seventy-one focused checks include positive/negative credential ACLs and actual Gunicorn
+application-loader/runtime_check paths in subprocesses with simulated UID982 and
+DB/sandbox facts. Real unit startup, peer-role/namespace containment and readiness
+remain operator qualification gates. No successful corrected production runtime or
+P8 pass is claimed from these tests; see PRIVATE_INSTALL and W012 for exact scope.

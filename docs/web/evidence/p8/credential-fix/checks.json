@@ -1,0 +1,39 @@
+{
+  "base_revision": "b278b30944e13307edc3edf27699ef1a86be1c88",
+  "python_sha256": {
+    "web/resmgr_web/settings.py": "d32774123b375a81f97f550b9acababc42be2c089c0a06962e1d0693aaf6bf3e",
+    "web/resmgr_web/credentials.py": "33b691162e6459c4ee8c6777b5a3d06c96184cdc6bd057f130345724c1478673",
+    "web/ops/production/recover_credentials.py": "eff768bf4d6638f2a488b70ff996f74269c4b6ff32d045f5db6e9e5a80aa6940",
+    "web/tests/test_credentials.py": "4b2347fd4766c48cb0e345803add05659a8810fd892ba2e23a4042b8bb4837e5",
+    "web/tests/credential_entrypoint_fixture.py": "1c42a0348e4f040011525d658a0386d98ce4746c2582ea0c58422d23ee9df535",
+    "web/tests/test_credential_release.py": "38b5c9eaceb4150daf72cb1e8e39aa0fa05db7062c093e331194af80a861ad92"
+  },
+  "syntax_compilation": "PASS",
+  "focused_tests": 71,
+  "host_test_result": "PASS",
+  "focused_duration_seconds": 5.474,
+  "unchanged_paths": [
+    "native",
+    "resmgrcheck",
+    "tests/host",
+    "docs/TEST_EVIDENCE.md",
+    "docs/evidence",
+    "web/control/management/commands/runtime_check.py",
+    "web/ops/production/resmgrcheck-web.service",
+    "web/requirements.lock",
+    "web/control/migrations",
+    "web/ops/gunicorn.conf.py",
+    "web/templates",
+    "web/static"
+  ],
+  "unchanged_git_diff_exit": 0,
+  "credential_entrypoint_compatibility": "PASS: fresh runtime_check and Gunicorn app-loader subprocesses; UID982/ACL/stat/DB/isolation modeled in fixtures; insecure group ACL rejected by both",
+  "immutable_release_recovery": "PASS: real disposable Git, new release, retries around cloning/switch, rollback, retained unknown resources; effective UID ownership mapped to unprivileged fixture user",
+  "privileged_commands_by_agent": false,
+  "production_deployment": "NOT_RUN",
+  "actual_resmgr_web_runtime_check": "PENDING",
+  "actual_gunicorn_readiness": "PENDING",
+  "P8": "IN_PROGRESS",
+  "P9_P10": "NOT_RUN",
+  "atomic_no_replace_publication": "PASS: real renameat2(RENAME_NOREPLACE), including existing empty directory refusal"
+}

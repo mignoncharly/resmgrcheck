@@ -1,0 +1,75 @@
+{
+  "provenance": "Operator-confirmed metadata from the actual systemd ExecStartPre context, supplied in the task; not collected by this agent turn.",
+  "source_credentials": {
+    "owner_uid": 0,
+    "owner_gid": 0,
+    "mode": "0600",
+    "values": "not read, printed, copied, hashed or changed by agent"
+  },
+  "runtime_context": "/run/credentials/resmgrcheck-web.service",
+  "dedicated_account": "resmgr-web",
+  "observed_service_uid": 982,
+  "runtime_credentials": {
+    "application-key": {
+      "uid": 0,
+      "gid": 0,
+      "mode": "0440",
+      "file_type": "regular",
+      "access_acl": [
+        {
+          "tag": "owner",
+          "permissions": 4
+        },
+        {
+          "tag": "user",
+          "uid": 982,
+          "permissions": 4
+        },
+        {
+          "tag": "owning_group",
+          "permissions": 0
+        },
+        {
+          "tag": "mask",
+          "permissions": 4
+        },
+        {
+          "tag": "other",
+          "permissions": 0
+        }
+      ]
+    },
+    "mfa-key": {
+      "uid": 0,
+      "gid": 0,
+      "mode": "0440",
+      "file_type": "regular",
+      "access_acl": [
+        {
+          "tag": "owner",
+          "permissions": 4
+        },
+        {
+          "tag": "user",
+          "uid": 982,
+          "permissions": 4
+        },
+        {
+          "tag": "owning_group",
+          "permissions": 0
+        },
+        {
+          "tag": "mask",
+          "permissions": 4
+        },
+        {
+          "tag": "other",
+          "permissions": 0
+        }
+      ]
+    }
+  },
+  "temporary_diagnostic_removed": true,
+  "canonical_unit_and_original_source_files": "operator confirms unchanged",
+  "corrected_runtime_qualification": "PENDING operator deployment/start/isolation/readiness"
+}

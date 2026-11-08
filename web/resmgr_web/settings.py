@@ -1,7 +1,8 @@
 """Separate web runtime; never imports authenticated QNX configuration into HTTP."""
-import os,stat
+import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
+from .credentials import CredentialError,read_credential
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = BASE_DIR.parent
@@ -15,12 +16,10 @@ def secret(name, required=True):
     filename = os.environ.get(name + '_FILE')
     if ENVIRONMENT=='production' and not filename:raise ImproperlyConfigured(name+' requires a protected credential file in production')
     if filename:
-        descriptor=os.open(filename,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
         try:
-            info=os.fstat(descriptor)
-            if not stat.S_ISREG(info.st_mode) or info.st_uid not in {0,os.getuid()} or info.st_mode&0o077 or info.st_size>4096:raise ImproperlyConfigured(name+' credential file permissions/type invalid')
-            value=os.read(descriptor,4097).decode().strip()
-        finally:os.close(descriptor)
+            value=read_credential(filename,name,SERVICE_ROLE)
+        except (CredentialError,OSError):
+            raise ImproperlyConfigured(name+' credential file permissions/type invalid') from None
     else:value=os.environ.get(name, '')
     if required and len(value) < 32:
         raise ImproperlyConfigured(name + ' must be configured privately (32+ characters)')
