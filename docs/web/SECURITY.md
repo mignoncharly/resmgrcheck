@@ -121,3 +121,36 @@ application-loader/runtime_check paths in subprocesses with simulated UID982 and
 DB/sandbox facts. Real unit startup, peer-role/namespace containment and readiness
 remain operator qualification gates. No successful corrected production runtime or
 P8 pass is claimed from these tests; see PRIVATE_INSTALL and W012 for exact scope.
+
+W013 confirms the credential correction's real runtime_check success through the
+operator's d6513ba observations. The subsequent Gunicorn failure was duplicate fd3
+consumption:26.2.0 concatenates explicit fd binds with systemd-discovered descriptors.
+The web unit removes only `--bind fd://3`. No launcher, root web execution, TCP
+listener, socket permission change, credential bypass or sandbox relaxation is added.
+
+Gunicorn defaults to no configured bind. In production its startup hook requires
+no explicit address, matching LISTEN_PID and exactly one LISTEN_FDS entry. It
+duplicates3 only for inspection, checks the native socket family/type/listening
+state and exact `/run/resmgrcheck-web/application.sock` name, then closes only the
+duplicate and leaves original3/LISTEN_* for Gunicorn discovery. Missing/invalid,
+foreign-path/non-socket descriptors or duplicate binds fail before listening.
+RestrictAddressFamilies=AF_UNIX, IPAddressDeny=any, LoadCredential, runtime_check,
+resmgr-web identity, DB-role restrictions and all remaining unit directives persist.
+
+The second immutable upgrade pins the verified credential release/manifests and
+unchanged shared virtualenv, refuses changes to credential/settings/dependency/
+DB/native code, and allows only the reviewed web ExecStart suffix deletion. It
+also verifies the unchanged canonical socket unit/overrides. An exact-target
+protected intent, existing release lock, verified new immutable directory and
+atomic web-unit/current replacements support resume and rollback while web is
+stopped. Neither original release/index, keys/config/database/audit nor other units
+are rewritten. Operator daemon-reload is explicit. Unknown resources are preserved;
+rollback returns to a known socket-failing release, not a qualified healthy service.
+
+Real inherited-descriptor/Gunicorn tests model LISTEN_*; four additional real user
+systemd cases cover both activation modes with a synthetic WSGI response and actual
+IP-socket denial. Their own units stop and sockets disappear after testing. These
+do not qualify production UID982, real DB/keys or full namespace/BPF containment.
+Actual corrected root-managed activation, runtime_check and private HTTP200 in both
+modes remain mandatory before advancing the current production gate. No public
+deployment or P8 pass follows from user-manager tests alone.

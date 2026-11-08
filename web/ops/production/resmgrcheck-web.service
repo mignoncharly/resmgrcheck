@@ -15,7 +15,7 @@ Environment=RMC_WEB_MFA_KEY_FILE=%d/mfa-key
 LoadCredential=application-key:/etc/resmgrcheck/keys/application-key
 LoadCredential=mfa-key:/etc/resmgrcheck/keys/mfa-key
 ExecStartPre=/opt/resmgrcheck/current/.venv/bin/python manage.py runtime_check
-ExecStart=/opt/resmgrcheck/current/.venv/bin/python -m gunicorn resmgr_web.wsgi:application --config /opt/resmgrcheck/current/web/ops/gunicorn.conf.py --bind fd://3
+ExecStart=/opt/resmgrcheck/current/.venv/bin/python -m gunicorn resmgr_web.wsgi:application --config /opt/resmgrcheck/current/web/ops/gunicorn.conf.py
 Restart=on-failure
 RestartSec=5
 TimeoutStopSec=40

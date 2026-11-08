@@ -1,0 +1,57 @@
+{
+  "base_revision": "d6513ba2ccaf13fa4c7491b5cac095d5ab572a16",
+  "source_sha256": {
+    "web/ops/gunicorn.conf.py": "4dc4de10e05f188acf8c1f7dcddee48ae869c5244b0b4ea34da714ee6dbb82c9",
+    "web/ops/production/resmgrcheck-web.service": "6c6262276bbd8cf67e06c13f1b0a05e6d7f4b1001923336e7d53a37451a05d65",
+    "web/ops/production/recover_socket_activation.py": "11fb0836c8349bc825ca813e480c9ab031e046f32810da659e24bbd251ccfd3b",
+    "web/tests/socket_activation_fixture.py": "8e30283a485124a50881af5b51eb0f3ad771c6755846d43debaf4f6689c6183d",
+    "web/tests/socket_activation_exec.py": "ff15537892817dfee14563aa35a36726d92d524c047ff46f3b24aab409b7bf30",
+    "web/tests/test_socket_activation.py": "47f9d13932810e889521baedbf0f05731346c2770dd0ac29b1e57cce37e10c26",
+    "web/tests/qualify_socket_systemd.py": "6f2fe226b9f045893cb6afc5df262985dd43ec76a2a594b078704eab750b048c",
+    "web/tests/test_socket_release.py": "8f59a563e2225fd3b39dac737ad4dc39ee2e1e3415699fe92e8949433f147e93"
+  },
+  "syntax_compilation": "PASS",
+  "unchanged_paths": [
+    "native",
+    "resmgrcheck",
+    "tests/host",
+    "docs/evidence",
+    "docs/TEST_EVIDENCE.md",
+    "web/resmgr_web/settings.py",
+    "web/resmgr_web/credentials.py",
+    "web/control/management/commands/runtime_check.py",
+    "web/requirements.lock",
+    "web/ops/production/resmgrcheck-web.socket",
+    "web/ops/production/recover_credentials.py",
+    "web/control/migrations",
+    "web/templates",
+    "web/static"
+  ],
+  "unchanged_diff_exit": 0,
+  "gunicorn_source_hashes": {
+    "arbiter.py": {
+      "installed": "90b1c2f27ab25dc8e28d24216ced7d527bbd2ac12572ba51d9cf663e43781dab",
+      "test": "90b1c2f27ab25dc8e28d24216ced7d527bbd2ac12572ba51d9cf663e43781dab"
+    },
+    "sock.py": {
+      "installed": "41550ce9d07cd58c75006bf5e939f50c1c46d8ad651bd1d76e2f02c5916f63ac",
+      "test": "41550ce9d07cd58c75006bf5e939f50c1c46d8ad651bd1d76e2f02c5916f63ac"
+    },
+    "systemd.py": {
+      "installed": "4bb8b9b6c65bcaae0d8e5a5a543f9a127c65ea5264ee52bec16437e3c2631b8e",
+      "test": "4bb8b9b6c65bcaae0d8e5a5a543f9a127c65ea5264ee52bec16437e3c2631b8e"
+    }
+  },
+  "upstream_source": "https://github.com/benoitc/gunicorn/blob/26.2.0/gunicorn/sock.py",
+  "focused_tests": 90,
+  "focused_duration_seconds": 10.591,
+  "host_regressions": "PASS; 6 modeled-activation real FD/HTTP tests, 13 disposable upgrade tests, 71 preserved checks",
+  "actual_user_systemd_cases": 4,
+  "user_systemd_result": "PASS; original fails EBADF both modes, corrected HTTP200 both modes; AF_INET creation denied, own units stopped/socket removed",
+  "actual_production_socket_qualification": "PENDING operator upgrade/daemon-reload/start/current-invocation isolation and HTTP200",
+  "privileged_installation_by_agent": false,
+  "production_services_restarted_by_agent": false,
+  "production_keys_or_database_modified": false,
+  "P8": "IN_PROGRESS",
+  "P9_P10": "NOT_RUN"
+}

@@ -701,3 +701,91 @@ actual corrected-production observations remain **PENDING**, along with remainin
 P8 HTTPS/backup/restore/off-host/operational gates and independent P9/P10 acceptance.
 Do not advance P8–P10 from these host/compatibility tests or edit the original
 preparation marker to force an upgrade. Source secret values and protection remain.
+
+## W013 — Gunicorn/systemd duplicate FD consumption and immutable socket correction
+
+2026-11-08, `feature/production-web-ai`, base `d6513ba` plus this correction. The
+[operator report](evidence/p8/socket-activation/operator-observation.json) confirms
+the actual d6513ba credential correction/runtime_check succeeds under the dedicated
+nonroot identity, nonprivileged DB role, unrelated-credential/IP-socket denials and
+evidence-write boundary. Gunicorn then exits EBADF in explicit and triggered modes;
+the latest private readiness request timed out10s with HTTP000. These are operator
+observations, not a production service execution by the agent. [Read-only live unit
+metadata](evidence/p8/socket-activation/production-units.txt) independently confirms
+direct Python `-m gunicorn ... --bind fd://3`, matching socket/service association,
+AF_UNIX stream path, Accept=no,0660/resmgr-web:www-data and no drop-ins. Both units
+were inactive after operator cleanup and current points at d6513ba.
+
+The actual installed and test Gunicorn versions are26.2.0. Source hashes for
+arbiter.py/sock.py/systemd.py match byte-for-byte in the two virtualenv paths (the
+installed release shares the original virtualenv). The arbiter calls listen_fds()
+to discover descriptors3..N when LISTEN_PID matches. In the [pinned26.2.0 socket
+implementation](https://github.com/benoitc/gunicorn/blob/26.2.0/gunicorn/sock.py),
+create_sockets concatenates configured integer binds and discovered descriptors;
+here that is[3,3]. The first BaseSocket wrapper duplicates then closes original3;
+the second socket.fromfd(3) raises EBADF. [Official deployment guidance](https://gunicorn.org/deploy/#systemd)
+uses automatic systemd discovery without an explicit fd bind. No systemd/launcher/
+Python workaround or third-party package patch is needed.
+
+An isolated real Unix listener, inheritable fd3 and matching modeled LISTEN_PID/FDS
+reproduced the exact exception after direct exec into Python/Gunicorn. Thus a valid
+FD existed before Python startup; the failing path consumes it twice. This is not
+a claim that the stopped production process's live descriptors were inspected.
+The root service's live LISTEN_* environment was not captured by the agent.
+
+The production web unit removes only `--bind fd://3`. The original User/Group,
+LoadCredential, runtime_check, RestrictAddressFamilies, IPAddressDeny, resource
+limits and every other directive remain byte-identical. Socket configuration is
+unchanged. Gunicorn's config sets an empty bind default (no implicit TCP) and a
+production on_starting guard rejects explicit binds, missing/wrong PID/count,
+non-socket/non-stream/non-listening/foreign-path descriptors. It inspects only a
+duplicate of3, preserving original3 and LISTEN_* for the real automatic path.
+The guard emits only a safe validated-listener marker, not credential data.
+
+[Ninety focused regressions](evidence/p8/socket-activation/focused-tests.txt) passed
+in10.591s:6 real FD/HTTP tests with modeled activation,13 real disposable Git/UID
+upgrade tests and all71 earlier credential/release/config/diagnostic/installer
+checks. Django skipped database setup. FD cases reproduce old EBADF with a proven
+live descriptor, verify corrected Unix HTTP200 without rebinding the socket inode,
+reject wrong/missing PID/count/closed/non-socket/foreign path and explicit duplicate
+binds, and ensure HTTP503 or timeout cannot pass readiness. Compatibility fixtures
+from W012 still model root ACL/UID982/DB/sandbox facts; they remain distinct from
+real service qualification. No unchanged native matrix was repeated.
+
+Four [actual unprivileged user-manager systemd cases](evidence/p8/socket-activation/user-systemd.json)
+also passed. Both old modes supplied a live socket3 with LISTEN_PID matching and
+LISTEN_FDS=1, then produced EBADF/readiness timeout. Both corrected modes supplied
+the same valid handoff and returned AF_UNIX HTTP200. Actual IP-socket creation was
+denied with NoNewPrivileges/RestrictAddressFamilies=AF_UNIX. Each randomly named
+fixture unit was stopped and its socket removed. These tests use UID1000, synthetic
+WSGI readiness and no secrets/DB/runtime_check, not the root-managed production unit
+or full production namespace/BPF containment. Explicit-start user tests keep the
+transient socket active; a discarded fixture variant stopped it and allowed its
+never-started transient service definition to GC, causing a test setup error. That
+variant was corrected without changing production configuration. Transient tests
+made no Nginx/database/QNX/root service changes and did not bind a TCP listener.
+
+`recover_socket_activation.py` performs the specific second immutable upgrade from
+d6513ba. It verifies the original preparation/credential deployment records,
+unchanged clean credential release/index/shared virtualenv, canonical web/socket
+units and no filesystem/loaded overrides, source-key metadata without opening
+contents, and inactive dedicated web/worker/timer contexts. Changes to credential
+code, settings, dependencies, DB/grants/migrations, assets, engine or unrelated units
+are outside its scope. It stages/publishes a new manifest-verified independent Git
+release with atomic no-replace semantics, then atomically replaces only the known
+web ExecStart suffix and current pointer. A separate exact-target SOCKET_RELEASE
+intent and existing release lock support retries across cloning, unit replacement
+and pointer replacement; unknown/modified resources are preserved/refused. Earlier
+releases/manifests/configs/keys/database/audit remain untouched. Rollback restores
+the known socket-failing d6513ba unit/pointer, not a healthy service claim.
+The helper starts/reloads no service and requires explicit operator daemon-reload.
+
+The [source/check boundaries](evidence/p8/socket-activation/checks.json) record exact
+code/library hashes, syntax and unchanged credentials/settings/runtime_check/socket
+unit/dependencies/migrations/assets/native/evidence paths. Production values were
+never printed, copied or modified; no privileged installation command ran. The
+PRIVATE_INSTALL procedure must now qualify the actual corrected root-managed unit
+in both activation modes, current-invocation runtime_check/identity/role/credential/
+network boundaries, validated listener and private readyz HTTP200. All those new
+production observations remain **PENDING**. P8 stays IN PROGRESS; P9/P10/public
+deployment do not advance from host or user-manager results.

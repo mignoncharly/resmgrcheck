@@ -1,6 +1,132 @@
 # Private production qualification handoff
 
-Status (2026-11-08, W012): the operator confirmed the credential incompatibility
+Status (2026-11-08, W013): the credential correction works on immutable release
+`d6513ba2ccaf13fa4c7491b5cac095d5ab572a16`; the operator reports actual runtime_check
+success under resmgr-web and the expected role/credential/network denials. Gunicorn
+then fails with EBADF and readiness times out (HTTP000). The duplicate FD consumption
+is now reproduced/confirmed and corrected. Production activation/readiness of the
+new release remain pending; P8 is IN PROGRESS and public deployment is withheld.
+
+## Next external action: immutable socket-activation correction
+
+Gunicorn26.2.0 combines integer `--bind fd://3` entries with the descriptors found
+through systemd LISTEN_PID/LISTEN_FDS. With both paths identifying3, the list is
+`[3,3]`: the first wrapper closes the original descriptor and the second raises
+EBADF. A valid descriptor exists before Gunicorn executes; this is duplicate
+consumption, not loss at Python startup. The correction removes only the explicit
+bind argument from the web unit. Gunicorn's configuration disables its default
+TCP bind and validates one live AF_UNIX listening stream at the exact private
+socket path for this PID, preserving fd3 and LISTEN_* for automatic discovery.
+
+Review the clean committed correction checkout and its read-only plan. Run the
+root commands locally only; the agent has not deployed or restarted production:
+
+```sh
+cd /home/mignon/projects/resmgrcheck
+git status --short
+rmc_revision=$(git rev-parse HEAD)
+python3 -B web/ops/production/recover_socket_activation.py --revision "$rmc_revision"
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo /usr/bin/python3 -B web/ops/production/recover_socket_activation.py \
+  --revision "$rmc_revision" --apply &&
+sudo systemctl daemon-reload &&
+sudo systemctl reset-failed resmgrcheck-web.socket resmgrcheck-web.service
+```
+
+Stop on any nonzero result; keep web stopped on an incomplete apply. This procedure
+accepts only the verified d6513ba credential release and its unchanged preparation/
+credential records and shared original virtualenv. It verifies the clean original
+release/manifests, source-key metadata without opening contents, known canonical
+web/socket unit contents, no overrides and inactive dedicated web/worker/timer units.
+Unexpected activity or changes cause refusal, never automatic cleanup or repair.
+
+The new commit is staged in an independent `.socket-stage-SHA-random` clone, sealed
+with a protected `.socket-release.json`, and published at a fresh release directory
+with atomic no-replace semantics. The original releases and virtualenv remain.
+It records a root-owned exact-target SOCKET_RELEASE.json intent, atomically updates
+only the known web unit's ExecStart suffix, and switches current. The socket unit,
+all other web unit directives, LoadCredential, user/group, sandbox/network policy,
+settings/credential validator, configs/static path, dependencies, DB/schema/audit,
+keys, QNX and SSH material are preserved. No service starts/reloads in the helper;
+the explicit daemon-reload above is necessary for the changed web ExecStart.
+
+Unit replacement and pointer replacement are individually atomic while web is
+stopped. Repeating the same SHA/apply validates and completes either known partial
+combination. Failed clone attempts are retained and retried in fresh directories;
+unknown/modified releases, unit contents, overrides, intents or pointers are refused.
+The original preparation marker and CREDENTIAL_RELEASE record are never edited.
+An exclusive shared release lock prevents competing recovery commands. This is a
+specific second private-install correction, not a general updater or power-loss
+qualification. Do not invoke the earlier credential recovery helper against a
+socket-corrected current pointer.
+
+## Qualify both production activation paths
+
+First explicitly start both dedicated units, then require private readiness:
+
+```sh
+sudo systemctl start resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo curl --fail --silent --show-error --max-time 10 \
+  --unix-socket /run/resmgrcheck-web/application.sock \
+  -H 'Host: qnx-resmgrcheck.gestionatech.de' -H 'X-Forwarded-Proto: https' \
+  --write-out '\nHTTP %{http_code}\n' http://localhost/readyz/
+```
+
+Capture the exact current invocation's properties and safe startup facts:
+
+```sh
+readlink -f /opt/resmgrcheck/current
+sudo systemctl show --property=ActiveState,SubState,Result,User,Group,MainPID,ExecStartPre,ExecStart \
+  resmgrcheck-web.service
+rmc_explicit_invocation=$(systemctl show --value --property=InvocationID resmgrcheck-web.service)
+sudo journalctl --no-pager -o cat "_SYSTEMD_INVOCATION_ID=$rmc_explicit_invocation" \
+  --grep='Validated systemd Unix listener|nonroot_process' -n 10
+```
+
+Require the new SHA, active/running resmgr-web service, successful runtime_check,
+the validated fd3/count1 discovery marker, and readyz `{"status":"ready"}` HTTP200.
+The identity, DB-role, private-credential, home/evidence and IP-socket denial checks
+must all retain their expected values. Unit activity or a listener alone is not
+readiness. A timeout, HTTP000/503, stale/missing invocation or process failure does
+not pass. Keep unrelated logs/configs local; share only these metadata/results.
+
+Then stop only web, start **only its socket**, and issue the same private request
+to trigger service startup:
+
+```sh
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo systemctl reset-failed resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo systemctl start resmgrcheck-web.socket &&
+sudo curl --fail --silent --show-error --max-time 10 \
+  --unix-socket /run/resmgrcheck-web/application.sock \
+  -H 'Host: qnx-resmgrcheck.gestionatech.de' -H 'X-Forwarded-Proto: https' \
+  --write-out '\nHTTP %{http_code}\n' http://localhost/readyz/
+```
+
+Repeat the property/journal capture for the new InvocationID (different from the
+explicit-start attempt). Both modes must pass. The four unprivileged user-manager
+tests used real Gunicorn/systemd/AF_UNIX and confirmed fd3 handoff and IP-socket
+denial, but used a synthetic WSGI app and UID1000. They do not qualify production
+UID982, real keys/DB, namespace/BPF containment or production readiness.
+
+If diagnosis requires rollback, keep web stopped and use the same correction SHA:
+
+```sh
+sudo systemctl stop resmgrcheck-web.socket resmgrcheck-web.service &&
+sudo /usr/bin/python3 -B web/ops/production/recover_socket_activation.py \
+  --revision "$rmc_revision" --rollback --apply &&
+sudo systemctl daemon-reload
+```
+
+Rollback restores the exact d6513ba pointer and old web unit, preserving all data
+and both releases. That release has the **known socket integration failure**;
+leave web stopped. No healthy rollback or production P8 pass is claimed. Resume
+remaining P8/P9/P10 work only after independent corrected runtime/activation/HTTP200
+and relevant isolation verification; later HTTPS/backup/restore/UAT gates still apply.
+
+## Historical credential correction (W012)
+
+Status at W012: the operator confirmed the credential incompatibility
 inside the real ExecStartPre context. Both runtime files are root:root0440 regular
 files with owner read, named UID982 read, owning group none, mask read, other none.
 The old validator mistakes the ACL mask for an insecure group permission grant.

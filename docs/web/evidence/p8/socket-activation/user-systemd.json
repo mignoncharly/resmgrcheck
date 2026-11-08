@@ -1,0 +1,142 @@
+{
+  "scope": "actual user systemd; synthetic WSGI, no production DB/keys/runtime_check",
+  "uid": 1000,
+  "cases": [
+    {
+      "case": "old-explicit",
+      "actual_user_systemd": true,
+      "triggered_by_request": false,
+      "production_qualification": false,
+      "synthetic_wsgi_without_db_or_secrets": true,
+      "http_status": null,
+      "body": "",
+      "request_failure": "TimeoutError",
+      "activation_metadata": [
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        }
+      ],
+      "bad_fd_observed": true,
+      "validated_listener": false,
+      "own_units_stopped": true,
+      "fixture_socket_removed": true
+    },
+    {
+      "case": "old-triggered",
+      "actual_user_systemd": true,
+      "triggered_by_request": true,
+      "production_qualification": false,
+      "synthetic_wsgi_without_db_or_secrets": true,
+      "http_status": null,
+      "body": "",
+      "request_failure": "TimeoutError",
+      "activation_metadata": [
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        },
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        }
+      ],
+      "bad_fd_observed": true,
+      "validated_listener": false,
+      "own_units_stopped": true,
+      "fixture_socket_removed": true
+    },
+    {
+      "case": "fixed-explicit",
+      "actual_user_systemd": true,
+      "triggered_by_request": false,
+      "production_qualification": false,
+      "synthetic_wsgi_without_db_or_secrets": true,
+      "http_status": 200,
+      "body": "{\"status\": \"ready\"}",
+      "request_failure": null,
+      "activation_metadata": [
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        }
+      ],
+      "bad_fd_observed": false,
+      "validated_listener": true,
+      "own_units_stopped": true,
+      "fixture_socket_removed": true
+    },
+    {
+      "case": "fixed-triggered",
+      "actual_user_systemd": true,
+      "triggered_by_request": true,
+      "production_qualification": false,
+      "synthetic_wsgi_without_db_or_secrets": true,
+      "http_status": 200,
+      "body": "{\"status\": \"ready\"}",
+      "request_failure": null,
+      "activation_metadata": [
+        {
+          "uid": 1000,
+          "fd3_socket": true,
+          "pid_matches": true,
+          "listen_fds": "1",
+          "ip_socket_creation_denied": true
+        }
+      ],
+      "bad_fd_observed": false,
+      "validated_listener": true,
+      "own_units_stopped": true,
+      "fixture_socket_removed": true
+    }
+  ],
+  "unrelated_units_changed": false,
+  "production_gate": "PENDING"
+}

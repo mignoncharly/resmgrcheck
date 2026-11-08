@@ -1,0 +1,24 @@
+{
+  "provenance": "Operator-provided actual production results on d6513ba; not a root service execution by this agent.",
+  "active_revision": "d6513ba2ccaf13fa4c7491b5cac095d5ab572a16",
+  "credential_correction_working": true,
+  "runtime_check_reported_success": true,
+  "runtime_check_fields_provided": {
+    "nonroot_process": true,
+    "dedicated_os_identity": true,
+    "nonprivileged_database_role": true,
+    "forbidden_credentials_readable": false,
+    "web_ip_socket_creation_denied": true,
+    "evidence_write_matches_role": true
+  },
+  "gunicorn_version": "26.2.0",
+  "production_gunicorn_failure": "OSError: [Errno 9] Bad file descriptor",
+  "explicit_and_socket_triggered_start": "both failed",
+  "production_readiness": {
+    "timeout_seconds": 10,
+    "http_status": "000",
+    "qualified": false
+  },
+  "root_live_LISTEN_environment_captured_by_agent": false,
+  "source_live_fd_reproduction": "real inherited FD and actual user-manager tests; see user-systemd.json"
+}

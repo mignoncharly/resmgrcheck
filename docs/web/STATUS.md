@@ -13,7 +13,7 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
 | P7 customer target story | PASS for documented limited scope | W008:48 PG negative checks; managed fixtures/operator approval only, arbitrary external lifecycle UNSUPPORTED |
-| P8 hardening | IN PROGRESS; corrected private runtime awaiting operator verification | W012: operator-confirmed systemd ACL-mask cause, narrow validator correction and immutable resumable activation/rollback;71 focused checks pass; actual new service/runtime_check/readiness and remaining P8 gates pending |
+| P8 hardening | IN PROGRESS; production socket startup qualification pending | W013: credential/runtime_check pass on d6513ba (operator); duplicate fd3 consumption reproduced/fixed;90 focused tests and four real unprivileged systemd cases pass; new root-managed activation/HTTP200/isolation and remaining P8 gates pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
 Actually running production web features: none. A later read-only check found DNS
@@ -23,10 +23,10 @@ response. This task made no DNS/Nginx change. Original engine runtime digest rem
 Existing QNX features/evidence remain qualified; this is separate from web execution.
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
-External actions observed necessary: root-owned service/account/Nginx provisioning
-(noninteractive sudo is unavailable), public vhost/TLS verification, optional project-consented AI provider setup,
-and independent operator UAT. No secrets should be sent in chat. Concrete private preparation commands are now in PRIVATE_INSTALL.md; their actual
-successful root execution and the later security/release gates remain pending.
+Remaining operator actions: immutable socket correction, explicit/triggered private
+HTTP200/isolation qualification, later public vhost/TLS and operational verification,
+optional project-consented AI provider setup and independent UAT. No secrets should
+be sent in chat. PRIVATE_INSTALL.md gives the concrete operator-only procedure.
 Continue implementation/staging without changing unrelated VPS services.
 
 2026-11-08 earlier recovery update (W010, historical): the operator ran preparation for exact application
@@ -68,5 +68,22 @@ the agent. Seventy-one focused checks pass, including UID982 entrypoint compatib
 fixtures and real disposable Git recovery. Those fixtures simulate OS/DB/sandbox
 facts; real runtime_check and Gunicorn readiness under resmgr-web remain pending.
 Use PRIVATE_INSTALL.md's operator command; no P8/P9/P10 advancement yet.
+
+W013 updates W012's runtime boundary: the operator activated d6513ba and confirms
+real runtime_check success (nonroot/dedicated identity, nonprivileged DB role,
+unrelated-credential denial, IP-socket denial and evidence-write boundary). Gunicorn
+then failed with EBADF in both activation modes; readiness timed out with HTTP000.
+Gunicorn26.2.0 merges explicit fd://3 with systemd's discovered3, consumes/closes3
+once and fails on the duplicate. Actual unprivileged systemd tests reproduced both
+old failures with live fd3 and correct LISTEN_PID/FDS; both corrected modes return
+Unix HTTP200 with actual IP-socket creation denied. Synthetic WSGI/UID1000 test
+scope is distinct from production keys/DB/UID982/full isolation.
+The unit now omits the explicit bind; a no-TCP-default config validates one exact
+inherited Unix listener without consuming it. The second immutable recovery
+procedure preserves credential code/data/records and all other isolation directives,
+publishes a new release and updates only the known web ExecStart and current pointer.
+No privileged production deployment ran by the agent. Real root-managed corrected
+activation, current-invocation runtime_check and readiness remain pending; P8 is
+IN PROGRESS, with P9/P10/public deployment withheld.
 
 SMTP is no longer a product dependency or release blocker. Public signup, verification, email reset and invitations are removed. Administrators are locally provisioned; regular developers/testers use scoped access-code sessions. Earlier W002/W006 email requirements are historical and superseded. Original native/CLI identities and sealed bundles remain unchanged.
