@@ -353,3 +353,7 @@ The reviewed recovery adopts only the known unstarted prepared attempt with reta
 history, creates a new immutable release, preserves old data/keys/receipts and
 checks backup/restore/private readiness/isolation before HTTPS. P8 IN_PROGRESS;
 no new QNX execution or production-native/customer-host qualification is claimed.
+
+The committed password-only application is3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
+Its unprivileged immutable recovery plan passed. Actual production is still544f22c;
+use the reviewed driver SHA from the handoff. No privileged deployment ran by the agent.

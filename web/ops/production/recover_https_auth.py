@@ -193,6 +193,7 @@ if __name__=='__main__':
         else:
             scope(args.release,args.driver_revision)
             print(json.dumps({'mode':'read-only immutable authentication recovery plan','from_revision':ACTIVE,'release':args.release,'driver_revision':args.driver_revision,
+                'authentication_policy':'administrator-password-only-v1','administrator_MFA':'deferred','strict_retained_bytecode_validation':True,
                 'new_release_directory':str(p.OPT/'releases'/args.release),'original_release_preserved':True,'fresh_backup_and_isolated_restore':True,
                 'migrations_keys_units_native_grants_changed':False,'dedicated_web_restart_required':True,'HTTPS_acceptance_after_private_runtime':True,'root_required':True}))
     except BaseException as error:

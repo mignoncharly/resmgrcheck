@@ -813,3 +813,7 @@ create QNX routes, enable customer endpoints/AI, patch current in place or reset
 protected state. Same-command retry and --rollback retain all records/releases.
 Exact protected caches and actual new service/public acceptance remain operator
 gates; unprivileged test success does not complete P8.
+
+The committed password-only application is3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
+Its unprivileged immutable recovery plan passed. Actual production is still544f22c;
+use the reviewed driver SHA from the handoff. No privileged deployment ran by the agent.

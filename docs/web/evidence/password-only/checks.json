@@ -32,5 +32,7 @@
   "customer_runner": "disabled; separate-host qualification pending",
   "AI": "disabled",
   "off_server_DR": "deferred",
-  "original_secrets_database_evidence_units": "preserved"
+  "original_secrets_database_evidence_units": "preserved",
+  "application_revision": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "immutable_recovery_plan": "PASS; unprivileged; no deployment"
 }
