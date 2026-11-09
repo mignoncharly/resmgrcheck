@@ -964,3 +964,33 @@ selection, production DB/keys/snapshot/units and other VPS applications are pres
 
 W018 closing regression:120 focused PostgreSQL/TLS/runner/work/dashboard/restore/
 credential/config tests passed in34.947s; see evidence/runner-native/regression-tests.txt.
+
+## W019 initial immutable private upgrade gate (2026-11-09)
+
+upgrade_private.py stages a new no-replace release, binds a fresh encrypted snapshot
+and actual isolated audit-proven restore before additive migrations0018–0020, applies
+only new least-privilege grants, and publishes separately inventoried static files.
+Activation checks live schema/role/static gates before switching current; canonical
+units/configs, original source keys, preserved engine and old releases stay unchanged.
+Customer endpoints/AI remain disabled. Rollback never reverses schema or deletes data
+and refuses incompatible retained customer/mailbox records. PRIVATE_UPGRADE.md gives
+reviewed exact operator commands; no privileged apply was run by the agent.
+
+Fifteen focused tests passed in7.836s. Git/filesystem recovery uses real disposable
+clones with modeled root/unit contexts; PostgreSQL schema/grants/static publication
+checks are actual unprivileged execution. These are not root production deployment
+or rollback qualifications. Early fixture field/mode errors were corrected; static
+attempt creation now accounts for restrictive operator umask, without touching old
+trees. A full-module regression follows.
+
+The latest ordinary verified curl HEAD to the intended public HTTPS origin fails
+with exit60: certificate hostname mismatch. Verification was not bypassed, no HTTP
+status was obtained and no Nginx/certificate was modified. This observation is from
+the Ubuntu shell, not independent off-server verification. See
+evidence/private-upgrade/public-tls.json. Public TLS/HTTPS is a confirmed remaining
+blocker; P8/P9/P10 and independent/separate-host acceptance are not complete.
+
+W019 closing regression: all315 explicitly selected web tests passed in83.703s.
+The disposable test/restore DBs and generated rmctest roles were absent afterward.
+The initial ambiguous `test tests` selection ran zero tests and is not counted.
+See evidence/private-upgrade/web-tests.txt. No production deployment is claimed.

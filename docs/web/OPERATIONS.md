@@ -177,3 +177,10 @@ No target history is deleted to recover disk space. Keep the runner's device key
 binding, launch/upload journals and archives across connection loss. Reconcile the
 same run ID; an uncertain launch never authorizes a second launch or implies cleanup.
 Separate customer-host and private/public production acceptance are still required.
+
+## W019 operator-only expanded private upgrade
+
+[PRIVATE_UPGRADE.md](PRIVATE_UPGRADE.md) provides exact stage, fresh encrypted backup,
+isolated restore proof, atomic additive preparation, private activation and guarded
+rollback commands from3821952. It preserves keys/units/configs/engine and keeps runner
+endpoints/AI disabled. No privileged deployment was performed by the agent.

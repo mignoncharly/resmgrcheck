@@ -678,3 +678,10 @@ production restore or native runs merely to repair unrelated test presentation.
 The expanded release still needs a reviewed additive immutable upgrade and actual
 private runtime acceptance before any public deployment. No privileged command has
 been run automatically and the original keys/database/snapshot are unchanged.
+
+## W019 operator-only expanded private upgrade
+
+[PRIVATE_UPGRADE.md](PRIVATE_UPGRADE.md) provides exact stage, fresh encrypted backup,
+isolated restore proof, atomic additive preparation, private activation and guarded
+rollback commands from3821952. It preserves keys/units/configs/engine and keeps runner
+endpoints/AI disabled. No privileged deployment was performed by the agent.

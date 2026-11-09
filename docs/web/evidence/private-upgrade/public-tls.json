@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-09",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de",
+  "vantage": "Ubuntu development/VPS shell; not independent off-server qualification",
+  "command": "curl --head --silent --show-error --max-time 15 https://qnx-resmgrcheck.gestionatech.de",
+  "exit_code": 60,
+  "result": "SSL: no alternative certificate subject name matches target host name",
+  "tls_verification_disabled": false,
+  "http_status_obtained": false,
+  "nginx_or_certificate_changed": false
+}

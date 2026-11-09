@@ -1,0 +1,17 @@
+{
+  "source_parent": "1cdc6b3",
+  "actual_unprivileged_database_tests": true,
+  "modeled_root_unit_deployment": true,
+  "production_applied": false,
+  "tests": 315,
+  "seconds": 83.703,
+  "public_tls_passed": false,
+  "separate_customer_host": false,
+  "AI": "disabled",
+  "sha256": {
+    "web/ops/production/upgrade_private.py": "bb1fbfc1cbd43d1de74d10994d573e51617debee578a87fe1c1c926f45c96c5d",
+    "web/control/management/commands/private_release.py": "b9bc3066f8c1869e2324843339270c83a1048994509b8139d6200075c53327d7",
+    "web/ops/production/runner-grants.sql": "749f3d605bcdcc0054f54ca870803d98343cca64d5723cb07f2a4107f47766ff",
+    "web/ops/production/database-grants.sql": "c6446457a58664fe31bf181eeb29f23c2e61b2eafcd10bdb5580bda2c76f9033"
+  }
+}

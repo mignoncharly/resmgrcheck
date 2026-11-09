@@ -8,6 +8,7 @@ GRANT USAGE ON SCHEMA public TO resmgr_web,resmgr_exec,resmgr_ai,resmgr_backup;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO resmgr_web,resmgr_exec,resmgr_ai,resmgr_backup;
 GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA public TO resmgr_web,resmgr_exec,resmgr_ai;
 GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO resmgr_backup;
+REVOKE ALL ON SEQUENCE control_runnernonce_id_seq,control_runnerchunk_id_seq FROM resmgr_exec,resmgr_ai;
 GRANT INSERT ON control_auditevent TO resmgr_web,resmgr_exec,resmgr_ai;
 GRANT INSERT,UPDATE,DELETE ON
  control_user,control_organization,control_membership,control_project,control_projectmembership,

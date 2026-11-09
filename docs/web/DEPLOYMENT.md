@@ -63,3 +63,10 @@ pre-upgrade snapshot and explicit compatible rollback qualification. Preserve al
 existing keys and releases; never patch current or reverse migrations containing
 customer data. No public vhost or TLS change is justified until separate-host,
 intended-origin authentication/native/isolation and independent gates pass.
+
+## W019 operator-only expanded private upgrade
+
+[PRIVATE_UPGRADE.md](PRIVATE_UPGRADE.md) provides exact stage, fresh encrypted backup,
+isolated restore proof, atomic additive preparation, private activation and guarded
+rollback commands from3821952. It preserves keys/units/configs/engine and keeps runner
+endpoints/AI disabled. No privileged deployment was performed by the agent.
