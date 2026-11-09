@@ -817,3 +817,19 @@ gates; unprivileged test success does not complete P8.
 The committed password-only application is3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
 Its unprivileged immutable recovery plan passed. Actual production is still544f22c;
 use the reviewed driver SHA from the handoff. No privileged deployment ran by the agent.
+
+## W027 exact derived-cache proof and recovery correction
+
+Do not repeat55daf08. Its cache payload false positive is understood and reproduced
+against the exact protected SHA. W027 accepts only the two observed optimize=0
+trusted compilation representations, preserves every old cache/source file and
+requires all original metadata/source checks. The password-only application remains
+3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58; no new application build is needed.
+
+Use the same single recover_https_auth.py command in HTTPS_DEPLOYMENT.md with the
+new reviewed driver SHA from the handoff. It safely retains/adopts only the known
+55daf08 unstarted/no-backup journal, revalidates all caches before any staging or
+service action, then continues the existing immutable deployment/backup/private/
+HTTPS workflow. Unknown data still refuses automatic recovery. No cache deletion,
+release overwrite, secret change or marker reset is required. Original544 remains
+healthy and restored; actual corrected activation and P8 acceptance are pending.

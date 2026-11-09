@@ -1,0 +1,133 @@
+{
+  "scope": "unprivileged Git/source/header/full-cache-hash reproduction; no protected cache reads or modifications",
+  "interpreter": "3.12.3",
+  "compared": 14,
+  "passed": true,
+  "files": [
+    {
+      "source": "resmgrcheck/__init__.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "resmgrcheck/contracts.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        2
+      ]
+    },
+    {
+      "source": "resmgrcheck/registrations.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/__init__.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/apps.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/auth.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/jobs.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/logging.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/models.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/security.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/control/signals.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/resmgr_web/__init__.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/resmgr_web/credentials.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    },
+    {
+      "source": "web/resmgr_web/settings.py",
+      "source_matches_Git": true,
+      "full_cache_hash_reproduced": true,
+      "trusted_compile_passes": [
+        1,
+        2
+      ]
+    }
+  ]
+}

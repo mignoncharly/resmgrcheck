@@ -1,0 +1,46 @@
+{
+  "source_parent": "55daf0882e17c69ffcf0e5f43312c43856f571c2",
+  "application_revision": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "actual_active_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "confirmed_failure": "single fresh marshal serialization did not match a valid CPython3.12.3 serialization of the same committed source",
+  "exact_offending_file": "/opt/resmgrcheck/releases/544f22c174ad48e1c8d741db0afdd3bf5b54f947/resmgrcheck/__pycache__/contracts.cpython-312.pyc",
+  "offending_sha256": "116ccaf3a6158dafae68f192f249286ce000275553c4eee0c67d2adc9c3084a1",
+  "trusted_source_sha256": "6537b93f6662a0cf386b48dc02b6d62d0026d2d8d0eb6a4df16b3406c8de13b5",
+  "cold_payload_bytes": 46887,
+  "second_identical_optimize_0_compile_payload_bytes": 46902,
+  "observed_total_cache_bytes": 46918,
+  "all_observed_cache_hashes_proven": true,
+  "observed_caches": 14,
+  "source_integrity": "tracked source/origin clean; original deployment manifest matches recorded identity and SHA; all14 cached source files match Git; original venv binding verified",
+  "origin_evidence": "root-owned0640 caches with mtime11:21:27.79-28.15 UTC correspond to cf15209 root acceptance imports, immediately before its operator-owned browser directory birth11:21:28 UTC. Old root -I lacked -B; environment-only suppression ignored. Nonroot service could not create root-owned caches. Creation by that earlier root acceptance process is inferred from these observations, without a process-level creation audit.",
+  "tests": {
+    "recovery_suite": {
+      "passed": 84,
+      "seconds": 10.214
+    },
+    "exact_cache_tests": {
+      "passed": 9,
+      "scope": "actual CPython3.12.3 subprocess reproduces production full-file hash; no unknown cache imports/unmarshal"
+    },
+    "known_driver_recovery": {
+      "passed": 18,
+      "scope": "real disposable history/pointer files; privileged services modeled"
+    }
+  },
+  "current_health": {
+    "private_HTTP": 200,
+    "HTTP": 404,
+    "original_HTTP_files_and_link": "restored/match",
+    "nginx_db_web_socket": "active",
+    "executor_AI_backup": "inactive",
+    "available_disk_bytes": 43563614208
+  },
+  "changes_to_authentication_Nginx_units_QNX_permissions_or_dependencies": false,
+  "privileged_deployment_run_by_agent": false,
+  "production_corrected_recovery": "NOT_RUN",
+  "P8": "IN_PROGRESS",
+  "native_production": "BLOCKED approved_executor_registry_missing",
+  "customer_runner": "disabled; separate-host qualification pending",
+  "AI": "disabled",
+  "off_server_DR": "deferred"
+}

@@ -1,6 +1,8 @@
 # One-command HTTPS deployment and production acceptance
 
-Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W026 requires a new
+Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W027 corrects recovery
+for the unchanged password-only application3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
+A new driver SHA is required; do not repeat55daf08. W026 requires a new
 immutable authentication correction before another deployment attempt. The owner authorizes the
 jury-facing HTTPS deployment while customer-runner endpoints and AI stay disabled.
 The earlier requirement to wait for separate customer-host qualification before
@@ -27,6 +29,36 @@ fresh compilation of the committed source. Any unrelated file or mismatch still
 fails closed and is preserved. Actual protected cache equality is checked/receipted
 by the operator workflow; source metadata alone does not prove cache integrity.
 
+W027 now proves the protected cache contents, not just their metadata. The read-only
+operator probe verified original source/origin, manifest identity/SHA and venv binding.
+All14 root0640 cpython-312 caches match full-file hashes reconstructed from the exact
+Git source, timestamp header and CPython3.12.3. The failing contracts.pyc is46918 bytes,
+SHA256116ccaf3a6158dafae68f192f249286ce000275553c4eee0c67d2adc9c3084a1.
+It matches a second identical optimize=0 compilation with the first code object still
+alive. The first marshal payload is46887 bytes; the second is46902. The old validator
+incorrectly required just the first representation. This is a serialization-context
+false positive, not modified source, an optimized-mode waiver or permission to trust
+arbitrary bytecode. The probe's optimize=1 match did not establish an optimized origin;
+the actual complete hash is reproduced at optimize=0.
+
+The fix compares raw candidate bytes only to these two freshly generated trusted
+payloads. It never decodes, normalizes, unmarshals or executes candidate bytecode.
+Tracked empty __init__.py files are valid; Git membership/mode, source bytes,
+ownership/regular-file/link checks, exact interpreter tag/magic, header and all byte
+comparisons remain required. Unexpected cache directories, symlinks, changed source,
+executable replacements and every unrecognized payload are refused and retained.
+Source files/caches are neither deleted, overwritten nor chmodded.
+
+The known55daf08 attempt can transition only with the same3f4bafb application,
+original544 current, phase prepared_after_reviewed_password_policy, step
+original_release_validation and no bound/verified backup. Its exact journal is
+retained under auth-upgrade-55daf0882e17c69ffcf0e5f43312c43856f571c2.json. Interrupted
+history publication is resumable without losing the original receipt. All cache
+checks run again before staging, backup or service actions. Other histories/states
+are not adopted. Authentication, Nginx payloads, units, packages and native permissions
+are unchanged by this correction. See evidence/bytecode-recovery for the metadata,
+exact-hash reproducer and tests; W027 replaces W026's pending cache proof.
+
 The prepared325f367/e6890b0 attempt can transition only while original544 is still
 current, no backup was bound/verified and its phase is exactly prepared. Its exact
 journal is retained under a protected historical name; unknown states cannot be
@@ -43,7 +75,7 @@ The agent runs review, unprivileged tests and a read-only plan. The operator run
 this single command with the reviewed application and driver SHAs from the handoff:
 
 ```sh
-sudo /usr/bin/python3 -I \
+sudo /usr/bin/python3 -I -B \
   /home/mignon/projects/resmgrcheck/web/ops/production/recover_https_auth.py \
   --release 3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58 \
   --driver-revision REVIEWED_FULL_DRIVER_SHA \

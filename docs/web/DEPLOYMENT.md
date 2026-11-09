@@ -179,3 +179,13 @@ must match exact trusted compilation; new root launchers prevent bytecode writes
 Unknown content or changed state remains a blocker and is never deleted to force
 retry.392 regressions and actual isolated Gunicorn/Nginx browser checks pass;
 actual systemd/new release/public HTTPS/independent acceptance remain pending.
+
+## W027 exact derived-cache proof and recovery correction
+
+W027 changes only recovery tooling/tests/docs. Application3f4bafb, authentication,
+Nginx candidate bytes, units, dependencies and native permissions are unchanged.
+The prior55daf08 preflight rejected a legitimate CPython serialization; exact full
+hash reconstruction now proves all14 caches. A reviewed driver transition retains
+the unstarted/no-backup attempt and re-runs strict source/cache checks before any
+staging/action. Use HTTPS_DEPLOYMENT.md's same application with the new driver SHA.
+No privileged deployment was executed by the agent; actual P8 acceptance is pending.

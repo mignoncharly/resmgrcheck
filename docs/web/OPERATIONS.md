@@ -308,3 +308,18 @@ failed_check JSON identifies failures; operator-cleanup metadata remains availab
 even after browser failure. Production-native registry remains missing; customer
 host and AI qualification are still deferred/disabled. Preserve encrypted local
 backups; off-server recovery automation is deferred, not passed.
+
+## W027 exact derived-cache proof and recovery correction
+
+The bytecode_payload_differs error from55daf08 is a cold-serialization false
+positive for a genuine source-derived contracts.pyc. All14 protected cache hashes
+can be reproduced from exact Git source and CPython3.12.3. Use the newly reviewed
+recovery driver with unchanged3f4bafb application; do not delete caches or journal
+history and do not retry55daf08. The recovery preserves the known unstarted attempt,
+revalidates source/modes/header/full payload and continues only after proof.
+Future unrecognized payloads still fail before staging/backup/services; retain them
+for local investigation instead of weakening checks. inspect_release_bytecode.py
+is read-only and emits metadata, known file paths and trusted-compile match status,
+never contents. Nginx/auth/QNX permissions and unrelated services were not changed.
+Actual private544/HTTP200 and HTTP-only404 restoration remain healthy; public HTTPS
+and password/code/native independent acceptance remain unqualified.

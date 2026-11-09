@@ -80,6 +80,14 @@ class AuthReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(CheckFailed,'original_private_restored'):self.apply()
         self.assertEqual((self.opt/'current').resolve(),self.old);self.assertTrue(self.new.is_dir())
         self.assertEqual(self.journal()['phase'],'failed_original_private_restored');self.runtime.assert_called_once_with(auth.ACTIVE);self.preserved()
+    def test_cache_preflight_failure_leaves_services_and_releases_untouched_and_retry_is_safe(self):
+        with patch.object(auth,'validate_original',side_effect=[CheckFailed('bytecode_payload_differs'),[]]):
+            with self.assertRaisesRegex(CheckFailed,'bytecode_payload_differs'):self.apply()
+            self.assertEqual((self.opt/'current').resolve(),self.old);self.assertFalse(self.new.exists())
+            self.assertEqual(self.journal()['step'],'original_release_validation');self.staging.assert_not_called();self.backup.assert_not_called()
+            self.assertEqual(self.calls,[])
+            self.apply()
+        self.assertEqual((self.opt/'current').resolve(),self.new);self.preserved()
     def test_browser_failure_restores_original_private_and_resumes_same_immutable_release(self):
         self.deploy.side_effect=CheckFailed('fixture_browser_failure')
         with self.assertRaisesRegex(CheckFailed,'original_private_restored'):self.apply()
@@ -139,6 +147,27 @@ class AuthScopeTests(unittest.TestCase):
                 self.assertEqual(json.loads(path.with_name('auth-upgrade-'+auth.PREVIOUS_AUTH_DRIVER+'.json').read_text()),old)
                 changed={**old,'backup':{'unknown':'receipt'}}
                 with self.assertRaisesRegex(CheckFailed,'another_auth_upgrade_recorded'):auth.upgrade_journal(path,changed,binding)
+
+    def test_bytecode_failed_driver_transition_preserves_history_and_resumes_interrupted_record(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);opt=root/'opt';(opt/'releases'/auth.ACTIVE).mkdir(parents=True);(opt/'current').symlink_to(opt/'releases'/auth.ACTIVE)
+            path=root/'auth-upgrade.json';binding={**auth.identity(auth.PREVIOUS_CACHE_APPLICATION),'driver_revision':DRIVER}
+            old={**auth.identity(auth.PREVIOUS_CACHE_APPLICATION),'driver_revision':auth.PREVIOUS_CACHE_DRIVER,
+                'phase':'prepared_after_reviewed_password_policy','step':'original_release_validation'}
+            auth.https.record(path,old);record=auth.https.record;interrupted=True
+            def crash(target,value):
+                nonlocal interrupted
+                if target==path and interrupted:interrupted=False;raise KeyboardInterrupt
+                record(target,value)
+            with patch.object(auth.p,'OPT',opt):
+                with patch.object(auth.https,'record',side_effect=crash),self.assertRaises(KeyboardInterrupt):auth.upgrade_journal(path,old,binding)
+                history=path.with_name('auth-upgrade-'+auth.PREVIOUS_CACHE_DRIVER+'.json')
+                self.assertEqual(json.loads(history.read_text()),old);self.assertEqual(json.loads(path.read_text()),old)
+                updated=auth.upgrade_journal(path,old,binding);self.assertEqual(updated['phase'],'prepared_after_reviewed_bytecode_correction')
+                self.assertEqual(json.loads(history.read_text()),old)
+                self.assertEqual(auth.upgrade_journal(path,updated,binding),updated)
+                for changed in [{**old,'backup_verified':True},{**old,'step':'private_activation'},{**old,'phase':'verified'}]:
+                    with self.assertRaisesRegex(CheckFailed,'another_auth_upgrade_recorded'):auth.upgrade_journal(path,changed,binding)
 
 class SnapshotRecoveryTests(unittest.TestCase):
     def test_verified_snapshot_is_hash_checked_and_not_repeated(self):

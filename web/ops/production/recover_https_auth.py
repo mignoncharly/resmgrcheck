@@ -18,6 +18,8 @@ FAILED_DRIVER='cf15209ba98c7891fe2ab991868b5c06eed57de3'
 MANIFEST='.https-auth-release.json'
 PREVIOUS_AUTH_APPLICATION='325f367c803b44e2f5ac5f4bb3264a7abfb7f08f'
 PREVIOUS_AUTH_DRIVER='e6890b0842a32cab4aa19b029dc9081b449200d8'
+PREVIOUS_CACHE_APPLICATION='3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58'
+PREVIOUS_CACHE_DRIVER='55daf0882e17c69ffcf0e5f43312c43856f571c2'
 SETTING=b"# Production is reachable only through the private Unix socket. Dedicated Nginx\n# overwrites this header with its original peer and strips forwarded-IP chains.\nALLAUTH_TRUSTED_CLIENT_IP_HEADER = 'X-Real-IP' if ENVIRONMENT == 'production' else None\n"
 ANCHOR=b"ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if ENVIRONMENT == 'production' else 'http'\n"
 POLICY=b"ADMIN_MFA_REQUIRED = False # Hackathon policy: password-only; retained MFA needs a reviewed reactivation.\nADMIN_SESSION_IDLE_SECONDS = 1800\nADMIN_SESSION_ABSOLUTE_SECONDS = 43200\nMIDDLEWARE.insert(MIDDLEWARE.index('allauth.account.middleware.AccountMiddleware'),'control.middleware.AdministratorSessionMiddleware')\n"
@@ -52,14 +54,17 @@ def validate_original(path,revision):
 
 def upgrade_journal(path,journal,binding):
     if all(journal.get(k)==v for k,v in binding.items()):return journal
+    previous_policy=(journal.get('revision')==PREVIOUS_AUTH_APPLICATION and journal.get('driver_revision')==PREVIOUS_AUTH_DRIVER and journal.get('phase')=='prepared')
+    previous_cache=(journal.get('revision')==binding.get('revision')==PREVIOUS_CACHE_APPLICATION and
+        journal.get('driver_revision')==PREVIOUS_CACHE_DRIVER and journal.get('phase')=='prepared_after_reviewed_password_policy' and
+        journal.get('step')=='original_release_validation')
     require(journal.get('kind')==binding['kind'] and journal.get('from_revision')==ACTIVE and
-        journal.get('revision')==PREVIOUS_AUTH_APPLICATION and journal.get('driver_revision')==PREVIOUS_AUTH_DRIVER and
-        journal.get('phase')=='prepared' and not journal.get('backup') and not journal.get('backup_verified') and
+        (previous_policy or previous_cache) and not journal.get('backup') and not journal.get('backup_verified') and
         (p.OPT/'current').is_symlink() and (p.OPT/'current').resolve()==p.OPT/'releases'/ACTIVE,'another_auth_upgrade_recorded')
-    history=path.with_name('auth-upgrade-'+PREVIOUS_AUTH_DRIVER+'.json')
+    history=path.with_name('auth-upgrade-'+journal['driver_revision']+'.json')
     if history.exists():require(json.loads(https.read(history,private=True))==journal,'previous_auth_journal_history_differs')
     else:https.new_file(history,(json.dumps(journal,sort_keys=True,indent=2)+'\n').encode())
-    updated={**binding,'phase':'prepared_after_reviewed_password_policy'};https.record(path,updated);return updated
+    updated={**binding,'phase':'prepared_after_reviewed_bytecode_correction' if previous_cache else 'prepared_after_reviewed_password_policy'};https.record(path,updated);return updated
 
 def identity(revision):
     return {'kind':'resmgrcheck-https-auth-release','from_revision':ACTIVE,'revision':revision,

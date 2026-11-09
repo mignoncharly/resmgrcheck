@@ -357,3 +357,31 @@ no new QNX execution or production-native/customer-host qualification is claimed
 The committed password-only application is3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
 Its unprivileged immutable recovery plan passed. Actual production is still544f22c;
 use the reviewed driver SHA from the handoff. No privileged deployment ran by the agent.
+
+## W027 exact derived-cache proof and recovery correction
+
+W027 confirms55daf08 stopped before staging/backup/service actions at an overly
+strict derived-cache comparison. The exact offender was
+resmgrcheck/__pycache__/contracts.cpython-312.pyc under immutable544f22c. Original
+source/origin and deployment manifest match their recorded identities, and the
+original venv binding is verified. The source remains intact. All14 captured
+root0640 caches have full SHA256 matches reconstructed from Git-verified source,
+header metadata and CPython3.12.3 without reading/importing candidate contents.
+
+The contracts cache matches the second of two identical optimize=0 compilations
+with the first code object kept alive. CPython marshal serialization depends on
+object reference/sharing context, so one raw representation was not a canonical
+integrity check. Two exact trusted compiler outputs are accepted; no candidate
+normalization/decoding or optimized-mode bypass is used. The latent zero-length
+tracked __init__.py rejection is corrected too. All other source/header/metadata/
+path checks remain, with explicit tracked-mode validation and rejection of executable
+replacements. Original caches/source, keys, backup/data and history are preserved.
+
+84 relevant tests PASS in10.214s, including actual production hash reproduction,
+modified payload/source/header, unexpected directories, symlinks, executable bits,
+empty source and interrupted recovery/history. All14 captured cache hashes also
+PASS the unprivileged source/header reproducer. Current544 remains active: private
+HTTP200/DB SELECT1, own HTTP404 restored, nginx/db/web/socket active, workers inactive.
+The3f4bafb application is unchanged and remains unactivated; only the recovery driver
+changes. Actual corrected recovery, public HTTPS/password/code acceptance and native
+registry/independent qualification remain pending. P8 IN_PROGRESS.

@@ -1245,3 +1245,53 @@ safe failure stages. Real production activation/isolation, retained cache proof,
 fresh backup/restore, independent public TLS and password/code/native acceptance
 are pending the new operator command. AI/customer endpoints disabled; off-server
 DR deferred. P8 remains IN_PROGRESS.
+
+## W027 exact derived-cache proof and recovery correction
+
+Protected read-only probe provenance and exact cache/source/hash metadata are in
+evidence/bytecode-recovery/observed-caches.json. Operator55daf08 failed at
+original_release_validation, still prepared_after_reviewed_password_policy with no
+bound backup. It did not stage3f4bafb or change a service. The probe confirms original
+544 source/origin clean, manifest SHA25612ae2c9115b31ac323c8a9ad4db9f075b11703fab5490e320a04ecf23e3f5134
+matching recorded identity and the original protected venv binding. Fourteen cache
+files are regular root:root0640 cpython-312 data, distinct from tracked source,
+dependencies, configs and executables. The service cannot create root-owned cache
+files; its nonroot identity/read-only code tree/no-bytecode environment is unchanged.
+
+Cache mtimes11:21:27.790533–11:21:28.149536 UTC coincide with cf15209 root acceptance
+imports immediately before its browser output directory birth11:21:28. That old
+root -I invocation lacked -B; setting PYTHONDONTWRITEBYTECODE inside its environment
+could not change interpreter startup behavior. The ownership, timestamps and launch
+path strongly indicate earlier root acceptance imports as the cache origin; this
+is an inference, without a process-level file-creation audit. The new -I -B preflight
+cannot explain these earlier timestamps. Source and dependency identities are intact.
+
+The only mismatch against cold optimize=0 compilation is contracts.pyc:46918 bytes,
+SHA256116ccaf3a6158dafae68f192f249286ce000275553c4eee0c67d2adc9c3084a1. Its source is
+29669 bytes, SHA2566537b93f6662a0cf386b48dc02b6d62d0026d2d8d0eb6a4df16b3406c8de13b5,
+mtime1794212697. Cold payload46887 bytes differs from warm payload46902 bytes.
+Two identical optimize=0 compilations on CPython3.12.3 reproduce the complete
+observed cache hash when the first code object remains alive. No marshal.loads,
+unknown-code import/execution, filename normalization or optimization waiver is
+needed. The earlier diagnostic's optimize=1 match was not proof of an optimized
+origin; the same complete bytes are obtained at optimize=0.
+
+The committed unprivileged reproduce_release_bytecode.py verifies visible source
+against Git and reconstructs all14 full cache hashes from captured metadata. All14
+PASS; cache files are never opened or modified by that reproducer. The exact-case
+regression runs in a fresh -I -B subprocess and asserts the actual production hash.
+84 recovery-related tests PASS in10.214s with disposable PostgreSQL/files/processes;
+root/systemd effects modeled. Nine cache regressions and18 journal/recovery cases
+include tampered payload/header, corrupted or executable source, executable cache,
+unknown directory, symlink, empty source and interrupted history publication. Failed
+preflight is proven to leave services/releases untouched and safely resume. The
+full authentication/browser qualification from W026 is retained for unchanged3f4bafb
+and was not needlessly repeated. No actual production recovery has run by the agent.
+
+Protected health reports original544 active, private readiness200, database reachable,
+nginx/db/web/socket active, own HTTP404/original files/link restored. Unprivileged
+checks confirm executor/AI/backup inactive, no dedicated unit overrides, roughly43GB
+free, and no3f4bafb release directory. Actual corrected recovery, fresh backup/restore,
+new private systemd isolation, public HTTPS/password/code/native and independent
+acceptance remain pending. AI/customer endpoints stay disabled; off-server DR deferred.
+P8 is IN_PROGRESS.

@@ -410,3 +410,29 @@ as trust. All unrelated untracked content is refused/preserved. Root -I no longe
 relies on ignored environment-only suppression: -B and sys.dont_write_bytecode
 protect immutable trees. No source/key chmod, cache deletion, state reset or
 security-check bypass is used to resume the old failed preparation.
+
+## W027 exact derived-cache proof and recovery correction
+
+W027 retains strict source integrity while correcting a cache-serialization false
+positive. Git membership/mode, exact source bytes, regular owner/link/size checks,
+canonical source/cache paths, interpreter tag/magic and timestamp/hash header are
+verified. Only raw payloads produced by two fresh optimize=0 compilations of that
+exact trusted source are eligible. The first code object stays alive for the second
+compilation to cover CPython3.12 constant-sharing serialization. This does not
+accept arbitrary .pyc files, altered instructions/constants, unchecked aliases or
+optimized code with removed assertions. Candidates are not decoded/unmarshaled,
+normalized, imported or executed. Empty tracked Python files remain legitimate.
+
+All14 captured protected cache hashes were reproduced in full, including the exact
+failing contracts cache. Old caches remain untouched and keep their original hashes,
+permissions and provenance. Unknown source/directories, symlinks, executable
+replacements or unrecognized payloads still stop before deployment and are retained.
+Known55daf08 history can transition only from the exact unstarted/no-backup state
+with original544 current and same3f4bafb application; its full journal is preserved.
+No global integrity waiver, state reset or changes to authentication/Nginx/units/
+QNX privileges are part of this fix.
+
+CPython3.12's [marshal writer](https://github.com/python/cpython/blob/v3.12.3/Python/marshal.c)
+uses object references when serializing, so raw output is not a canonical signature
+of a compiled program across compilation contexts. [Python's marshal documentation](https://docs.python.org/3.12/library/marshal.html)
+warns against decoding untrusted data; this recovery does not decode candidates.
