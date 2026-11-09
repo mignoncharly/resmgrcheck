@@ -905,3 +905,14 @@ directory/filename. The initial split invocation ran no probe. Protected evidenc
 and recovery records remain unavailable to the unprivileged agent. Preserve the
 existing ID, keys, registry, app3f4bafb, database and failure history. Native outcome
 and cleanup require actual inspection; HTTPS/auth configuration remains unchanged.
+
+## W033 no application redeployment
+
+Use recover_executor_collection.py as documented in PRODUCTION_EXECUTOR.md. It
+preserves3f4bafb/current, Nginx/authentication, pinned engine, credentials, database
+data, original sealed ERROR and backup/rollback history. Only the dedicated executor
+gets a temporary reviewed recovery override; same-ID recollection is isolated in
+private evidence. Quarantine/lease release requires canonical same-supervisor native
+cleanup proof. The command then resumes one explicit new dashboard qualification
+batch. Actual root recovery is pending. Do not manually clear the slot or change the
+old run verdict. No SDK bootstrap or secrets replacement is permitted.

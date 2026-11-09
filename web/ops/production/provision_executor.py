@@ -256,9 +256,9 @@ def apply(driver):
         journal['private_resource_hashes']=inventory;ops.record(journal_path,journal)
         for name,raw in resources.items():exact_file(plan.CONFIG/name,raw,exec_uid,0o600)
         directory(tool.parent,0,0o755);directory(tool,0,0o755)
-        for name in ['executor_plan.py','executor_probe.py']:
+        for name in ['executor_plan.py','executor_probe.py','recover_executor_collection.py']:
             exact_file(tool/name,ops.git('show',driver+':web/ops/production/'+name),0,0o644)
-        known={name:ops.git('show',driver+':web/ops/production/'+name) for name in ['executor_plan.py','executor_probe.py']}
+        known={name:ops.git('show',driver+':web/ops/production/'+name) for name in ['executor_plan.py','executor_probe.py','recover_executor_collection.py']}
         for path in tool.iterdir():
             if path.name in known:continue
             plan.require(re.fullmatch(r'[.]provision-[0-9a-f]{32}',path.name) and stat.S_IMODE(path.lstat().st_mode)==0o644 and ops.read(path) in known.values(), 'unknown_operator_tool_resource')

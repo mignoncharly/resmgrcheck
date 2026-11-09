@@ -261,3 +261,14 @@ row plus guarded UPDATE(name) supplies locking without web lease insertion/mutat
 No new browser-selected command/host/build authority or authentication configuration
 is introduced. This source correction is staged/tested; actual native qualification
 remains pending on the existing immutable3f4bafb application.
+
+## W033 recovery controller state
+
+The immutable engine accepts explicit candidate manifests for launch; status/collect
+resolves its management helper from the selected local deployment. Production
+provisioning must supply that approved controller selection without SDK bootstrap.
+Both fixed lab manifests share the verified controller identity. An already sealed
+partial ERROR is never overwritten: operator recollection uses the same native ID
+and separate private evidence, linked by an append-only audit only after canonical
+continuity/cleanup checks. Original dashboard evidence remains unchanged. A distinct
+new acceptance batch follows only after verified cleanup. No new public endpoint.

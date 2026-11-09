@@ -1,0 +1,48 @@
+{
+  "checkpoint": "W033",
+  "source_parent": "1293c9621f3ea503ec86ba5e2f138e4c204054c3",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "immutable_engine": "ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0",
+  "operator_provided_read_only_probe": {
+    "driver": "45bde2e4a51dea4830589bab7466700512ee615f",
+    "web_run_id": "274989f6-c306-4581-8f69-3db1ca21997d",
+    "native_run_id": "w274989f6c30645818f",
+    "state": "blocked",
+    "summary_verdicts": [
+      "ERROR"
+    ],
+    "target": "quarantined",
+    "error_code": "cleanup_or_coverage_unestablished",
+    "cleanup_verified": false,
+    "private_qnx_slot_holds_run": true,
+    "inventory": "passed",
+    "execution": "passed",
+    "final_bundle_present": false,
+    "account_disabled": true,
+    "codes_and_code_sessions_revoked": true,
+    "HTTPS_readiness_200": true
+  },
+  "confirmed_terminal_transition": "Recovery branch calls seal/finish even when collect failed before final bundles; missing bundles cause cleanup=false, blocked ERROR and retained slot. Original ERROR must remain immutable.",
+  "controller_diagnosis": "Code/provisioning inventory and real disposable-files test reproduce absent selected deployment -> bootstrap -> unavailable local targetctl before collection history. Production missing selector, absent binary and child exit2 are mandatory operator preflight conditions; not yet independently read by agent.",
+  "correction": "Install exact approved selected controller only after remote verification under executor UID; both immutable approved builds share targetctl hash. No SDK/native upload.",
+  "recovery": "Same native ID, separate private output, canonical request/source/supervisor/partial-prefix/FAIL/cleanup checks; immutable original graph retained; transactional audited lease/quarantine release only after proof. Then one explicit new dashboard acceptance batch.",
+  "privileged_changes_by_agent": false,
+  "tests": {
+    "passed": 89,
+    "seconds": 13.917,
+    "scope": "actual disposable PostgreSQL/files/Chromium and preserved real QNX evidence; no new native run. Systemd and signals modeled."
+  },
+  "actual_recollection": "NOT_RUN; operator required",
+  "actual_new_native_acceptance": "NOT_RUN; conditional after recollection",
+  "rollback": "own override restore modeled success/failure/interrupted stop; actual executor rehearsal pending; full app rollback NOT_RUN",
+  "AI": "disabled",
+  "customer_runner": "disabled",
+  "off_server_DR": "deferred",
+  "P8": "IN_PROGRESS",
+  "recovery_input_publication": "Atomic complete directory; incomplete temporaries retained, not activated; repeated reservation preserves state; symlinks/executable payloads/owner changes refused.",
+  "focused_tests_refreshed": {
+    "passed": 12,
+    "seconds": 0.317,
+    "scope": "selector strict manifest parsing and guarded recollection"
+  }
+}

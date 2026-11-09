@@ -517,3 +517,24 @@ only allowlisted check names and state/cleanup/verdict metadata. Unknown excepti
 text is redacted; lost old ValueError detail is not reconstructed as fact. Native
 cleanup and independent acceptance remain unqualified. AI/customer endpoints stay
 disabled and P8 remains IN_PROGRESS.
+
+## W033 controller selection and recovery boundary
+
+Explicit candidate launch supplied an approved build but did not seed the CLI's
+SDK-free recovery selector. Provisioning now publishes the exact approved controller
+manifest after remote hash/identity verification under the real executor UID. Both
+approved builds must share the verified controller hash. Existing unknown selectors,
+symlinks, modes or owner mismatches refuse; no credentials/SDK/binaries are copied.
+
+The exact old blocked run is bound to its project, target, approved build and closed
+audited account. Root preflight requires retained source/private hashes and expected
+missing-selector/exit2 metadata. Same-ID collect executes under the unchanged nonroot
+systemd sandbox with a tighter temporary umask. Separate evidence preserves original
+sealed ERROR. Identical request/build, supervisor and partial prefix plus canonical
+FAIL/cleanup are prerequisites for audited transactional release; metadata existence
+alone cannot clear quarantine. Web authorization and artifact guards are unchanged.
+No general blocked-job reset or arbitrary target/build/path/command interface is added.
+Actual production recollection/acceptance is still pending. AI/customer endpoints
+remain disabled; off-server DR deferred and P8 IN_PROGRESS. The deployed recovery
+branch still terminally withholds incomplete collections; this command reconciles
+only the exact reviewed case and refuses unknown failures.

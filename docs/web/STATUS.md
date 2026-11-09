@@ -12,9 +12,10 @@ the actual service-context probe passed in the operator workflow. Native accepta
 passed root plan selection, then stopped at native form confirmation because the
 web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
 W032: the mutex passed; sensor collection then failed with an unclassified observer
-ValueError. A real native ID now exists and must be inspected/reconciled; no
-automatic new batch is authorized. Actual native and independent authenticated
-acceptance remain pending.
+ValueError. W033 operator metadata confirms blocked canonical ERROR, intact sealed
+evidence and a held lease/quarantined target. Same-ID recollection is staged with
+strict preflight and separate evidence; a new batch is conditional on verified
+cleanup. Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
@@ -478,3 +479,24 @@ now retains allowlisted check names and correct step labels. Current3f4bafb HTTP
 readiness200 and own services active. P8 remains IN_PROGRESS; native recovery,
 replay/job evidence, rollback and independent UAT remain pending. See W032 in
 TEST_EVIDENCE.md and evidence/native-collection-inspection.
+
+## W033 verified partial state; same-ID recovery staged
+
+The operator read-only probe confirms intact inventories/execution but no final
+bundle for274989f6-c306-4581-8f69-3db1ca21997d / w274989f6c30645818f. Canonical
+ERROR, blocked state, quarantine and held private-qnx lease remain authoritative.
+Account/code/session authorization cleanup passed; native cleanup did not. The
+recovery branch can seal an old partial ERROR when CLI collect fails. Missing
+selected-controller state reproduces the SDK/bootstrap failure before collection
+history; its actual absence/child exit2 are checked before operator recovery.
+
+The reviewed root command installs only the already verified controller selector,
+collects the same ID into separate private evidence under the actual sandboxed
+executor, and requires exact request/build/supervisor/partial-prefix/FAIL and native
+cleanup before audited release. Original ERROR and its immutable artifact graph
+remain unchanged. Then it resumes one explicitly reviewed dashboard batch; it never
+relaunches the original ID. No web/Nginx/authentication/engine source deployment.
+89 tests PASS in13.917s, including real archived QNX bytes, disposable PostgreSQL,
+Chromium and modeled systemd restoration. Actual root recollection/new batch remain
+pending. Current3f4bafb HTTPS200 and own services active. Full app rollback and
+independent UAT remain open. P8 IN_PROGRESS; AI/customer endpoints disabled.

@@ -1481,3 +1481,41 @@ no DML/DDL, observer errors retain only fixed check names, terminal ERROR/cleanu
 failure and null summaries fail closed, existing queue/provisioning regressions
 pass. PostgreSQL/Chromium/files are real disposable tests; production root/service
 control remains unexecuted. See evidence/native-collection-inspection/tests.txt.
+
+## W033 actual blocked ERROR; secure recollection qualification
+
+Operator-provided read-only inspection confirms web274989f6-c306-4581-8f69-3db1ca21997d,
+nativew274989f6c30645818f: started/finished, blocked, ERROR, cleanup=false, target
+quarantined, private-qnx still holds the run. Inventory and execution parsing pass;
+request/result/partial files have UID981, GID976, mode0640, one link and stable hashes.
+No final timeout bundle/history was present. Audit has run.queued/run.collected;
+all temporary authorization is closed. This is operator evidence, not agent root I/O.
+
+Recovery source seals/finishes even if collect returns before making a final bundle.
+The explicit-candidate initial launch does not create .local/state/lab/deployment.json.
+Without that recovery selector, remote_request falls back to bootstrap and requires
+build/qnx-x86_64/targetctl, excluded from the production source-only engine. This is
+reproduced with real disposable files and the actual remote_request function; an
+exact approved manifest suppresses bootstrap and issues only read-session calls.
+Production absence/exit2 are mandatory preflight conditions, still awaiting operator
+execution, and are not claimed as agent-observed filesystem facts.
+
+89 tests PASS in13.917s. Genuine archived QNX before-defect evidence verifies FAIL,
+source/request identity, same supervisor and partial prefix without new native work.
+Incomplete bundles, altered request/events/supervisor refuse cleanup proof. Actual
+PostgreSQL tests retain the held lease on false cleanup, then release transactionally
+only with complete proof; original blocked ERROR/authorization remain unchanged and
+repeat release is idempotent. Selector tests reject unknown bytes, symlinks, wrong
+modes and directories; interrupted publication preserves temp bytes and never an
+incomplete active file. Modeled systemd tests restore only the dedicated override
+and executor on success, failure and interrupted stop; unknown overrides are untouched.
+Existing PostgreSQL/Chromium/tenant/evidence immutability tests also pass.
+
+Current HTTPS200 and same3f4bafb/own active units were observed directly. No root
+operation or new QNX execution ran by the agent. Actual recollection, new dashboard
+batch, native downloads/revocation and guarded rehearsal remain pending; full app
+rollback and independent UAT NOT_RUN. See evidence/native-collection-recovery.
+
+Twelve focused recovery tests refreshed PASS in0.317s after strict controller
+manifest parsing. Complete input-directory publication/resumption also rejects
+symlinks and preserves interrupted unactivated initialization directories.

@@ -321,3 +321,10 @@ is deliberately unused. [Nginx real-IP variables](https://nginx.org/en/docs/http
 explain retaining the original peer despite global trusted-proxy processing.
 [Certbot renewal documentation](https://eff-certbot.readthedocs.io/en/stable/using.html#renewing-certificates)
 is cross-checked against installed2.9 CLI/source for the exact flags used here.
+
+## W033 HTTPS preserved
+
+HTTPS/readiness remain200 on3f4bafb. Current blocker is a sealed native collection
+ERROR and held executor lease, not TLS/authentication. Use only the reviewed
+executor recovery in PRODUCTION_EXECUTOR.md; do not rerun HTTPS deployment. Actual
+native recovery/acceptance, full application rollback and independent UAT remain open.

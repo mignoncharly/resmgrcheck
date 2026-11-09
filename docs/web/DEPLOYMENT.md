@@ -246,3 +246,12 @@ authority or application/auth/Nginx/unit change.86 tests passed including actual
 Chromium and restricted PG confirmation. The exact completed install and failed
 browser history are retained for a root-only resume. Production native remains
 pending; application3f4bafb continues serving HTTPS readiness200.
+
+## W033 executor-only reconciliation
+
+No application/HTTPS deployment is required for the reviewed collection correction.
+Follow PRODUCTION_EXECUTOR W033: exact-commit operator workflow, verified controller
+selection, temporary own executor override, separate same-ID recollection, strict
+cleanup-gated release, then one new dashboard qualification batch. Original immutable
+releases, evidence/ERROR, credentials, backups and unrelated services remain intact.
+Actual root execution and full app rollback/independent acceptance are pending.

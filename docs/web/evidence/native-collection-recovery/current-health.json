@@ -1,0 +1,10 @@
+{
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "own_units_active": {
+    "nginx.service": true,
+    "resmgrcheck-db.service": true,
+    "resmgrcheck-web.service": true,
+    "resmgrcheck-executor.service": true
+  },
+  "HTTPS_readiness_200": true
+}

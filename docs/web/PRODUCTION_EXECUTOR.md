@@ -1,6 +1,7 @@
-> Current W032 gate: do not repeat the provisioning command below. The45bde2e
-> attempt created a native run and failed during collection; read-only protected
-> inspection is required before designing same-ID recovery. See the W032 section.
+> Current W033 gate: use the [reviewed collection recovery](#w033-one-command-same-id-recovery-and-conditional-acceptance), not the
+> old provisioning command directly. A sealed ERROR and held native ID must be
+> preserved and genuinely recollected before any new acceptance batch.
+
 
 # Production QNX executor qualification
 
@@ -230,3 +231,52 @@ new run, service change, database mutation or recovery-state reset occurs. Do no
 split directory and filename. The initial split invocation executed no probe.
 Return only its JSON. Until inspected, provisioning/retry is withheld. Preserve
 all failed intent/run/evidence/cleanup/history records. See TEST_EVIDENCE W032.
+
+## W033 one-command same-ID recovery and conditional acceptance
+
+Use the final reviewed commit SHA as DRIVER_REVISION below, from the repository root:
+
+```sh
+sudo /usr/bin/python3 -I -B \
+  web/ops/production/recover_executor_collection.py \
+  --driver-revision DRIVER_REVISION \
+  --apply
+```
+
+Default without --apply is an unprivileged exact-commit read-only plan. The applied
+workflow checks the exact45bde2e failure, closed audited account, pinned registry/
+unit/engine/app/HTTPS baseline, blocked ERROR/held lease, original sealed hashes,
+child exit2, missing selected deployment and absent local bootstrap binary. Unknown
+state refuses recovery. It archives the original journal/failure/runtime proof and
+retains the ce97/885 histories. No reset/deletion or immutable source patch occurs.
+
+Only resmgrcheck-executor.service gets a temporary root-owned oneshot override. Its
+existing user, credential loading, runtime_check, sandbox, database role and network
+isolation remain; the temporary umask is tightened to0077. Actual unit-context
+checks verify both approved deployments/controllers and pinned SSH before selection.
+A missing host selector is atomically published from the exact approved manifest; an
+unknown existing selector refuses replacement. No QNX binary/SDK upload or native
+start is performed by recovery. Read-only collection does not require128 free remote
+file entries because it creates no target files; future launch preflights keep their
+normal quotas. The same controller is shared/verified for both approved builds.
+
+CLI collect uses the existing native ID into a new private recovery directory.
+Canonical checks require identical request/source/settings, the same supervisor,
+original partial bytes as a prefix, expected defect FAIL and verified cleanup. On
+missing/invalid observations, quarantine and the original lease remain held. The
+original sealed graph, blocked ERROR, cleanup=false and all old audit records remain
+unchanged even after successful recollection. A separate append-only audit/receipt
+links the actual cleanup proof before transactional lease/quarantine release. Recovery
+evidence is private operator evidence; it is not silently substituted in dashboard
+downloads or relabeled as the original result. Complete interrupted recovery output
+is revalidated/reused. Only the known override is restored on exit; unrelated units
+are untouched. Existing private web HTTPS is not redeployed or reloaded.
+
+After genuine cleanup and restoring the canonical executor, the same command
+archives/links the old driver and calls the established dashboard acceptance and
+guarded idle executor rehearsal. This is a distinct reviewed qualification attempt,
+not a native relaunch of the old ID or a silent rerun-until-PASS. All old ERROR/FAIL
+records remain. New acceptance must independently prove sensor defect FAIL, corrected
+source replay PASS, job PASS, same-ID connection recovery, downloads and queued/live
+authorization revocation. Any new unknown failure stops; no passing receipt is invented.
+Actual execution remains pending. Full application rollback/independent UAT remain open.

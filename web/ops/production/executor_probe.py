@@ -6,7 +6,7 @@ sys.dont_write_bytecode=True
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import executor_plan as plan
 
-def probe():
+def probe(*,require_capacity=True):
     uid=pwd.getpwnam('resmgr-exec').pw_uid
     plan.require(os.geteuid()==uid and os.environ.get('CREDENTIALS_DIRECTORY')=='/run/credentials/resmgrcheck-executor.service','actual_executor_context_required')
     root=Path('/opt/resmgrcheck/releases')/plan.APPLICATION
@@ -43,7 +43,7 @@ def probe():
     plan.require(plan.digest(plan.read_owned(plan.CONFIG/'known-hosts',uid,{0o600}))==plan.KNOWN_HOSTS_SHA,'host_identity_differs')
     plan.read_owned(plan.CONFIG/'ssh-key',uid,{0o600},16384)
     target=Target.read('lab',plan.CONFIG/'target.json');plan.require(target.data==plan.target_config()['targets']['lab'],'target_configuration_differs')
-    transport=Transport(target);deployments={};capabilities=None
+    transport=Transport(target);deployments={};capabilities=None;selected={}
     for role,(name,expected) in plan.MANIFESTS.items():
         raw=plan.read_owned(plan.CONFIG/(role+'-deployment.json'),uid,{0o600})
         plan.require(plan.digest(raw)==expected,'manifest_hash_differs');d=Deployment.parse(json.loads(raw))
@@ -52,11 +52,19 @@ def probe():
         plan.require(set(caps)=={'sensor-v1','job-v1'} and all(set(Profile.parse(load(root/'profiles'/(profile+'.json'))).data['capabilities']['required'])<=set(caps[profile+'-v1']) for profile in ['sensor','job']),'required_capabilities_missing')
         if capabilities is not None:plan.require(caps==capabilities,'build_capability_mismatch')
         capabilities=caps;deployments[role]={'deployment_id':d.data['deployment_id'],'verified_files':len(observed),'source_revision':d.data['build']['source_revision']}
+        selected[role]=d.data
     raw=transport.ssh('df -g /data');match=re.search(rb'Files\s*:\s*([0-9]+) total\s+([0-9]+) avail',raw)
-    plan.require(match and int(match[2])>=128,'target_file_budget_insufficient')
+    plan.require(match and int(match[2])>=(128 if require_capacity else 0),'target_file_budget_insufficient')
+    # Explicit-candidate runs do not create the CLI's recovery selector. Without
+    # it, status/collect falls back to SDK bootstrap, unavailable in this sandbox.
+    # Both approved deployments use the same verified management controller.
+    plan.require(selected['before']['files']['targetctl']==selected['after']['files']['targetctl'],'approved_controller_mismatch')
+    from recover_executor_collection import install_selection
+    install_selection(selected['before'])
     return {'passed':True,'kind':'actual-systemd-executor-probe','application':plan.APPLICATION,
         'driver_revision':Path(__file__).resolve().parent.name,'runtime':runtime,'database_grants_verified':True,
         'deployments':deployments,'compiled_adapters':capabilities,'target_file_entries_available':int(match[2]),
+        'target_file_budget_required':128 if require_capacity else 0,
         'target_contact':'read-only identity, manifests, SHA256 downloads and compiled capability discovery',
         'service_instance_health':'unknown until native run','SDK_access':'not required or granted','tests_launched':False}
 

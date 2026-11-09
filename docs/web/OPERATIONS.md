@@ -393,3 +393,15 @@ without target I/O or mutations. Agent sudo authentication is unavailable; the
 first operator probe had a split filename and executed no inspection. Actual native
 cleanup/verdict remain unconfirmed. Temporary account disabled/codes revoked are
 authorization cleanup only. HTTPS remains200, own services active, same3f4bafb.
+
+## W033 blocked ERROR recovery
+
+The probe confirms a sealed partial ERROR and held lease; do not clear them by hand.
+One reviewed recover_executor_collection.py command validates exact failure state,
+repairs only an absent approved controller selector under the executor UID, recollects
+the same ID separately, verifies native continuity/cleanup and appends an audit before
+releasing its lease/quarantine. It preserves original ERROR and resumes a distinct
+reviewed dashboard batch only after proof. Failed/interrupted recovery restores only
+the known executor override; unknown state is retained for review. Complete recovery
+output is reused. No Nginx/web/database restart occurs. Actual runtime is pending;
+full app rollback and independent UAT remain open. See PRODUCTION_EXECUTOR W033.
