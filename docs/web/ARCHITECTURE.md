@@ -168,3 +168,12 @@ command awaits the operator; the agent ran no deployment/reload. See
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) and evidence/https-rollout. Customer
 endpoints remain disabled until a separate customer host is qualified. AI stays
 disabled; off-server DR is deferred. Independent existing-admin UAT is NOT_RUN.
+
+## W024 graceful reload and strict rollback verification
+
+The HTTPS deployment driver treats nginx reload as signal delivery, not proof
+that replacement workers are serving. Configuration identity/modes/link and actual
+HTTP404/ACME behavior independently qualify restoration. Bounded verified-TLS probes
+qualify reactivation. Status-only observations distinguish the drill from final
+failure cleanup; failed or uncertain verification never becomes a readiness claim.
+Application544f22c, database, executor and evidence architecture are unchanged.

@@ -1103,3 +1103,41 @@ See evidence/https-cache-recovery for logs and explicit provenance. Existing44-v
 repeated. No production browser/native execution or successful external TLS is
 claimed for this correction. Root retry, actual renewal/rollback, production
 acceptance and independent client verification remain pending.
+
+## W024 graceful reload and strict rollback verification
+
+See evidence/https-reload-recovery for protected-inspection provenance, safe
+metadata and fresh test logs. Agent sudo could not use terminal-scoped credentials;
+the operator ran the read-only repository probe. It emitted no configuration,
+secret or log contents. No failed-command diagnostic file was present. Protected
+state says rolled_back_after_failure, rollback_original_http_not_restored,
+renewal_completed_and_recorded:true and rollback_verified:false. Code records that
+renewal marker only after Certbot return0: the dry run completed, and failure was
+in the subsequent rollback drill. Original HTTP configuration restoration is
+confirmed by exact backup/bootstrap hashes/bytes, root0644 modes, correct symlink,
+absent own hook, successful nginx -T and actual404. Private readiness200, active
+nonroot web/socket/nginx and active immutable544f22c are preserved. Certificate
+links remain root-owned in the dedicated archive, fullchain0644/private key0600.
+
+The actual nginx ExecReload sends a signal and returned0. The old first HTTP probe
+status was not recorded; its exact historical value cannot be asserted. A real
+isolated master/worker test pauses only its owned master, installs original HTTP
+configuration, validates it and queues HUP. Its existing worker still returns308.
+The corrected bounded verifier observes308 then404 after that master resumes and
+proves unique ACME handling. This establishes the timing defect without modifying
+production Nginx or any unrelated service.
+
+27 recovery tests PASS in1.166s: real disposable files/process groups; root/systemd/
+Certbot/HTTP modeled. Coverage includes stale workers, persistent wrong HTTP refusal,
+exact modes, refusal of404 without an ACME round trip, interrupted original restoration, preserved backups, new-driver
+recovery retaining the completed Certbot proof, and TLS reactivation delay. Five
+actual isolated Nginx/TLS/Unix-proxy tests PASS in4.762s, including the owned master
+reload reproduction. Existing W023 real-Django13-probe and W021 browser evidence
+retain their earlier scope; no production browser/native testing was repeated.
+
+Current local verified curl fails hostname validation; independent external
+Firecrawl readiness fetch fails TLS too (its connector500 is not a target HTTP
+response). TLS was never bypassed. Production corrected retry, real public auth/MFA/
+codes/browser/native acceptance and independent existing-admin UAT remain NOT_RUN.
+Customer separate-host qualification remains BLOCKED, endpoints/AI disabled and
+off-server DR deferred. P8 remains IN_PROGRESS.

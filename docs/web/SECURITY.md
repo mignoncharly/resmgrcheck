@@ -340,3 +340,16 @@ candidate hashes against their committed examples and proving exact original
 resources are restored. Old state is retained in protected history and original
 backups are reused. A changed unknown payload, verified deployment or concurrent
 edit is refused. No security check was relaxed to bypass the observed failure.
+
+## W024 graceful reload and strict rollback verification
+
+W024 changes synchronization of rollback verification, not its security policy.
+Exact root-owned original bytes/modes/link, fresh HTTP404 without redirect and a
+unique ACME round trip must all pass; six bounded requests permit old graceful
+workers to drain. Persistent wrong routing, changed resources or failed ACME remain
+errors. Failure cleanup now verifies restored behavior before claiming successful
+rollback. TLS reactivation retains full hostname/CA/security checks. Known failed
+8000144 recovery preserves original backups/history and validates prior committed
+payloads; no marker resets, credential changes or unrelated configuration writes
+are allowed. Read-only inspect_https.py emits only protected-state allowlisted
+metadata and health, never raw configurations/logs/secrets.

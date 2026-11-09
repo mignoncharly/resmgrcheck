@@ -1,0 +1,67 @@
+{
+  "provenance": "Operator executed repository read-only inspect_https.py under sudo and supplied safe JSON. Agent sudo was denied because terminal-scoped authentication did not transfer. No deployment/reload was executed by agent.",
+  "state": {
+    "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+    "driver_revision": "8000144314684674c2d672c83956c0732498edff",
+    "failure": "rollback_original_http_not_restored",
+    "phase": "rolled_back_after_failure",
+    "renewal_completed_and_recorded": true,
+    "rollback_verified": false
+  },
+  "current_HTTP": {
+    "status": 404,
+    "redirects_to_own_HTTPS": false
+  },
+  "current_HTTPS": {
+    "certificate_verified": false
+  },
+  "enabled_symlink_correct": true,
+  "nginx_configuration_test_passed": true,
+  "nginx_disk_configuration_includes_own_files": true,
+  "nginx.service_active": true,
+  "resmgrcheck-web.service_active": true,
+  "resmgrcheck-web.socket_active": true,
+  "private_readiness": {
+    "status": 200,
+    "ready": true
+  },
+  "files": {
+    "site": {
+      "matches_original_backup": true,
+      "matches_committed_bootstrap": true,
+      "backup_hash_matches_record": true,
+      "uid": 0,
+      "gid": 0,
+      "mode": "0o644"
+    },
+    "http": {
+      "matches_original_backup": true,
+      "matches_committed_bootstrap": true,
+      "backup_hash_matches_record": true,
+      "uid": 0,
+      "gid": 0,
+      "mode": "0o644"
+    },
+    "hook": {
+      "present": false,
+      "matches_original_backup": true,
+      "backup_hash_matches_record": true
+    }
+  },
+  "certificate_links": {
+    "fullchain.pem": {
+      "symlink": true,
+      "trusted_archive_target": true,
+      "root_owned": true,
+      "target_mode": "0o644"
+    },
+    "privkey.pem": {
+      "symlink": true,
+      "trusted_archive_target": true,
+      "root_owned": true,
+      "target_mode": "0o600"
+    }
+  },
+  "diagnostic_file": "No diagnostic field returned by that probe version: file absent. The driver writes this file only for failed subprocesses; successful command output is not retained.",
+  "secrets_printed": false
+}

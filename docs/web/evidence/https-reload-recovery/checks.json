@@ -1,0 +1,36 @@
+{
+  "observed_at_UTC": "2026-11-09T11:17:52Z",
+  "source_parent": "8000144314684674c2d672c83956c0732498edff",
+  "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "confirmed_defect": "one-shot HTTP rollback check assumes signal-based nginx reload is synchronous",
+  "historical_first_HTTP_status": "NOT_RECORDED by old driver; cannot establish its exact value retrospectively",
+  "actual_reproduction": "owned isolated nginx master queued reload while stopped; old worker returned308 although original config was on disk and nginx -t succeeded; bounded verification observed308 then404 after master resumed",
+  "certbot_dry_run": "COMPLETED: protected renewal marker can only be recorded after subprocess return0; old e1 failure preceded this step",
+  "rollback_original_configuration": "RESTORED: bytes/hashes/modes/link plus actual404 and nginx -T all qualified",
+  "private_health": "HTTP200; active nonroot resmgr-web; active release544 unchanged",
+  "current_public_HTTPS": {
+    "local_verified_client": "FAILED hostname validation",
+    "independent_external_Firecrawl": "FAILED TLS verification",
+    "target_HTTP_status": "NOT_OBTAINED; connector error500 is not a website HTTP response",
+    "TLS_bypassed": false
+  },
+  "tests": {
+    "deployment_recovery": {
+      "passed": 27,
+      "seconds": 1.166,
+      "scope": "real disposable filesystem/processes; root/systemd/Certbot/HTTP modeled"
+    },
+    "actual_isolated_nginx": {
+      "passed": 5,
+      "seconds": 4.762,
+      "scope": "real Nginx1.24/TLS/Unix socket/rates/queued master reload on own high-port loopback instance; synthetic backend; no production modification"
+    }
+  },
+  "production_retry": "NOT_RUN; new operator command required",
+  "production_browser_and_QNX_acceptance": "NOT_RUN in this correction",
+  "P8": "IN_PROGRESS",
+  "P9_P10": "NOT_CLAIMED",
+  "AI": "disabled",
+  "customer_runner": "disabled; separate-host qualification blocked",
+  "off_server_DR": "deferred"
+}

@@ -1,5 +1,5 @@
 """Actual unprivileged nginx1.24/TLS/Unix proxy. Synthetic backend, not production."""
-import hashlib,http.server,json,os,socket,socketserver,ssl,subprocess,sys,tempfile,threading,time,unittest
+import hashlib,http.server,json,os,signal,socket,socketserver,ssl,subprocess,sys,tempfile,threading,time,unittest
 from pathlib import Path
 from unittest.mock import patch
 OPS=Path(__file__).resolve().parents[1]/'ops/production';sys.path.insert(0,str(OPS))
@@ -31,7 +31,7 @@ def free_port():
     with socket.socket() as connection:connection.bind(('127.0.0.1',0));return connection.getsockname()[1]
 
 class NginxFixture:
-    def __init__(self,root,backend,*,http_extra=''):
+    def __init__(self,root,backend,*,http_extra='',master=False):
         self.root=root;self.http_port=free_port();self.https_port=free_port();self.backend=backend
         self.cert=root/'certificate.pem';self.key=root/'private.pem'
         subprocess.run(['openssl','req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(self.key),'-out',str(self.cert),
@@ -44,7 +44,8 @@ class NginxFixture:
         site=site.replace('/etc/letsencrypt/live/'+HOST+'/fullchain.pem',str(self.cert)).replace('/etc/letsencrypt/live/'+HOST+'/privkey.pem',str(self.key))
         site=site.replace('/var/lib/resmgrcheck/static/'+'5'*40,str(self.static)).replace('/run/resmgrcheck-web/application.sock',str(backend))
         site=site.replace('/var/www/resmgrcheck-acme',str(root/'acme')).replace('/var/log/nginx/resmgrcheck-access.log',str(root/'access.log')).replace('/var/log/nginx/resmgrcheck-error.log',str(root/'error.log'))
-        self.configuration=root/'nginx.conf';self.configuration.write_text('daemon off; master_process off;\npid '+str(root/'nginx.pid')+';\nerror_log '+str(root/'master.log')+' crit;\nevents { worker_connections 128; }\nhttp {\ninclude /etc/nginx/mime.types;\n'+
+        self.site=site
+        self.configuration=root/'nginx.conf';self.configuration.write_text('daemon off; master_process '+('on' if master else 'off')+';\npid '+str(root/'nginx.pid')+';\nerror_log '+str(root/'master.log')+' crit;\nevents { worker_connections 128; }\nhttp {\ninclude /etc/nginx/mime.types;\n'+
             '\n'.join(key+' '+str(root/name)+';' for key,name in [('client_body_temp_path','body'),('proxy_temp_path','proxy'),('fastcgi_temp_path','fastcgi'),('uwsgi_temp_path','uwsgi'),('scgi_temp_path','scgi')])+ '\n'+http_config()+http_extra+'\n'+site+'\n}\n')
         self.process=None
     def start(self):
@@ -100,3 +101,38 @@ class ActualNginxTests(unittest.TestCase):
         self.assertEqual(status,502)
         from https_checks import security
         security(headers,True)
+
+class ActualGracefulReloadTests(unittest.TestCase):
+    def test_queued_reload_can_serve_old_redirect_until_master_applies_original(self):
+        with tempfile.TemporaryDirectory(prefix='rmc-reload-') as temporary:
+            root=Path(temporary);fixture=NginxFixture(root,root/'unused.sock',master=True)
+            try:
+                fixture.start();client=Client('127.0.0.1',fixture.https_port,fixture.http_port,str(fixture.cert))
+                self.assertEqual(client.request('/',secure=False)[0],308)
+                original=(OPS/'nginx-bootstrap-site.conf').read_text().replace('listen 80;','listen 127.0.0.1:'+str(fixture.http_port)+';').replace('listen [::]:80;','')
+                original=original.replace('/var/www/resmgrcheck-acme',str(root/'acme')).replace('/var/log/nginx/resmgrcheck-error.log',str(root/'error.log'))
+                restored=fixture.configuration.read_text().replace(fixture.site,original).encode()
+                # Stop only this owned master: workers keep serving. SIGHUP queues
+                # successfully before the master processes/reconfigures workers.
+                os.kill(fixture.process.pid,signal.SIGSTOP)
+                fixture.configuration.write_bytes(restored);fixture.configuration.chmod(0o644)
+                subprocess.run(['/usr/sbin/nginx','-t','-p',str(root)+'/', '-c',str(fixture.configuration)],check=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=5)
+                os.kill(fixture.process.pid,signal.SIGHUP)
+                self.assertEqual(client.request('/',secure=False)[0],308)
+                (root/'site.before').write_bytes(restored);(root/'site.before').chmod(0o600)
+                enabled=root/'enabled';enabled.symlink_to(fixture.configuration)
+                state={'before':{'site':deploy.digest(restored)},'modes':{'site':0o644}}
+                released=False
+                real_sleep=time.sleep
+                def wait_for_workers(delay):
+                    nonlocal released
+                    if not released:os.kill(fixture.process.pid,signal.SIGCONT);released=True
+                    real_sleep(delay)
+                with patch.object(deploy,'STATE',root),patch.object(deploy,'SITE',fixture.configuration),patch.object(deploy,'ENABLED',enabled),patch.object(deploy,'ACME',fixture.acme),patch.object(deploy.time,'sleep',side_effect=wait_for_workers):
+                    deploy.verify_original_http(state,[('site',fixture.configuration,b'old HTTPS candidate',0o644)],client)
+                self.assertEqual(state['rollback_http_observations'][0]['status'],308)
+                self.assertEqual(state['rollback_http_observations'][-1]['status'],404)
+                self.assertEqual(fixture.configuration.read_bytes(),restored)
+            finally:
+                if fixture.process and fixture.process.poll() is None:os.kill(fixture.process.pid,signal.SIGCONT)
+                fixture.stop()

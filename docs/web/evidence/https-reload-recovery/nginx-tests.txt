@@ -1,0 +1,10 @@
+test_queued_reload_can_serve_old_redirect_until_master_applies_original (test_https_nginx.ActualGracefulReloadTests.test_queued_reload_can_serve_old_redirect_until_master_applies_original) ... ok
+test_actual_tls_unix_proxy_headers_static_acme_and_post_rate_limits (test_https_nginx.ActualNginxTests.test_actual_tls_unix_proxy_headers_static_acme_and_post_rate_limits) ... ok
+test_app_sandbox_policy_and_identity_headers_survive_proxy (test_https_nginx.ActualNginxTests.test_app_sandbox_policy_and_identity_headers_survive_proxy) ... ok
+test_proxy_failure_keeps_security_headers_and_spoofed_forwarding_cannot_evade_rate_limit (test_https_nginx.ActualNginxTests.test_proxy_failure_keeps_security_headers_and_spoofed_forwarding_cannot_evade_rate_limit) ... ok
+test_tls_cannot_be_bypassed_and_large_body_is_rejected_at_nginx (test_https_nginx.ActualNginxTests.test_tls_cannot_be_bypassed_and_large_body_is_rejected_at_nginx) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.762s
+
+OK

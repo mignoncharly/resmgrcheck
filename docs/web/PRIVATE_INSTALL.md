@@ -753,3 +753,16 @@ needed. Run the single reviewed command in HTTPS_DEPLOYMENT.md with the newly
 committed driver SHA. Operator sudo is required for root-owned configuration and
 Nginx reload; the agent must not execute privileged deployment automatically.
 P8 remains IN_PROGRESS until actual production qualification succeeds.
+
+## W024 graceful reload and strict rollback verification
+
+The8000144 attempt completed its Certbot dry run but its immediate rollback
+verification raced signal-based Nginx reload. Read-only inspection confirms the
+HTTP-only originals are restored and private readiness remains200 on544f22c.
+W024 adds bounded strict HTTP404/ACME verification after exact file/mode/link checks
+and verified-TLS retries on reactivation. The known failed record can resume with
+the corrected committed driver, retaining backups/history and completed same-cert
+renewal proof. Do not patch /opt/resmgrcheck/current, replace credentials, delete
+state or repeat the8000144 command. Use the one reviewed command with the new
+full driver revision in HTTPS_DEPLOYMENT.md. No privileged deployment has been
+executed by the agent; actual production acceptance is still pending.

@@ -168,6 +168,63 @@ class HTTPSDeploymentTests(unittest.TestCase):
         with patch.object(deploy,'git',return_value=b'another release'),self.assertRaisesRegex(CheckFailed,'previous_driver_application_differs'):
             deploy.recorded_candidate_hashes(DRIVER,REVISION)
 
+    def test_rollback_waits_for_old_redirect_workers_to_drain(self):
+        original=deploy.Client();request=original.request;stale=True
+        def delayed(path,**kwargs):
+            nonlocal stale
+            if path=='/' and kwargs.get('secure') is False and stale:
+                stale=False;return 308,{'location':'https://'+deploy.HOST+'/'},b''
+            return request(path,**kwargs)
+        original.request=delayed
+        with patch.object(deploy,'Client',return_value=original),patch.object(deploy.time,'sleep') as sleep:self.apply()
+        self.assertEqual([row['status'] for row in self.state()['rollback_http_observations']],[308,404])
+        self.assertTrue(self.state()['rollback_verified']);sleep.assert_called_once_with(1);self.preserved()
+
+    def test_persistently_wrong_loaded_http_never_claims_successful_rollback(self):
+        original=deploy.Client();request=original.request
+        original.request=lambda path,**kwargs: (308,{'location':'https://'+deploy.HOST+'/'},b'') if path=='/' and kwargs.get('secure') is False else request(path,**kwargs)
+        with patch.object(deploy,'Client',return_value=original),patch.object(deploy.time,'sleep'),self.assertRaisesRegex(CheckFailed,'safe_rollback_could_not_complete'):self.apply()
+        self.assertEqual(self.state()['phase'],'rollback_requires_operator_review')
+        self.assertEqual(self.state()['failure'],'rollback_original_http_not_restored')
+        self.assertEqual(len(self.state()['rollback_http_observations']),6)
+        self.assertEqual(deploy.SITE.read_bytes(),self.before[deploy.SITE]);self.preserved()
+
+    def test_http_404_without_actual_acme_roundtrip_does_not_prove_rollback(self):
+        with patch.object(deploy,'acme_probe',side_effect=[None,None,CheckFailed('fixture_ACME_failed'),CheckFailed('fixture_ACME_failed')]),self.assertRaisesRegex(CheckFailed,'safe_rollback_could_not_complete'):self.apply()
+        self.assertEqual(self.state()['phase'],'rollback_requires_operator_review')
+        self.assertFalse(self.state().get('rollback_verified',False));self.preserved()
+
+    def test_interruption_after_original_restore_reuses_backups_and_certbot_proof(self):
+        self.apply();self.apply(True);state=self.state();state['phase']='rollback_drill_restored_original';state['rollback_verified']=False
+        deploy.record(deploy.STATE/'state.json',state);stamp=(deploy.STATE/'site.before').stat().st_mtime_ns
+        self.apply()
+        self.assertEqual(self.state()['phase'],'verified');self.assertTrue(self.state()['rollback_verified'])
+        self.assertEqual(sum(args[0]=='certbot' for args in self.calls),1)
+        self.assertEqual((deploy.STATE/'site.before').stat().st_mtime_ns,stamp);self.preserved()
+
+    def test_corrected_driver_preserves_completed_certbot_after_failed_rollback_probe(self):
+        verify=deploy.verify_original_http;first=True
+        def one_bad_probe(*args):
+            nonlocal first
+            if first:first=False;raise CheckFailed('rollback_original_http_not_restored')
+            return verify(*args)
+        with patch.object(deploy,'verify_original_http',side_effect=one_bad_probe),self.assertRaises(CheckFailed):self.apply()
+        previous=self.state();self.assertTrue(previous['renewal_verified_certificate']);self.assertFalse(previous.get('rollback_verified',False))
+        with patch.object(deploy,'RECOVERABLE_DRIVERS',{DRIVER}),patch.object(deploy,'recorded_candidate_hashes',return_value=previous['after']),contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        self.assertEqual(sum(args[0]=='certbot' for args in self.calls),1)
+        self.assertTrue(self.state()['rollback_verified']);self.assertEqual(self.state()['renewal_verified_certificate'],previous['renewal_verified_certificate']);self.preserved()
+
+    def test_reapplied_https_also_waits_for_graceful_reload(self):
+        passed=[{'check':'modeled HTTPS','status':'passed'}]
+        with patch.object(deploy,'checks',side_effect=[passed,OSError('old TLS worker'),passed]) as checks,patch.object(deploy.time,'sleep') as sleep:self.apply()
+        self.assertTrue(self.state()['rollback_verified']);self.assertEqual(checks.call_count,3)
+        self.assertEqual(checks.call_args.kwargs,{'rate':False});sleep.assert_called_once_with(1)
+
+    def test_rollback_behavior_cannot_substitute_for_exact_original_file_modes(self):
+        self.apply();state=self.state();targets=[('site',deploy.SITE,deploy.site_config(REVISION).encode(),0o644),('http',deploy.HTTP,deploy.http_config().encode(),0o644),('hook',deploy.HOOK,deploy.renewal_hook().encode(),0o755)]
+        deploy.restore(state,targets);deploy.SITE.chmod(0o600)
+        with self.assertRaisesRegex(CheckFailed,'rollback_original_mode_differs'):deploy.verify_original_http(state,targets,deploy.Client())
+
 class BoundedDeploymentCommandTests(unittest.TestCase):
     def test_subprocess_failure_never_reflects_diagnostics_and_log_is_private(self):
         import subprocess

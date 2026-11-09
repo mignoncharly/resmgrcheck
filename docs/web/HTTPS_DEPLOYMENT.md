@@ -94,7 +94,7 @@ retain receipts and original backups. Completed renewal/browser proofs are reuse
 new native approval can justify another acceptance attempt. Never delete state,
 backups or unknown resources to force retry. A different driver commit is a new
 review boundary. The narrowly reviewed W023 recovery accepts only the known failed
-f8a6009/e1ef88c drivers after exact originals are restored. Their recorded candidate
+f8a6009/e1ef88c/8000144 drivers after exact originals are restored. Their recorded candidate
 hashes must match their own committed configuration examples and the application
 release must remain identical. Only then may the reviewed descendant install its
 corrected candidate. Previous records and original backups remain intact; verified
@@ -105,6 +105,35 @@ private-route redirects whose Django response supplies only no-cache. Upstream
 cache headers are hidden. Static assets retain their separate public300 policy.
 W023 tests the exact deployment probes against real isolated Django/PostgreSQL/
 Nginx as well as the synthetic backend; the earlier fixture missed this redirect.
+
+W024 corrects rollback verification after the8000144 attempt. Its protected record
+confirms the dedicated Certbot dry run completed before the rollback drill failed.
+Read-only inspection proves original site/http bytes, hashes, root0644 permissions,
+enabled link, absent own renewal hook, nginx -T and actual HTTP404 are correct;
+private readiness remains200. The old driver did not record the first probe's
+status, so its exact historical response cannot be recovered.
+
+The installed nginx unit's ExecReload sends a reload signal and returns before
+new workers necessarily serve requests. The former immediate single HTTP check
+can observe an old HTTPS redirect despite correctly restored files. The new check
+first proves exact original files/modes/link, then makes at most six fresh HTTP
+requests with one-second intervals and four-second socket timeouts, requiring404
+without redirect plus an actual unique ACME probe.
+Persistent wrong routing, wrong files/modes, failed ACME or unknown edits still
+fail. HTTPS reactivation uses bounded verified-TLS probes as initial activation
+already did. Failure cleanup and explicit rollback now verify restored behavior
+too; success is not inferred merely from restoring files or a reload exit0.
+
+Safe status-only observations are retained in protected state and failure JSON,
+including separate drill/final restoration observations. The known rolled-back
+8000144 driver can transition through the same reviewed hash/originals/history
+checks; no state reset is needed. A completed renewal proof is retained and reused
+only while the certificate hash matches. The rollback drill remains required.
+
+If protected inspection is needed, inspect_https.py is read-only and emits only
+metadata, booleans and health status. Agent access still requires actual local
+sudo authorization; terminal-scoped sudo caching may require the operator to run
+the single probe. Never paste protected state, diagnostics or configurations.
 
 If explicitly needed after a successful rollout, the one rollback command is the
 same reviewed command with --rollback added:

@@ -251,3 +251,20 @@ anonymous private redirects. Existing static caching is unchanged. The one-comma
 workflow still validates/test-reloads, verifies HTTPS, renewal and own rollback,
 then attempts authenticated browser/native acceptance. Record actual outcomes;
 customer endpoints and AI stay disabled, off-server DR stays deferred.
+
+## W024 graceful reload and strict rollback verification
+
+For8000144's rollback_original_http_not_restored with own_changes_rolled_back:true,
+read-only protected inspection confirmed actual original restoration and completed
+Certbot renewal qualification. No state, marker or backup should be deleted. The
+new reviewed driver accepts this exact known rolled-back predecessor only after
+checking its committed candidate hashes, original backups/files and application
+identity. It retains old driver history and the completed renewal proof (same
+certificate only), and redoes the rollback drill using bounded strict HTTP/ACME
+verification after graceful reload. Public HTTPS remains unqualified until this
+new operator-run workflow and independent checks pass. Use the single command in
+HTTPS_DEPLOYMENT.md with the new full driver SHA; no manual Nginx edits/restarts or
+individual diagnostics are needed. Remaining acceptance still includes actual
+HTTPS administrator/MFA, scoped codes/revocation, desktop/mobile, approved native
+workflow and independent UAT. AI/customer endpoints stay disabled; off-server DR
+is deferred.

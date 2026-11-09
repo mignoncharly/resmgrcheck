@@ -136,3 +136,15 @@ in HTTPS_DEPLOYMENT.md with existing immutable application544f22c. It preserves
 original backups and known failed-driver history, verifies the old committed
 payload and restored originals, and then installs only the corrected own payload.
 No public acceptance or production completion is inferred from isolated tests.
+
+## W024 graceful reload and strict rollback verification
+
+W024 confirms8000144 restored original HTTP-only configuration and preserved the
+healthy private544f22c release. The completed Certbot dry run was not the failure;
+the one-shot HTTP rollback probe raced Nginx's asynchronous worker reload. The
+reviewed replacement checks exact originals/modes/link and waits boundedly for
+HTTP404 plus ACME, preserving strict TLS/security checks on reactivation. Persistent
+wrong behavior still fails. It accepts the known rolled-back8000144 record with
+verified hashes/backups/history and reuses the completed unchanged-certificate
+renewal proof. Use the new driver SHA in the single HTTPS_DEPLOYMENT.md command.
+No deployment success is claimed from isolated tests or restored HTTP behavior.

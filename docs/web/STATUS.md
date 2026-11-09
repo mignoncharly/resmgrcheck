@@ -262,3 +262,24 @@ restored originals, preserving backups and driver history. No immutable applicat
 release, secrets or unrelated services changed. The revised single operator
 command is still required; real public/browser/native acceptance has not advanced.
 P8 remains IN_PROGRESS; P9/P10 are not claimed.
+
+## W024 graceful reload and strict rollback verification
+
+Protected metadata from the operator-run read-only probe confirms8000144 completed
+and recorded the dedicated Certbot dry run, then failed its immediate rollback
+HTTP check. The original site/http files match both backups and committed bootstrap
+bytes, are root:root0644, and have the correct enabled symlink. The own hook is
+absent, nginx -T passes/includes the own files, and HTTP returns404. Private
+readiness is200; nginx/web/socket are active and web remains resmgr-web on544f22c.
+The restoration succeeded. Public TLS currently fails verification, independently
+confirmed externally; HTTPS deployment is not passed.
+
+The unit reload only signals Nginx. Actual isolated Nginx reproduces old-worker308
+while restored original files already pass nginx -t. W024 replaces the one-shot
+assumption with bounded strict verification of exact originals/modes/link, HTTP404
+and ACME, and waits for verified TLS after reactivation. Persistent wrong behavior
+still fails; failure cleanup now proves HTTP restoration too.27 recovery tests
+PASS, five actual isolated Nginx tests PASS. No production modification was made by
+the agent. Known failed8000144 recovery retains backups/history and its completed
+same-certificate renewal proof; the rollback drill is still required. A new reviewed
+operator command is pending. P8 IN_PROGRESS; P9/P10 not claimed.

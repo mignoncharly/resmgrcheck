@@ -19,7 +19,7 @@ STATE=Path('/var/lib/resmgrcheck/private/operator/https-deployment')
 OPT=Path('/opt/resmgrcheck');CONFIG=Path('/etc/resmgrcheck');ACME=Path('/var/www/resmgrcheck-acme/.well-known/acme-challenge')
 LOGS=Path('/var/log/nginx');ENV={'PATH':'/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','PYTHONDONTWRITEBYTECODE':'1'}
 DIAGNOSTIC=None
-RECOVERABLE_DRIVERS={'f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9','e1ef88c413ee30e7e467512d3610f05a8343c3f1'}
+RECOVERABLE_DRIVERS={'f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9','e1ef88c413ee30e7e467512d3610f05a8343c3f1','8000144314684674c2d672c83956c0732498edff'}
 
 def require_root():require(os.geteuid()==0,'local_root_operator_required')
 
@@ -295,6 +295,35 @@ def restore(state,targets):
             require(read(path)==candidate,'rollback_resource_changed');path.unlink();fsync_directory(path.parent)
         else:replace_owned(path,previous,candidate,state['modes'][name])
 
+def verify_original_http(state,targets,client):
+    # Reload signals the master; old workers may briefly accept fresh connections.
+    # First prove exact files/modes/link, then wait for the restored HTTP behavior.
+    require(ENABLED.is_symlink() and ENABLED.lstat().st_uid==os.geteuid() and ENABLED.resolve()==SITE,'rollback_enabled_site_link_differs')
+    for name,path,_,_ in targets:
+        previous=read(STATE/(name+'.before'),private=True) if state['before'][name] is not None else None
+        current=read(path) if path.exists() or path.is_symlink() else None
+        require(current==previous and (previous is None or digest(previous)==state['before'][name]),'rollback_original_files_differ')
+        if previous is not None:require(stat.S_IMODE(path.lstat().st_mode)==state['modes'][name],'rollback_original_mode_differs')
+    observations=[];state['rollback_http_observations']=observations
+    for attempt in range(6):
+        try:
+            status,headers,_=client.request('/',secure=False)
+            observations.append({'status':status,'own_https_redirect':headers.get('location')=='https://'+HOST+'/'})
+        except OSError:status=None;observations.append({'connection_failed':True})
+        if status==404:
+            require('location' not in headers,'rollback_original_http_redirects')
+            acme_probe(client)
+            return
+        if attempt<5:time.sleep(1)
+    raise CheckFailed('rollback_original_http_not_restored')
+
+def verified_https_after_reload(client,static_hash,*,rate=True):
+    for attempt in range(6):
+        try:return checks(client,static_hash,rate=rate)
+        except (OSError,CheckFailed):
+            if attempt==5:raise
+            time.sleep(1)
+
 def apply(revision,driver,rollback=False,acceptance=True):
     global DIAGNOSTIC
     require_root();os.umask(0o027);source_check(revision,driver)
@@ -333,6 +362,7 @@ def apply(revision,driver,rollback=False,acceptance=True):
             if rollback:
                 restore(state,targets);require(unrelated_snapshot()==unrelated,'unrelated_configuration_changed')
                 command(['nginx','-t']);command(['systemctl','reload','nginx.service'])
+                verify_original_http(state,targets,Client(address='127.0.0.1'))
                 state['phase']='rolled_back';record(manifest,state)
                 print(json.dumps({'operation':'rollback','passed':True,'scope':'own site/http settings/hook only','application_revision':revision,'other_nginx_files_unchanged':True}));return
             runtime=units_and_runtime(revision);certificate=certificate_and_renewal();log_permissions=ensure_logs()
@@ -352,12 +382,7 @@ def apply(revision,driver,rollback=False,acceptance=True):
             require(unrelated_snapshot()==unrelated,'unrelated_configuration_changed');command(['nginx','-t'])
             command(['systemctl','reload','nginx.service'])
             state['phase']='reloaded';record(manifest,state)
-            results=None
-            for attempt in range(6):
-                try:results=checks(client,static_hash);break
-                except (OSError,CheckFailed):
-                    if attempt==5:raise
-                    time.sleep(1)
+            results=verified_https_after_reload(client,static_hash)
             acme_probe(client);logging_probe(client)
             status,headers,body=client.request('/static/control/app.js')
             media_type=headers.get('content-type','').partition(';')[0].strip().lower()
@@ -372,12 +397,14 @@ def apply(revision,driver,rollback=False,acceptance=True):
                 restore(state,targets);require(unrelated_snapshot()==unrelated,'unrelated_configuration_changed')
                 command(['nginx','-t']);command(['systemctl','reload','nginx.service'])
                 state['phase']='rollback_drill_restored_original';record(manifest,state)
-                observed,_,_=client.request('/',secure=False);require(observed==404,'rollback_original_http_not_restored');acme_probe(client)
+                try:verify_original_http(state,targets,client)
+                finally:
+                    state['rollback_drill_http_observations']=list(state.get('rollback_http_observations',[]));record(manifest,state)
                 for name,path,raw,mode in targets:
                     before=read(STATE/(name+'.before'),private=True) if state['before'][name] is not None else None
                     replace_owned(path,raw,before,mode)
                 command(['nginx','-t']);command(['systemctl','reload','nginx.service'])
-                checks(client,static_hash,rate=False)
+                verified_https_after_reload(client,static_hash,rate=False)
                 state['rollback_verified']=True;record(manifest,state)
             require(unrelated_snapshot()==unrelated,'unrelated_configuration_changed')
             report={'application_revision':revision,'driver_revision':driver,'origin':'https://'+HOST,'local_verified_https':'passed',
@@ -385,7 +412,8 @@ def apply(revision,driver,rollback=False,acceptance=True):
                 'renewal_deploy_hook_installed':True,'actual_renewal_hook_event':'not_run','other_nginx_files_unchanged':True,
                 'own_log_permissions':log_permissions,
                 'public_acceptance':'pending','customer_host_qualification':'blocked; no separate host','AI':'disabled','off_server_DR':'deferred',
-                'rollback':'own HTTPS configuration restored and reactivated; private release/database unchanged'}
+                'rollback':'own HTTPS configuration restored and reactivated; private release/database unchanged',
+                'rollback_drill_http_observations':state.get('rollback_drill_http_observations',[])}
             state['phase']='verified';record(manifest,state);record(STATE/'report.json',report)
             print(json.dumps({'deployment':'passed','application_revision':revision,'driver_revision':driver,'origin':report['origin'],
                 'protected_report':str(STATE/'report.json'),'external_and_authenticated_acceptance':'pending'}),flush=True)
@@ -404,11 +432,14 @@ def apply(revision,driver,rollback=False,acceptance=True):
                 restore(state,targets)
                 require(unrelated_snapshot()==unrelated,'unrelated_configuration_changed_during_rollback')
                 if changed:command(['nginx','-t']);command(['systemctl','reload','nginx.service'])
+                verify_original_http(state,targets,Client(address='127.0.0.1'))
                 state['phase']='rolled_back_after_failure';record(manifest,state)
             except BaseException:
                 state['phase']='rollback_requires_operator_review';record(manifest,state)
                 raise CheckFailed('deployment_failed_and_safe_rollback_could_not_complete') from None
-            print(json.dumps({'deployment':'failed','failed_check':error,'own_changes_rolled_back':True,'protected_state':str(manifest)}),flush=True)
+            print(json.dumps({'deployment':'failed','failed_check':error,'own_changes_rolled_back':True,'protected_state':str(manifest),
+                'rollback_drill_http_observations':state.get('rollback_drill_http_observations',[]),
+                'final_rollback_http_observations':state.get('rollback_http_observations',[])}),flush=True)
             raise CheckFailed('deployment_failed_own_configuration_rolled_back') from None
 
 def main():
