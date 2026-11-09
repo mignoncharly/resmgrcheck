@@ -1141,3 +1141,50 @@ response). TLS was never bypassed. Production corrected retry, real public auth/
 codes/browser/native acceptance and independent existing-admin UAT remain NOT_RUN.
 Customer separate-host qualification remains BLOCKED, endpoints/AI disabled and
 off-server DR deferred. P8 remains IN_PROGRESS.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+See evidence/https-auth-identity for exact logs and provenance. The real cf15209
+operator run passed HTTPS/renewal/rollback, then browser acceptance failed. Its
+report records seven views, five zero-violation scans, no native runs and timeout
+at administrator login; root status metadata confirms the browser POST returned403.
+The protected cleanup receipt confirms only the temporary account/codes were
+disabled/revoked, original users unchanged, audits/evidence preserved and no active
+native work. Original HTTP-only configuration is restored; private readiness200
+and dedicated units active. The agent did not execute privileged deployment.
+
+Installed allauth65.21.1's DefaultAccountAdapter.get_client_ip raises PermissionDenied
+when its default peer/XFF lookup cannot find an address. The new exact-context test
+uses empty REMOTE_ADDR, overwritten X-Real-IP, real CSRF and the old default setting:
+login returns403 before authentication. Enabling the supported production-only
+header setting returns200 on a wrong password, password302 to MFA, keeps dashboard
+unauthorized before TOTP, then authenticates only after actual valid TOTP. Missing/
+invalid/comma-list headers fail closed; forged XFF cannot substitute, valid IPv6
+works, missing CSRF and hostile origin still return403. The existing fixture's
+forced127.0.0.1 concealed this production-only condition and is corrected.
+
+61 actual PostgreSQL identity/access/route/cleanup tests PASS in12.968s. Seven actual
+Gunicorn26.2.0 inherited Unix-FD tests PASS in2.678s; the new route observes exactly
+empty REMOTE_ADDR with the explicit proxy header retained. LISTEN_* is modeled,
+not an actual systemd qualification. The corrected real Django/PostgreSQL/Nginx/
+verified private-TLS browser rehearsal PASS in163.049s:44 desktop/mobile/no-JS views,
+12 zero-violation scans, actual password/TOTP and code issuance/scope/revocation/
+usage/expiry; Gunicorn's empty address is modeled in this WSGI fixture. No production,
+root, external client or QNX qualification is inferred from that rehearsal.
+
+15 recovery regressions PASS in0.181s, one privacy-reporting test PASS. Recovery tests
+use real disposable pointer/history files and model root/services/backups/HTTP.
+They cover original-private restoration on runtime/browser failure, same-release
+resume/interrupted pointer, changed unit/native/settings rejection, unknown release
+preservation, snapshot-hash mismatch and verified-proof reuse. Runtime helper is
+operator-only, checks no pending migrations and creates new static assets without
+schema/grant writes. Successful original-private restoration after corrected
+production failure remains pending real qualification; nothing patches current.
+Production acceptance, exact corrected systemd isolation, external HTTPS and native
+registry approval remain pending. Customer/AI disabled; off-server DR deferred.
+
+Final combined driver/cleanup suite:52 tests PASS in6.245s. A pre-existing test
+checking an owned killed child raced /proc reaping; it now accepts disappearance
+between lookup/read as a reaped process, while any still-present process must be
+a zombie. The final pass includes all strict rollback/TLS/security regressions.
+No application supervision behavior changed for that test correction.

@@ -766,3 +766,20 @@ renewal proof. Do not patch /opt/resmgrcheck/current, replace credentials, delet
 state or repeat the8000144 command. Use the one reviewed command with the new
 full driver revision in HTTPS_DEPLOYMENT.md. No privileged deployment has been
 executed by the agent; actual production acceptance is still pending.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+Do not repeat cf15209 against544f22c. Rollback is working; browser login403 comes
+from allauth's missing Unix transport peer identity. W025 adds production-only
+trust of Nginx's overwritten X-Real-IP and needs a new immutable application release.
+The single recover_https_auth.py command in HTTPS_DEPLOYMENT.md stages that new
+release, binds a fresh encrypted backup/isolated restore, restarts only dedicated
+web/socket around an atomic pointer switch, creates/validates new static assets
+without migration or grants, and requires private runtime/readiness before HTTPS.
+It preserves source keys/configs/old release/DB/audits/evidence/native approvals.
+Known cf15209 HTTPS state/history is retained and explicitly rebound after exact
+old hashes/original restoration are proven. Same-cert renewal proof is reused;
+rollback is requalified for the new alias. Failures restore the old private release
+only after verified own HTTP restoration; unknown edits require review. Retry the
+same reviewed SHAs after interruption; never delete state or unknown resources.
+Actual new private/HTTPS qualification remains pending operator execution.

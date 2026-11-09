@@ -22,6 +22,7 @@ class Journey:
         self.results={'kind':'actual-production-HTTPS-browser-acceptance','origin':origin,'passed':False,
             'administrator_password_MFA':'not_run','access_codes':'not_run','native':credentials['native'],
             'views':self.views,'accessibility':self.scans,'runs':self.runs,'independent_external_client':False,
+            'authentication_requests':[],
             'credentials_cookies_traces_saved':False,'AI':'disabled','separate_customer_host':'not_qualified'}
     def checkpoint(self):
         path=self.out/'browser-report.json';path.write_text(json.dumps(self.results,indent=2)+'\n');path.chmod(0o600)
@@ -43,17 +44,30 @@ class Journey:
             violations=page.evaluate("async()=>{const r=await axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}});return r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>n.target)}))}")
             self.scans.append({'view':label,'violations':violations});require(not violations,'accessibility_violations')
         self.checkpoint();return response
+    def authentication_response(self,response):
+        path=urlsplit(response.url).path
+        if urlsplit(response.url).netloc==self.host and response.request.method=='POST' and path in {'/administrator/login/','/administrator/2fa/authenticate/'}:
+            self.results['authentication_requests'].append({'stage':self.step,'endpoint':'password' if path=='/administrator/login/' else 'MFA','status':response.status})
+            self.checkpoint()
     def login(self,page,mode):
+        page.on('response',self.authentication_response)
         self.visit(page,'/administrator/login/','administrator-login',mode,scan=mode=='desktop')
+        self.step='administrator-password-form'
         page.locator('[name=login]').fill(self.secret['username']);page.locator('[name=password]').fill(self.secret['password'])
         if mode=='desktop':
+            self.step='administrator-wrong-password-submit'
             page.locator('[name=password]').fill('Deliberately invalid acceptance probe')
             self.click(page,'Sign in as administrator');page.wait_for_load_state('networkidle')
             require(urlsplit(page.url).path=='/administrator/login/','incorrect_password_authorized')
+            require(self.results['authentication_requests'] and self.results['authentication_requests'][-1]['status']==200,'wrong_password_not_processed')
+            self.step='administrator-correct-password-form'
             page.locator('[name=login]').fill(self.secret['username']);page.locator('[name=password]').fill(self.secret['password'])
+        self.step='administrator-password-submit'
         self.click(page,'Sign in as administrator');page.wait_for_url('**/administrator/2fa/authenticate/**')
+        self.step='administrator-password-only-denial'
         require(page.context.request.get(self.origin+'/app/',max_redirects=0).status==302,'password_bypassed_MFA')
         for attempt in range(3):
+            self.step='administrator-MFA-submit'
             page.locator('[name=code]').fill(totp(self.secret['totp_secret']));self.click(page,'Sign In');page.wait_for_timeout(200)
             if urlsplit(page.url).path=='/app/':break
             require(attempt<2,'MFA_failed');time.sleep(30-time.time()%30+.1)

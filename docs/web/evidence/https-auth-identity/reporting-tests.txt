@@ -1,0 +1,6 @@
+test_records_status_without_credentials_headers_body_or_arbitrary_urls (test_https_browser_reporting.AuthenticationReportingTests.test_records_status_without_credentials_headers_body_or_arbitrary_urls) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

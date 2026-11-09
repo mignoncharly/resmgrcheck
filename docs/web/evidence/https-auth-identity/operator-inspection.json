@@ -1,0 +1,32 @@
+{
+  "provenance": "operator executed revised read-only inspect_https.py and returned safe metadata; root log/config contents not displayed",
+  "driver_revision": "cf15209ba98c7891fe2ab991868b5c06eed57de3",
+  "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "phase": "rolled_back_after_failure",
+  "failure": "command_failed_python",
+  "renewal_completed_and_recorded": true,
+  "rollback_verified": true,
+  "HTTP": 404,
+  "HTTPS_certificate_verified": false,
+  "private_readiness": 200,
+  "nginx_web_socket": "active",
+  "original_site_http": "exact backups/bootstrap root0644; correct enabled symlink",
+  "own_renewal_hook": "absent",
+  "latest_browser_login_POST_status": 403,
+  "latest_acceptance_cleanup": {
+    "receipt_present": true,
+    "temporary_account_disabled": true,
+    "temporary_codes_revoked": true,
+    "existing_users_changed": false,
+    "audit_runs_evidence_preserved": true,
+    "own_native_work_still_active": false
+  },
+  "diagnostic": {
+    "bytes": 93,
+    "certbot_error_marker_present": false
+  },
+  "native": {
+    "status": "blocked",
+    "reason": "approved_executor_registry_missing"
+  }
+}

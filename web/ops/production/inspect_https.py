@@ -9,6 +9,8 @@ def inspect():
     deployment.require_root()
     state=json.loads(deployment.read(deployment.STATE/'state.json',private=True))
     result={'read_only':True,'secrets_printed':False,'state':{}}
+    active=deployment.OPT/'current';revision=active.resolve().name if active.is_symlink() else ''
+    result['active_application_revision']=revision if re.fullmatch('[0-9a-f]{40}',revision) else None
     for key in ['driver_revision','application_revision','phase','failure']:
         value=state.get(key)
         result['state'][key]=value if isinstance(value,str) and re.fullmatch('[a-z0-9_]{1,100}',value) else None
@@ -39,6 +41,28 @@ def inspect():
         raw=deployment.read(diagnostic,private=True)
         result['diagnostic']={'present':True,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
             'certbot_error_marker_present':any(marker in raw.lower() for marker in [b'failed to renew',b'challenge failed',b'some challenges have failed'])}
+    # Only the dedicated structured confidential format is eligible for output.
+    # No request IDs, addresses, URLs, body, cookies or raw error text are returned.
+    access=deployment.LOGS/'resmgrcheck-access.log'
+    descriptor=os.open(access,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    try:
+        info=os.fstat(descriptor)
+        import stat
+        deployment.require(stat.S_ISREG(info.st_mode) and info.st_uid==0 and info.st_nlink==1 and stat.S_IMODE(info.st_mode) in {0o600,0o640},'own_log_protection')
+        os.lseek(descriptor,max(0,info.st_size-65536),os.SEEK_SET);tail=os.read(descriptor,65536).decode(errors='replace')
+        rows=[]
+        for line in tail.splitlines():
+            match=re.fullmatch(r'[0-9a-f]{32} (GET|POST|HEAD) (public|administrator|access|application|api|runner-disabled|playback) ([1-5][0-9]{2}) [0-9.]+',line)
+            if match:rows.append({'method':match[1],'area':match[2],'status':int(match[3])})
+        result['recent_own_request_statuses']=rows[-64:]
+    finally:os.close(descriptor)
+    intents=sorted(deployment.STATE.glob('acceptance-*.intent.json'),key=lambda p:p.stat().st_mtime_ns)
+    if intents:
+        cleanup=intents[-1].with_name(intents[-1].name.replace('.intent.json','.cleanup.json'))
+        result['latest_acceptance_cleanup']={'receipt_present':cleanup.exists()}
+        if cleanup.exists():
+            closed=json.loads(deployment.read(cleanup,private=True))
+            result['latest_acceptance_cleanup'].update({k:closed.get(k) for k in ['temporary_account_disabled','temporary_codes_revoked','existing_users_changed','audit_runs_evidence_preserved','own_native_work_still_active']})
     checked=subprocess.run(['/usr/sbin/nginx','-T'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=10,env=deployment.ENV)
     result['nginx_configuration_test_passed']=checked.returncode==0
     result['nginx_disk_configuration_includes_own_files']=all(('# configuration file '+str(p)+':').encode() in checked.stdout for p in [deployment.ENABLED,deployment.HTTP])

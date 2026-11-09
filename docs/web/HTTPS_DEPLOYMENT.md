@@ -1,14 +1,66 @@
 # One-command HTTPS deployment and production acceptance
 
-Application release:544f22c174ad48e1c8d741db0afdd3bf5b54f947, already active privately.
-This procedure publishes that immutable release. It changes no application code,
-schema, original credential, SSH route or QNX build. The owner now authorizes the
+Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W025 requires a new
+immutable authentication correction before another deployment attempt. The owner authorizes the
 jury-facing HTTPS deployment while customer-runner endpoints and AI stay disabled.
 The earlier requirement to wait for separate customer-host qualification before
 any public jury deployment is superseded by that instruction; customer onboarding
 itself is still unqualified and disabled. Off-server DR remains deferred, not passed.
 
-## Only operator command
+## Current operator command: immutable authentication recovery
+
+Do not repeat the HTTPS-only command against544f22c: allauth cannot determine the
+client IP from Gunicorn's empty Unix REMOTE_ADDR and returns403 on login POST.
+The reviewed application correction trusts only X-Real-IP in production, which the
+dedicated Nginx host overwrites using the original peer. Forwarded chains remain
+stripped, malformed/missing peer values fail closed, and password/MFA/CSRF/rate
+limits remain required. See the installed65.21.1 implementation and the official
+[allauth proxy/rate-limit configuration](https://docs.allauth.org/en/dev/common/rate_limits.html).
+
+The agent runs review, unprivileged tests and a read-only plan. The operator runs
+this single command with the reviewed application and driver SHAs from the handoff:
+
+```sh
+sudo /usr/bin/python3 -I \
+  /home/mignon/projects/resmgrcheck/web/ops/production/recover_https_auth.py \
+  --release AUTH_APPLICATION_FULL_SHA \
+  --driver-revision REVIEWED_FULL_DRIVER_SHA \
+  --apply
+```
+
+This stages a separate release and validated shared pinned venv, preserving the
+original544 directory. A fresh dedicated encrypted snapshot and isolated restore
+are bound to a protected auth-upgrade receipt; verified same-snapshot proofs are
+checked and reused on retry. Only the dedicated web/socket are stopped for an
+atomic pointer switch. Units, their isolation, key/config files, schema/grants and
+native routes stay unchanged. A root-only runtime helper checks no pending migrations,
+the configured peer identity and new immutable static assets; it does not migrate.
+Actual nonroot runtime_check and private HTTP200 must pass before HTTPS is attempted.
+
+The known rolled-back cf15209 record must match its committed candidate, original
+backups/files/modes/link and actual HTTP404/ACME. Its history and completed same-cert
+renewal proof are retained. The receipt is explicitly rebound to the new immutable
+application/driver, requiring the HTTPS rollback drill again. No state is deleted
+or reset to bypass a check. Existing acceptance accounts/codes stay disabled and
+their audits/evidence remain. On a known failure, own HTTPS rollback is verified,
+then the original private pointer/service is restored and checked. Unknown edits
+cause review/refusal. Interrupted stages/new releases are retained; retry the same
+command/SHAs without overwriting unknown resources.
+
+The command then runs the existing strict TLS/security/renewal/rollback/browser
+workflow. Password/MFA POST statuses and precise safe stages are recorded without
+contents. Safe operator cleanup metadata is published even on browser failure.
+Missing native registry remains BLOCKED, never automatically provisioned. No QNX
+permissions/credentials are changed. Customer endpoints/AI remain disabled.
+
+For an explicitly reviewed rollback of this correction, use the same command
+with --rollback added. It first restores/verifies own HTTP-only configuration,
+then restores the original private release and verifies readiness/runtime. Both
+releases, backup/restore receipts, keys, all DB records and evidence remain intact.
+Actual corrected production acceptance and this new release rollback are pending;
+modeled recovery tests do not complete either qualification.
+
+## Historical HTTPS-only command (superseded for544f22c)
 
 The agent runs source review, unprivileged tests and the read-only plan. The operator
 runs this one command locally with the exact reviewed driver commit from the handoff:

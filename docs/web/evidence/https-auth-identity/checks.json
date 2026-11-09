@@ -1,0 +1,44 @@
+{
+  "source_parent": "cf15209ba98c7891fe2ab991868b5c06eed57de3",
+  "confirmed_root_cause": "allauth65.21.1 cannot determine client IP from empty Gunicorn26.2.0 Unix REMOTE_ADDR; default adapter ignores overwritten X-Real-IP, rejects POST before password verification",
+  "correction": "production-only ALLAUTH_TRUSTED_CLIENT_IP_HEADER=X-Real-IP; nginx overwrites raw peer, clears forwarded chains; missing/malformed values fail closed",
+  "tests": {
+    "authorization-tests.txt": {
+      "passed": 61,
+      "seconds": 12.968
+    },
+    "gunicorn-tests.txt": {
+      "passed": 7,
+      "seconds": 2.678
+    },
+    "release-tests.txt": {
+      "passed": 15,
+      "seconds": 0.181
+    },
+    "reporting-tests.txt": {
+      "passed": 1,
+      "seconds": 0.001
+    },
+    "browser-rehearsal.txt": {
+      "passed": 1,
+      "seconds": 163.049
+    },
+    "combined-driver-tests.txt": {
+      "passed": 52,
+      "seconds": 6.245,
+      "scope": "Django/PG cleanup plus actual isolated nginx and disposable recovery files; privileged services modeled"
+    }
+  },
+  "browser_views": 44,
+  "accessibility_scans": 12,
+  "actual_systemd_new_release": "NOT_RUN",
+  "actual_public_authentication_after_correction": "NOT_RUN",
+  "new_immutable_upgrade_and_rollback": "modeled privileged services; real filesystem pointer/history; NOT_RUN in production",
+  "original_private_service": "healthy and preserved",
+  "P8": "IN_PROGRESS",
+  "native_production": "BLOCKED approved registry missing",
+  "customer_runner": "disabled; separate-host qualification blocked",
+  "AI": "disabled",
+  "off_server_DR": "deferred",
+  "QNX_executions_this_correction": 0
+}

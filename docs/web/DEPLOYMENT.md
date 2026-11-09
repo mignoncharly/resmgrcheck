@@ -148,3 +148,15 @@ wrong behavior still fails. It accepts the known rolled-back8000144 record with
 verified hashes/backups/history and reuses the completed unchanged-certificate
 renewal proof. Use the new driver SHA in the single HTTPS_DEPLOYMENT.md command.
 No deployment success is claimed from isolated tests or restored HTTP behavior.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+W025 replaces the old HTTPS-only retry with recover_https_auth.py: the actual
+failure is allauth client-IP discovery on the private Unix listener. A new immutable
+settings correction is necessary; never patch current or publish544f22c again as
+an authenticated acceptance attempt. HTTPS_DEPLOYMENT.md gives the single reviewed
+operator command and rollback variant. New-release scope, frozen units/native code,
+fresh encrypted backup/isolated restore, private readiness/isolation, retained
+failed-driver history and completed same-cert renewal proof are checked. Customer
+registry absence remains a blocker, not permission to provision credentials/routes.
+No corrected production activation has been performed by the agent.

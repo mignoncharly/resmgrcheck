@@ -283,3 +283,31 @@ PASS, five actual isolated Nginx tests PASS. No production modification was made
 the agent. Known failed8000144 recovery retains backups/history and its completed
 same-certificate renewal proof; the rollback drill is still required. A new reviewed
 operator command is pending. P8 IN_PROGRESS; P9/P10 not claimed.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+The cf15209 deployment passed local HTTPS/security, dedicated renewal and actual
+HTTP rollback/reactivation. Authenticated browser acceptance then failed: its first
+administrator POST returned403. Safe evidence shows seven real public views/five
+zero-violation accessibility scans; administrator/MFA and codes are NOT_RUN, not
+passed. The operator's read-only probe confirms original HTTP404 restored, exact
+root0644 files/link, private readiness200, active web/socket/nginx, and successful
+temporary-account/code cleanup preserving existing users/audit/evidence. No native
+work ran; approved_executor_registry_missing is a distinct production blocker.
+
+Installed allauth65.21.1 requires a valid client IP. Actual Gunicorn26.2.0 Unix-FD
+testing confirms REMOTE_ADDR is empty. Nginx overwrites X-Real-IP and strips XFF,
+but allauth's default ignores X-Real-IP and denies login before password checking.
+The former WSGI fixture incorrectly supplied127.0.0.1, masking this incompatibility.
+Production now explicitly trusts only Nginx's overwritten X-Real-IP; missing or
+malformed identities still fail closed. MFA, CSRF, DB-cache rate limits and Unix
+service isolation remain intact.
+
+61 actual disposable-PostgreSQL authorization/identity/code tests PASS; seven real
+Gunicorn FD tests PASS, including empty peer identity. The corrected fixture uses
+empty REMOTE_ADDR and passes44 desktop/mobile/no-JS views and12 accessibility scans.
+15 recovery tests and one privacy-reporting test PASS; privileged services/backup/
+HTTP are modeled, filesystem pointer/history operations are real. No corrected
+production release has been activated by the agent. A new immutable application
+and reviewed one-command recover_https_auth.py workflow are prepared; see the
+updated HTTPS_DEPLOYMENT.md. P8 remains IN_PROGRESS; P9/P10 not claimed.

@@ -1,5 +1,5 @@
 """Actual disposable DB principal lifecycle; no protected production config access."""
-import contextlib,io,json,sys,uuid
+import contextlib,io,json,sys,tempfile,uuid
 from pathlib import Path
 from unittest.mock import patch
 from django.test import TestCase
@@ -10,6 +10,18 @@ import acceptance_operator as acceptance
 from https_checks import CheckFailed
 
 class ProductionAcceptanceIdentityTests(TestCase):
+    def test_failed_browser_still_publishes_safe_cleanup_receipt(self):
+        from control.models import User
+        with tempfile.TemporaryDirectory() as temporary:
+            source=Path(temporary);(source/'.local/browser-test/bin').mkdir(parents=True);(source/'.local/browser-test/bin/python').touch()
+            (source/'.local/web/evidence').mkdir(parents=True);state=source/'protected';state.mkdir(mode=0o700)
+            with patch.object(acceptance,'load_application'),patch.object(acceptance.deployment,'SOURCE',source),patch.object(acceptance,'native_plan',return_value={'status':'blocked','reason':'fixture'}),patch.object(acceptance.deployment,'command',side_effect=[b'inactive',CheckFailed('fixture_browser_failure')]),self.assertRaisesRegex(CheckFailed,'fixture_browser_failure'):
+                acceptance.run('5'*40,'6'*40,state)
+            receipt=json.loads(next((source/'.local/web/evidence').glob('production-*/operator-cleanup.json')).read_text())
+            self.assertTrue(receipt['temporary_account_disabled']);self.assertFalse(receipt['existing_users_changed'])
+            self.assertEqual(User.objects.filter(username__startswith='accept-',is_active=True).count(),0)
+            self.assertEqual(json.loads(next(state.glob('*.cleanup.json')).read_text()),receipt)
+            self.assertEqual(set(receipt),{'temporary_account_disabled','temporary_codes_revoked','existing_users_changed','audit_runs_evidence_preserved','own_native_work_still_active'})
     def test_bootstrap_and_cleanup_preserve_existing_users_and_revoke_only_own_test_data(self):
         from control.models import User,AccessCode,AccessSession,Organization,Membership
         from control.access import create_code

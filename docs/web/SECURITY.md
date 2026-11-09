@@ -353,3 +353,26 @@ rollback. TLS reactivation retains full hostname/CA/security checks. Known faile
 payloads; no marker resets, credential changes or unrelated configuration writes
 are allowed. Read-only inspect_https.py emits only protected-state allowlisted
 metadata and health, never raw configurations/logs/secrets.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+The production allauth65.21.1 adapter needs a client IP for authentication rate
+limits/session records. Unix Gunicorn supplies empty REMOTE_ADDR; configured XFF
+stripping makes the default adapter reject POST403. Configure only the supported
+production ALLAUTH_TRUSTED_CLIENT_IP_HEADER='X-Real-IP'. Dedicated Nginx overwrites
+that header from its original peer, including when global real-IP settings exist,
+and removes attacker-supplied XFF/Forwarded. External clients cannot choose this
+value through that frontend. Missing/malformed peer identities fail closed. Header
+identity is never a substitute for password/MFA/access-code authorization. The
+service remains nonroot/AF_UNIX with its existing socket permissions and sandbox.
+No fallback to an arbitrary forwarded chain, rate-limit exemption or CSRF bypass
+is introduced. See official allauth common/rate_limits documentation and pinned
+installed code. Tests reproduce old403 and verify real password/MFA/CSRF behavior.
+
+Authentication browser evidence contains only known endpoint/stage/status metadata,
+never submitted values, cookies or bodies. Negative password tests must see an
+actual processed response, not treat a403/429 page as password rejection. Cleanup
+publishes safe metadata even after failure. The immutable upgrade scope permits
+only the exact settings insertion in application code; native/runtime/units/schema/
+credentials remain frozen. Original release, backup proofs and HTTPS history are
+retained. Production acceptance is still required before readiness is claimed.

@@ -65,6 +65,9 @@ ACCOUNT_LOGOUT_ON_GET = False
 ACCOUNT_SESSION_REMEMBER = False
 ACCOUNT_PREVENT_ENUMERATION = True
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if ENVIRONMENT == 'production' else 'http'
+# Production is reachable only through the private Unix socket. Dedicated Nginx
+# overwrites this header with its original peer and strips forwarded-IP chains.
+ALLAUTH_TRUSTED_CLIENT_IP_HEADER = 'X-Real-IP' if ENVIRONMENT == 'production' else None
 MFA_SUPPORTED_TYPES = ['totp','recovery_codes']
 MFA_TOTP_ISSUER = 'ResMgrCheck'
 USERSESSIONS_TRACK_ACTIVITY = True

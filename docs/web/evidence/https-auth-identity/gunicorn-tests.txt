@@ -1,0 +1,12 @@
+test_actual_gunicorn_unix_transport_has_no_peer_IP_and_keeps_explicit_proxy_header (test_socket_activation.SocketActivationTests.test_actual_gunicorn_unix_transport_has_no_peer_IP_and_keeps_explicit_proxy_header) ... ok
+test_corrected_discovery_serves_private_ready_without_rebinding (test_socket_activation.SocketActivationTests.test_corrected_discovery_serves_private_ready_without_rebinding) ... ok
+test_duplicate_bind_is_rejected_before_consuming_descriptors (test_socket_activation.SocketActivationTests.test_duplicate_bind_is_rejected_before_consuming_descriptors) ... ok
+test_http_503_and_socket_timeout_never_pass_readiness (test_socket_activation.SocketActivationTests.test_http_503_and_socket_timeout_never_pass_readiness) ... ok
+test_missing_or_wrong_pid_extra_or_closed_fd_fail_without_fallback (test_socket_activation.SocketActivationTests.test_missing_or_wrong_pid_extra_or_closed_fd_fail_without_fallback) ... ok
+test_old_explicit_bind_and_systemd_discovery_double_consumes_live_fd (test_socket_activation.SocketActivationTests.test_old_explicit_bind_and_systemd_discovery_double_consumes_live_fd) ... ok
+test_unexpected_socket_path_or_non_socket_descriptor_is_rejected (test_socket_activation.SocketActivationTests.test_unexpected_socket_path_or_non_socket_descriptor_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.678s
+
+OK

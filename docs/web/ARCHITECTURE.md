@@ -177,3 +177,15 @@ HTTP404/ACME behavior independently qualify restoration. Bounded verified-TLS pr
 qualify reactivation. Status-only observations distinguish the drill from final
 failure cleanup; failed or uncertain verification never becomes a readiness claim.
 Application544f22c, database, executor and evidence architecture are unchanged.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+Nginx supplies the original client address through an overwritten X-Real-IP header
+over the private Unix listener. Gunicorn's Unix REMOTE_ADDR is empty. Allauth must
+explicitly consume the supported trusted-header setting in production for rate
+limits and session metadata; forwarded chains remain stripped. Missing/invalid
+addresses fail closed. Fixtures must model empty Unix peer identity, alongside
+real Gunicorn transport tests, rather than inventing a loopback peer. A one-setting
+correction is deployed as a new immutable application with a separate static tree;
+existing root-owned runtime configuration remains unchanged. The application does
+not serve static files; the reviewed Nginx alias selects the new tree.

@@ -23,6 +23,8 @@ class UnixWSGI(socketserver.ThreadingMixIn,WSGIServer):
 class Handler(WSGIRequestHandler):
     def __init__(self,request,address,server):super().__init__(request,('127.0.0.1',0),server)
     def log_message(self,*args):pass
+    def get_environ(self):
+        environ=super().get_environ();environ['REMOTE_ADDR']='';return environ
 
 class HTTPSBrowserRehearsal(TransactionTestCase):
     def test_full_driver_through_verified_fixture_TLS(self):
@@ -35,6 +37,7 @@ class HTTPSBrowserRehearsal(TransactionTestCase):
             shutil.copyfile(settings.REPO_ROOT/'web/control/static/control/app.js',fixture.static/'control/app.js')
             origin='https://localhost:'+str(fixture.https_port)
             config=override_settings(ENVIRONMENT='production',SESSION_COOKIE_SECURE=True,CSRF_COOKIE_SECURE=True,
+                ALLAUTH_TRUSTED_CLIENT_IP_HEADER='X-Real-IP',
                 SECURE_SSL_REDIRECT=True,SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO','https'),
                 CSRF_TRUSTED_ORIGINS=[origin],ALLOWED_HOSTS=['localhost','qnx-resmgrcheck.gestionatech.de'])
             config.enable();self.addCleanup(config.disable)

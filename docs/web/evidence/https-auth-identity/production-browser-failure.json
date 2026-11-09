@@ -1,0 +1,78 @@
+{
+  "kind": "actual-production-HTTPS-browser-acceptance",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de",
+  "passed": false,
+  "administrator_password_MFA": "not_run",
+  "access_codes": "not_run",
+  "native": {
+    "status": "blocked",
+    "reason": "approved_executor_registry_missing"
+  },
+  "views": [
+    {
+      "view": "public-landing",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-before",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-after",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-job",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "anonymous-dashboard-denial",
+      "http_status": 302
+    },
+    {
+      "view": "public-registration-absent",
+      "http_status": 404
+    },
+    {
+      "view": "administrator-login",
+      "mode": "desktop",
+      "http_status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "view": "public-landing",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-before",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-after",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-job",
+      "violations": []
+    },
+    {
+      "view": "administrator-login",
+      "violations": []
+    }
+  ],
+  "runs": [],
+  "independent_external_client": false,
+  "credentials_cookies_traces_saved": false,
+  "AI": "disabled",
+  "separate_customer_host": "not_qualified",
+  "customer_runner_endpoints": "disabled",
+  "public_landing_recorded_evidence": "passed",
+  "failed_step": "administrator-login",
+  "error_class": "TimeoutError",
+  "provenance": "actual failed production browser attempt with544f22c/cf15209; operator root workflow; secrets not included"
+}

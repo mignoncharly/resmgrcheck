@@ -79,6 +79,22 @@ class SocketActivationTests(unittest.TestCase):
         self.assertEqual(self.path.stat().st_ino,self.inode)
         self.assertIn('Validated systemd Unix listener fd=3 count=1',self.logs(log))
 
+    def test_actual_gunicorn_unix_transport_has_no_peer_IP_and_keeps_explicit_proxy_header(self):
+        process,log=self.launch();deadline=time.monotonic()+7
+        while time.monotonic()<deadline:
+            if process.poll() is not None:self.fail(self.logs(log))
+            try:
+                if ready(self.path,.3):break
+            except (OSError,http.client.HTTPException):pass
+            time.sleep(.03)
+        else:self.fail(self.logs(log))
+        connection=UnixHTTP(self.path)
+        try:
+            connection.request('GET','/transport-identity/',headers={'X-Real-IP':'198.51.100.20'})
+            response=connection.getresponse();self.assertEqual(response.status,200)
+            self.assertEqual(json.loads(response.read(1024)),{'remote_addr':'','x_real_ip':'198.51.100.20'})
+        finally:connection.close()
+
     def test_missing_or_wrong_pid_extra_or_closed_fd_fail_without_fallback(self):
         for mode in ['missing','wrong-pid','extra','closed']:
             with self.subTest(mode=mode):

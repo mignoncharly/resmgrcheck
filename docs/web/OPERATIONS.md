@@ -268,3 +268,17 @@ individual diagnostics are needed. Remaining acceptance still includes actual
 HTTPS administrator/MFA, scoped codes/revocation, desktop/mobile, approved native
 workflow and independent UAT. AI/customer endpoints stay disabled; off-server DR
 is deferred.
+
+## W025 Unix proxy identity and immutable authentication recovery
+
+The cf15209 browser failure safely disabled the temporary identity/codes and
+restored HTTP404/private readiness200. Do not reset state or repeat that deployment.
+Use the W025 immutable auth recovery command in HTTPS_DEPLOYMENT.md. Its receipt
+tracks backup/restore, private pointer and HTTPS binding for same-SHA recovery.
+Unknown resources are preserved/refused. Original keys, config, units and database
+schema/grants stay unchanged. New failures publish safe operator-cleanup.json even
+when browser execution fails; browser-report.json records known password/MFA POST
+status/stage only. Never request raw protected diagnostics, credentials or cookies.
+The independent production-native blocker is approved_executor_registry_missing;
+resolve only through a separately reviewed lab custody/approval workflow. Customer
+runner endpoints and AI remain disabled; off-server DR stays deferred.

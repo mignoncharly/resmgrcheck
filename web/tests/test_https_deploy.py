@@ -242,7 +242,9 @@ class BoundedDeploymentCommandTests(unittest.TestCase):
             with patch.object(deploy,'DIAGNOSTIC',None),self.assertRaises(subprocess.TimeoutExpired):
                 deploy.command([sys.executable,'-c',code,str(path)],timeout=.3)
             pid=int(path.read_text());status=Path('/proc')/str(pid)/'status'
-            if status.exists():self.assertIn('Z',status.read_text().split('State:',1)[1].splitlines()[0])
+            try:state=status.read_text()
+            except (FileNotFoundError,ProcessLookupError):state=None # Reaped between lookup and read.
+            if state is not None:self.assertIn('Z',state.split('State:',1)[1].splitlines()[0])
 
 class OwnLogPermissionTests(unittest.TestCase):
     def setUp(self):

@@ -174,9 +174,11 @@ def run(release,driver,state):
             from control.jobs import ACTIVE
             if not Run.objects.filter(state__in=ACTIVE).exists():deployment.command(['systemctl','stop','resmgrcheck-executor.service'])
         deployment.record(state/('acceptance-'+identifier.hex+'.cleanup.json'),cleanup)
+        # Publish only safe cleanup metadata even when browser acceptance fails.
+        # The protected receipt remains authoritative; no credentials are copied.
+        deployment.new_file(output/'operator-cleanup.json',(json.dumps(cleanup,indent=2)+'\n').encode(),owner=(owner.pw_uid,owner.pw_gid))
     result.update(cleanup);result['application_revision']=release;result['driver_revision']=driver
     deployment.record(state/'acceptance-report.json',result)
-    deployment.new_file(output/'operator-cleanup.json',(json.dumps(cleanup,indent=2)+'\n').encode(),owner=(owner.pw_uid,owner.pw_gid))
     print(json.dumps({'overall_acceptance':'passed' if result.get('passed') else 'in_progress','browser_passed':result.get('browser_passed'),
         'administrator_password_MFA':result['administrator_password_MFA'],'access_codes':result['access_codes'],
         'native':result.get('native',{'status':'not_run'}),'browser_evidence':str(output),'cleanup':cleanup,'independent_external_acceptance':'pending'}))
