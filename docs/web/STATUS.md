@@ -11,7 +11,10 @@ external public fetch returned HTTPS 200. W030: executor registry provisioning a
 the actual service-context probe passed in the operator workflow. Native acceptance
 passed root plan selection, then stopped at native form confirmation because the
 web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
-Actual native and independent authenticated acceptance remain pending.
+W032: the mutex passed; sensor collection then failed with an unclassified observer
+ValueError. A real native ID now exists and must be inspected/reconciled; no
+automatic new batch is authorized. Actual native and independent authenticated
+acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
@@ -461,3 +464,17 @@ key change. New resume archives885 history and requires authoritative zero assoc
 Run rows plus audited account/code closure; it never trusts an empty browser report
 alone. Actual production native/recovery/revocation/cleanup remain pending. Current
 3f4bafb readiness200; P8 IN_PROGRESS. See [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md).
+
+## W032 sensor collection blocked
+
+45bde2e passed queue-lock validation and created web run
+274989f6-c306-4581-8f69-3db1ca21997d / nativew274989f6c30645818f. Actual browser
+POST200/302 and observer-ready metadata are retained. Collection then failed with
+unclassified observer ValueError; the native verdict and cleanup are unconfirmed.
+No retry/redeployment ran. One read-only protected inspection is pending; the first
+operator invocation split the filename and did not run.40 focused tests pass, with
+real disposable PostgreSQL/Chromium and modeled service control. Diagnostic code
+now retains allowlisted check names and correct step labels. Current3f4bafb HTTPS
+readiness200 and own services active. P8 remains IN_PROGRESS; native recovery,
+replay/job evidence, rollback and independent UAT remain pending. See W032 in
+TEST_EVIDENCE.md and evidence/native-collection-inspection.

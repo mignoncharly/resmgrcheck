@@ -1,3 +1,7 @@
+> Current W032 gate: do not repeat the provisioning command below. The45bde2e
+> attempt created a native run and failed during collection; read-only protected
+> inspection is required before designing same-ID recovery. See the W032 section.
+
 # Production QNX executor qualification
 
 W029 prepares one operator workflow for active application
@@ -204,3 +208,25 @@ Do not switch public traffic to original544: its older authentication behavior i
 the approved password-only release. Full application rollback needs a separately
 reviewed compatible release/maintenance plan and remains open. No Nginx/web/database
 service restart is part of this command. See [INDEPENDENT_UAT.md](INDEPENDENT_UAT.md).
+
+## W032 existing native run requires inspection
+
+45bde2e passed guarded queue verification. Sensor confirmation created
+274989f6-c306-4581-8f69-3db1ca21997d / w274989f6c30645818f. The observer reached
+its timed-pending/collection-pinned checkpoint, then reported only ValueError.
+The precise check was discarded; canonical verdict, cleanup and recovery remain
+unconfirmed. Never use the previous zero-run adoption path for this attempt.
+
+From the repository root, the operator runs one metadata-only probe:
+
+```sh
+sudo /usr/bin/python3 -I -B \
+  web/ops/production/inspect_native_acceptance.py
+```
+
+It uses a read-only SQL transaction, validates the exact failed identity, reads
+fixed evidence metadata and checks own services/readiness. No target connection,
+new run, service change, database mutation or recovery-state reset occurs. Do not
+split directory and filename. The initial split invocation executed no probe.
+Return only its JSON. Until inspected, provisioning/retry is withheld. Preserve
+all failed intent/run/evidence/cleanup/history records. See TEST_EVIDENCE W032.

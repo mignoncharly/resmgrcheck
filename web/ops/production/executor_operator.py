@@ -8,6 +8,18 @@ import executor_plan as plan
 import deploy_https as ops
 import acceptance_operator as acceptance
 
+OBSERVER_CHECKS=frozenset({'native_directory_invalid','native_observer_unavailable','run_identity_invalid',
+    'run_not_owned_by_acceptance','native_cleanup_unproven','canonical_verdict_or_cleanup_differs',
+    'evidence_source_build_mismatch','observation_scope_invalid','acceptance_observation_interrupted',
+    'exact_pending_collection_not_observed','exact_revoked_queued_job_required','observed_run_failed_closed',
+    'same_ID_same_supervisor_recovery_unproven','intentional_defect_reasons_changed','partial_evidence_not_preserved',
+    'live_revocation_not_observed','revoked_queued_job_not_withheld','revocation_outside_live_collection',
+    'observation_request_invalid','observation_request_duplicate','resource_symlink','resource_protection','resource_changed'})
+
+def observer_failure(error):
+    # Only literal coordinator check names, never arbitrary exception/SSH text.
+    return {'error_class':type(error).__name__,'failed_check':str(error) if isinstance(error,ValueError) and str(error) in OBSERVER_CHECKS else 'unclassified'}
+
 def idle():
     from control.models import Run,ExecutorSlot
     from control.jobs import ACTIVE
@@ -329,7 +341,7 @@ def acceptance_run(driver):
     identifier=uuid.uuid4();owner=pwd.getpwuid(ops.SOURCE.stat().st_uid)
     output=ops.SOURCE/'.local/web/evidence'/('production-native-'+identifier.hex);output.mkdir(mode=0o700);os.chown(output,owner.pw_uid,owner.pw_gid)
     ops.record(plan.STATE/('native-'+identifier.hex+'.intent.json'),{'acceptance_id':str(identifier),'application':plan.APPLICATION,'driver_revision':driver})
-    credentials=acceptance.bootstrap(identifier,selected);stop=threading.Event();proofs=[];errors=[];seen=set()
+    credentials=acceptance.bootstrap(identifier,selected);stop=threading.Event();proofs=[];errors=[];details=[];seen=set()
     def monitor():
         try:
             while not stop.is_set():
@@ -342,7 +354,8 @@ def acceptance_run(driver):
                     plan.require(len(seen)<4 and request['action'] not in seen,'observation_request_duplicate')
                     seen.add(name);seen.add(request['action']);proofs.append(observe(request,credentials,output,stop))
                 stop.wait(.025)
-        except BaseException as error:errors.append(type(error).__name__)
+        except BaseException as error:
+            errors.append(type(error).__name__);details.append(observer_failure(error))
         finally:connections.close_all()
     thread=threading.Thread(target=monitor,daemon=True);thread.start()
     try:
@@ -367,7 +380,7 @@ def acceptance_run(driver):
             'customer_runner':'disabled','AI':'disabled','independent_UAT':'pending'}
     except BaseException as error:
         failure={'driver_revision':driver,'failed_check':str(error) if isinstance(error,ValueError) and re.fullmatch('[a-z0-9_]{1,100}',str(error)) else type(error).__name__,
-            'observer_errors':errors,'browser_failed_step':'unavailable'}
+            'observer_errors':errors,'observer_failures':details,'browser_failed_step':'unavailable'}
         report_path=output/'browser-report.json'
         if report_path.exists():
             try:

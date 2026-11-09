@@ -7,6 +7,15 @@ sys.dont_write_bytecode=True
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from public_acceptance import Journey,require,HOST
 
+NATIVE_CHECKS=frozenset({'native_selection_not_accepted','native_confirmation_form_missing','native_redirect_left_origin',
+    'native_preview_not_accepted','native_confirm_not_accepted','native_replay_confirm_not_accepted',
+    'native_status_unavailable','native_identity_changed','native_or_cleanup_not_complete','native_outcome_mismatch',
+    'operator_observation_timeout','operator_observation_failed','customer_runner_endpoint_enabled',
+    'source_correction_not_proven','actual_native_pending_unproven','queued_revocation_identity_changed'})
+
+def failure_check(error):
+    return str(error) if isinstance(error,AssertionError) and str(error) in NATIVE_CHECKS else 'unclassified'
+
 class NativeJourney(Journey):
     def submit(self,page,path,button,stage,status):
         self.step=stage
@@ -50,6 +59,11 @@ class NativeJourney(Journey):
             response=page.context.request.get(self.origin+'/api/runs/'+row['web_run_id']+'/',max_redirects=0)
             require(response.status==200,'native_status_unavailable');value=response.json()
             require(value['native_run_id']==row['native_run_id'],'native_identity_changed')
+            observed={'state':value['state'] if value['state'] in {'queued','claimed','starting','running','collecting','launch_uncertain','completed','blocked','rejected','cancelled'} else 'unknown',
+                'cleanup_verified':value.get('cleanup_verified') is True,'evidence_integrity':value.get('evidence_integrity') if value.get('evidence_integrity') in {'verified','not_finalized','failed','expired'} else 'unknown',
+                'verdicts':[case['verdict'] for case in (value.get('summary') or {}).get('cases',[]) if case.get('verdict') in {'PASS','FAIL','ERROR','UNSUPPORTED','NOT_RUN'}]}
+            if row.get('last_observation')!=observed:
+                row['last_observation']=observed;self.checkpoint()
             if value['state'] in {'completed','blocked','rejected','cancelled'}:break
             time.sleep(.25)
         require(value['state']=='completed' and value['cleanup_verified'] and value['evidence_integrity']=='verified','native_or_cleanup_not_complete')
@@ -125,5 +139,5 @@ if __name__=='__main__':
     credentials=json.loads(sys.stdin.buffer.read(32769));journey=NativeJourney('https://'+HOST,out,credentials)
     try:result=journey.run();print(json.dumps({'passed':result['passed'],'native_passed':result['native']['status']=='passed'}))
     except BaseException as error:
-        journey.results.update(passed=False,failed_step=journey.step,error_class=type(error).__name__);journey.checkpoint()
+        journey.results.update(passed=False,failed_step=journey.step,error_class=type(error).__name__,failed_check=failure_check(error));journey.checkpoint()
         print(json.dumps({'passed':False,'failed_step':journey.step,'error_class':type(error).__name__,'secrets_printed':False}));raise SystemExit(1) from None

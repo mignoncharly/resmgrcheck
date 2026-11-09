@@ -382,3 +382,14 @@ authority remain and prepares the empty lock-only dispatch mutex. Dispatcher, pr
 keys and completed probe/registry/approvals are preserved. Unknown or active work
 is never reset.86 tests passed; actual native outcomes/cleanup and full rollback/UAT
 remain unverified. Current HTTPS readiness200, same3f4bafb, own services active.
+
+## W032 collection investigation
+
+The45bde2e attempt created nativew274989f6c30645818f and stopped at collect-sensor
+with observer ValueError. Registry and mutex provisioning passed. Do not rerun
+provisioning or queue another batch: reconcile the existing identity first. The
+one read-only probe in PRODUCTION_EXECUTOR.md checks protected run/evidence metadata
+without target I/O or mutations. Agent sudo authentication is unavailable; the
+first operator probe had a split filename and executed no inspection. Actual native
+cleanup/verdict remain unconfirmed. Temporary account disabled/codes revoked are
+authorization cleanup only. HTTPS remains200, own services active, same3f4bafb.

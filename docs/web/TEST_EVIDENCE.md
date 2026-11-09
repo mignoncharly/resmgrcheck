@@ -1444,3 +1444,40 @@ Actual root resume, native IDs/verdicts/recovery/revocation/cleanup and guarded 
 rehearsal are pending. No privileged production change ran by the agent. Current
 3f4bafb /readyz/ returns trusted HTTPS200 and own services are active. AI/customer
 endpoints remain disabled, off-server DR deferred and P8 IN_PROGRESS.
+
+## W032 sensor collection investigation; no recovery authorized yet
+
+The operator ran45bde2e: prior failed-browser/zero-run validation and guarded web
+mutex verification completed. Real native preview/confirmation POST200/302 created
+web run274989f6-c306-4581-8f69-3db1ca21997d, nativew274989f6c30645818f. The
+local browser report stopped at collect-sensor. The safe coordination receipt says
+timed_pending_observed=true and collection_PID_pinned=true. Operator failure JSON
+reports observer_errors=[ValueError]; the old observer discarded the check name.
+Neither a canonical verdict nor actual native cleanup is inferred from this.
+Temporary account/code cleanup passed; original records/evidence remain preserved.
+
+A tested root-only inspect_native_acceptance.py performs no target I/O and uses
+SET TRANSACTION READ ONLY for exact-run metadata/evidence verification. It reports
+file modes/owners/hashes, slot/run state, canonical validation and own-service health
+without secret/config/evidence contents. Agent sudo authentication is unavailable.
+The first operator probe invocation split directory/filename, so Python executed
+no probe; protected run state remains uninspected. Do not repeat provisioning or
+adopt this as another zero-run failure: this attempt has a durable native identity.
+
+Diagnostic correction retains only allowlisted observer/browser check names and
+safe run-state/cleanup/verdict metadata, never arbitrary exceptions or response
+bodies. Resume reporting now marks native_dashboard_acceptance before entering it,
+instead of attributing its error to verify_guarded_web_queue_mutex. New production
+application/source/Nginx/authentication/QNX settings are unchanged. Current3f4bafb
+HTTPS readiness200 and nginx/database/web/executor active were inspected directly.
+Actual collection root cause, same-ID recovery, native/evidence cleanup, replay/job
+acceptance, rollback rehearsal and independent UAT remain unqualified. P8 stays
+IN_PROGRESS; AI/customer machine endpoints remain disabled. Evidence is in
+evidence/native-collection-inspection.
+
+40 focused tests PASS: metadata-only file inspection rejects symlinks/insecure
+owners, retains hashes without payloads, PostgreSQL inspection uses READ ONLY with
+no DML/DDL, observer errors retain only fixed check names, terminal ERROR/cleanup
+failure and null summaries fail closed, existing queue/provisioning regressions
+pass. PostgreSQL/Chromium/files are real disposable tests; production root/service
+control remains unexecuted. See evidence/native-collection-inspection/tests.txt.

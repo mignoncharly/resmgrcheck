@@ -234,6 +234,7 @@ def apply(driver):
             step('verify_guarded_web_queue_mutex');helper('web-queue-preflight',driver)
             plan.require(state in {b'active',b'inactive',b'failed'},'executor_not_ready_for_acceptance_resume')
             if state!=b'active':ops.command(['systemctl','start',UNIT],timeout=45)
+            step('native_dashboard_acceptance')
             result=helper('acceptance',driver);plan.require(result.get('native_passed') is True,'native_acceptance_incomplete')
             finish(driver,binding,journal,journal_path,baseline,result);return
         if state==b'active' and journal.get('phase')=='approved_after_actual_runtime_probe':

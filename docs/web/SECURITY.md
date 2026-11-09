@@ -505,3 +505,15 @@ accounts, revoked codes and no associated Run rows of any state. Empty browser r
 is insufficient. All keys/immutable source/authentication settings remain unchanged.
 Only form action/status metadata is added to diagnostics; raw bodies/tokens are not
 saved. Actual native acceptance and independent UAT remain open; P8 IN_PROGRESS.
+
+## W032 safe collection diagnosis
+
+A durable native ID exists after45bde2e; empty/zero-run adoption is prohibited.
+The read-only probe binds exact project/target/build/run and audited acceptance
+principal before reading fixed evidence metadata. SET TRANSACTION READ ONLY
+protects the database inspection. No SSH/native commands, secret/config contents,
+service mutation or state reset is permitted. Observer/browser diagnostics retain
+only allowlisted check names and state/cleanup/verdict metadata. Unknown exception
+text is redacted; lost old ValueError detail is not reconstructed as fact. Native
+cleanup and independent acceptance remain unqualified. AI/customer endpoints stay
+disabled and P8 remains IN_PROGRESS.

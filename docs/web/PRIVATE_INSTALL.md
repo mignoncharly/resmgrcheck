@@ -894,3 +894,14 @@ principals, then installs/verifies the guarded web dispatch mutex before accepta
 It does not reinstall registry/keys, republish approvals or repeat the actual probe.
 Existing/uncertain runs cause review, never duplicate launch or state deletion.
 No application/unit/Nginx/auth changes; new native acceptance remains pending.
+
+## W032 preserve the existing sensor attempt
+
+The45bde2e operator command passed mutex validation, then collect-sensor failed
+with an unclassified observer ValueError after creating nativew274989f6c30645818f.
+No further deployment/reprovisioning command is approved at this checkpoint. Use
+the single read-only metadata probe in PRODUCTION_EXECUTOR.md; do not split its
+directory/filename. The initial split invocation ran no probe. Protected evidence
+and recovery records remain unavailable to the unprivileged agent. Preserve the
+existing ID, keys, registry, app3f4bafb, database and failure history. Native outcome
+and cleanup require actual inspection; HTTPS/auth configuration remains unchanged.

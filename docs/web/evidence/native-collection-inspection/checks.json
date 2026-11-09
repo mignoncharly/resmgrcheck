@@ -1,0 +1,33 @@
+{
+  "checkpoint": "W032 investigation",
+  "failed_driver": "45bde2e4a51dea4830589bab7466700512ee615f",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "web_run_id": "274989f6-c306-4581-8f69-3db1ca21997d",
+  "native_run_id": "w274989f6c30645818f",
+  "form_POST_statuses": [
+    200,
+    302
+  ],
+  "observer_ready": {
+    "timed_pending_observed": true,
+    "collection_PID_pinned": true
+  },
+  "browser_failed_step": "collect-sensor",
+  "operator_reported_observer_errors": [
+    "ValueError"
+  ],
+  "underlying_collection_failure": "UNCONFIRMED; prior observer dropped check name; root-only evidence inspection required",
+  "cleanup": "temporary principal disabled/codes revoked; old evidence/audit preserved; no active own work reported; native cleanup unqualified",
+  "probe": "no target I/O, read-only SQL transaction, no state changes; metadata/hashes only",
+  "privileged_commands_by_agent": false,
+  "production_HTTPS_readiness": 200,
+  "own_services_active": true,
+  "P8": "IN_PROGRESS",
+  "AI": "disabled",
+  "customer_runner": "disabled",
+  "automatic_retry": "withheld: a native run now exists; zero-run adoption is inapplicable",
+  "tests": {
+    "passed": 40,
+    "scope": "real disposable PostgreSQL/read-only transactions/files and Chromium; protected production/service mutations not run"
+  }
+}
