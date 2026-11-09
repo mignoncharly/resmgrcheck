@@ -17,7 +17,8 @@ class SchedulingTests(TestCase):
         self.user,self.org,self.project=tenant('Queue owner','queue@example.test')
         self.client=signed_client(self.user,mfa=True)
         self.target=Target.objects.create(project=self.project,name='Private fixture lab',kind='managed-lab',approved=True,state='available',inventory={'compiled_adapters':{'sensor-v1':['pending','unblock','state','release','health','timeout'],'job-v1':['pending','unblock','state','release','health','timeout','error-probe']}})
-        self.build=BuildRelease.objects.create(target=self.target,label='Known original',approved=True)
+        self.build=BuildRelease.objects.create(target=self.target,label='Known original',approved=True,
+            manifest=json.loads((Path(__file__).resolve().parents[2]/'tests/data/deployment-v1.json').read_text()))
     def request(self):
         request=RequestFactory().post('/');request.user=self.user;request.session=self.client.session;return request
     def queued(self,key='idempotent-request-1234',**extra):

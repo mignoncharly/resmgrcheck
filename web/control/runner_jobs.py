@@ -27,6 +27,8 @@ def capable(target,build,profile,suite,mode):
         wire.require(identity[a]==selected.data[b],'runner_build_target_mismatch')
     path=settings.REPO_ROOT/'profiles'/(profile+('-external' if runner.inventory['attachment']=='external-attach' else '')+'.json')
     expected=Profile.parse(load(path));profiles=suite_profiles(expected,suite)
+    wire.require(expected.data['adapter']['id'] in selected.data['candidates'],'build_adapter_unsupported')
+    wire.require(('corrected' if mode=='fixed' else mode) in expected.registration.fixture_modes,'fixture_control_unsupported')
     required=set().union(*(set(p.data['capabilities']['required']) for p in profiles))
     caps=runner.inventory['compiled_adapters'].get(expected.data['adapter']['id'],[])
     wire.require(required<=set(caps),'required_capability_unsupported')

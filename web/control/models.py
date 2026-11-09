@@ -1,5 +1,6 @@
 """Durable, explicitly scoped control-plane records; canonical verdicts stay engine-owned."""
 import uuid
+from resmgrcheck.registrations import PROFILES
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.db.models.functions import Lower
@@ -199,7 +200,7 @@ class Run(models.Model):
     native_run_id=models.CharField(max_length=40,unique=True)
     operation=models.CharField(max_length=16,choices=[('run','Run'),('replay','Replay'),('inventory','Inventory')])
     original=models.ForeignKey('self',null=True,on_delete=models.PROTECT)
-    profile=models.CharField(max_length=16,choices=[('sensor','Sensor'),('job','Job')],default='sensor')
+    profile=models.CharField(max_length=16,choices=[(name,name.title()) for name in PROFILES],default='sensor')
     suite=models.CharField(max_length=16,choices=[('profile','Timeout family'),('lifecycle','Complete lifecycle'),('health','Read-only external health')],default='profile')
     fixture_mode=models.CharField(max_length=24,default='fixed')
     idempotency_key=models.CharField(max_length=64)

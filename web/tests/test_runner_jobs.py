@@ -213,7 +213,7 @@ class RunnerMigrationBackupTests(TransactionTestCase):
         self.assertEqual(connection.settings_dict['NAME'],'test_resmgrcheck_web')
         user,org,project=tenant('Migration preservation','runner-migration@example.test')
         event=AuditEvent.objects.create(actor=user,organization=org,action='fixture.pre_runner_preservation')
-        newer=('control','0019_runnerjob_runnerchunk');older=('control','0017_session_and_scope_integrity')
+        newer=('control','0020_alter_run_profile');older=('control','0017_session_and_scope_integrity')
         # Only the disposable test DB, with no runner rows. Production rollback
         # keeps additive tables/records and changes code only after quiescence.
         self.assertEqual(CustomerRunner.objects.count(),0)

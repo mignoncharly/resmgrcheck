@@ -1,0 +1,65 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "mailbox",
+  "version": 1,
+  "adapter": {
+    "id": "mailbox-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "managed-fixture",
+    "device": "/dev/resmgrcheck-mailbox"
+  },
+  "operation": {
+    "id": "fetch-message",
+    "parameters": {
+      "channel": 1
+    },
+    "result_shape": "integer-record",
+    "convention": "devctl"
+  },
+  "capabilities": {
+    "required": [
+      "pending",
+      "unblock",
+      "state",
+      "release",
+      "health",
+      "timeout"
+    ],
+    "optional": [
+      "error-probe"
+    ]
+  },
+  "expectations": {
+    "cancel_error": "ETIMEDOUT",
+    "pending_after": 0,
+    "require_unblock": true,
+    "health": {
+      "channel": 1,
+      "value": 7
+    },
+    "state_after": {
+      "message_exists": 1,
+      "message_ready": 0,
+      "acknowledgements": 0
+    }
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "timeout"
+    ],
+    "optional": [],
+    "cycles": 1,
+    "reset": "new-instance"
+  }
+}

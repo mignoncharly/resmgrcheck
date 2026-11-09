@@ -14,6 +14,7 @@ from .engine import run_path,PolicyError
 from .storage import detail_cases,open_artifact,run_directory_fd,verify_inventory
 from resmgrcheck.artifacts import inspect_bundle
 from resmgrcheck.workflow import compare_executions
+from resmgrcheck.registrations import PROFILES
 
 PUBLIC_DEMOS={'before':'p10demo2-broken','after':'p10demo2-after','job':'p10demo2-job'}
 
@@ -43,8 +44,8 @@ def run_history(request):
     state=request.GET.get('state','')
     if state in {'queued','running','completed','launch_uncertain','rejected','blocked','cancelled'}:runs=runs.filter(state=state)
     service=request.GET.get('service','')
-    if service in {'sensor','job'}:runs=runs.filter(profile=service)
-    return render(request,'control/history.html',{'runs':runs[:100],'selected_state':state,'selected_service':service,'page':'runs'})
+    if service in PROFILES:runs=runs.filter(profile=service)
+    return render(request,'control/history.html',{'runs':runs[:100],'selected_state':state,'selected_service':service,'page':'runs','adapter_profiles':PROFILES})
 
 @secure_account
 @require_GET

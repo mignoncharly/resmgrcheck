@@ -1,0 +1,60 @@
+{
+  "kind": "profile",
+  "schema_version": 1,
+  "id": "mailbox-external",
+  "version": 1,
+  "adapter": {
+    "id": "mailbox-v1",
+    "abi": 1
+  },
+  "service": {
+    "mode": "external-attach",
+    "device": "/dev/resmgrcheck-mailbox-external"
+  },
+  "operation": {
+    "id": "fetch-message",
+    "parameters": {
+      "channel": 1
+    },
+    "result_shape": "integer-record",
+    "convention": "devctl"
+  },
+  "capabilities": {
+    "required": [
+      "state",
+      "health",
+      "external-health"
+    ],
+    "optional": []
+  },
+  "expectations": {
+    "cancel_error": "NOT_APPLICABLE",
+    "pending_after": 0,
+    "require_unblock": false,
+    "health": {
+      "channel": 1,
+      "value": 7
+    },
+    "state_after": {
+      "message_exists": 1,
+      "message_ready": 1,
+      "acknowledgements": 0
+    }
+  },
+  "timing": {
+    "setup_ms": 2000,
+    "operation_ms": 500,
+    "cancellation_ms": 2000,
+    "probe_ms": 2000,
+    "execution_ms": 10000,
+    "cleanup_ms": 2000
+  },
+  "suite": {
+    "required": [
+      "external-health"
+    ],
+    "optional": [],
+    "cycles": 1,
+    "reset": "external-unchanged"
+  }
+}

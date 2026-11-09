@@ -120,7 +120,7 @@ class Workflow(unittest.TestCase):
     def test_native_capability_description_is_narrow(self):
         entries = [{'id': k, 'fixture': r.fixture, 'capabilities': ['state', 'health']} for k, r in __import__('resmgrcheck.registrations', fromlist=['REGISTRY']).REGISTRY.items()]
         value = {'kind': 'engine-info', 'schema_version': 1, 'adapter_abi': 1, 'adapters': entries}
-        self.assertEqual(set(engine_info(canonical(value))), {'sensor-v1', 'job-v1'})
+        self.assertEqual(set(engine_info(canonical(value))), {'sensor-v1', 'job-v1','mailbox-v1'})
         entries[1] = entries[0]
         with self.assertRaises(Invalid): engine_info(canonical(value))
 

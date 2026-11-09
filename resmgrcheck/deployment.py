@@ -23,7 +23,7 @@ def engine_info(raw):
     data = loads(raw)
     obj(data, 'kind schema_version adapter_abi adapters', 'engine description')
     version(data, 'engine-info'); integer(data['adapter_abi'], 1, 1)
-    require(type(data['adapters']) is list and len(data['adapters']) == len(REGISTRY), 'engine registrations')
+    require(type(data['adapters']) is list and 1 <= len(data['adapters']) <= len(REGISTRY), 'engine registrations')
     result = {}
     for entry in data['adapters']:
         obj(entry, 'id fixture capabilities', 'engine adapter')
@@ -61,20 +61,23 @@ class Deployment:
         version(d, 'deployed-build'); text(d['deployment_id'], HASH); text(d['recipe_id'], HASH)
         enum(d['architecture'], {'x86_64'}); enum(d['machine'], {'x86pc'}); enum(d['release'], {'8.0.0'}); integer(d['uid'], 0, 65535)
         require(d['directory'] == '/data/resmgrcheck/b-' + d['deployment_id'][:48], 'deployment directory/identity mismatch')
-        require(type(d['files']) is dict and set(d['files']) == PAYLOAD | {'targetctl'}, 'deployment files')
+        # Historical immutable builds contain their own exact known adapter set.
+        # Adding a reviewed registration must not invalidate original evidence.
+        require(type(d['candidates']) is dict and d['candidates'] and set(d['candidates']) <= set(REGISTRY), 'candidate adapter set')
+        payload=frozenset({'runner','worker'}|{REGISTRY[name].fixture for name in d['candidates']})
+        require(type(d['files']) is dict and set(d['files']) == payload | {'targetctl'}, 'deployment files')
         for name, entry in d['files'].items():
             obj(entry, 'sha256 bytes', 'deployment file'); text(entry['sha256'], HASH); integer(entry['bytes'], 1, 32 * 1024 * 1024)
         build = d['build']
         obj(build, 'kind schema_version source_revision dirty source_tree_sha256 compiler_variant binaries')
         version(build, 'native-build-record'); text(build['source_revision'], HEXREV); boolean(build['dirty'])
         text(build['source_tree_sha256'], HASH); enum(build['compiler_variant'], {'gcc_ntox86_64'})
-        require(type(build['binaries']) is dict and set(build['binaries']) in (PAYLOAD, PAYLOAD | {'targetctl'}), 'native build artifact set')
+        require(type(build['binaries']) is dict and set(build['binaries']) in (payload, payload | {'targetctl'}), 'native build artifact set')
         for name in build['binaries']:
             require(build['binaries'][name] == d['files'][name]['sha256'], 'native/deployment binary binding')
         obj(d['manager'], 'source_revision dirty source_tree_sha256 sha256')
         text(d['manager']['source_revision'], HEXREV); boolean(d['manager']['dirty']); text(d['manager']['source_tree_sha256'], HASH)
         require(d['manager']['sha256'] == d['files']['targetctl']['sha256'], 'management tool binding')
-        require(type(d['candidates']) is dict and set(d['candidates']) == set(REGISTRY), 'candidate adapter set')
         for adapter, selected in d['candidates'].items():
             CandidateManifest.parse(selected)
             require(selected['adapter'] == {'id': adapter, 'abi': 1} and selected['directory'] == d['directory'], 'candidate deployment binding')
@@ -86,6 +89,9 @@ class Deployment:
 
 
 def native_builds(deployment, adapter):
+    if REGISTRY[adapter].fixture not in deployment['build']['binaries']:
+        from .transport import Unsupported
+        raise Unsupported('required_capability_unavailable: adapter absent from this immutable build')
     source = deployment['build']
     return {**{k: source[k] for k in ('source_revision', 'dirty', 'source_tree_sha256', 'compiler_variant')},
             'recipe_id': deployment['recipe_id'], 'binaries': {key: source['binaries'][name] for key, name in {

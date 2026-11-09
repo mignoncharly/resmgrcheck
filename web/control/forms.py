@@ -19,6 +19,7 @@ from .models import Target,BuildRelease
 from resmgrcheck.deployment import Deployment
 from resmgrcheck.contracts import Profile,load
 from resmgrcheck.workflow import suite_profiles
+from resmgrcheck.registrations import PROFILES
 from django.conf import settings
 
 class TargetRequestForm(forms.ModelForm):
@@ -27,7 +28,7 @@ class TargetRequestForm(forms.ModelForm):
 class RunForm(forms.Form):
     target=forms.ModelChoiceField(queryset=Target.objects.none())
     build=forms.ModelChoiceField(queryset=BuildRelease.objects.none())
-    profile=forms.ChoiceField(choices=[('sensor','Sensor'),('job','Job')])
+    profile=forms.ChoiceField(choices=[(name,name.title()) for name in PROFILES])
     suite=forms.ChoiceField(choices=[('profile','Timeout and baselines'),('lifecycle','Lifecycle and 20 reconnect cycles'),('health','External read-only health')])
     fixture_mode=forms.ChoiceField(choices=[('fixed','Fixed'),('ignore-unblock','Intentional ignore-unblock defect'),('retain-waiter','Intentional retained waiter'),('retain-third','Intentional third-cycle retention'),('duplicate-terminal','Intentional duplicate terminal'),('drop-job','Intentional dropped job')])
     idempotency_key=forms.RegexField(r'^[A-Za-z0-9_-]{16,64}$',widget=forms.HiddenInput)
@@ -49,6 +50,8 @@ class RunForm(forms.Form):
         if target and data.get('profile'):
             external=target.kind=='external-health' or (target.kind=='customer-runner' and target.customerrunner.inventory['attachment']=='external-attach')
             profile=Profile.parse(load(settings.REPO_ROOT/'profiles'/(data['profile']+('-external' if external else '')+'.json')))
+            if build and profile.data['adapter']['id'] not in build.manifest.get('candidates',{}):self.add_error('build','UNSUPPORTED: this immutable build has no selected adapter.')
+            if data.get('fixture_mode') and ('corrected' if data['fixture_mode']=='fixed' else data['fixture_mode']) not in profile.registration.fixture_modes:self.add_error('fixture_mode','UNSUPPORTED: fixture control is unavailable for this adapter.')
             caps=target.inventory.get('compiled_adapters',{}).get(profile.data['adapter']['id'])
             if caps is None:self.add_error('target','Capabilities are UNKNOWN. Request a private inventory first.')
             elif data.get('suite'):

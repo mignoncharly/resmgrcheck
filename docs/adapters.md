@@ -194,3 +194,7 @@ external developer followed this guide. Use the following actual boundaries:
 Neither dynamic loading, arbitrary raw messages, multiple-job scheduling nor
 external lifecycle instrumentation is supplied by registering a name. An external
 running-build identity mechanism is required for candidate verification there.
+
+## Web/customer extension checkpoint W017
+
+The original sensor/job sources and evidence are preserved. See [the versioned integration guide](web/ADAPTER_INTEGRATION.md) for static catalog validation, the additional retained-message mailbox protocol/adapter and exact qualification limits. W017 source has host checks; new QNX build/execution is still pending at that checkpoint. No general external lifecycle support is implied.

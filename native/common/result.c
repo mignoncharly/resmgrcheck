@@ -5,6 +5,7 @@ void rmc_normalize(rmc_result *r, int error) {
     r->outcome = !error ? RMC_OK : error == ETIMEDOUT ? RMC_TIMEOUT : error == EINTR ? RMC_INTERRUPTED : RMC_API_ERROR;
 }
 void rmc_emit_result(const char *operation, const rmc_result *r) {
+    if (!r || !r->api || (unsigned)r->outcome>(unsigned)RMC_INVALID_REPLY || r->fact_count>4) _exit(120);
     static const char *const outcomes[] = {"OK", "TIMEOUT", "INTERRUPTED", "API_ERROR", "INVALID_REPLY"};
     cJSON *d = json_object(), *facts = json_object();
     add_string(d, "operation", operation); add_string(d, "api", r->api);
@@ -20,6 +21,7 @@ void rmc_emit_result(const char *operation, const rmc_result *r) {
     event_json("worker", "result", d);
 }
 void rmc_emit_state(const char *operation, int error, const rmc_state *s) {
+    if (!s || s->fact_count>4) _exit(120);
     cJSON *d = json_object(), *facts = json_object();
     add_string(d, "operation", operation); add_number(d, "error", error);
     add_number(d, "pending", (int)s->pending); add_number(d, "unblocks", (int)s->unblocks);

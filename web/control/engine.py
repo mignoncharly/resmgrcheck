@@ -4,6 +4,7 @@ import fcntl,hashlib,json,os,re,resource,selectors,signal,stat,subprocess,time
 from pathlib import Path
 from django.conf import settings
 from resmgrcheck.contracts import Profile,load,canonical,digest
+from resmgrcheck.registrations import PROFILES
 from resmgrcheck.deployment import Deployment
 from resmgrcheck.transport import Target as EngineTarget
 
@@ -57,7 +58,7 @@ def fixed_argv(run,binding,output):
     if run.operation=='replay':
         original=run_path(run.original)
         return prefix+['replay',str(original/'replay.json'),*common]
-    if run.operation!='run' or run.profile not in {'sensor','job'} or run.suite not in {'profile','lifecycle','health'} or run.fixture_mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:
+    if run.operation!='run' or run.profile not in PROFILES or run.suite not in {'profile','lifecycle','health'} or run.fixture_mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:
         raise PolicyError('execution_selection_invalid')
     if run.profile=='sensor' and run.fixture_mode=='drop-job':raise PolicyError('fixture_control_unsupported')
     if run.fixture_mode=='retain-third' and run.suite=='profile':raise PolicyError('required_repeat_coverage_unavailable')

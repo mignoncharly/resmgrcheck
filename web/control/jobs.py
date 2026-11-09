@@ -10,6 +10,7 @@ from allauth.account.internal.flows.login import get_authentication_records
 from .models import Run,Target,BuildRelease,ExecutorSlot
 from .security import project_access,verified,enrolled,audit,mfa_authenticated,is_code,principal_fields,permission,assurance_at
 from resmgrcheck.contracts import digest
+from resmgrcheck.registrations import PROFILES,REGISTRY
 
 ACTIVE={'queued','claimed','starting','running','collecting','launch_uncertain'}
 
@@ -31,7 +32,8 @@ def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,
     if target.kind=='customer-request' or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')
     if operation!='inventory' and (not build or build.target_id!=target.pk or not build.approved):raise QueueError('build_not_approved')
     if not re.fullmatch(r'[A-Za-z0-9_-]{16,64}',key):raise QueueError('idempotency_key_invalid')
-    if operation not in {'run','replay','inventory'} or profile not in {'sensor','job'} or suite not in {'profile','lifecycle','health'} or mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:raise QueueError('execution_selection_invalid')
+    if operation not in {'run','replay','inventory'} or profile not in PROFILES or suite not in {'profile','lifecycle','health'} or mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:raise QueueError('execution_selection_invalid')
+    if ('corrected' if mode=='fixed' else mode) not in REGISTRY[PROFILES[profile]].fixture_modes:raise QueueError('fixture_control_unsupported')
     if operation=='replay' and (not original or original.project_id!=project.pk or original.state!='completed' or original.purged_at):raise QueueError('original_evidence_unavailable')
     if target.kind=='customer-runner':
         if operation=='inventory':raise QueueError('customer_inventory_uses_signed_heartbeat')

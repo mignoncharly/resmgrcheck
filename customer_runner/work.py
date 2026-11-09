@@ -13,11 +13,12 @@ def validate(configuration,inventory,job):
     from resmgrcheck.contracts import load,Profile
     from resmgrcheck.deployment import Deployment
     from resmgrcheck.build_identity import source_hash
+    from resmgrcheck.registrations import PROFILES
     run_id(job['native_run_id']);wire.hex_value(job['intent_sha256'])
     for name in ['target_id','project_id','organization_id']:wire.require(job[name]==configuration[name],'job_tenant_mismatch')
     wire.require(job['inventory_sha256']==wire.fingerprint(inventory) and inventory['route_sha256']==route_fingerprint(configuration),'job_route_changed')
     wire.require(source_hash(Path(configuration['engine_root']))==inventory['engine_sha256'],'job_engine_source_changed')
-    wire.require(job['operation'] in {'run','replay'} and job['profile'] in {'sensor','job'} and job['suite'] in {'profile','lifecycle','health'},'job_operation_invalid')
+    wire.require(job['operation'] in {'run','replay'} and job['profile'] in PROFILES and job['suite'] in {'profile','lifecycle','health'},'job_operation_invalid')
     wire.require(configuration['attachment']!='external-attach' or job['suite']=='health','external_lifecycle_unsupported')
     mode='corrected' if job['fixture_mode']=='fixed' else job['fixture_mode']
     wire.require(mode in configuration['allowed_modes'],'job_fixture_mode_not_locally_approved')

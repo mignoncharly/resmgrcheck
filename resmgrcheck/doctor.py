@@ -58,7 +58,7 @@ def doctor(target, profile=None):
                 missing = []
                 if profile:
                     p = profile if isinstance(profile, Profile) else Profile.parse(profile)
-                    missing = sorted(set(p.data['capabilities']['required']) - set(capabilities[p.data['adapter']['id']]))
+                    missing = sorted(set(p.data['capabilities']['required']) - set(capabilities.get(p.data['adapter']['id'],[])))
                 add('target_capabilities', 'UNSUPPORTED' if missing else 'PASS', {'compiled_adapter_capabilities': capabilities, 'missing_required': missing})
                 add('service_instance_capabilities', 'UNKNOWN', 'no service instance was launched; private observers are qualified during run, not inferred here')
         else: add('target_capabilities', 'UNKNOWN', 'no immutable deployment selected; run deploy then doctor again')
