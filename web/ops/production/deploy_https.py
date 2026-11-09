@@ -4,7 +4,7 @@
 Default: unprivileged review plan. --apply requires local root. Never patches an
 immutable release or changes another site, application unit, database role or key.
 """
-import argparse,fcntl,grp,hashlib,json,os,pwd,re,secrets,signal,stat,subprocess,sys,time
+import argparse,errno,fcntl,grp,hashlib,json,os,pwd,re,secrets,signal,stat,struct,subprocess,sys,time
 from contextlib import contextmanager
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
@@ -19,6 +19,7 @@ STATE=Path('/var/lib/resmgrcheck/private/operator/https-deployment')
 OPT=Path('/opt/resmgrcheck');CONFIG=Path('/etc/resmgrcheck');ACME=Path('/var/www/resmgrcheck-acme/.well-known/acme-challenge')
 LOGS=Path('/var/log/nginx');ENV={'PATH':'/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','PYTHONDONTWRITEBYTECODE':'1'}
 DIAGNOSTIC=None
+RECOVERABLE_DRIVER='f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9'
 
 def require_root():require(os.geteuid()==0,'local_root_operator_required')
 
@@ -204,10 +205,56 @@ def acme_probe(client):
         require(metadata(path)==before and read(path)==raw,'acme_probe_changed');path.unlink();fsync_directory(path.parent)
 
 def ensure_logs():
+    directory(LOGS)
+    result={}
+    users={os.geteuid(),pwd.getpwnam('www-data').pw_uid}
+    groups={os.getegid(),grp.getgrnam('adm').gr_gid,grp.getgrnam('www-data').gr_gid}
     for name in ['resmgrcheck-access.log','resmgrcheck-error.log']:
         path=LOGS/name
         if not path.exists():new_file(path,b'',0o640)
-        info=path.lstat();require(stat.S_ISREG(info.st_mode) and info.st_uid in {os.geteuid(),pwd.getpwnam('www-data').pw_uid} and info.st_nlink==1 and not info.st_mode&0o007,'own_log_protection')
+        descriptor=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        try:
+            info=os.fstat(descriptor);mode=stat.S_IMODE(info.st_mode)
+            require(stat.S_ISREG(info.st_mode) and info.st_uid in users and info.st_gid in groups and info.st_nlink==1 and
+                mode in {0o600,0o640,0o644,0o660,0o664},'own_log_protection')
+            try:acl=os.getxattr(descriptor,'system.posix_acl_access')
+            except OSError as error:
+                if error.errno not in {errno.ENODATA,errno.ENOTSUP,errno.EOPNOTSUPP}:raise
+            else:
+                # Never remove or reinterpret an unknown named-user/group ACL.
+                require(len(acl)==28 and struct.unpack_from('<I',acl)[0]==2,'own_log_ACL_requires_review')
+                entries=[struct.unpack_from('<HHI',acl,offset) for offset in [4,12,20]]
+                require([row[0] for row in entries]==[1,4,32] and all(row[2]==0xffffffff and row[1]<=7 for row in entries),'own_log_ACL_requires_review')
+            target=mode&0o640  # Reduction only: existing0600 never gains group read.
+            if target!=mode:os.fchmod(descriptor,target)
+            after=os.fstat(descriptor);current=path.lstat()
+            require((current.st_dev,current.st_ino)==(info.st_dev,info.st_ino) and not stat.S_ISLNK(current.st_mode),'own_log_rotated_during_permission_check')
+            require((after.st_uid,after.st_gid,after.st_nlink)==(info.st_uid,info.st_gid,1) and not after.st_mode&0o027,'own_log_protection')
+            result[name]={'before_mode':format(mode,'04o'),'after_mode':format(stat.S_IMODE(after.st_mode),'04o'),
+                'permissions_tightened':target!=mode,'contents_and_ownership_changed':False}
+        finally:os.close(descriptor)
+    return result
+
+
+def resume_failed_driver(state,identity,targets,manifest):
+    if state.get('driver_revision')==identity['driver_revision']:return state
+    require(state.get('kind')==identity['kind'] and state.get('application_revision')==identity['application_revision'] and
+        state.get('driver_revision')==RECOVERABLE_DRIVER and state.get('after')==identity['after'] and
+        state.get('phase') in {'rolled_back_after_failure','rolled_back'},'another_https_deployment_recorded')
+    git('merge-base','--is-ancestor',RECOVERABLE_DRIVER,identity['driver_revision'])
+    require(set(state.get('before',{}))=={name for name,_,_,_ in targets} and set(state.get('modes',{}))==set(state['before']),'deployment_record_shape_differs')
+    for name,path,_,_ in targets:
+        before=read(STATE/(name+'.before'),private=True) if state['before'][name] is not None else None
+        require(before is None or digest(before)==state['before'][name],'backup_hash_differs')
+        current=read(path) if path.exists() or path.is_symlink() else None
+        require(current==before,'failed_driver_resources_not_rolled_back')
+    require(read(STATE/'site.before',private=True)==(HERE/'nginx-bootstrap-site.conf').read_bytes() and
+        read(STATE/'http.before',private=True)==(HERE/'nginx-bootstrap-http.conf').read_bytes(),'failed_driver_original_configuration_differs')
+    history=STATE/('driver-'+RECOVERABLE_DRIVER+'.json')
+    if history.exists():require(json.loads(read(history,private=True))==state,'driver_history_differs')
+    else:new_file(history,(json.dumps(state,sort_keys=True,indent=2)+'\n').encode())
+    updated={**state,**identity,'phase':'prepared_after_reviewed_driver_correction'}
+    record(manifest,updated);return updated
 
 def logging_probe(client):
     marker='rmc-confidential-probe-'+secrets.token_hex(12)
@@ -254,6 +301,7 @@ def apply(revision,driver,rollback=False,acceptance=True):
         manifest=STATE/'state.json';existing=manifest.exists()
         if existing:
             state=json.loads(read(manifest,private=True))
+            state=resume_failed_driver(state,identity,targets,manifest)
             require(all(state.get(k)==v for k,v in identity.items()),'another_https_deployment_recorded')
             for name in state['before']:
                 if state['before'][name] is not None:require(digest(read(STATE/(name+'.before'),private=True))==state['before'][name],'backup_hash_differs')
@@ -279,7 +327,8 @@ def apply(revision,driver,rollback=False,acceptance=True):
                 command(['nginx','-t']);command(['systemctl','reload','nginx.service'])
                 state['phase']='rolled_back';record(manifest,state)
                 print(json.dumps({'operation':'rollback','passed':True,'scope':'own site/http settings/hook only','application_revision':revision,'other_nginx_files_unchanged':True}));return
-            runtime=units_and_runtime(revision);certificate=certificate_and_renewal();ensure_logs()
+            runtime=units_and_runtime(revision);certificate=certificate_and_renewal();log_permissions=ensure_logs()
+            record(STATE/'log-permissions.json',log_permissions)
             client=Client(address='127.0.0.1');acme_probe(client)
             static=Path('/var/lib/resmgrcheck/static')/revision
             directory(static,0o755);directory(static/'control',0o755)
@@ -326,6 +375,7 @@ def apply(revision,driver,rollback=False,acceptance=True):
             report={'application_revision':revision,'driver_revision':driver,'origin':'https://'+HOST,'local_verified_https':'passed',
                 'independent_external_https':'pending','checks':results,'current_runtime':runtime,'acme_webroot_dry_run':'passed',
                 'renewal_deploy_hook_installed':True,'actual_renewal_hook_event':'not_run','other_nginx_files_unchanged':True,
+                'own_log_permissions':log_permissions,
                 'public_acceptance':'pending','customer_host_qualification':'blocked; no separate host','AI':'disabled','off_server_DR':'deferred',
                 'rollback':'own HTTPS configuration restored and reactivated; private release/database unchanged'}
             state['phase']='verified';record(manifest,state);record(STATE/'report.json',report)

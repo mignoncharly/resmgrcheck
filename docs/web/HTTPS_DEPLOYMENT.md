@@ -43,6 +43,10 @@ runner/AI disabled context, immutable static CSS, dedicated trusted certificate/
 key match/ownership/permissions/expiry, exact Certbot webroot renewal and active
 existing timer. No app/DB/QNX service is restarted to repeat a successful gate.
 
+Existing own logs are validated by descriptor; eligible legacy public-read modes
+are tightened without reading/truncating/chowning them or broadening0600. This
+privacy correction persists across rollback and touches no unrelated log.
+
 An exclusive protected deployment lock guards:
 
 - /etc/nginx/sites-available/qnx-resmgrcheck.gestionatech.de
@@ -89,7 +93,9 @@ Interrupted initial backups are reused only if protected/exact. Same-command ret
 retain receipts and original backups. Completed renewal/browser proofs are reused;
 new native approval can justify another acceptance attempt. Never delete state,
 backups or unknown resources to force retry. A different driver commit is a new
-review boundary and cannot silently adopt the recorded deployment.
+review boundary. The narrowly reviewed W022 exception can resume only the failed
+f8a6009 driver after all originals are restored, with identical candidate hashes;
+its previous record/backups are retained. All other transitions are refused.
 
 If explicitly needed after a successful rollout, the one rollback command is the
 same reviewed command with --rollback added:

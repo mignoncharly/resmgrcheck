@@ -133,6 +133,22 @@ class HTTPSDeploymentTests(unittest.TestCase):
         nginx.write_text('#!/bin/sh\nexit 1\n');result=subprocess.run(['/bin/sh',str(hook)],env={'PATH':'/usr/bin:/bin','RENEWED_LINEAGE':'/etc/letsencrypt/live/'+deploy.HOST,'RENEWED_DOMAINS':deploy.HOST},timeout=3)
         self.assertNotEqual(result.returncode,0);self.assertEqual(len(calls.read_text().splitlines()),2)
 
+    def test_reviewed_failed_driver_resumes_only_after_exact_originals_are_restored(self):
+        with patch.object(deploy,'units_and_runtime',side_effect=CheckFailed('fixture preflight')),self.assertRaises(CheckFailed):self.apply()
+        previous=self.state();stamp=(deploy.STATE/'site.before').stat().st_mtime_ns
+        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        self.assertEqual(self.state()['driver_revision'],'7'*40)
+        self.assertEqual(json.loads((deploy.STATE/('driver-'+DRIVER+'.json')).read_text()),previous)
+        self.assertEqual((deploy.STATE/'site.before').stat().st_mtime_ns,stamp);self.preserved()
+    def test_driver_transition_cannot_adopt_verified_or_changed_failed_resources(self):
+        self.apply()
+        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),self.assertRaisesRegex(CheckFailed,'another_https_deployment_recorded'):
+            with contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        self.apply(True);deploy.SITE.write_bytes(b'Unknown concurrent change')
+        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),self.assertRaisesRegex(CheckFailed,'not_rolled_back'):
+            with contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        self.assertEqual(deploy.SITE.read_bytes(),b'Unknown concurrent change');self.preserved()
+
 class BoundedDeploymentCommandTests(unittest.TestCase):
     def test_subprocess_failure_never_reflects_diagnostics_and_log_is_private(self):
         import subprocess
@@ -151,3 +167,32 @@ class BoundedDeploymentCommandTests(unittest.TestCase):
                 deploy.command([sys.executable,'-c',code,str(path)],timeout=.3)
             pid=int(path.read_text());status=Path('/proc')/str(pid)/'status'
             if status.exists():self.assertIn('Z',status.read_text().split('State:',1)[1].splitlines()[0])
+
+class OwnLogPermissionTests(unittest.TestCase):
+    def setUp(self):
+        self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup);self.root=Path(self.temp.name)
+        self.access=self.root/'resmgrcheck-access.log';self.error=self.root/'resmgrcheck-error.log'
+        self.access.write_bytes(b'Preserve access fixture bytes');self.error.write_bytes(b'Preserve error fixture bytes')
+        self.access.chmod(0o600);self.error.chmod(0o644)
+    def test_tightens_only_own_logs_without_reading_truncating_chowning_or_broadening_0600(self):
+        before={p:(p.read_bytes(),p.stat().st_uid,p.stat().st_gid,p.stat().st_ino,p.stat().st_mtime_ns) for p in [self.access,self.error]}
+        with patch.object(deploy,'LOGS',self.root),patch.object(Path,'read_bytes',side_effect=AssertionError('No log-content read')):
+            result=deploy.ensure_logs();deploy.ensure_logs()
+        self.assertEqual(self.access.stat().st_mode&0o777,0o600);self.assertEqual(self.error.stat().st_mode&0o777,0o640)
+        self.assertEqual(before,{p:(p.read_bytes(),p.stat().st_uid,p.stat().st_gid,p.stat().st_ino,p.stat().st_mtime_ns) for p in before})
+        self.assertTrue(result[self.error.name]['permissions_tightened']);self.assertFalse(result[self.access.name]['permissions_tightened'])
+    def test_named_acl_and_world_writable_files_are_refused_without_permission_repair(self):
+        import struct
+        acl=struct.pack('<I',2)+b''.join(struct.pack('<HHI',tag,4,0xffffffff) for tag in [1,4,16,32])
+        with patch.object(deploy,'LOGS',self.root),patch.object(deploy.os,'getxattr',return_value=acl),self.assertRaisesRegex(CheckFailed,'ACL_requires_review'):deploy.ensure_logs()
+        self.assertEqual(self.error.stat().st_mode&0o777,0o644)
+        self.error.chmod(0o666)
+        with patch.object(deploy,'LOGS',self.root),self.assertRaisesRegex(CheckFailed,'own_log_protection'):deploy.ensure_logs()
+        self.assertEqual(self.error.stat().st_mode&0o777,0o666)
+    def test_symlink_and_hardlink_logs_never_modify_an_unknown_target(self):
+        other=self.root/'other';other.write_bytes(b'Other application fixture');other.chmod(0o644)
+        self.error.unlink();self.error.symlink_to(other)
+        with patch.object(deploy,'LOGS',self.root),self.assertRaises(OSError):deploy.ensure_logs()
+        self.error.unlink();os.link(other,self.error)
+        with patch.object(deploy,'LOGS',self.root),self.assertRaisesRegex(CheckFailed,'own_log_protection'):deploy.ensure_logs()
+        self.assertEqual(other.stat().st_mode&0o777,0o644);self.assertEqual(other.read_bytes(),b'Other application fixture')

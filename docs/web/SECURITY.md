@@ -303,3 +303,26 @@ command awaits the operator; the agent ran no deployment/reload. See
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) and evidence/https-rollout. Customer
 endpoints remain disabled until a separate customer host is qualified. AI stays
 disabled; off-server DR is deferred. Independent existing-admin UAT is NOT_RUN.
+
+## W022 legacy own-log permissions and failed-driver resumption
+
+The first operator-run f8a6009 workflow stopped at own_log_protection before HTTPS
+installation and retained/restored the original configuration. Metadata-only
+inspection confirms access.log root:root0640 and error.log root:root0644, both
+regular single-link files with ordinary ACLs. No log contents were inspected.
+
+The corrected helper opens only the two dedicated names with O_NOFOLLOW, validates
+type/owner/trusted group/link count/ACL and reduces eligible modes by intersection
+with0640. It never reads/truncates/chowns their data or broadens0600. Unknown links,
+named ACLs, ownership, groups or world-write are refused. Tightened log protection
+persists across config rollback; it never restores public-read logging permissions.
+All unrelated logs and original secrets stay unchanged.
+
+Only the specifically recorded rolled-back f8a6009 driver may transition to its
+reviewed descendant with the same app/candidate hashes and exact original files
+restored. Original backups stay unchanged and a protected old-driver history copy
+is retained. A verified or concurrently edited deployment cannot be adopted by
+this recovery. Eighteen focused regressions pass; see evidence/https-log-recovery.
+The corrected privileged operation/public acceptance is pending the operator's
+same single workflow command with the new driver SHA. No marker deletion, manual
+chmod or extra diagnostic commands are required. P8–P10 do not advance yet.

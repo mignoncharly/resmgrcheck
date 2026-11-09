@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-11-09T10:59:17.398347+00:00",
+  "previous_driver": "f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9",
+  "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "operator_result": {
+    "deployment": "failed",
+    "failed_check": "own_log_protection",
+    "own_changes_rolled_back": true
+  },
+  "metadata_only_agent_inspection": {
+    "resmgrcheck-access.log": {
+      "uid": 0,
+      "gid": 0,
+      "mode": "0640",
+      "nlink": 1,
+      "type": "regular",
+      "ACL": "owner rw, group r, other none"
+    },
+    "resmgrcheck-error.log": {
+      "uid": 0,
+      "gid": 0,
+      "mode": "0644",
+      "nlink": 1,
+      "type": "regular",
+      "ACL": "owner rw, group r, other r"
+    },
+    "log_contents_read": false
+  },
+  "correction": "FD-based permission reduction on the two owned trusted logs; no contents or ownership changes; never broadens0600; unknown ACL/type/owner/group/links refused",
+  "resumption": "only the recorded rolled-back f8a6009 driver, exact originals and identical candidate hashes; protected previous-driver record retained",
+  "privileged_correction_run_by_agent": false,
+  "production_https_auth_native": "pending corrected operator run",
+  "tests": {
+    "passed": 18,
+    "scope": "actual temporary filesystem/permission changes/owned command groups; modeled root/systemd/HTTP recovery; no production files changed"
+  },
+  "sha256": {
+    "web/ops/production/deploy_https.py": "7dc1fee29fdc171b7799100a10b04e64182a4c3135e31f8439f612e4086ac5e9",
+    "web/tests/test_https_deploy.py": "5b3a49016c18e997f8f56c28946eb587796af356787c20ee9e6b4b5d26951cbe"
+  }
+}
