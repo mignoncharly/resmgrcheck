@@ -1,5 +1,45 @@
 # Production web test evidence
 
+## W015 — current inventory and outbound runner enrollment (2026-11-09)
+
+The operator confirms actual private HTTP200, nonroot systemd runtime_check and
+the encrypted isolated restore (audit UPDATE/DELETE rejection) on immutable3821952.
+Read-only current-pointer and unit metadata corroborate that release and active
+web/socket/database; executor and backup timer were inactive. These facts supersede
+W014's pending production restore, without rerunning successful work or relabeling
+operator evidence. Public HTTPS could not be fetched externally; no HTTP/TLS,
+browser/public-native or independent acceptance is claimed. No root action ran.
+
+Enrollment implements600s256-bit one-use HMAC-verifier credentials, exact tenant/
+target/device binding, separate administrator inventory approval, permanent
+revocation, signed Ed25519 HTTPS exchange,60s freshness, nonce replay protection,
+bounded rates, local route pinning, and disconnected/incompatible/quarantine states.
+Machine endpoints reject cookies and arbitrary fields; administrator endpoints
+retain MFA/CSRF/tenant checks. PostgreSQL guards reject identity/tenant changes.
+The old lab worker excludes customer targets. Native execution remains explicitly
+unavailable in this enrollment checkpoint; no SSH/SDK configuration reaches HTTP.
+
+68 focused tests passed in8.989s:18 runner enrollment/auth/tenant/PG tests, three
+actual loopback TLS client/Django journeys and47 retained scheduling/credential/
+production-config tests. TLS tests enrolled, approved, heartbeated and revoked a
+runner over a real encrypted connection, refused an untrusted certificate/wrong
+server signing key, and tested private-file protections. Discovery was a fixture;
+this is neither separate-customer-host onboarding nor a new QNX observation.
+The earlier65-test run passed before TLS journeys were added. Disposable test DB
+migrations applied through0018 and the test DB was destroyed. A makemigrations
+invocation initially warned that its default DB history could not be checked in
+the sandbox; subsequent tests applied real migrations in the dedicated development
+cluster, without production access or guard relaxation.
+
+Enrollment is disabled by default. The new signing seed is separate from existing
+application/MFA/backup keys and uses the strict existing credential validator.
+No production key, schema, unit, service, Nginx site, QNX process or original native
+evidence changed. The owner confirms no separate customer runner is currently
+available; staging may continue, separate-host native/public/independent review
+remain gates. Job delivery/ingestion, an additional meaningful native integration,
+immutable migration/rollback and full A–F acceptance remain outstanding. AI remains
+disabled. Off-server DR automation is deferred, never counted as passed.
+
 Current access decision: [DWEB-001](ACCESS_MODEL.md) replaces the former public
 registration/email/SMTP requirements. W002 and prior email references below are
 historical, preserved observations; W007 qualifies the revised model. AI is optional;

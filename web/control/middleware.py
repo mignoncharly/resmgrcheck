@@ -14,7 +14,9 @@ class PolicyMiddleware:
             if settings.ENVIRONMENT=='production' and peer in {'','127.0.0.1','::1'}:
                 peer=request.META.get('HTTP_X_REAL_IP',peer)
             identity=str(request.user.pk) if request.user.is_authenticated else peer
-            if request.path=='/access/':
+            if request.path.startswith('/runner/v1/'):
+                allowed=consume_rate('runner-ingress',peer,600,60)
+            elif request.path=='/access/':
                 allowed=consume_rate('code-redemption-ip',peer,10,60) and consume_rate('code-redemption-global','all',200,3600)
             elif request.path.startswith('/administrator/'):
                 if request.path.endswith('/login/'):

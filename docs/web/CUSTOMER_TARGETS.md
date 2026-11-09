@@ -1,5 +1,13 @@
 # Supported target onboarding
 
+W015 stages the actual outbound enrollment/approval/heartbeat workflow described
+in [CUSTOMER_RUNNER.md](CUSTOMER_RUNNER.md), replacing the request-only form when
+the reviewed runner feature is activated. It is currently disabled in production.
+Job delivery/evidence ingestion, additional-service native qualification and a
+separate customer runner remain subsequent gates. The supported active release
+scope below stays accurate until those gates pass; enrollment is not lifecycle
+support or a connection proof for an arbitrary external resource manager.
+
 This release supports operator-approved sensor/job fixtures on a private QNX8.0.0
 x86_64 lab. The web executor reuses the qualified CLI and adapters. Public evidence
 playback requires no target or code and grants no execution permission. Access

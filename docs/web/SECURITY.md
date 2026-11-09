@@ -1,5 +1,20 @@
 # Security boundaries and review
 
+W015 enrollment is staged/disabled by default.256-bit600s one-use enrollment
+credentials are HMAC-verifier-only in the DB, bound to a precreated exact target;
+they never approve execution. A customer-local Ed25519 device key signs discovery/
+requests; a separate central seed signs replies, using the strict existing private
+file/systemd ACL validator. TLS trust, hostname verification and the pinned server
+key are mandatory. Requests have60s freshness and unique125s-retained nonces plus
+rate/capacity limits. The machine-only CSRF exemption refuses browser cookies;
+administrator mutations retain MFA/tenant/CSRF checks. PG guards prevent identity/
+tenant substitution and revoked-key resurrection. Changed discovery quarantines;
+stale heartbeat means disconnected, never healthy. Customer SSH/license material
+does not enter enrollment or central storage.68 checks include actual loopback TLS
+and PostgreSQL, with modeled discovery. Separate-host/native/public qualification
+and independent exposed-endpoint review remain pending. Do not activate production
+before new credential/grant/migration/rollback checks.
+
 Baseline: [OWASP ASVS 5.0](https://asvs.owasp.org/) Level 2 requirements where
 applicable and the [multi-tenant cheat sheet](https://cheatsheetseries.owasp.org/cheatsheets/Multi_Tenant_Security_Cheat_Sheet.html).
 These are review checklists, not certification.

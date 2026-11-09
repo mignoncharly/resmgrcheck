@@ -3,6 +3,23 @@
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
+W015 current inventory (2026-11-09): clean source and actual installed pointer are
+3821952e6c99cf8c6d548e59301166dde590b8a0. The operator confirms private HTTP200,
+nonroot systemd runtime checks and an actual encrypted isolated restore with audit
+UPDATE/DELETE rejection. These successful gates are accepted as operator evidence,
+not unnecessarily repeated or relabeled as agent execution. Read-only metadata
+confirms private web/socket/DB active and executor/backup timer inactive. External
+fetch could not access the requested HTTPS URL; public HTTP/TLS remain unverified.
+
+The expanded A–F scope reopens customer-runner and additional-adapter gates.
+W015 implements outbound enrollment, signed machine authentication, explicit target
+approval/revocation, offline/incompatible/quarantine states and the customer-local
+HTTPS client.68 tests pass, including real loopback TLS with Django and PG identity
+guards. Discovery is modeled there; no native behavior is claimed. Job delivery/
+ingestion and additional-adapter qualification are the next checkpoints. Enrollment
+is disabled by default. The owner confirms no separate customer runner is available
+yet: implement and stage now; separate-host/public/independent acceptance is pending.
+
 | Gate | State | Evidence |
 | --- | --- | --- |
 | P0 baseline/threat model | PASS | Inventory, preserved baseline, dependency/security review, explicit deployment blockers |
@@ -12,20 +29,20 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
-| P7 customer target story | PASS for documented limited scope | W008:48 PG negative checks; managed fixtures/operator approval only, arbitrary external lifecycle UNSUPPORTED |
-| P8 hardening | IN PROGRESS; isolated production restore gate failing/pending correction | W014: active59158ad; backup service success, restore audit probe unproven (operator); empty-table failure reproduced; metadata + rolled-back synthetic UPDATE/DELETE proof and immutable upgrade tested; actual preserved production snapshot requalification pending |
+| P7 customer target story | REOPENED for A–F scope | W015 enrollment staged; job/evidence route, additional native integration and separate-host qualification pending |
+| P8 hardening | IN PROGRESS; private runtime/restore passed (operator) | Active3821952; remaining HTTPS/auth/native/rollback and new runner security gates pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
-The private web service/socket are active at 59158ad (read-only unit observation);
-this turn did not verify HTTP or public HTTPS. No matching enabled ResMgrCheck vhost
-or public deployment is claimed. This task made no DNS/Nginx change. Original engine runtime digest remains
+The private web service/socket are active at3821952 (read-only unit observation).
+Private HTTP/runtime/restore success is operator-provided; public HTTPS is unverified.
+This task made no DNS/Nginx change. Original engine runtime digest remains
 `02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.
 Existing QNX features/evidence remain qualified; this is separate from web execution.
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
-Remaining operator actions: immutable restore-verifier correction, inspection and
-successful isolated restore of the preserved encrypted production snapshot,
-current private HTTP200/isolation verification, later vhost/TLS/operational verification,
+Remaining work: runner job/evidence and additional native integration, separate
+customer-runner acceptance, intended HTTPS auth/native/browser/isolation/rollback
+and later vhost/TLS/operational verification,
 optional project-consented AI provider setup and independent UAT. No secrets should
 be sent in chat. PRIVATE_INSTALL.md gives the concrete operator-only procedure.
 Continue implementation/staging without changing unrelated VPS services.

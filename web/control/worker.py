@@ -42,7 +42,7 @@ def claim():
             if candidate.state not in ACTIVE:return None # quarantine needs explicit resolution
             recovery=True
         else:
-            candidate=Run.objects.select_for_update(skip_locked=True).filter(state='queued').order_by('created_at').first()
+            candidate=Run.objects.select_for_update(skip_locked=True).filter(state='queued').exclude(target__kind='customer-runner').order_by('created_at').first()
             if not candidate:return None
             recovery=False
         token=uuid.uuid4();slot.run=candidate;slot.token=token;slot.expires_at=now+timedelta(seconds=LEASE_SECONDS);slot.save()

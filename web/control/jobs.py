@@ -28,7 +28,7 @@ def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,
     if not verified(request.user) or not mfa_authenticated(request,900):raise QueueError('recent_verified_mfa_required')
     if target.project_id!=project.pk or not target.approved:raise QueueError('target_not_approved')
     if target.state=='quarantined':raise QueueError('target_quarantined')
-    if target.kind=='customer-request' or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')
+    if target.kind in {'customer-request','customer-runner'} or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')
     if operation!='inventory' and (not build or build.target_id!=target.pk or not build.approved):raise QueueError('build_not_approved')
     if not re.fullmatch(r'[A-Za-z0-9_-]{16,64}',key):raise QueueError('idempotency_key_invalid')
     if operation not in {'run','replay','inventory'} or profile not in {'sensor','job'} or suite not in {'profile','lifecycle','health'} or mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:raise QueueError('execution_selection_invalid')

@@ -19,7 +19,8 @@ def intent(data,request,project):
 @require_GET
 def targets(request,project_id):
     project,role=project_access(request.user,project_id)
-    return render(request,'control/targets.html',{'project':project,'targets':visible_targets(request.user).filter(project=project),'role':role,'form':TargetRequestForm()})
+    from django.conf import settings
+    return render(request,'control/targets.html',{'project':project,'targets':visible_targets(request.user).filter(project=project),'role':role,'form':TargetRequestForm(),'runner_enabled':settings.RUNNER_ENABLED})
 
 @secure_account(strong=True,recent=900)
 @require_POST

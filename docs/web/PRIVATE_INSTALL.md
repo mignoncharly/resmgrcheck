@@ -1,5 +1,15 @@
 # Private production qualification handoff
 
+W015 (2026-11-09) supersedes W014's pending observations below: the operator
+activated3821952, obtained private HTTP200/nonroot runtime success and completed
+the actual encrypted isolated restore with audit UPDATE/DELETE rejection. Preserve
+the release, snapshot and receipt; no repeat recovery is required. Customer-runner
+enrollment is new staging work, disabled by default. The old restore-only recovery
+helper intentionally rejects this broader change. Do not bypass its scope guard.
+No privileged runner deployment is ready yet: additive tables, least-privilege
+grants and a separate signing credential need immutable migration/rollback review
+and qualification. Existing keys, data, units and isolation remain unchanged.
+
 Status (2026-11-08, W014): active immutable release is 59158ad. The production backup
 service succeeded and preserved `/var/backups/resmgrcheck/snapshot_20261108T224711Z.rmc`,
 but its isolated restore failed `backup_restored_audit_trigger_unproven`. The old

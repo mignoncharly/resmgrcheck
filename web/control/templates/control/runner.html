@@ -1,0 +1,9 @@
+{% extends 'control/base.html' %}{% load ui %}{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'targets' project.pk %}">Targets</a><span aria-current="page">Customer runner</span></nav>
+<section class="panel"><h1>{{ runner.target.name }}</h1><span class="badge">{{ runner_state }}</span>
+<dl class="facts"><dt>Runner public key</dt><dd class="mono">{{ runner.public_key }}</dd><dt>Inventory fingerprint</dt><dd class="mono">{{ runner.inventory_sha256 }}</dd><dt>Last authenticated heartbeat</dt><dd>{{ runner.last_seen|default:'Never' }}</dd><dt>Concurrency</dt><dd>One native job for this target; uncertain cleanup blocks further work</dd><dt>Daily job limit</dt><dd>{{ runner.daily_limit }}</dd></dl>
+<p>Compare the public key and inventory fingerprint with the customer operator through your approved channel. These are signed discovery claims; target reachability is not proof of pending-request observers or lifecycle qualification.</p>
+<details><summary>Public capability inventory</summary><pre>{{ runner.inventory|pretty }}</pre></details>
+{% if not runner.revoked_at %}{% if not runner.approved_at %}<form method="post" action="{% url 'runner_approve' project.pk runner.pk %}" class="spaced">{% csrf_token %}<input type="hidden" name="inventory_sha256" value="{{ runner.inventory_sha256 }}"><button>Approve this exact runner inventory</button></form>{% endif %}
+<form method="post" action="{% url 'runner_revoke' project.pk runner.pk %}" class="spaced">{% csrf_token %}<button class="danger">Revoke runner and target approval</button></form>{% else %}<p class="callout warning">Runner revoked. This identity cannot be re-enrolled or silently replaced. Keep evidence; issue a new target identity if needed.</p>{% endif %}
+</section>{% endblock %}

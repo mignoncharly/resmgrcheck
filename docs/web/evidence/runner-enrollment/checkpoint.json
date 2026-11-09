@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-09",
+  "base_revision": "3821952e6c99cf8c6d548e59301166dde590b8a0",
+  "operator_provided": {
+    "private_http_status": 200,
+    "nonroot_systemd_runtime_check": "PASS",
+    "actual_isolated_encrypted_restore": "PASS including audit UPDATE/DELETE rejection"
+  },
+  "agent_read_only": {
+    "installed_pointer": "/opt/resmgrcheck/releases/3821952e6c99cf8c6d548e59301166dde590b8a0",
+    "web": "active/running",
+    "socket": "active/running",
+    "database": "active/running",
+    "executor": "inactive/dead",
+    "backup": "inactive/dead; success",
+    "backup_timer": "inactive/dead"
+  },
+  "external_https_fetch": "UNAVAILABLE via external tool; no HTTP/TLS qualification",
+  "separate_customer_runner": "Unavailable; owner directs implementation/staging",
+  "tests": {
+    "count": 68,
+    "seconds": 8.989,
+    "result": "PASS",
+    "scope": "real private PostgreSQL migrations, cryptographic request auth, actual loopback TLS client/Django journeys; modeled discovery",
+    "native_execution": false,
+    "production_access": false
+  },
+  "production_deployment": false,
+  "P8": "IN_PROGRESS",
+  "P9_P10": "NOT_RUN"
+}

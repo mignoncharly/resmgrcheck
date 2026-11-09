@@ -17,7 +17,8 @@ SYSTEMD_DIRECTORIES = {
     for role, unit in [('web', 'web'), ('executor', 'executor'), ('ai', 'ai')]
 }
 SERVICE_USERS = {'web': 'resmgr-web', 'executor': 'resmgr-exec', 'ai': 'resmgr-ai'}
-CREDENTIAL_IDS = {'RMC_WEB_SECRET_KEY': 'application-key', 'RMC_WEB_MFA_KEY': 'mfa-key'}
+CREDENTIAL_IDS = {'RMC_WEB_SECRET_KEY': 'application-key', 'RMC_WEB_MFA_KEY': 'mfa-key',
+                  'RMC_WEB_RUNNER_KEY': 'runner-key'}
 ACL_XATTR = 'system.posix_acl_access'
 
 

@@ -1,6 +1,18 @@
 # Deployment record
 
-Requested URL: `https://qnx-resmgrcheck.gestionatech.de`. Not deployed.
+Requested URL: `https://qnx-resmgrcheck.gestionatech.de`. Public HTTPS unverified.
+W015 private pointer:3821952. Operator-confirmed private HTTP200/nonroot runtime/
+isolated encrypted restore are accepted, not repeated. Read-only metadata confirms
+active private web/socket/DB. External fetch could not access the URL, establishing
+neither a valid certificate nor an HTTP result. No Nginx or root-service change ran.
+
+Customer-runner enrollment is staged/disabled by default. Its additive migrations,
+runtime grants, separate signing credential and immutable rollback are not yet
+production-qualified. No broader deployment command is ready. The owner has no
+separate runner host yet; separate-host native onboarding and independent endpoint
+review remain public-release gates. Off-server disaster-recovery automation is
+deferred for the hackathon, not passed. Preserve encrypted local backups and record
+the single-server-loss/key-custody recovery limitation.
 Read-only P0 inventory found 12 enabled Nginx sites, no matching vhost, many live
 applications and PostgreSQL instances, Python 3.12.3, Nginx 1.24.0 and available
 loopback port 8431. At P0 the requested DNS name did not resolve; a later read-only check found it resolves, without an application vhost or verified HTTPS. No existing site,

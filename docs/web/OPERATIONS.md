@@ -1,9 +1,20 @@
 # Operations record
 
-Production is not running yet. Maintain separate liveness, database readiness,
+Private production runs at3821952 (W015): private HTTP200/nonroot runtime/actual
+encrypted isolated restore are operator-confirmed. Public HTTPS, customer-runner
+and independent acceptance remain unqualified. Maintain separate liveness, database readiness,
 worker heartbeat, queue backlog, target quarantine, disk and backup-age signals.
 Unknown target status is not health; restarting a fixture does not establish the
 health of an original instance. Native cleanup and host job cancellation differ.
+
+Staged outbound enrollment is disabled in production. An MFA project administrator
+issues a600s credential for one new target, then separately approves its exact
+public key/inventory. Heartbeats every30s become disconnected after90s. Changed
+inventory/route quarantines; revoked devices require a new identity. Connection is
+not lifecycle qualification. SSH keys and legally licensed QNX configuration stay
+with the customer. See CUSTOMER_RUNNER.md. Do not repeat successful restore merely
+for documentation. Off-server disaster-recovery automation is deferred, not passed:
+loss of this server and local archive/key custody may prevent recovery.
 
 The existing QNX guest has a small filesystem: P0 observed 415 free file entries
 and 2992 available 4096-byte blocks. Before new native qualification, budget cases

@@ -110,8 +110,8 @@ class Target(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     project=models.ForeignKey(Project,on_delete=models.PROTECT)
     name=models.CharField(max_length=100)
-    kind=models.CharField(max_length=24,choices=[('managed-lab','Approved managed fixtures'),('external-health','External read-only health'),('customer-request','Dedicated customer runner request')],default='customer-request')
-    state=models.CharField(max_length=20,default='unknown',choices=[(s,s) for s in ['unknown','available','unavailable','unsupported','quarantined']])
+    kind=models.CharField(max_length=24,choices=[('managed-lab','Approved managed fixtures'),('external-health','External read-only health'),('customer-request','Legacy customer runner request'),('customer-runner','Customer-owned outbound runner')],default='customer-request')
+    state=models.CharField(max_length=20,default='unknown',choices=[(s,s) for s in ['unknown','available','unavailable','unsupported','quarantined','pending-approval','connected','disconnected','incompatible']])
     approved=models.BooleanField(default=False)
     binding=models.CharField(max_length=64,blank=True)
     inventory=models.JSONField(default=dict)
@@ -119,6 +119,13 @@ class Target(models.Model):
     quarantine_reason=models.CharField(max_length=100,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     def __str__(self):return self.name
+    @property
+    def connection_state(self):
+        if self.kind=='customer-runner':
+            from .runners import status
+            try:return status(self.customerrunner)
+            except CustomerRunner.DoesNotExist:return 'pending-approval'
+        return self.state
 
 class BuildRelease(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
@@ -129,6 +136,35 @@ class BuildRelease(models.Model):
     binding=models.CharField(max_length=64,blank=True)
     created_at=models.DateTimeField(auto_now_add=True)
     def __str__(self):return self.label+' · '+self.manifest.get('build',{}).get('source_revision','unverified')[:12]
+
+class CustomerRunner(models.Model):
+    """One immutable cryptographic identity per exact target. No SSH/SDK material."""
+    target=models.OneToOneField(Target,primary_key=True,on_delete=models.PROTECT)
+    public_key=models.CharField(max_length=64,unique=True)
+    inventory=models.JSONField(default=dict)
+    inventory_sha256=models.CharField(max_length=64)
+    approved_at=models.DateTimeField(null=True)
+    revoked_at=models.DateTimeField(null=True)
+    last_seen=models.DateTimeField(null=True)
+    quarantined=models.BooleanField(default=False)
+    daily_limit=models.PositiveSmallIntegerField(default=20)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+class RunnerEnrollment(models.Model):
+    id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    target=models.ForeignKey(Target,on_delete=models.PROTECT)
+    verifier=models.CharField(max_length=64)
+    expires_at=models.DateTimeField()
+    used_at=models.DateTimeField(null=True)
+    revoked_at=models.DateTimeField(null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+class RunnerNonce(models.Model):
+    runner=models.ForeignKey(CustomerRunner,on_delete=models.PROTECT)
+    nonce=models.CharField(max_length=32)
+    expires_at=models.DateTimeField(db_index=True)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['runner','nonce'],name='runner_nonce_once')]
 
 class Run(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)

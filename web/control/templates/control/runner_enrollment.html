@@ -1,0 +1,9 @@
+{% extends 'control/base.html' %}{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'targets' project.pk %}">Targets</a><span aria-current="page">Runner enrollment</span></nav>
+<section class="panel form-panel"><p class="eyebrow">Customer-owned runner</p><h1>Enroll {{ target.name }}</h1>
+<p>This one-time display expires in 10 minutes. Deliver it privately to the customer operator. It cannot approve a target or authorize execution.</p>
+<label for="enrollment-token">Enrollment credential</label><textarea id="enrollment-token" rows="3" readonly spellcheck="false" autocomplete="off">{{ token }}</textarea>
+<dl class="facts"><dt>Target identity</dt><dd><code>{{ target.pk }}</code></dd><dt>Organization</dt><dd><code>{{ project.organization_id }}</code></dd><dt>Project</dt><dd><code>{{ project.pk }}</code></dd><dt>Control-plane signing key (public)</dt><dd class="mono">{{ server_key }}</dd></dl>
+<p>Install the outbound customer runner in the customer's environment with their licensed QNX runtime/SDK. Enter the credential locally using the protected file option. Keep SSH and license credentials there. No browser upload of either is supported.</p>
+<p>After enrollment, review the exact public-key fingerprint and discovered inventory, then approve this target separately. Connection alone never proves lifecycle support.</p>
+<a class="button secondary" href="{% url 'targets' project.pk %}">Return to targets</a></section>{% endblock %}

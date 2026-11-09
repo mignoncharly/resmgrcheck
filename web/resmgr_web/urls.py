@@ -2,8 +2,13 @@ from django.urls import include,path
 from django.conf import settings
 from allauth.account import views as account
 from control.security import administrator
-from control import views,dashboard,execution_views as execution,evidence,retention_views,ai_views,access_views
+from control import views,dashboard,execution_views as execution,evidence,retention_views,ai_views,access_views,runner_views
 urlpatterns=[
+ path('runner/v1/<str:operation>/',runner_views.machine,name='runner_machine'),
+ path('app/projects/<uuid:project_id>/runners/enroll/',runner_views.issue,name='runner_issue'),
+ path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/',runner_views.detail,name='runner_detail'),
+ path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/approve/',runner_views.approval,name='runner_approve'),
+ path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/revoke/',runner_views.revocation,name='runner_revoke'),
  path('healthz/',views.health,name='health'),path('readyz/',views.readiness,name='readiness'),
  path('administrator/login/',account.LoginView.as_view(template_name='control/administrator_login.html'),name='account_login'),
  path('administrator/reauthenticate/',account.ReauthenticateView.as_view(),name='account_reauthenticate'),

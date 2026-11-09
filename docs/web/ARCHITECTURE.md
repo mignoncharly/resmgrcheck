@@ -1,5 +1,15 @@
 # Web architecture
 
+W015 stages an outbound customer runner alongside the private lab dispatcher,
+disabled by default. Customer SSH/QNX configuration stays local. HTTPS validates
+the central origin; pinned Ed25519 keys authenticate both directions.600s one-use
+enrollment binds a device key to a preselected organization/project/target, followed
+by separate MFA administrator approval of its exact inventory. Unique nonces and
+60s freshness prevent request replay. Local route fingerprints and PG guards fence
+silent route/key/tenant substitution. Connection is distinct from lifecycle proof.
+Job delivery/ingestion are the next checkpoint; enrollment grants no native command.
+The original engine/CLI/evaluator remain unchanged.
+
 The [contract](PRODUCTION_IMPLEMENTATION_CONTRACT.md) supersedes the original
 CLI-only scope for this branch. The native engine, CLI and evaluator remain intact.
 

@@ -115,6 +115,12 @@ import sys
 if str(REPO_ROOT) not in sys.path: sys.path.insert(0,str(REPO_ROOT))
 ENGINE_EXECUTION_TIMEOUT = 600
 MAX_QUEUED_JOBS = 30
+RUNNER_ENABLED=os.environ.get('RMC_WEB_RUNNER_ENABLED','0')=='1'
+RUNNER_ORIGIN='https://qnx-resmgrcheck.gestionatech.de'
+RUNNER_SIGNING_KEY=secret('RMC_WEB_RUNNER_KEY') if RUNNER_ENABLED and SERVICE_ROLE in {'web','operator'} else ''
+if RUNNER_SIGNING_KEY:
+    import re
+    if not re.fullmatch('[0-9a-f]{64}',RUNNER_SIGNING_KEY):raise ImproperlyConfigured('Runner signing key must be a private Ed25519 seed')
 TEMPLATES[0]['OPTIONS']['context_processors'].append('control.context.product')
 MIDDLEWARE.insert(MIDDLEWARE.index('control.middleware.PolicyMiddleware'),'allauth.usersessions.middleware.UserSessionsMiddleware')
 
