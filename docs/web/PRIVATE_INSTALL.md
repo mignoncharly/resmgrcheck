@@ -855,3 +855,19 @@ private credential custody and real inventory before any public live run. Do not
 copy SSH or license contents into chat/repository. Native runs are0 in this receipt;
 independent authenticated UAT is pending. Customer endpoints/AI remain disabled,
 off-server DR deferred and P8 IN_PROGRESS. See W028 test evidence for exact scope.
+
+## W029 next operator step: production executor provisioning
+
+Use [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md) and the exact committed driver
+SHA from the handoff. Its one operator command reuses active3f4bafb without repeating
+HTTPS deployment. It installs only fixed private executor custody, additive scoped
+approvals/audit, lock-only DB grants with mutation-denying guards and a temporary
+executor probe override that preserves isolation. Original keys, users, database
+records and historical releases/evidence remain. No SDK/license copying or QNX rebuild.
+
+Read-only preflight verified both actual remote manifests/all ten native hashes.
+The148 free lab file entries bound acceptance to three native cases. Actual root
+provisioning, executor/runtime/DB qualification, native IDs, same-ID recovery and
+revocation remain NOT_RUN.74 relevant tests passed; privileged effects are modeled.
+The command stages an idle executor stop/start rehearsal; full compatible application
+rollback remains open. Do not reset state or delete historical target files.

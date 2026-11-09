@@ -1,0 +1,72 @@
+{
+  "checkpoint": "W029",
+  "source_parent": "7ac3d07354527d8223641487391309d1a11f8ca9",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "pinned_production_engine": "ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0",
+  "actual_preflight": {
+    "scope": "development UID1000 read-only SSH/native deployment verification, not production executor role",
+    "target": "existing approved QNX8 x86_64/x86pc lab; existing pinned host identity",
+    "before": {
+      "deployment_id": "ae1211e774c0b0ef7b30d11085f064cea99f891424359fcb3e2941cff964bfcf",
+      "source_revision": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+      "remote_files_SHA256_verified": 5
+    },
+    "after": {
+      "deployment_id": "44d2629791e9d91982f2858162dee97aa386a81a17e6be5ce0d43eda026c4caf",
+      "source_revision": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+      "remote_files_SHA256_verified": 5
+    },
+    "tracked_manifests_verified": true,
+    "sensor_source_and_fixture_differ": true,
+    "runner_worker_unchanged": true,
+    "target_file_entries_available": 148,
+    "native_tests_launched": false
+  },
+  "production_role": {
+    "OS_user": "resmgr-exec",
+    "UID": 981,
+    "GID": 973,
+    "systemd_unit_source": "canonical nonroot unit reviewed; actual sandbox qualification pending operator"
+  },
+  "database_lock_compatibility": {
+    "cause": "committed grants supply SELECT but start_authority SELECT FOR UPDATE needs UPDATE on at least one column",
+    "qualification": "reproduced with real nonprivileged role in disposable PostgreSQL; actual production grants checked by operator workflow",
+    "correction": "UPDATE(id) only on user/code tables plus exact invoker-role BEFORE UPDATE guards rejecting every executor UPDATE",
+    "actual_authorization_rows_changed_by_correction": false,
+    "schema_ownership_or_table_UPDATE_granted": false,
+    "database_guard_metadata": "new guarded function and two triggers; no Django migration"
+  },
+  "tests": {
+    "passed": 74,
+    "seconds": 11.333,
+    "new_focused_tests": 22,
+    "scope": "actual disposable PostgreSQL roles/locks/negative mutations and filesystem publication; privileged systemd/pidfd signal effects modeled"
+  },
+  "planned_native_acceptance": {
+    "executions": 3,
+    "intentional_defect_and_same_ID_recovery": "sensor ignore-unblock FAIL with exact local collection SSH pause; original supervisor/partial evidence retained",
+    "source_corrected_replay": "same saved inputs/contract/mode; corrected fixture/source PASS; canonical fixed comparison",
+    "job_and_revocation": "job PASS; code revoked during live collection after observed pending; queued second job rejected before launch",
+    "test_selection_correction": "existing preserved before build fails ignore-unblock, not fixed mode; both replay settings unchanged"
+  },
+  "production_registry_provisioning": "NOT_RUN; requires local root operator",
+  "production_executor_systemd_qualification": "NOT_RUN",
+  "production_native_runs": [],
+  "production_native_authorization_revocation": "NOT_RUN",
+  "native_evidence_integrity_and_cleanup": "PENDING actual production runs; no fabricated cleanup claim",
+  "rollback": "guarded idle executor stop/start staged; full compatible application rollback NOT_RUN",
+  "public_HTTPS": {
+    "origin": "https://qnx-resmgrcheck.gestionatech.de",
+    "readyz_HTTP": 200,
+    "certificate_verification": true,
+    "scope": "fresh VPS-origin client; W028 independent external public result retained"
+  },
+  "privileged_host_commands_executed_by_agent": false,
+  "existing_HTTPS_auth_configuration_changed": false,
+  "production_data_keys_or_historical_QNX_evidence_changed_by_agent": false,
+  "customer_runner_endpoints": "disabled; separate-host qualification pending",
+  "AI": "disabled",
+  "off_server_DR": "deferred",
+  "independent_UAT": "NOT_RUN; checklist prepared",
+  "P8": "IN_PROGRESS"
+}

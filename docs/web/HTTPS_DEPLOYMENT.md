@@ -12,6 +12,8 @@ endpoints/AI remain disabled; off-server disaster recovery is deferred.
 The application remains healthy; this blocker is a separate approved-executor
 provisioning gate. No new privileged command is required for this evidence update.
 See [the W028 evidence](evidence/production-password-acceptance/checks.json).
+The next separate operator workflow is [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md);
+it does not rerun this HTTPS deployment.
 The following recovery procedure is retained for operator-reviewed recovery/rollback,
 not a request to rerun the completed attempt. Original release `544f22c` and protected
 receipts remain preserved; no cleanup/reset of their state is authorized.

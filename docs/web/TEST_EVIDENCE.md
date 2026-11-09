@@ -1345,3 +1345,35 @@ separate customer-host qualification absent, off-server DR deferred. Existing na
 and CLI evidence remains unchanged. Full application rollback and independent
 acceptance remain outstanding; P8 is IN_PROGRESS. This checkpoint changes only
 documentation/evidence, with JSON/count/integrity checks and no repeated test matrix.
+
+## W029 production executor workflow staged (not executed)
+
+The active application remains3f4bafb; HTTPS/password/code/browser acceptance from
+W028 is retained. Fresh VPS-origin HTTPS /readyz/ returned200 with trusted TLS.
+Read-only development-UID preflight independently verified both pinned original/
+corrected remote manifests and all ten native file hashes on the existing QNX8 lab.
+No test or service was started. The lab has148 free file entries; no old evidence
+was removed. Native acceptance is bounded to three cases, combining defect recovery
+and job revocation with the required source-corrected replay.
+
+[PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md) supplies one reviewed operator
+workflow: exact private registry/route/key copies with restrictive executor ownership,
+additive scoped approvals, actual canonical-unit credential/sandbox probe, restored
+normal dispatcher, production dashboard tests, evidence/download checks and safe
+temporary-account/code cleanup. No Nginx/auth configuration or immutable source patch.
+
+The committed database grant matrix lacks permission for start_authority's row locks.
+Real disposable nonprivileged PostgreSQL tests reproduce that failure and verify a
+lock-only correction: UPDATE(id) plus invoker-role triggers that reject every actual
+executor authorization UPDATE. No authorization rows, ownership or table-wide UPDATE
+permission are changed. Actual production grant metadata is checked in the operator
+workflow; no root DB operation ran by the agent. Unknown guards/grants are refused.
+
+74 tests PASS in11.333s, including22 focused provisioning/PG tests. Filesystem/PG
+effects are real and disposable; systemd/signals are modeled. Actual production
+registry, executor role/sandbox, native IDs/verdicts, same-ID recovery, revocation,
+evidence integrity and cleanup remain PENDING ROOT EXECUTION. The idle executor
+stop/start rehearsal is staged; full compatible application rollback remains open.
+[INDEPENDENT_UAT.md](INDEPENDENT_UAT.md) is NOT_RUN. See
+[evidence/production-executor-plan/checks.json](evidence/production-executor-plan/checks.json).
+Customer endpoints/AI remain disabled, off-server DR deferred and P8 IN_PROGRESS.

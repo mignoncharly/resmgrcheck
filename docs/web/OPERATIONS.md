@@ -342,3 +342,20 @@ configuration rollback drill is a completed workflow prerequisite; this turn did
 exercise full new-application rollback. Independent authenticated UAT and full release
 rollback remain open, as do separate-host qualification and off-server DR. Customer
 endpoints and AI stay disabled. No privileged action ran by the agent this turn.
+
+## W029 one executor provisioning/native qualification workflow
+
+[PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md) replaces individual diagnostic
+requests with a reviewed fixed-scope operator command. It checks private custody,
+installs mutation-denying lock-only DB guards, probes the actual canonical executor
+context and then drives three HTTPS dashboard cases. Safe receipts include native
+IDs, evaluator outcomes, downloads, observed cleanup, recovery and revocation facts.
+No deployment/HTTPS/authentication change is required.74 tests passed; actual
+production executor execution is pending. Current application3f4bafb /readyz/ is200.
+
+Unknown files/approvals/overrides are retained and refused; same-driver completed
+native receipts are revalidated/reused. Uncertain active work is not killed/reset.
+Keep all existing QNX history: the lab has148 free entries. The final guarded idle
+executor stop/start is not full application rollback qualification. Independent
+[UAT](INDEPENDENT_UAT.md), compatible rollback and remaining P8 gates stay open.
+Customer endpoints/AI remain disabled; off-server DR deferred.

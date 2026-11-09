@@ -457,3 +457,21 @@ worker activation. Connection and saved evidence cannot prove lifecycle executio
 Customer endpoints and AI remain disabled; no separate customer host is qualified,
 and off-server DR is deferred. Existing MFA authenticators/keys remain retained,
 with MFA deferred by the approved release policy. P8 remains IN_PROGRESS.
+
+## W029 executor scope and lock-only database grants
+
+The staged [production executor workflow](PRODUCTION_EXECUTOR.md) leaves HTTPS,
+authentication settings, immutable engine/application and existing credentials
+unchanged. It reuses the exact approved lab identity and two hash-pinned builds,
+with private executor-owned copies and no web access to SSH/SDK material. Approval
+follows an actual canonical-unit probe; production execution is still NOT_RUN.
+
+Committed grants lack the permission required by the existing authorization-row
+locks. The correction grants UPDATE(id) only, with exact invoker-role triggers
+rejecting every executor UPDATE.74 disposable PG/filesystem/authorization tests
+pass, including real row locking and mutation/trigger-disable rejection under a
+nonprivileged role. No production DB metadata or data changed by the agent. Unknown
+guards/grants, source/manifest mismatches and revoked/quarantined approval fail closed.
+Root fault injection is limited to a pidfd-pinned read-only collection SSH child in
+the exact service cgroup after observed native pending. No QNX PID is signalled.
+Customer endpoints/AI remain disabled; P8 and independent security review stay open.

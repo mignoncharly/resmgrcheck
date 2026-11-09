@@ -209,3 +209,17 @@ rollback remain pending. No repeat of the successful deployment is requested. No
 runtime source, Nginx configuration, unit, database, credential or execution grant
 was changed by this evidence-only checkpoint. Customer endpoints/AI remain disabled;
 off-server DR remains deferred. P8 IN_PROGRESS.
+
+## W029 executor qualification prepared without web deployment
+
+Active application3f4bafb, dedicated HTTPS and password/code acceptance from W028
+remain unchanged. Fresh VPS-origin trusted HTTPS /readyz/ returned200. Both approved
+QNX deployments and ten native file hashes were verified read-only as development
+UID1000; this does not qualify production UID981/GID973 or systemd.
+
+The new [executor-only operator workflow](PRODUCTION_EXECUTOR.md) is staged/tested,
+including guarded lock-only DB permissions, private registry/route custody, an actual
+service-context probe, three dashboard cases and idle stop/start rehearsal.74 tests
+pass with real disposable PG/files and modeled privileged effects. No root apply,
+production native run or full application rollback occurred. P8 remains IN_PROGRESS.
+[Independent UAT](INDEPENDENT_UAT.md) remains NOT_RUN; AI/customer endpoints disabled.

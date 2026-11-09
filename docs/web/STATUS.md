@@ -14,6 +14,9 @@ P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
+Next operator gate: [reviewed production executor provisioning and native acceptance](PRODUCTION_EXECUTOR.md).
+No HTTPS redeployment is required.
+
 ## W028 current production checkpoint (2026-11-09)
 
 Active immutable application: `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`.
@@ -389,3 +392,35 @@ HTTP200/DB SELECT1, own HTTP404 restored, nginx/db/web/socket active, workers in
 The3f4bafb application is unchanged and remains unactivated; only the recovery driver
 changes. Actual corrected recovery, public HTTPS/password/code acceptance and native
 registry/independent qualification remain pending. P8 IN_PROGRESS.
+
+## W029 production executor workflow staged (not executed)
+
+The active application remains3f4bafb; HTTPS/password/code/browser acceptance from
+W028 is retained. Fresh VPS-origin HTTPS /readyz/ returned200 with trusted TLS.
+Read-only development-UID preflight independently verified both pinned original/
+corrected remote manifests and all ten native file hashes on the existing QNX8 lab.
+No test or service was started. The lab has148 free file entries; no old evidence
+was removed. Native acceptance is bounded to three cases, combining defect recovery
+and job revocation with the required source-corrected replay.
+
+[PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md) supplies one reviewed operator
+workflow: exact private registry/route/key copies with restrictive executor ownership,
+additive scoped approvals, actual canonical-unit credential/sandbox probe, restored
+normal dispatcher, production dashboard tests, evidence/download checks and safe
+temporary-account/code cleanup. No Nginx/auth configuration or immutable source patch.
+
+The committed database grant matrix lacks permission for start_authority's row locks.
+Real disposable nonprivileged PostgreSQL tests reproduce that failure and verify a
+lock-only correction: UPDATE(id) plus invoker-role triggers that reject every actual
+executor authorization UPDATE. No authorization rows, ownership or table-wide UPDATE
+permission are changed. Actual production grant metadata is checked in the operator
+workflow; no root DB operation ran by the agent. Unknown guards/grants are refused.
+
+74 tests PASS in11.333s, including22 focused provisioning/PG tests. Filesystem/PG
+effects are real and disposable; systemd/signals are modeled. Actual production
+registry, executor role/sandbox, native IDs/verdicts, same-ID recovery, revocation,
+evidence integrity and cleanup remain PENDING ROOT EXECUTION. The idle executor
+stop/start rehearsal is staged; full compatible application rollback remains open.
+[INDEPENDENT_UAT.md](INDEPENDENT_UAT.md) is NOT_RUN. See
+[evidence/production-executor-plan/checks.json](evidence/production-executor-plan/checks.json).
+Customer endpoints/AI remain disabled, off-server DR deferred and P8 IN_PROGRESS.

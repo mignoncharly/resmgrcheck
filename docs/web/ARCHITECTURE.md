@@ -226,3 +226,17 @@ means no native execution, regardless of successful web login or recorded playba
 This checkpoint does not add routes/grants/credentials or change architecture.
 Customer machine endpoints and AI remain disabled. Actual production native,
 independent authenticated UAT and separate-host customer qualification remain open.
+
+## W029 fixed production executor custody
+
+The [executor qualification workflow](PRODUCTION_EXECUTOR.md) registers exactly one
+operator-owned lab organization/project/target and two immutable before/after builds.
+The public application remains3f4bafb; no host/SSH/executable selector enters browser
+authority. Private route/key copies remain within resmgr-exec custody and its existing
+systemd loopback/filesystem/credential boundaries. No SDK/license access is granted.
+
+Authorization-row locking gains narrowly scoped UPDATE(id) permission plus invoker
+triggers denying all actual executor updates; shared code is unchanged. A service-
+context probe gates approval, followed by three real dashboard cases. These production
+steps are prepared, not executed.74 tests passed; native outcomes and independent UAT
+remain unverified. AI/customer endpoints stay disabled; P8 is IN_PROGRESS.
