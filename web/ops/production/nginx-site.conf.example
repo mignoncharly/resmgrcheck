@@ -40,7 +40,7 @@ server {
     add_header Content-Security-Policy "$resmgrcheck_csp" always;
     add_header Cache-Control "no-store" always;
     location /static/ {
-        alias /var/lib/resmgrcheck/static/544f22c174ad48e1c8d741db0afdd3bf5b54f947/;
+        alias /var/lib/resmgrcheck/static/325f367c803b44e2f5ac5f4bb3264a7abfb7f08f/;
         autoindex off;
         add_header Strict-Transport-Security "max-age=31536000" always;
         add_header X-Content-Type-Options "nosniff" always;

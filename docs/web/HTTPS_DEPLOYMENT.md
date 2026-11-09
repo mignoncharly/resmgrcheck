@@ -23,7 +23,7 @@ this single command with the reviewed application and driver SHAs from the hando
 ```sh
 sudo /usr/bin/python3 -I \
   /home/mignon/projects/resmgrcheck/web/ops/production/recover_https_auth.py \
-  --release AUTH_APPLICATION_FULL_SHA \
+  --release 325f367c803b44e2f5ac5f4bb3264a7abfb7f08f \
   --driver-revision REVIEWED_FULL_DRIVER_SHA \
   --apply
 ```

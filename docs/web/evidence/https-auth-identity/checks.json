@@ -40,5 +40,7 @@
   "customer_runner": "disabled; separate-host qualification blocked",
   "AI": "disabled",
   "off_server_DR": "deferred",
-  "QNX_executions_this_correction": 0
+  "QNX_executions_this_correction": 0,
+  "application_correction_revision": "325f367c803b44e2f5ac5f4bb3264a7abfb7f08f",
+  "immutable_recovery_plan": "PASS; unprivileged, no deployment"
 }

@@ -783,3 +783,7 @@ rollback is requalified for the new alias. Failures restore the old private rele
 only after verified own HTTP restoration; unknown edits require review. Retry the
 same reviewed SHAs after interruption; never delete state or unknown resources.
 Actual new private/HTTPS qualification remains pending operator execution.
+
+The committed authentication application is325f367c803b44e2f5ac5f4bb3264a7abfb7f08f.
+Its immutable recovery plan passed unprivileged review. Actual current remains544f22c;
+use the reviewed driver SHA from the handoff with this application revision.

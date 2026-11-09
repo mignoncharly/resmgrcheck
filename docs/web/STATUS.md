@@ -311,3 +311,7 @@ HTTP are modeled, filesystem pointer/history operations are real. No corrected
 production release has been activated by the agent. A new immutable application
 and reviewed one-command recover_https_auth.py workflow are prepared; see the
 updated HTTPS_DEPLOYMENT.md. P8 remains IN_PROGRESS; P9/P10 not claimed.
+
+The committed authentication application is325f367c803b44e2f5ac5f4bb3264a7abfb7f08f.
+Its immutable recovery plan passed unprivileged review. Actual current remains544f22c;
+use the reviewed driver SHA from the handoff with this application revision.
