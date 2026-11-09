@@ -193,3 +193,21 @@ Launch grants are durable single-use transitions, fenced by current user/code au
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 security qualification boundary
+
+Actual staging browser tests exercise password/TOTP, scoped live-code issuance,
+recorded evidence access, revocation and cross-project/admin denials. The live code
+form requires an explicitly approved enabled customer runner. Enrollment's first
+response publishes bounded discovered capabilities; retries require the same key
+and inventory and an unrevoked, nonquarantined identity. External attachment rejects
+fixture-control modes and lifecycle suites. Recovery retains the one launch grant
+and exact native ID after an observed upload503. No pending/cleanup claim is inferred
+from reconnection alone. Unit/PG tests remain required for negative authorization,
+replay, quota and immutable-evidence cases beyond those browser journeys.
+
+The new representative mailbox service has real QNX timeout/input qualification,
+not universal driver support. No private customer host, public HTTPS, root-systemd
+new-release qualification or independent security review is available yet. Existing
+secure production runtime/restore is operator-provided evidence for3821952. P8 is
+IN PROGRESS, AI disabled and off-server disaster recovery deferred.

@@ -928,3 +928,39 @@ The separate migration test uses only the dedicated disposable test DB with no r
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 — real local runner route, additional native service and browser continuation
+
+[evidence/runner-native/index.json](evidence/runner-native/index.json) binds the
+actual source candidates, qcc binary hashes, deployment IDs, original native IDs,
+case bundle hashes and scope. New native observations are mailbox FAIL
+w8d66e00e0e544645b9, actual corrected-source replay PASS w064e821521a9460499,
+sensor PASS wcfbbd9bf3a984ae586 and job PASS w1422b4ce6fb04060a4. Each runs the
+timeout profile through browser authorization → signed HTTPS job → customer runner
+process → actual QNX → private immutable ingestion. Only the mailbox fixture binary
+changes between candidates; this is a source correction, not a fixture-mode label.
+All four contain actual cleanup observations. A real fixture-gateway503 interrupted
+the replay's chunk upload; the second process resumed the same archive/native ID
+without regranting or rerunning. Mailbox input/protocol/ACK tests passed23/23 on QNX,
+with exact direct-child wait status. PID/instance facts do not attest a binary.
+
+The original native/browser report deliberately remains passed:false: a later
+APIRequestContext ZIP request did not share Chrome's private CA trust. Earlier
+pre-native attempts found an unavailable default Chrome cache, a sync Playwright/
+Django async-boundary issue and a missing breadcrumb underline; these were fixed
+without bypassing TLS, Django's async safety or accessibility checks. No native run
+was repeated to repair presentation-only tests. The continuation passed in15.486s
+on a fresh disposable DB using the same verified native bytes labeled RECORDED.
+It exercises real password/TOTP, scoped codes and revocation, source comparison,
+Chrome-authenticated ZIP download, tenant/admin denials and390px no-JavaScript
+layout. Original report:16 views/8 Axe scans; continuation:15 views/5 scans, zero
+reported violations. These are automated UID1000 staging tests, not actual root
+systemd, public HTTPS, a separate customer host or independent human acceptance.
+
+The opt-in qualification modules do not match test_* discovery. Native execution
+requires the explicit approved-local-lab environment and existing private route;
+no credentials, images or binaries are committed. Original QNX histories/engine
+selection, production DB/keys/snapshot/units and other VPS applications are preserved.
+
+W018 closing regression:120 focused PostgreSQL/TLS/runner/work/dashboard/restore/
+credential/config tests passed in34.947s; see evidence/runner-native/regression-tests.txt.

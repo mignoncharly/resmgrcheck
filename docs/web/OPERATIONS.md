@@ -165,3 +165,15 @@ Customer `work` polls every30s; --once performs one job poll. Preserve device/jo
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 preserved staging qualification
+
+Do not rerun the four native cases merely to fix presentation tests. Evidence under
+evidence/runner-native retains original IDs and the original partially failed
+browser driver; the continuation is explicitly recorded-only. The approved existing
+QEMU guest was started without rebooting the host or modifying trust/firewall; new
+build directories and histories are retained, original lab selection is unchanged.
+No target history is deleted to recover disk space. Keep the runner's device key,
+binding, launch/upload journals and archives across connection loss. Reconcile the
+same run ID; an uncertain launch never authorizes a second launch or implies cleanup.
+Separate customer-host and private/public production acceptance are still required.

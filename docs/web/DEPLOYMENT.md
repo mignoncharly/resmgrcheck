@@ -51,3 +51,15 @@ Signed job delivery, one-launch journals, same-ID recovery, bounded upload and p
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 release boundary
+
+Actual local TLS/browser/QNX staging is recorded under evidence/runner-native. It
+is not public deployment evidence. The current private release remains3821952 with
+operator-confirmed runtime/readiness/restore. The old restore-only recovery helper
+must not deploy this broader schema/runner/native change. New code requires a new
+immutable directory, additive migrations/grants, new static assets, protected
+pre-upgrade snapshot and explicit compatible rollback qualification. Preserve all
+existing keys and releases; never patch current or reverse migrations containing
+customer data. No public vhost or TLS change is justified until separate-host,
+intended-origin authentication/native/isolation and independent gates pass.

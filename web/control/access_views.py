@@ -65,7 +65,17 @@ class CodeForm(forms.Form):
         data=super().clean();projects={p.pk for p in data.get('projects',[])};targets=list(data.get('targets',[]));target_ids={t.pk for t in targets}
         if any(t.project_id not in projects for t in targets):self.add_error('targets','Choose targets within the selected projects.')
         if any(r.project_id not in projects or r.target_id not in target_ids for r in data.get('evidence',[])):self.add_error('evidence','Choose evidence within the selected projects and targets.')
-        if data.get('allow_live') and (not targets or any(not t.approved or t.kind!='managed-lab' for t in targets)):self.add_error('targets','Live codes require explicitly approved managed targets. Customer requests do not authorize execution.')
+        def approved_execution_target(target):
+            if not target.approved:return False
+            if target.kind=='managed-lab':return True
+            if target.kind=='customer-runner':
+                from django.conf import settings
+                from .runners import status
+                from .models import CustomerRunner
+                runner=CustomerRunner.objects.select_related('target').filter(pk=target.pk).first()
+                return settings.RUNNER_ENABLED and runner is not None and status(runner) in {'connected','disconnected'}
+            return False
+        if data.get('allow_live') and (not targets or not all(approved_execution_target(t) for t in targets)):self.add_error('targets','Live codes require explicitly approved managed or enrolled customer targets. Customer requests do not authorize execution.')
         if data.get('expires_at') and data['expires_at']<=timezone.now():self.add_error('expires_at','Choose a future UTC expiration.')
         return data
     def grants(self):

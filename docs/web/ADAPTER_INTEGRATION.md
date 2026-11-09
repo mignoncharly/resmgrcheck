@@ -87,3 +87,16 @@ departure, repeat and ordering are unavailable until separately qualified.
 tests/qnx/mailbox-input.c is an actual-QNX input/identity/ACK test owner with bounded
 workers and exact direct-child wait status. It is not a host-native substitute.
 The original sensor/job capabilities and evidence remain unchanged.
+
+## W018 native qualification
+
+Real qcc builds at6311f93 and the separately retained deliberate-defect candidate
+were deployed to new target directories with matching readback hashes. Mailbox
+passed23 input/protocol/ACK/identity checks on actual QNX. Through staged browser and
+outbound-runner authorization its timeout profile failed for the source defect and
+passed for the corrected source; source comparison is fixed. Sensor/job timeout
+regressions passed through the same route. Exact native bundles and all build/source
+identities are in evidence/runner-native/index.json. This advances only the stated
+timeout/input scope; signal/departure/repeat/ordering and uninstrumented external
+lifecycle remain unqualified/unavailable. It does not qualify a separate customer
+host, public HTTPS or cryptographic running-binary attestation from PID metadata.

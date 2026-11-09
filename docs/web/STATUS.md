@@ -3,7 +3,7 @@
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
-W015 current inventory (2026-11-09): clean source and actual installed pointer are
+W015 baseline inventory (2026-11-09): source and actual installed pointer were
 3821952e6c99cf8c6d548e59301166dde590b8a0. The operator confirms private HTTP200,
 nonroot systemd runtime checks and an actual encrypted isolated restore with audit
 UPDATE/DELETE rejection. These successful gates are accepted as operator evidence,
@@ -29,7 +29,7 @@ yet: implement and stage now; separate-host/public/independent acceptance is pen
 | P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
-| P7 customer target story | REOPENED for A–F scope | W015 enrollment staged; job/evidence route, additional native integration and separate-host qualification pending |
+| P7 customer target story | IN PROGRESS for A–F scope | W018 actual same-host outbound/QNX mailbox replay + sensor/job; separate customer host pending |
 | P8 hardening | IN PROGRESS; private runtime/restore passed (operator) | Active3821952; remaining HTTPS/auth/native/rollback and new runner security gates pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
@@ -40,7 +40,7 @@ This task made no DNS/Nginx change. Original engine runtime digest remains
 Existing QNX features/evidence remain qualified; this is separate from web execution.
 AI provider: not configured or verified. Playback material: genuine saved QNX cases.
 
-Remaining work: runner job/evidence and additional native integration, separate
+Remaining work: separate
 customer-runner acceptance, intended HTTPS auth/native/browser/isolation/rollback
 and later vhost/TLS/operational verification,
 optional project-consented AI provider setup and independent UAT. No secrets should
@@ -130,3 +130,36 @@ W016 implements signed job delivery, customer-local launch/upload journals and p
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 — actual local outbound-runner/QNX and browser qualification (2026-11-09)
+
+Production remains3821952; all work below is unprivileged private staging. The owner
+confirms no separate customer runner host is available, so that qualification is
+blocked on an actual customer environment. A separate runner process on this VPS
+used authenticated loopback TLS and the preserved approved QNX guest. Real qcc
+builds and independent target readback bind two source candidates: only the owned
+mailbox fixture binary differs. Browser-enrolled and explicitly approved work ran
+mailbox timeout FAIL, corrected-source replay PASS (comparison fixed), and sensor/job
+timeout PASS/PASS. Each has observed native cleanup. An injected HTTP503 interrupted
+the replay upload; the retained exact run ID resumed without a second native launch.
+Twenty-three real QNX mailbox input/ACK/identity checks passed. Broader mailbox
+lifecycle families and arbitrary external-service compatibility remain unsupported.
+
+The initial browser/native driver stopped after all four runs at a test-client CA
+trust error during ZIP download; its report remains failed. A presentation-only
+continuation imported those exact immutable native IDs as RECORDED and passed
+administrator password/TOTP, scoped-code issuance/redemption/revocation, comparison,
+authenticated Chrome ZIP download, tenant denial and no-JavaScript mobile checks.
+Together the reports contain31 views/13 Axe scans with zero reported violations;
+this is automated staging evidence, not independent accessibility or public UAT.
+See evidence/runner-native/index.json for precise scope and original reports.
+
+Enrollment now publishes discovered capabilities immediately, changed-inventory
+retry is refused, approved customer targets can receive live codes, and external
+attachment cannot select fixture controls. Dedicated production runtime/isolation,
+separate-host enrollment, actual public HTTPS/auth/native journeys, compatible
+rollback and independent acceptance remain pending. P8 stays IN PROGRESS; P9–P10
+and public deployment are withheld. AI remains disabled; off-server DR is deferred.
+
+W018 closing regression:120 focused PostgreSQL/TLS/runner/work/dashboard/restore/
+credential/config tests passed in34.947s; see evidence/runner-native/regression-tests.txt.

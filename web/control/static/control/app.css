@@ -2,3 +2,6 @@
 .mobile-brand{display:none}h1,h2,h3,p,dd{overflow-wrap:anywhere}.project-tile>div,.list-card>div,.user-line>div{min-width:0}.report-frame{width:100%;height:760px;border:1px solid var(--line);border-radius:8px;background:white}@media(max-width:760px){.mobile-brand{display:inline-flex}.report-frame{height:650px}}
 p a,li a,.auth-wrap a:not(.button){text-decoration:underline;text-underline-offset:3px}
 .grid>*{min-width:0}
+
+/* Runner approval breadcrumbs must be distinguishable without color. */
+.breadcrumbs{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;margin:0 0 1rem}.breadcrumbs a{text-decoration:underline;text-underline-offset:.2em}

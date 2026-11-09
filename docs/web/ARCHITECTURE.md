@@ -96,3 +96,13 @@ W016 supersedes W015's pending job route: signed polls bind one runner/target, i
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 observed execution route
+
+The staged outbound design now has actual QNX observations: browser-approved jobs
+traverse authenticated loopback HTTPS to a separate runner process and the approved
+QNX VM, then return through bounded upload/private ingestion. A real interrupted
+upload resumed the same immutable native ID. The central HTTP identity never used
+customer SSH material. This topology remains on one VPS; it cannot qualify network
+separation, a customer's licensed environment or the intended public origin. The
+mailbox adapter follows the same registry/supervisor/evaluator path as sensor/job.

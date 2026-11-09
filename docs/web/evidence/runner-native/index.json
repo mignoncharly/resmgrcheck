@@ -1,0 +1,160 @@
+{
+  "kind": "actual-outbound-runner-qnx-staging-evidence",
+  "source_checkpoint": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+  "native_executed": true,
+  "runs": [
+    {
+      "web_run_id": "8d66e00e-0e54-4645-b90f-dfe1baa02c3f",
+      "native_run_id": "w8d66e00e0e544645b9",
+      "profile": "mailbox",
+      "operation": "run",
+      "source_revision": "9d845915912df9c26210dc75e65c7be1d72c27fb",
+      "deployment_id": "6d6f7f7e6003e5dc5977a254931b095fb4b2a597dbbca94538410324779d8341",
+      "verdicts": [
+        "FAIL"
+      ],
+      "cleanup_verified": true,
+      "path": "w8d66e00e0e544645b9",
+      "native_executed": true,
+      "cases": [
+        {
+          "bundle_id": "a37f3bafc1f90aedf10d651cb4852641993768f513b508aeaaf6854a77630078",
+          "case_id": "timeout",
+          "completion": "complete",
+          "reasons": [
+            "cancellation_not_completed",
+            "pending_state_not_released"
+          ],
+          "run_id": "w8d66e00e0e544645b9-timeout",
+          "verdict": "FAIL"
+        }
+      ],
+      "original_native_ids_preserved": true
+    },
+    {
+      "web_run_id": "064e8215-21a9-4604-991a-aaf0670b6cad",
+      "native_run_id": "w064e821521a9460499",
+      "profile": "mailbox",
+      "operation": "replay",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "w064e821521a9460499",
+      "native_executed": true,
+      "cases": [
+        {
+          "bundle_id": "08530f181175feca2eaae232b888e5d950c611c39f1f42958f10a6f8bbe36236",
+          "case_id": "timeout",
+          "completion": "complete",
+          "reasons": [
+            "all_obligations_satisfied"
+          ],
+          "run_id": "w064e821521a9460499-timeout",
+          "verdict": "PASS"
+        }
+      ],
+      "original_native_ids_preserved": true
+    },
+    {
+      "web_run_id": "cfbbd9bf-3a98-4ae5-8695-8747c8efcbfd",
+      "native_run_id": "wcfbbd9bf3a984ae586",
+      "profile": "sensor",
+      "operation": "run",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "wcfbbd9bf3a984ae586",
+      "native_executed": true,
+      "cases": [
+        {
+          "bundle_id": "10466902773e9bf45ac540a11d4dedd957b57139dbf6c6bc9f7fa79378768e1f",
+          "case_id": "timeout",
+          "completion": "complete",
+          "reasons": [
+            "all_obligations_satisfied"
+          ],
+          "run_id": "wcfbbd9bf3a984ae586-timeout",
+          "verdict": "PASS"
+        }
+      ],
+      "original_native_ids_preserved": true
+    },
+    {
+      "web_run_id": "1422b4ce-6fb0-4060-a414-94df07e48b1a",
+      "native_run_id": "w1422b4ce6fb04060a4",
+      "profile": "job",
+      "operation": "run",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "w1422b4ce6fb04060a4",
+      "native_executed": true,
+      "cases": [
+        {
+          "bundle_id": "45e4c9e43a9181bb3f239133e7295f3ac2d14722579ec1ac7b42a8d0e7f52427",
+          "case_id": "timeout",
+          "completion": "complete",
+          "reasons": [
+            "all_obligations_satisfied"
+          ],
+          "run_id": "w1422b4ce6fb04060a4-timeout",
+          "verdict": "PASS"
+        }
+      ],
+      "original_native_ids_preserved": true
+    }
+  ],
+  "scope": "Actual separate runner process over local TLS/browser control plane to the approved reused QNX VM on the same VPS; not a separate customer host or production HTTPS.",
+  "full_driver_passed": false,
+  "full_driver_limitation": "Four native runs and source comparison succeeded; later test API ZIP request rejected the local CA. A browser-only continuation qualifies download/mobile/revocation without repeating native execution.",
+  "real_upload_interruption_observed": 1,
+  "native_relaunch_on_recovery": false,
+  "source_candidates": {
+    "before": {
+      "kind": "native-build-record",
+      "schema_version": 1,
+      "source_revision": "9d845915912df9c26210dc75e65c7be1d72c27fb",
+      "dirty": false,
+      "source_tree_sha256": "53cf1afd8f973586fb0b66d0be714c758a7f966bf5d19c36c7760f2a47ee06cc",
+      "compiler_variant": "gcc_ntox86_64",
+      "binaries": {
+        "runner": "9cb98041df0c438e28be1464315a867342e02e486169f2e5929d4a431b6a8041",
+        "worker": "831854f56827c01bffd009531831dbe1791217de78cc58195e6e3a31359d6c2c",
+        "targetctl": "8376b347616d8c1cbe91ce0084fd4757f075a66d627ca93fd8220c4ae28fb972",
+        "job-v1-fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+        "mailbox-v1-fixture": "a677cb75e526d489b6de0f1400f0e82d4d4b51b916d384c14e9131750aa83d8c",
+        "sensor-v1-fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174"
+      }
+    },
+    "good": {
+      "kind": "native-build-record",
+      "schema_version": 1,
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "dirty": false,
+      "source_tree_sha256": "d41bfefefcae0f0791d500d10205dc5db1b4c121730a3f944f72e83df41345ae",
+      "compiler_variant": "gcc_ntox86_64",
+      "binaries": {
+        "runner": "9cb98041df0c438e28be1464315a867342e02e486169f2e5929d4a431b6a8041",
+        "worker": "831854f56827c01bffd009531831dbe1791217de78cc58195e6e3a31359d6c2c",
+        "targetctl": "8376b347616d8c1cbe91ce0084fd4757f075a66d627ca93fd8220c4ae28fb972",
+        "job-v1-fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+        "mailbox-v1-fixture": "78e47d1c25acb1390fc836a771da143de252725b7167a78dbfb0fd022e3d9e06",
+        "sensor-v1-fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174"
+      }
+    }
+  },
+  "production_changed": false,
+  "public_https_qualified": false,
+  "independent_acceptance": false,
+  "separate_customer_host": false,
+  "AI": "disabled"
+}

@@ -110,6 +110,8 @@ class RunnerJobsTests(TestCase):
         with patch('control.runner_jobs.CustomerRunner.objects.select_related') as query:
             self.runner.inventory=changed;query.return_value.get.return_value=self.runner
             with self.assertRaises(wire.ProtocolError):runner_jobs.capable(self.target,self.build,'sensor','lifecycle','fixed')
+            with self.assertRaisesRegex(wire.ProtocolError,'external_fixture_controls_unsupported'):
+                runner_jobs.capable(self.target,self.build,'sensor','health','ignore-unblock')
 
     def test_foreign_job_ticket_or_signature_cannot_submit_or_begin(self):
         self.queued();job,_=self.offered()

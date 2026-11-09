@@ -21,6 +21,7 @@ def capable(target,build,profile,suite,mode):
     runner=CustomerRunner.objects.select_related('target').get(pk=target.pk)
     wire.require(status(runner)=='connected','runner_not_connected_or_approved')
     wire.require(runner.inventory['attachment']!='external-attach' or suite=='health','external_lifecycle_unsupported')
+    wire.require(runner.inventory['attachment']!='external-attach' or mode=='fixed','external_fixture_controls_unsupported')
     selected=Deployment.parse(build.manifest)
     identity=runner.inventory['target_identity']
     for a,b in [('uid','uid'),('processor','architecture'),('machine','machine'),('release','release'),('recipe_id','recipe_id')]:

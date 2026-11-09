@@ -53,6 +53,8 @@ class RunnerTests(TestCase):
         self.enroll();self.assertEqual(self.post('enroll',self.enrollment()).status_code,200)
         self.assertEqual(self.post('enroll',self.enrollment(seed=secrets.token_hex(32))).status_code,400)
         self.assertEqual(CustomerRunner.objects.get().public_key,wire.public(self.seed))
+        changed=copy.deepcopy(self.info);changed['route_sha256']='f'*64
+        self.assertEqual(self.post('enroll',self.enrollment(info=changed)).status_code,400)
 
     def test_expired_revoked_and_bad_enrollment_do_not_create_runner(self):
         for field in ['expires_at','revoked_at']:
@@ -158,3 +160,13 @@ class RunnerTests(TestCase):
         with self.assertRaises(DatabaseError),transaction.atomic():self.project.__class__.objects.filter(pk=self.project.pk).update(organization=project.organization)
         runners.revoke(self.user,self.target)
         with self.assertRaises(DatabaseError),transaction.atomic():CustomerRunner.objects.filter(pk=self.runner.pk).update(revoked_at=None)
+
+    def test_live_code_requires_explicit_customer_runner_approval_and_feature_activation(self):
+        self.enroll();url=reverse('access_codes',args=[self.org.pk])
+        data={'description':'Customer test scope','projects':[str(self.project.pk)],'targets':[str(self.target.pk)],'allow_live':'on','max_sessions':'1'}
+        self.assertEqual(self.browser.post(url,data).status_code,400)
+        runners.approve(self.user,self.target,self.runner.inventory_sha256)
+        response=self.browser.post(url,data);self.assertEqual(response.status_code,200)
+        self.assertTrue(response.context['created'].allow_live)
+        with override_settings(RUNNER_ENABLED=False):self.assertEqual(self.browser.post(url,data).status_code,400)
+        runners.revoke(self.user,self.target);self.assertEqual(self.browser.post(url,data).status_code,400)

@@ -1,0 +1,184 @@
+{
+  "kind": "actual-local-browser-tls-outbound-runner-qnx-qualification",
+  "last_stage": "desktop/mobile evidence authorization and accessibility",
+  "passed": false,
+  "views": [
+    {
+      "page": "public landing",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "recorded demo",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "administrator login",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "customer targets",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "runner pending approval",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "import before manifest",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "import good manifest",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "issue customer access code",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "code usage and revocation",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "developer code entry",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "new mailbox",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "actual mailbox failure",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "actual identified source comparison",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "new sensor",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "new job",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "actual mailbox corrected replay",
+      "width": 1440,
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "public landing",
+      "violations": []
+    },
+    {
+      "page": "recorded demo",
+      "violations": []
+    },
+    {
+      "page": "customer targets",
+      "violations": []
+    },
+    {
+      "page": "runner pending approval",
+      "violations": []
+    },
+    {
+      "page": "code usage and revocation",
+      "violations": []
+    },
+    {
+      "page": "actual mailbox failure",
+      "violations": []
+    },
+    {
+      "page": "actual identified source comparison",
+      "violations": []
+    },
+    {
+      "page": "actual mailbox corrected replay",
+      "violations": []
+    }
+  ],
+  "native_runs": [
+    {
+      "web_run_id": "8d66e00e-0e54-4645-b90f-dfe1baa02c3f",
+      "native_run_id": "w8d66e00e0e544645b9",
+      "profile": "mailbox",
+      "operation": "run",
+      "source_revision": "9d845915912df9c26210dc75e65c7be1d72c27fb",
+      "deployment_id": "6d6f7f7e6003e5dc5977a254931b095fb4b2a597dbbca94538410324779d8341",
+      "verdicts": [
+        "FAIL"
+      ],
+      "cleanup_verified": true,
+      "path": "evidence/56ba42ad-d3cd-443b-9f4d-e86f5d032d55/cc9c5716-8bf5-4b2e-aee0-df7538416dda/8d66e00e-0e54-4645-b90f-dfe1baa02c3f",
+      "native_executed": true
+    },
+    {
+      "web_run_id": "064e8215-21a9-4604-991a-aaf0670b6cad",
+      "native_run_id": "w064e821521a9460499",
+      "profile": "mailbox",
+      "operation": "replay",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "evidence/56ba42ad-d3cd-443b-9f4d-e86f5d032d55/cc9c5716-8bf5-4b2e-aee0-df7538416dda/064e8215-21a9-4604-991a-aaf0670b6cad",
+      "native_executed": true
+    },
+    {
+      "web_run_id": "cfbbd9bf-3a98-4ae5-8695-8747c8efcbfd",
+      "native_run_id": "wcfbbd9bf3a984ae586",
+      "profile": "sensor",
+      "operation": "run",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "evidence/56ba42ad-d3cd-443b-9f4d-e86f5d032d55/cc9c5716-8bf5-4b2e-aee0-df7538416dda/cfbbd9bf-3a98-4ae5-8695-8747c8efcbfd",
+      "native_executed": true
+    },
+    {
+      "web_run_id": "1422b4ce-6fb0-4060-a414-94df07e48b1a",
+      "native_run_id": "w1422b4ce6fb04060a4",
+      "profile": "job",
+      "operation": "run",
+      "source_revision": "6311f93e04749a09e26c9d9de42d31bbc9680ca0",
+      "deployment_id": "8fa5cf02491a23c77a39726375adfec1ca0478d1b104456100cc2700b44847e2",
+      "verdicts": [
+        "PASS"
+      ],
+      "cleanup_verified": true,
+      "path": "evidence/56ba42ad-d3cd-443b-9f4d-e86f5d032d55/cc9c5716-8bf5-4b2e-aee0-df7538416dda/1422b4ce-6fb0-4060-a414-94df07e48b1a",
+      "native_executed": true
+    }
+  ],
+  "network_faults_observed": 1,
+  "production_changed": false,
+  "public_https_qualified": false,
+  "separate_customer_host_qualified": false,
+  "scope": "Real browser/locally trusted TLS and independent runner process against the approved reused local QNX lab. Dedicated disposable PostgreSQL test DB, UID1000 staging, no production keys/roles/config."
+}

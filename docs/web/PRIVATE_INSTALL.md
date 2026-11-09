@@ -665,3 +665,16 @@ W016 adds additive migrations0018/0019 and narrow runner-table grants. A real de
 The additional mailbox adapter/owned retained-message service and versioned static ABI1 catalog are staged. Explicit matching-generation ACK/message custody is separate from waiter cancellation; public PID/instance metadata does not prove a running build. Missing signal/departure/repeat/ordering qualification is not advertised. Historical deployment parsing now binds an exact known adapter subset, preserving original two-adapter evidence and rejecting missing/unknown files.112 host tests passed in13.833s;119 PG/TLS/dashboard/restore/security tests passed in34.670s. No new native result is claimed at this source checkpoint. The approved lab route was initially stopped; the preserved existing QEMU overlay was started as the unprivileged existing KVM account, with unchanged SSH trust, loopback22220 only and new private console/PID files. Actual read-only df reports267 free file entries/2441 blocks. Native qcc/build/input/runner qualification follows in isolated worktrees, with a bounded file budget and no original-history deletion. Public/production/separate-host/independent gates remain pending.
 
 See [ADAPTER_INTEGRATION.md](ADAPTER_INTEGRATION.md) for build/registration, exact supported scope and evidence requirements.
+
+## W018 current qualification
+
+The active private release is still3821952. Four actual QNX timeout cases completed
+through the staged outbound route, including a real source-corrected mailbox replay
+and exact-ID upload reconnection. This used a runner process on the same VPS, not
+a separate customer machine or root production units. Automated browser MFA/code/
+comparison/download/mobile/revocation checks passed in a recorded-only continuation;
+the original driver's later CA error remains visible. Do not repeat the successful
+production restore or native runs merely to repair unrelated test presentation.
+The expanded release still needs a reviewed additive immutable upgrade and actual
+private runtime acceptance before any public deployment. No privileged command has
+been run automatically and the original keys/database/snapshot are unchanged.

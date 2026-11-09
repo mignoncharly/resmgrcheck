@@ -1,0 +1,13 @@
+diff --git a/native/fixtures/mailbox.c b/native/fixtures/mailbox.c
+index d46cce9..933072a 100644
+--- a/native/fixtures/mailbox.c
++++ b/native/fixtures/mailbox.c
+@@ -166,7 +166,7 @@ int main(int argc, char **argv) {
+     const char *mode = argc == 2 ? "corrected" : argv[2];
+     if (strcmp(mode,"corrected") && strcmp(mode,"ignore-unblock") && strcmp(mode,"retain-waiter") && strcmp(mode,"retain-third") && strcmp(mode,"duplicate-terminal")) return 2;
+     fixture_mode=mode;
+-    ignore_unblock = 1; /* Deliberate source defect for candidate replay qualification. */
++    ignore_unblock = !strcmp(mode, "ignore-unblock");
+     dispatch_t *dpp = dispatch_create();
+     if (!dpp) { perror("dispatch_create"); return 2; }
+     resmgr_connect_funcs_t connect_funcs;

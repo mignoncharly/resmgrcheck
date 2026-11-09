@@ -20,6 +20,7 @@ def validate(configuration,inventory,job):
     wire.require(source_hash(Path(configuration['engine_root']))==inventory['engine_sha256'],'job_engine_source_changed')
     wire.require(job['operation'] in {'run','replay'} and job['profile'] in PROFILES and job['suite'] in {'profile','lifecycle','health'},'job_operation_invalid')
     wire.require(configuration['attachment']!='external-attach' or job['suite']=='health','external_lifecycle_unsupported')
+    wire.require(configuration['attachment']!='external-attach' or job['fixture_mode']=='fixed','external_fixture_controls_unsupported')
     mode='corrected' if job['fixture_mode']=='fixed' else job['fixture_mode']
     wire.require(mode in configuration['allowed_modes'],'job_fixture_mode_not_locally_approved')
     selected=Deployment.parse(job['build']);identity=selected.data['deployment_id']

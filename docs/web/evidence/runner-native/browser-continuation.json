@@ -1,0 +1,126 @@
+{
+  "kind": "actual-local-browser-tls-outbound-runner-qnx-qualification",
+  "last_stage": "recorded presentation continuation complete",
+  "passed": true,
+  "native_executed_in_this_continuation": false,
+  "captured_native_source": "actual-3dd334c90d21",
+  "captured_native_run_ids": [
+    "w8d66e00e0e544645b9",
+    "w064e821521a9460499",
+    "wcfbbd9bf3a984ae586",
+    "w1422b4ce6fb04060a4"
+  ],
+  "actual_browser_code_issue_redeem_revoke": true,
+  "actual_offline_zip_download": true,
+  "desktop_and_no_js_mobile": true,
+  "cross_tenant_and_runner_admin_denials": true,
+  "independent_acceptance": false,
+  "public_https": false,
+  "AI": "disabled",
+  "browser_version": "158.0.8127.18",
+  "scope": "Browser/TLS/code/download/accessibility continuation using preserved native IDs and bytes. Fresh disposable DB with recorded labels; no QNX contact or new native execution.",
+  "views": [
+    {
+      "page": "administrator login",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "issue scoped recorded-evidence code",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "actual code usage",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "recorded evidence code entry",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "recorded project",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "captured actual FAIL",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "captured corrected PASS",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "captured identified source comparison",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "authorized offline ZIP",
+      "width": 1440,
+      "status": 200
+    },
+    {
+      "page": "recorded evidence code entry",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "page": "recorded project",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "page": "captured actual FAIL",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "page": "captured corrected PASS",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "page": "captured identified source comparison",
+      "width": 390,
+      "status": 200
+    },
+    {
+      "page": "authorized offline ZIP",
+      "width": 390,
+      "status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "actual code usage",
+      "violations": []
+    },
+    {
+      "page": "recorded project",
+      "violations": []
+    },
+    {
+      "page": "captured actual FAIL",
+      "violations": []
+    },
+    {
+      "page": "captured corrected PASS",
+      "violations": []
+    },
+    {
+      "page": "captured identified source comparison",
+      "violations": []
+    }
+  ],
+  "native_runs": [],
+  "network_faults_observed": 0,
+  "production_changed": false,
+  "public_https_qualified": false,
+  "separate_customer_host_qualified": false
+}

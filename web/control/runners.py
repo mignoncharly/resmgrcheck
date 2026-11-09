@@ -52,6 +52,10 @@ def status(runner):
     if not runner.last_seen or runner.last_seen<timezone.now()-timedelta(seconds=90):return 'disconnected'
     return 'connected'
 
+def public_inventory(runner):
+    return {'compiled_adapters':runner.inventory['compiled_adapters'],'runner_claims_sha256':runner.inventory_sha256,
+        'service_instance':'unknown','capability_scope':'signed runner discovery; connection does not qualify lifecycle'}
+
 def enroll(message):
     enabled();wire.fields(message,'token message')
     token=message['token']
@@ -68,13 +72,15 @@ def enroll(message):
         wire.require(target.kind=='customer-runner' and target.project.active and target.project.organization.active,'enrollment_invalid')
         runner=CustomerRunner.objects.filter(target=target).first()
         if row.used_at:
-            wire.require(runner and runner.public_key==payload['public_key'] and not runner.revoked_at,'enrollment_already_used')
+            wire.require(runner and runner.public_key==payload['public_key'] and not runner.revoked_at and
+                not runner.quarantined and runner.inventory_sha256==wire.fingerprint(info),'enrollment_already_used')
         else:
             wire.require(runner is None,'runner_identity_exists')
             runner=CustomerRunner.objects.create(target=target,public_key=payload['public_key'],inventory=info,
                 inventory_sha256=wire.fingerprint(info),last_seen=timezone.now())
             row.used_at=timezone.now();row.save(update_fields=['used_at'])
-            target.state=status(runner);target.save(update_fields=['state'])
+            target.state=status(runner);target.last_seen=runner.last_seen;target.inventory=public_inventory(runner)
+            target.save(update_fields=['state','last_seen','inventory'])
             audit(None,'runner.enrolled',target.project.organization,target.pk,public_key_sha256=wire.fingerprint(runner.public_key),inventory_sha256=runner.inventory_sha256)
         return response(payload,{'runner_id':str(target.pk),'organization_id':str(target.project.organization_id),
             'project_id':str(target.project_id),'state':status(runner),'server_public_key':wire.public(settings.RUNNER_SIGNING_KEY)})
@@ -112,8 +118,7 @@ def heartbeat(runner,body):
         runner.last_seen=timezone.now();runner.save(update_fields=['last_seen','quarantined'])
         state=status(runner)
         Target.objects.filter(pk=runner.pk).update(state=state,last_seen=runner.last_seen,
-            inventory={'compiled_adapters':runner.inventory['compiled_adapters'],'runner_claims_sha256':runner.inventory_sha256,
-                'service_instance':'unknown','capability_scope':'signed runner discovery; connection does not qualify lifecycle'})
+            inventory=public_inventory(runner))
     return {'state':state,'heartbeat_after_seconds':30,'lifecycle_qualified_by_connection':False}
 
 def approve(actor,target,expected_fingerprint):

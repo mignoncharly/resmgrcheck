@@ -78,3 +78,15 @@ After separate inventory approval and explicit compatible-build approval, map ea
 ```
 
 Use --once for one poll. The fsynced launch intent precedes the single central grant. Any uncertain result selects exact-ID collect, never run/replay again. A lost upload acknowledgement retries the same immutable archive/chunk; accepted prefixes are journaled. New native results remain withheld until private canonical validation. Missing original local replay evidence, changed route/build/source, revoked authorization, missing capabilities or uncertain cleanup blocks work. Customer operator installation/build/deploy remains local and explicit; the control plane cannot supply shell strings, target addresses or binaries.
+
+## W018 actual qualification and remaining host gate
+
+The representative mailbox and existing sensor/job timeout profiles have now run
+through the actual outbound process/HTTPS route on the approved QNX VM. The mailbox
+source-defect FAIL and corrected-source replay PASS preserve exact IDs; an observed
+upload interruption resumed without native relaunch. This is a same-VPS runner
+process, not a separate customer-owned host. The owner has no separate host yet;
+install/enroll/approve there before claiming customer deployment qualification. The
+central site still does not receive SDK/license/SSH private material. Connection
+alone proves neither lifecycle support nor cleanup. Full external lifecycle remains
+UNSUPPORTED; external health rejects all fixture-control modes.
