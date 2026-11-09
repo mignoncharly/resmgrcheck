@@ -126,3 +126,13 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+The e1ef88c rollout automatically rolled back on private_response_cacheable.
+W023 enforces no-store at the dynamic HTTPS boundary and tests the exact deployment
+probes against real isolated Django/Nginx. Use the newly reviewed driver command
+in HTTPS_DEPLOYMENT.md with existing immutable application544f22c. It preserves
+original backups and known failed-driver history, verifies the old committed
+payload and restored originals, and then installs only the corrected own payload.
+No public acceptance or production completion is inferred from isolated tests.

@@ -1,0 +1,40 @@
+{
+  "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "source_parent": "e1ef88c413ee30e7e467512d3610f05a8343c3f1",
+  "operator_report": {
+    "driver": "e1ef88c413ee30e7e467512d3610f05a8343c3f1",
+    "failed_check": "private_response_cacheable",
+    "own_changes_rolled_back": true,
+    "provenance": "operator-provided safe JSON; protected log/state not read"
+  },
+  "tests": {
+    "modeled_deployment_and_real_filesystem": {
+      "passed": 20,
+      "seconds": 0.779
+    },
+    "actual_isolated_nginx_TLS_unix_proxy": {
+      "passed": 4,
+      "seconds": 3.439
+    },
+    "actual_isolated_Django_PostgreSQL_nginx_exact_deployment_probes": {
+      "tests_passed": 1,
+      "probes_passed": 13,
+      "seconds": 1.346
+    }
+  },
+  "old_committed_candidate_hashes": {
+    "f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9": {
+      "site": "d250c903502d01fb26317417d8f5c074ab734d32ae2810607342bd3d36f12ca3",
+      "http": "28e0ae8472a789416817232fce33e606ac88b2e5f4f695251cea99d1cb0daf21"
+    },
+    "e1ef88c413ee30e7e467512d3610f05a8343c3f1": {
+      "site": "d250c903502d01fb26317417d8f5c074ab734d32ae2810607342bd3d36f12ca3",
+      "http": "28e0ae8472a789416817232fce33e606ac88b2e5f4f695251cea99d1cb0daf21"
+    }
+  },
+  "production_retry": "NOT_RUN; requires operator sudo",
+  "external_TLS_after_fix": "NOT_RUN",
+  "production_browser_native_acceptance": "NOT_RUN",
+  "P8": "IN_PROGRESS",
+  "secrets_printed": false
+}

@@ -19,7 +19,7 @@ STATE=Path('/var/lib/resmgrcheck/private/operator/https-deployment')
 OPT=Path('/opt/resmgrcheck');CONFIG=Path('/etc/resmgrcheck');ACME=Path('/var/www/resmgrcheck-acme/.well-known/acme-challenge')
 LOGS=Path('/var/log/nginx');ENV={'PATH':'/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','PYTHONDONTWRITEBYTECODE':'1'}
 DIAGNOSTIC=None
-RECOVERABLE_DRIVER='f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9'
+RECOVERABLE_DRIVERS={'f8a6009b32eb5e2f3c683ae69a8df32c50b6c0f9','e1ef88c413ee30e7e467512d3610f05a8343c3f1'}
 
 def require_root():require(os.geteuid()==0,'local_root_operator_required')
 
@@ -236,12 +236,20 @@ def ensure_logs():
     return result
 
 
+def recorded_candidate_hashes(driver,revision):
+    site=git('show',driver+':web/ops/production/nginx-site.conf.example')
+    require(('/var/lib/resmgrcheck/static/'+revision+'/').encode() in site,'previous_driver_application_differs')
+    return {'site':digest(site),'http':digest(git('show',driver+':web/ops/production/nginx-http.conf.example')),
+        'hook':digest(renewal_hook().encode())}
+
 def resume_failed_driver(state,identity,targets,manifest):
     if state.get('driver_revision')==identity['driver_revision']:return state
+    previous=state.get('driver_revision')
     require(state.get('kind')==identity['kind'] and state.get('application_revision')==identity['application_revision'] and
-        state.get('driver_revision')==RECOVERABLE_DRIVER and state.get('after')==identity['after'] and
+        previous in RECOVERABLE_DRIVERS and
         state.get('phase') in {'rolled_back_after_failure','rolled_back'},'another_https_deployment_recorded')
-    git('merge-base','--is-ancestor',RECOVERABLE_DRIVER,identity['driver_revision'])
+    git('merge-base','--is-ancestor',previous,identity['driver_revision'])
+    require(state.get('after')==recorded_candidate_hashes(previous,identity['application_revision']),'previous_driver_candidate_hashes_differ')
     require(set(state.get('before',{}))=={name for name,_,_,_ in targets} and set(state.get('modes',{}))==set(state['before']),'deployment_record_shape_differs')
     for name,path,_,_ in targets:
         before=read(STATE/(name+'.before'),private=True) if state['before'][name] is not None else None
@@ -250,7 +258,7 @@ def resume_failed_driver(state,identity,targets,manifest):
         require(current==before,'failed_driver_resources_not_rolled_back')
     require(read(STATE/'site.before',private=True)==(HERE/'nginx-bootstrap-site.conf').read_bytes() and
         read(STATE/'http.before',private=True)==(HERE/'nginx-bootstrap-http.conf').read_bytes(),'failed_driver_original_configuration_differs')
-    history=STATE/('driver-'+RECOVERABLE_DRIVER+'.json')
+    history=STATE/('driver-'+previous+'.json')
     if history.exists():require(json.loads(read(history,private=True))==state,'driver_history_differs')
     else:new_file(history,(json.dumps(state,sort_keys=True,indent=2)+'\n').encode())
     updated={**state,**identity,'phase':'prepared_after_reviewed_driver_correction'}

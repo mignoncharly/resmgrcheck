@@ -24,7 +24,3 @@ map $upstream_http_x_frame_options $resmgrcheck_frame {
     default DENY;
     SAMEORIGIN SAMEORIGIN;
 }
-map $upstream_http_cache_control $resmgrcheck_cache {
-    default $upstream_http_cache_control;
-    "" no-store;
-}

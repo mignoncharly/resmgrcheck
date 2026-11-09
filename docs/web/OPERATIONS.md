@@ -240,3 +240,14 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+If the safe failure JSON reports private_response_cacheable with successful
+rollback from e1ef88c, retain all protected state and original backups. The reviewed
+W023 command handles this known transition; do not delete markers or patch the
+immutable application. Every dynamic HTTPS response now has no-store, including
+anonymous private redirects. Existing static caching is unchanged. The one-command
+workflow still validates/test-reloads, verifies HTTPS, renewal and own rollback,
+then attempts authenticated browser/native acceptance. Record actual outcomes;
+customer endpoints and AI stay disabled, off-server DR stays deferred.

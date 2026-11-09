@@ -244,3 +244,21 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+The operator-run e1ef88c deployment failed at private_response_cacheable and
+reported own_changes_rolled_back:true. The real anonymous /app/ redirect carries
+Django no-cache, which permits storage and fails the intended no-store requirement.
+The previous synthetic backend incorrectly supplied no-store and missed this case.
+The corrected dedicated HTTPS boundary hides upstream cache headers and supplies
+no-store for every dynamic response; static public300 remains separate.
+
+Twenty deployment/recovery regressions pass, four actual isolated Nginx/TLS tests
+pass, and all13 exact deployment probes pass against real isolated Django and
+PostgreSQL (upstream no-cache, boundary no-store). Recovery accepts only the two
+known failed drivers after proving their old committed payload hashes and exact
+restored originals, preserving backups and driver history. No immutable application
+release, secrets or unrelated services changed. The revised single operator
+command is still required; real public/browser/native acceptance has not advanced.
+P8 remains IN_PROGRESS; P9/P10 are not claimed.

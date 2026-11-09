@@ -40,7 +40,21 @@ class HTTPSBrowserRehearsal(TransactionTestCase):
             config.enable();self.addCleanup(config.disable)
             server=UnixWSGI(str(backend),Handler);server.set_app(get_wsgi_application());thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
             self.addCleanup(server.server_close);self.addCleanup(server.shutdown);self.addCleanup(fixture.stop)
-            fixture.start();credentials=acceptance_operator.bootstrap(uuid.uuid4(),{'status':'blocked','reason':'isolated rehearsal executes no native work'})
+            fixture.start()
+            # Use the *same* preflight as production against real Django, including
+            # its anonymous no-cache redirect. Synthetic backend headers are not
+            # sufficient evidence for the boundary policy.
+            from django.test import Client as DjangoClient
+            upstream=DjangoClient().get('/app/',HTTP_HOST='qnx-resmgrcheck.gestionatech.de',HTTP_X_FORWARDED_PROTO='https')
+            self.assertEqual(upstream.status_code,302);self.assertEqual(upstream['Cache-Control'],'no-cache')
+            from https_checks import Client,checks
+            checks(Client('127.0.0.1',fixture.https_port,fixture.http_port,str(fixture.cert)),hashlib.sha256(fixture.css).hexdigest(),rate=False)
+            if os.environ.get('RMC_HTTPS_PREFLIGHT_ONLY')=='1':
+                result={'passed':True,'scope':'exact deployment probes against real isolated Django/PostgreSQL/nginx/private TLS; no production or native execution',
+                    'upstream_anonymous_redirect_cache_control':'no-cache','boundary_anonymous_redirect_cache_control':'no-store','probes':13}
+                (root/'preflight-report.json').write_text(json.dumps(result,indent=2)+'\n')
+                print(json.dumps({**result,'output':str(root)}));return
+            credentials=acceptance_operator.bootstrap(uuid.uuid4(),{'status':'blocked','reason':'isolated rehearsal executes no native work'})
             certificate=subprocess.run(['openssl','x509','-in',str(fixture.cert),'-pubkey','-noout'],capture_output=True,check=True).stdout
             public=subprocess.run(['openssl','pkey','-pubin','-outform','DER'],input=certificate,capture_output=True,check=True).stdout
             pin=base64.b64encode(hashlib.sha256(public).digest()).decode()

@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "scope": "exact deployment probes against real isolated Django/PostgreSQL/nginx/private TLS; no production or native execution",
+  "upstream_anonymous_redirect_cache_control": "no-cache",
+  "boundary_anonymous_redirect_cache_control": "no-store",
+  "probes": 13
+}

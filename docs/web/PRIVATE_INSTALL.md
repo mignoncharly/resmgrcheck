@@ -741,3 +741,15 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+The e1ef88c operator run reported private_response_cacheable and successful own
+rollback. Keep immutable application544f22c, keys, database and private service.
+W023 corrects the HTTPS boundary to no-store for all dynamic responses and safely
+transitions the known rolled-back driver using its committed payload hashes and
+original backups. No manual marker deletion, log chmod or release replacement is
+needed. Run the single reviewed command in HTTPS_DEPLOYMENT.md with the newly
+committed driver SHA. Operator sudo is required for root-owned configuration and
+Nginx reload; the agent must not execute privileged deployment automatically.
+P8 remains IN_PROGRESS until actual production qualification succeeds.

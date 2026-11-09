@@ -30,17 +30,13 @@ map $upstream_http_x_frame_options $resmgrcheck_frame {
     default DENY;
     SAMEORIGIN SAMEORIGIN;
 }
-map $upstream_http_cache_control $resmgrcheck_cache {
-    default $upstream_http_cache_control;
-    "" no-store;
-}
 '''
 
 def headers(indent='    ',cache=True):
     pairs=[('Strict-Transport-Security','max-age=31536000'),('X-Content-Type-Options','nosniff'),
         ('X-Frame-Options','$resmgrcheck_frame'),('Referrer-Policy','same-origin'),
         ('Permissions-Policy','camera=(), microphone=(), geolocation=()'),('Content-Security-Policy','$resmgrcheck_csp')]
-    if cache:pairs.append(('Cache-Control','$resmgrcheck_cache'))
+    if cache:pairs.append(('Cache-Control','no-store'))
     return ''.join(indent+'add_header '+name+' "'+value+'" always;\n' for name,value in pairs)
 
 def site_config(revision):

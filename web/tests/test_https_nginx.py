@@ -17,7 +17,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         elif self.path in {'/access/','/administrator/login/'}:
             headers.update({'Set-Cookie':'resmgrcheck_csrf=fixture-public-token; Path=/; Secure; HttpOnly; SameSite=Lax','Cache-Control':'no-store'})
         elif self.path=='/app/' or self.path.startswith('/api/projects/'):
-            status=302;headers={'Location':'/access/','Cache-Control':'no-store'}
+            status=302;headers={'Location':'/access/','Cache-Control':'no-cache'}
         elif self.path=='/custom-evidence/':
             headers={'Content-Security-Policy':"sandbox allow-same-origin; default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'self'; form-action 'none'",'X-Frame-Options':'SAMEORIGIN','Cache-Control':'no-store'}
         elif self.path!='/':status=404

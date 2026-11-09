@@ -1079,3 +1079,27 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+Operator-provided safe JSON confirms e1ef88c failed private_response_cacheable
+and rolled back its own changes. No protected logs or state were requested/read.
+The actual Django anonymous /app/ redirect emits no-cache. The earlier synthetic
+backend emitted no-store and did not reproduce this behavior.
+
+The correction sets no-store on all dynamic responses at the dedicated HTTPS
+boundary while preserving static public300. Actual isolated Django/PostgreSQL/
+Nginx/private-TLS ran the same deployment checks:13 probes PASS in one test1.346s;
+upstream no-cache became boundary no-store. Four actual isolated Nginx tests PASS
+in3.439s (including no-cache synthetic redirects, custom evidence CSP, static,
+rate limits, TLS, Unix proxy and errors). Twenty focused recovery/permission tests
+PASS in0.779s. Root/systemd/deployment side effects in those20 tests are modeled;
+filesystem rollback and owned subprocess handling are real. Candidate migration
+covers a changed reviewed payload, old-hash mismatch rejection, immutable backups,
+exact original restoration and refusal of verified/concurrently edited resources.
+
+See evidence/https-cache-recovery for logs and explicit provenance. Existing44-view/
+12-scan isolated browser evidence remains valid for its recorded scope and was not
+repeated. No production browser/native execution or successful external TLS is
+claimed for this correction. Root retry, actual renewal/rollback, production
+acceptance and independent client verification remain pending.

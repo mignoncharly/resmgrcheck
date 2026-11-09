@@ -326,3 +326,17 @@ this recovery. Eighteen focused regressions pass; see evidence/https-log-recover
 The corrected privileged operation/public acceptance is pending the operator's
 same single workflow command with the new driver SHA. No marker deletion, manual
 chmod or extra diagnostic commands are required. P8–P10 do not advance yet.
+
+## W023 private redirect cache policy and reviewed recovery
+
+Django no-cache is insufficient for the private no-store policy. The dedicated
+HTTPS server now hides upstream Cache-Control and sets no-store on every dynamic
+response, including anonymous redirects and errors. Static assets retain their
+separate public300 policy. Authentication, CSRF, evidence sandbox CSP and application
+secrets are unchanged. Real Django/Nginx regression probes verify this boundary.
+
+Known failed f8a6009/e1ef88c records may resume only after validating their recorded
+candidate hashes against their committed examples and proving exact original
+resources are restored. Old state is retained in protected history and original
+backups are reused. A changed unknown payload, verified deployment or concurrent
+edit is refused. No security check was relaxed to bypass the observed failure.

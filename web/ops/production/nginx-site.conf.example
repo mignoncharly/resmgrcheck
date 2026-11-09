@@ -38,7 +38,7 @@ server {
     add_header Referrer-Policy "same-origin" always;
     add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
     add_header Content-Security-Policy "$resmgrcheck_csp" always;
-    add_header Cache-Control "$resmgrcheck_cache" always;
+    add_header Cache-Control "no-store" always;
     location /static/ {
         alias /var/lib/resmgrcheck/static/544f22c174ad48e1c8d741db0afdd3bf5b54f947/;
         autoindex off;

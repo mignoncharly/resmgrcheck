@@ -93,9 +93,18 @@ Interrupted initial backups are reused only if protected/exact. Same-command ret
 retain receipts and original backups. Completed renewal/browser proofs are reused;
 new native approval can justify another acceptance attempt. Never delete state,
 backups or unknown resources to force retry. A different driver commit is a new
-review boundary. The narrowly reviewed W022 exception can resume only the failed
-f8a6009 driver after all originals are restored, with identical candidate hashes;
-its previous record/backups are retained. All other transitions are refused.
+review boundary. The narrowly reviewed W023 recovery accepts only the known failed
+f8a6009/e1ef88c drivers after exact originals are restored. Their recorded candidate
+hashes must match their own committed configuration examples and the application
+release must remain identical. Only then may the reviewed descendant install its
+corrected candidate. Previous records and original backups remain intact; verified
+deployments, unknown candidates and concurrent edits cannot use this recovery.
+
+Dynamic HTTPS responses always carry Cache-Control: no-store, including anonymous
+private-route redirects whose Django response supplies only no-cache. Upstream
+cache headers are hidden. Static assets retain their separate public300 policy.
+W023 tests the exact deployment probes against real isolated Django/PostgreSQL/
+Nginx as well as the synthetic backend; the earlier fixture missed this redirect.
 
 If explicitly needed after a successful rollout, the one rollback command is the
 same reviewed command with --rollback added:

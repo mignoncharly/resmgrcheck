@@ -136,18 +136,37 @@ class HTTPSDeploymentTests(unittest.TestCase):
     def test_reviewed_failed_driver_resumes_only_after_exact_originals_are_restored(self):
         with patch.object(deploy,'units_and_runtime',side_effect=CheckFailed('fixture preflight')),self.assertRaises(CheckFailed):self.apply()
         previous=self.state();stamp=(deploy.STATE/'site.before').stat().st_mtime_ns
-        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        corrected=deploy.site_config(REVISION)+'\n# Reviewed cache policy correction\n'
+        with patch.object(deploy,'RECOVERABLE_DRIVERS',{DRIVER}),patch.object(deploy,'recorded_candidate_hashes',return_value=previous['after']),patch.object(deploy,'site_config',return_value=corrected),contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
         self.assertEqual(self.state()['driver_revision'],'7'*40)
+        self.assertEqual(deploy.SITE.read_bytes(),corrected.encode())
+        self.assertNotEqual(self.state()['after'],previous['after'])
         self.assertEqual(json.loads((deploy.STATE/('driver-'+DRIVER+'.json')).read_text()),previous)
         self.assertEqual((deploy.STATE/'site.before').stat().st_mtime_ns,stamp);self.preserved()
     def test_driver_transition_cannot_adopt_verified_or_changed_failed_resources(self):
         self.apply()
-        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),self.assertRaisesRegex(CheckFailed,'another_https_deployment_recorded'):
+        with patch.object(deploy,'RECOVERABLE_DRIVERS',{DRIVER}),self.assertRaisesRegex(CheckFailed,'another_https_deployment_recorded'):
             with contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
         self.apply(True);deploy.SITE.write_bytes(b'Unknown concurrent change')
-        with patch.object(deploy,'RECOVERABLE_DRIVER',DRIVER),self.assertRaisesRegex(CheckFailed,'not_rolled_back'):
+        with patch.object(deploy,'RECOVERABLE_DRIVERS',{DRIVER}),patch.object(deploy,'recorded_candidate_hashes',return_value=self.state()['after']),self.assertRaisesRegex(CheckFailed,'not_rolled_back'):
             with contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
         self.assertEqual(deploy.SITE.read_bytes(),b'Unknown concurrent change');self.preserved()
+
+    def test_failed_driver_transition_rejects_unproven_previous_payload(self):
+        with patch.object(deploy,'units_and_runtime',side_effect=CheckFailed('fixture preflight')),self.assertRaises(CheckFailed):self.apply()
+        previous=self.state()
+        with patch.object(deploy,'RECOVERABLE_DRIVERS',{DRIVER}),patch.object(deploy,'recorded_candidate_hashes',return_value={}),self.assertRaisesRegex(CheckFailed,'previous_driver_candidate_hashes_differ'):
+            with contextlib.redirect_stdout(io.StringIO()):deploy.apply(REVISION,'7'*40,False,False)
+        self.assertEqual(self.state(),previous);self.assertFalse((deploy.STATE/('driver-'+DRIVER+'.json')).exists());self.preserved()
+
+    def test_previous_payload_hashes_come_from_exact_committed_examples(self):
+        site=('/var/lib/resmgrcheck/static/'+REVISION+'/').encode()
+        with patch.object(deploy,'git',side_effect=[site,b'previous HTTP']) as read_commit:
+            result=deploy.recorded_candidate_hashes(DRIVER,REVISION)
+        self.assertEqual(read_commit.call_args_list[0].args,('show',DRIVER+':web/ops/production/nginx-site.conf.example'))
+        self.assertEqual(result,{'site':deploy.digest(site),'http':deploy.digest(b'previous HTTP'),'hook':deploy.digest(deploy.renewal_hook().encode())})
+        with patch.object(deploy,'git',return_value=b'another release'),self.assertRaisesRegex(CheckFailed,'previous_driver_application_differs'):
+            deploy.recorded_candidate_hashes(DRIVER,REVISION)
 
 class BoundedDeploymentCommandTests(unittest.TestCase):
     def test_subprocess_failure_never_reflects_diagnostics_and_log_is_private(self):
