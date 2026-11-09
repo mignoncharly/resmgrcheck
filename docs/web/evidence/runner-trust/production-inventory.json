@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-09",
+  "observation": "read-only unit/pointer metadata",
+  "active_release": "3821952e6c99cf8c6d548e59301166dde590b8a0",
+  "web": {
+    "active": "active",
+    "sub": "running",
+    "user": "resmgr-web"
+  },
+  "socket": {
+    "active": "active",
+    "sub": "running"
+  },
+  "dedicated_db": {
+    "active": "active",
+    "sub": "running",
+    "user": "resmgr-db"
+  },
+  "executor": {
+    "active": "inactive",
+    "sub": "dead",
+    "user": "resmgr-exec"
+  },
+  "backup_timer": {
+    "active": "inactive",
+    "sub": "dead"
+  },
+  "disposable_test_restore_dbs_remaining": 0,
+  "generated_test_roles_remaining": 0,
+  "privileged_deployment_executed": false,
+  "nginx_changed": false,
+  "production_keys_or_database_modified": false
+}

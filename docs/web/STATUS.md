@@ -11,14 +11,14 @@ not unnecessarily repeated or relabeled as agent execution. Read-only metadata
 confirms private web/socket/DB active and executor/backup timer inactive. External
 fetch could not access the requested HTTPS URL; public HTTP/TLS remain unverified.
 
-The expanded A–F scope reopens customer-runner and additional-adapter gates.
-W015 implements outbound enrollment, signed machine authentication, explicit target
-approval/revocation, offline/incompatible/quarantine states and the customer-local
-HTTPS client.68 tests pass, including real loopback TLS with Django and PG identity
-guards. Discovery is modeled there; no native behavior is claimed. Job delivery/
-ingestion and additional-adapter qualification are the next checkpoints. Enrollment
-is disabled by default. The owner confirms no separate customer runner is available
-yet: implement and stage now; separate-host/public/independent acceptance is pending.
+The expanded A–F scope is implemented in private staging through W020: outbound
+enrollment/jobs/private ingestion, actual mailbox source-corrected QNX replay,
+sensor/job route regression, browser MFA/codes/comparison/download/mobile checks,
+stronger customer-local SSH trust binding and reviewed immutable upgrade commands.
+Production enrollment stays disabled. The owner confirms no separate customer
+runner host is available yet; implement/stage now, qualify that host later. Public
+TLS currently fails hostname verification. P8 is IN PROGRESS; public/independent
+acceptance and actual new-release root activation/isolation/rollback remain pending.
 
 | Gate | State | Evidence |
 | --- | --- | --- |
@@ -193,3 +193,27 @@ W019 closing regression: all315 explicitly selected web tests passed in83.703s.
 The disposable test/restore DBs and generated rmctest roles were absent afterward.
 The initial ambiguous `test tests` selection ran zero tests and is not counted.
 See evidence/private-upgrade/web-tests.txt. No production deployment is claimed.
+
+## W020 customer-local SSH trust binding (2026-11-09)
+
+The runner now binds effective ssh -G configuration and bounded public known-host/
+revocation-file hashes into its local route fingerprint. It refuses writable files,
+links, unexpected owners/types, unpinned/dynamic trust, command-dependent Match/
+Include configs, multiplexing and forwarding. Private key contents are not part
+of this inventory and public pin/config contents never leave the customer. Use a
+dedicated stable Host configuration and public pin files without group/other write.
+A changed trust root cannot retain an old runner binding or obtain a launch grant.
+Existing staged bindings are deliberately not rewritten; retain their journals and
+evidence, revoke the old target and enroll/approve a new identity when adopting
+this stronger binding. Production machine endpoints remain disabled.
+
+Seven direct local tests passed in0.856s;48 affected signed TLS/enrollment/job/work/
+trust regressions passed in11.734s. Real discovery reached the existing approved
+QNX VM, verified compatibility/owned transfer and all three compiled adapters using
+a new dedicated600 public-pin copy. The inherited known_hosts file was0664 and
+correctly refused; original SSH configuration/pins were preserved unchanged. This
+new route is not centrally enrolled/approved and no native lifecycle was repeated.
+The four W018 runs retain their original route/source scope; do not relabel them
+as executions after W020 hardening. Discovery is not lifecycle/cleanup qualification.
+See evidence/runner-trust for results. Separate customer host, actual new private
+release/isolation/rollback, public TLS/HTTPS and independent acceptance remain.

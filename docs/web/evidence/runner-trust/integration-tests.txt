@@ -1,0 +1,118 @@
+Creating test database for alias 'default' ('test_resmgrcheck_web')...
+Found 48 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: allauth, messages, staticfiles
+  Apply all migrations: account, admin, auth, contenttypes, control, mfa, sessions, sites, usersessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying control.0001_initial... OK
+  Applying account.0001_initial... OK
+  Applying account.0002_email_max_length... OK
+  Applying account.0003_alter_emailaddress_create_unique_verified_email... OK
+  Applying account.0004_alter_emailaddress_drop_unique_email... OK
+  Applying account.0005_emailaddress_idx_upper_email... OK
+  Applying account.0006_emailaddress_lower... OK
+  Applying account.0007_emailaddress_idx_email... OK
+  Applying account.0008_emailaddress_unique_primary_email_fixup... OK
+  Applying account.0009_emailaddress_unique_primary_email... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying control.0002_ratebucket_user_session_version_accountdeletion_and_more... OK
+  Applying control.0003_audit_append_only... OK
+  Applying control.0004_buildrelease_run_executorslot_target_run_target_and_more... OK
+  Applying control.0005_run_intent_guard... OK
+  Applying control.0006_immutable_artifacts... OK
+  Applying control.0007_retention_metadata... OK
+  Applying control.0008_sealed_graph... OK
+  Applying control.0009_optional_ai... OK
+  Applying control.0010_ai_intent_guard... OK
+  Applying control.0011_ai_output_integrity... OK
+  Applying control.0012_ai_output_guard... OK
+  Applying control.0013_administrator_access_codes... OK
+  Applying control.0014_access_authority_guards... OK
+  Applying control.0015_source_principal_constraint... OK
+  Applying control.0016_administrator_only_accounts... OK
+  Applying control.0017_session_and_scope_integrity... OK
+  Applying control.0018_customerrunner_alter_target_kind_alter_target_state_and_more... OK
+  Applying control.0019_runnerjob_runnerchunk... OK
+  Applying control.0020_alter_run_profile... OK
+  Applying mfa.0001_initial... OK
+  Applying mfa.0002_authenticator_timestamps... OK
+  Applying mfa.0003_authenticator_type_uniq... OK
+  Applying sessions.0001_initial... OK
+  Applying sites.0001_initial... OK
+  Applying sites.0002_alter_domain_unique... OK
+  Applying usersessions.0001_initial...test_approval_requires_exact_inventory_and_live_state_expires (tests.test_runners.RunnerTests.test_approval_requires_exact_inventory_and_live_state_expires) ... ok
+test_bad_signature_tamper_and_cross_server_audience_are_rejected (tests.test_runners.RunnerTests.test_bad_signature_tamper_and_cross_server_audience_are_rejected) ... ok
+test_browser_requests_need_mfa_project_scope_and_csrf (tests.test_runners.RunnerTests.test_browser_requests_need_mfa_project_scope_and_csrf) ... Forbidden (CSRF cookie not set.): /app/projects/7e64e40f-e171-48d8-ac72-59de359ec632/runners/b50deb1c-5297-430d-a67a-8435435b7a86/approve/
+ok
+test_credential_once_response_is_not_persisted_or_reflected_by_detail (tests.test_runners.RunnerTests.test_credential_once_response_is_not_persisted_or_reflected_by_detail) ... ok
+test_cross_customer_signature_cannot_act_as_other_runner (tests.test_runners.RunnerTests.test_cross_customer_signature_cannot_act_as_other_runner) ... ok
+test_database_guards_prevent_target_key_inventory_or_tenant_switch (tests.test_runners.RunnerTests.test_database_guards_prevent_target_key_inventory_or_tenant_switch) ... ok
+test_disabled_endpoint_and_issue_remain_unavailable (tests.test_runners.RunnerTests.test_disabled_endpoint_and_issue_remain_unavailable) ... ok
+test_enrollment_binds_one_target_and_public_key_but_never_approves (tests.test_runners.RunnerTests.test_enrollment_binds_one_target_and_public_key_but_never_approves) ... ok
+test_enrollment_token_is_redacted_even_from_untrusted_error_path (tests.test_runners.RunnerTests.test_enrollment_token_is_redacted_even_from_untrusted_error_path) ... ok
+test_expired_revoked_and_bad_enrollment_do_not_create_runner (tests.test_runners.RunnerTests.test_expired_revoked_and_bad_enrollment_do_not_create_runner) ... ok
+test_heartbeat_requires_signature_freshness_and_unique_nonce (tests.test_runners.RunnerTests.test_heartbeat_requires_signature_freshness_and_unique_nonce) ... ok
+test_idempotent_enrollment_retry_cannot_replace_device_key (tests.test_runners.RunnerTests.test_idempotent_enrollment_retry_cannot_replace_device_key) ... ok
+test_incompatible_protocol_is_visible_and_cannot_be_approved (tests.test_runners.RunnerTests.test_incompatible_protocol_is_visible_and_cannot_be_approved) ... ok
+test_inventory_change_quarantines_instead_of_switching_targets (tests.test_runners.RunnerTests.test_inventory_change_quarantines_instead_of_switching_targets) ... ok
+test_live_code_requires_explicit_customer_runner_approval_and_feature_activation (tests.test_runners.RunnerTests.test_live_code_requires_explicit_customer_runner_approval_and_feature_activation) ... ok
+test_machine_endpoint_rejects_cookies_bad_json_extra_fields_and_http_auth (tests.test_runners.RunnerTests.test_machine_endpoint_rejects_cookies_bad_json_extra_fields_and_http_auth) ... ok
+test_no_adapter_means_unsupported_even_when_connected_and_approved (tests.test_runners.RunnerTests.test_no_adapter_means_unsupported_even_when_connected_and_approved) ... ok
+test_request_nonce_collection_is_bounded_and_expired_rows_can_be_removed (tests.test_runners.RunnerTests.test_request_nonce_collection_is_bounded_and_expired_rows_can_be_removed) ... ok
+test_revocation_blocks_existing_identity_and_reenrollment (tests.test_runners.RunnerTests.test_revocation_blocks_existing_identity_and_reenrollment) ... ok
+test_actual_runtime_grants_separate_machine_upload_and_private_sealing (tests.test_runner_jobs.RunnerJobsTests.test_actual_runtime_grants_separate_machine_upload_and_private_sealing) ... ok
+test_agent_persists_launch_intent_before_grant_and_never_relaunches_on_retry (tests.test_runner_jobs.RunnerJobsTests.test_agent_persists_launch_intent_before_grant_and_never_relaunches_on_retry) ... ok
+test_archive_rejects_links_traversal_unknown_members_and_destination_replacement (tests.test_runner_jobs.RunnerJobsTests.test_archive_rejects_links_traversal_unknown_members_and_destination_replacement) ... ok
+test_cancelled_offer_prevents_launch (tests.test_runner_jobs.RunnerJobsTests.test_cancelled_offer_prevents_launch) ... ok
+test_customer_external_lifecycle_and_unapproved_build_are_rejected (tests.test_runner_jobs.RunnerJobsTests.test_customer_external_lifecycle_and_unapproved_build_are_rejected) ... ok
+test_daily_limit_counts_completed_requests_without_refunding (tests.test_runner_jobs.RunnerJobsTests.test_daily_limit_counts_completed_requests_without_refunding) ... ok
+test_deduplication_single_launch_and_exact_id_after_disconnect (tests.test_runner_jobs.RunnerJobsTests.test_deduplication_single_launch_and_exact_id_after_disconnect) ... ok
+test_expired_queue_authority_cannot_gain_a_delayed_launch (tests.test_runner_jobs.RunnerJobsTests.test_expired_queue_authority_cannot_gain_a_delayed_launch) ... ok
+test_foreign_job_ticket_or_signature_cannot_submit_or_begin (tests.test_runner_jobs.RunnerJobsTests.test_foreign_job_ticket_or_signature_cannot_submit_or_begin) ... ok
+test_incomplete_upload_cannot_request_ingestion (tests.test_runner_jobs.RunnerJobsTests.test_incomplete_upload_cannot_request_ingestion) ... ok
+test_invalid_evidence_quarantines_without_any_pass_or_cleanup_claim (tests.test_runner_jobs.RunnerJobsTests.test_invalid_evidence_quarantines_without_any_pass_or_cleanup_claim) ... ok
+test_job_provenance_cannot_be_deleted_to_obtain_a_second_launch_grant (tests.test_runner_jobs.RunnerJobsTests.test_job_provenance_cannot_be_deleted_to_obtain_a_second_launch_grant) ... ok
+test_recorded_native_bytes_are_revalidated_sealed_and_tenant_scoped (tests.test_runner_jobs.RunnerJobsTests.test_recorded_native_bytes_are_revalidated_sealed_and_tenant_scoped) ... ok
+test_revoked_user_cancel_and_expired_offer_prevent_first_grant (tests.test_runner_jobs.RunnerJobsTests.test_revoked_user_cancel_and_expired_offer_prevent_first_grant) ... ok
+test_target_queue_daily_and_offline_limits_are_enforced (tests.test_runner_jobs.RunnerJobsTests.test_target_queue_daily_and_offline_limits_are_enforced) ... ok
+test_unknown_output_is_preserved_and_never_adopted (tests.test_runner_jobs.RunnerJobsTests.test_unknown_output_is_preserved_and_never_adopted) ... ok
+test_upload_is_idempotent_bounded_and_cannot_change_chunk_or_archive (tests.test_runner_jobs.RunnerJobsTests.test_upload_is_idempotent_bounded_and_cannot_change_chunk_or_archive) ... ok
+test_customer_private_files_reject_symlinks_public_modes_and_overwrite (tests.test_runner_tls.RunnerTLSJourneyTests.test_customer_private_files_reject_symlinks_public_modes_and_overwrite) ... ok
+test_real_tls_enrollment_approval_heartbeat_disconnect_and_revocation (tests.test_runner_tls.RunnerTLSJourneyTests.test_real_tls_enrollment_approval_heartbeat_disconnect_and_revocation) ... ok
+test_real_tls_signed_job_and_recorded_evidence_ingestion_without_new_native_claim (tests.test_runner_tls.RunnerTLSJourneyTests.test_real_tls_signed_job_and_recorded_evidence_ingestion_without_new_native_claim) ... ok
+test_untrusted_tls_and_wrong_control_plane_signing_key_fail_closed (tests.test_runner_tls.RunnerTLSJourneyTests.test_untrusted_tls_and_wrong_control_plane_signing_key_fail_closed) ... ok
+test_additive_migration_roundtrip_preserves_legacy_rows_and_restores_legacy_archive (tests.test_runner_jobs.RunnerMigrationBackupTests.test_additive_migration_roundtrip_preserves_legacy_rows_and_restores_legacy_archive) ... ok
+test_lost_upload_ack_resumes_same_archive_without_native_relaunch_or_recollection (tests.test_runner_work.RunnerWorkTests.test_lost_upload_ack_resumes_same_archive_without_native_relaunch_or_recollection) ... ok
+test_remote_job_cannot_switch_target_build_profile_or_local_route (tests.test_runner_work.RunnerWorkTests.test_remote_job_cannot_switch_target_build_profile_or_local_route) ... ok
+test_storage_preflight_is_fixed_read_only_and_refuses_unknown_or_low_budget (tests.test_runner_work.RunnerWorkTests.test_storage_preflight_is_fixed_read_only_and_refuses_unknown_or_low_budget) ... ok
+test_effective_ssh_and_public_pin_contents_bind_route_without_remote_connection (tests.test_runner_trust.RunnerTrustTests.test_effective_ssh_and_public_pin_contents_bind_route_without_remote_connection) ... ok
+test_missing_dynamic_unpinned_or_forwarded_trust_is_refused (tests.test_runner_trust.RunnerTrustTests.test_missing_dynamic_unpinned_or_forwarded_trust_is_refused) ... ok
+test_public_files_allow_readable_modes_but_reject_writes_links_types_owners_and_size (tests.test_runner_trust.RunnerTrustTests.test_public_files_allow_readable_modes_but_reject_writes_links_types_owners_and_size) ... ok
+test_trust_drift_prevents_a_job_before_any_launch_grant (tests.test_runner_trust.RunnerTrustTests.test_trust_drift_prevents_a_job_before_any_launch_grant) ... ok
+
+----------------------------------------------------------------------
+Ran 48 tests in 11.734s
+
+OK
+Destroying test database for alias 'default' ('test_resmgrcheck_web')...
+ OK
+System check identified no issues (0 silenced).

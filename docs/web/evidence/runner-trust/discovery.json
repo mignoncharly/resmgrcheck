@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "scope": "existing approved QNX lab; dedicated local route only, not enrolled or approved centrally",
+  "native_lifecycle_executed": false,
+  "discovery_includes_owned_transfer_probe": true,
+  "route_sha256": "4ac48b1619f35be5b9560e5d1e9f54793691fbd3ce670285669b493b8c79e3aa",
+  "inventory_sha256": "1e01379decd172b7aec3b3b7c3fea7dad38512aeca83a7c478aef482c68262f5",
+  "compiled_adapters": [
+    "job-v1",
+    "mailbox-v1",
+    "sensor-v1"
+  ],
+  "original_ssh_config_and_pins_changed": false,
+  "source_pin_mode": "0664 (refused)",
+  "dedicated_public_pin_mode": "0600",
+  "existing_bindings_replaced": false,
+  "production_changed": false
+}

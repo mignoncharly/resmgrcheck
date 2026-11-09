@@ -74,8 +74,10 @@ def discover(configuration,output):
 def route_fingerprint(configuration):
     """Pin local routing without sending addresses or SSH configuration contents."""
     from resmgrcheck.transport import Target
+    from .trust import effective
     target=Target.read(configuration['alias'],configuration['target_config'])
     return wire.fingerprint({'target':target.data,'alias':configuration['alias'],
+        'ssh_trust':effective(configuration,target),
         'target_config_sha256':__import__('hashlib').sha256(protected(Path(configuration['target_config']))).hexdigest(),
         'ssh_config_sha256':__import__('hashlib').sha256(protected(Path(target.data['ssh_config']))).hexdigest()})
 

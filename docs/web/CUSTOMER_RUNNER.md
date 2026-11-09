@@ -90,3 +90,32 @@ install/enroll/approve there before claiming customer deployment qualification. 
 central site still does not receive SDK/license/SSH private material. Connection
 alone proves neither lifecycle support nor cleanup. Full external lifecycle remains
 UNSUPPORTED; external health rejects all fixture-control modes.
+
+## Stable customer-local trust configuration
+
+Use a dedicated owned400/600 SSH config with Host stanzas, explicit pinned public
+UserKnownHostsFile and GlobalKnownHostsFile none if no reviewed global pins are
+needed. Public pin files may be400/440/600/644 but must be trusted-owner regular
+files without group/other write, hardlinks or symlinks, at most1MiB each. Missing
+default trust files are fingerprinted as absent; at least one nonempty valid pin
+source is required. Actual doctor/strict SSH authentication must still succeed.
+No target connection is made by ssh -G itself. The effective settings use the same
+fixed strict/BatchMode options as the native transport.
+
+[OpenSSH documents effective configuration](https://www.openbsd.org/openssh/legacy.html)
+and the [host-trust directives](https://man.openbsd.org/ssh_config). Match/Include
+can make routing command-dependent and are outside this initial runner contract;
+prepare a dedicated stable config locally instead. KnownHostsCommand, DNS trust,
+canonicalization, multiplexing, RemoteCommand, agent/X11/port forwarding and local
+commands are refused. No permissive SSH option is added to recover a failed check.
+Use an explicitly reviewed nonempty RevokedHostKeys file if configured; tokenized
+trust paths are unsupported. Customer-local ProxyCommand/Jump routing is trusted
+configuration, never supplied by a central job, with strict end-target pins retained.
+
+This changes the local route fingerprint for existing staged enrollments. Do not
+edit binding.json, discard device/launch/upload journals or silently rebind an old
+target. Retain original evidence, revoke the old enrollment and explicitly enroll/
+approve a new target identity. When an inherited public pin file is group-writable,
+leave the original lab/application file alone: have the customer prepare and verify
+a dedicated owned public-pin copy and config. Never copy private SSH keys/licenses
+to the central website or repository. Separate-host qualification is still pending.

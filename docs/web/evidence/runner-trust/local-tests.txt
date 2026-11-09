@@ -1,0 +1,15 @@
+test_effective_ssh_and_public_pin_contents_bind_route_without_remote_connection (tests.test_runner_trust.RunnerTrustTests.test_effective_ssh_and_public_pin_contents_bind_route_without_remote_connection) ... ok
+test_missing_dynamic_unpinned_or_forwarded_trust_is_refused (tests.test_runner_trust.RunnerTrustTests.test_missing_dynamic_unpinned_or_forwarded_trust_is_refused) ... ok
+test_public_files_allow_readable_modes_but_reject_writes_links_types_owners_and_size (tests.test_runner_trust.RunnerTrustTests.test_public_files_allow_readable_modes_but_reject_writes_links_types_owners_and_size) ... ok
+test_trust_drift_prevents_a_job_before_any_launch_grant (tests.test_runner_trust.RunnerTrustTests.test_trust_drift_prevents_a_job_before_any_launch_grant) ... ok
+test_lost_upload_ack_resumes_same_archive_without_native_relaunch_or_recollection (tests.test_runner_work.RunnerWorkTests.test_lost_upload_ack_resumes_same_archive_without_native_relaunch_or_recollection) ... ok
+test_remote_job_cannot_switch_target_build_profile_or_local_route (tests.test_runner_work.RunnerWorkTests.test_remote_job_cannot_switch_target_build_profile_or_local_route) ... ok
+test_storage_preflight_is_fixed_read_only_and_refuses_unknown_or_low_budget (tests.test_runner_work.RunnerWorkTests.test_storage_preflight_is_fixed_read_only_and_refuses_unknown_or_low_budget) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.856s
+
+OK
+Found 7 test(s).
+Skipping setup of unused database(s): default.
+System check identified no issues (0 silenced).

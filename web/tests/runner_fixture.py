@@ -10,7 +10,8 @@ from .test_runners import discovery
 def local(root,target_id,project_id,organization_id):
     source=settings.REPO_ROOT/'docs/evidence/phase10/executions/p10demo2-normal'
     request=json.loads((source/'request.json').read_text())
-    create(root/'ssh-config',b'Host fixture-only\n HostName 192.0.2.1\n')
+    create(root/'known-hosts',b'fixture-only ssh-ed25519 AAAAFIXTUREPUBLICKEY\n')
+    create(root/'ssh-config',('Host fixture-only\n HostName 192.0.2.1\n UserKnownHostsFile '+str(root/'known-hosts')+'\n GlobalKnownHostsFile none\n').encode())
     route={**request['target_identity'],'ssh_alias':'fixture-only','ssh_config':str(root/'ssh-config'),'timeout_s':5}
     create(root/'target.json',json.dumps({'kind':'target-configuration','schema_version':1,'targets':{'fixture':route}}).encode())
     create(root/'build.json',json.dumps(request['deployment']).encode())

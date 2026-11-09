@@ -1,0 +1,14 @@
+{
+  "source_parent": "9b9c57e2a766021427634348f1a9228b3f1c1abd",
+  "local_ssh_G_tests": 7,
+  "affected_integration_tests": 48,
+  "actual_qnx_discovery": true,
+  "native_tests_repeated": false,
+  "production_changed": false,
+  "separate_customer_host": false,
+  "sha256": {
+    "customer_runner/trust.py": "4871a3c7bd040b1b4d8394a574abf98c8476b42aa095fc8a84ca9c1faf0fd697",
+    "customer_runner/agent.py": "3f06d07669e0c64c7cece95b7bbd5bf5b4ae8b0be101e6d330721811356056e2",
+    "web/tests/test_runner_trust.py": "38c0faa1678de02bb9633b1d291b74ad168a0f890b92081f22166c5ec47d5d77"
+  }
+}
