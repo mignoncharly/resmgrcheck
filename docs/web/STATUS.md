@@ -5,59 +5,63 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
-W021 current state (2026-11-09): active immutable application release is
-544f22c174ad48e1c8d741db0afdd3bf5b54f947. The operator confirms private HTTP200,
-nonroot/systemd isolation, operational encrypted local backup and successful isolated
-restore with audit UPDATE/DELETE protection. Agent read-only unit/pointer metadata
-confirms this active release. Those successful production gates are retained.
+## W028 current production checkpoint (2026-11-09)
 
-The single reviewed workflow in [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) replaces
-individual diagnostic commands: protected own-config backups, narrow HTTPS install,
-nginx -t, graceful reload, bounded TLS/security/ACME checks, actual own-config rollback
-drill and real browser/admin/code/native acceptance with safe cleanup. All342 web
-regressions pass; a complete isolated browser rehearsal passes44 views/12 scans.
-No root deployment has run by the agent. Public TLS currently fails both local
-verified curl and an independent external fetch; no HTTP result is established.
-The one operator command and actual production/public evidence are pending.
+Active immutable application: `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`.
+Completed operator recovery driver: `1ee18b6be6084e7e8dd7036a52947374a288b27f`.
+The pointer and nginx/database/web/socket active states were independently inspected
+read-only. Original `544f22c` remains preserved. The corrected preflight validated
+all 14 retained caches without changing original files. The operator workflow
+completed mandatory fresh encrypted backup, isolated restore, private runtime and
+readiness gates before HTTPS activation. Protected receipts were not read this turn.
 
-Customer-runner endpoints remain disabled; a separate customer host is unavailable.
-AI remains disabled. Off-server disaster recovery is deferred, not passed. The owner
-now authorizes jury HTTPS with these features disabled; separate-host acceptance is
-still required before enabling/advertising customer onboarding. P8 is IN PROGRESS;
-P9/P10 remain unverified where real public/native/independent results are absent.
+Actual production HTTPS browser acceptance passed password-only administrator
+login, scoped code issuance/redemption/revocation/usage/clock expiration, CSRF/origin,
+cross-tenant and administrator denial checks, 46 desktop/mobile/no-JS views and
+12 scans with no reported accessibility violations. Temporary accounts were disabled
+and codes revoked; existing users, audit and evidence remained intact. Full 30-minute
+idle/12-hour absolute expiration durations were unit-qualified, not waited in production.
+
+The intended public URL is https://qnx-resmgrcheck.gestionatech.de. VPS-origin TLS
+verification and HTTP 200 passed, with HSTS/CSP/nosniff/referrer headers. A fresh
+independent Firecrawl fetch also returned HTTPS 200 and the expected public landing
+page with TLS verification not disabled. This qualifies public reachability only;
+independent authenticated/native acceptance remains pending.
 
 | Gate | State | Evidence |
 | --- | --- | --- |
-| P0 baseline/threat model | PASS | Inventory, preserved baseline, dependency/security review, explicit deployment blockers |
-| P1 foundation | PASS | 15 pinned/hashed wheel dependencies; real PG migrations, four tests, isolated Gunicorn readiness200 |
-| P2 revised administrator/code authorization | PASS (private staging) | W007/W009:135 then152 PG tests, concurrent redemption,50 current browser views/17 scans, native revocation/queued denial, MFA-scoped administrator sessions |
-| P3 engine integration | PASS (private staging, revised access) | W003 historical recovery/failed-transfer retained; W007 six new actual QNX cases through code sessions, source-corrected replay |
-| P4 dashboard | PASS (private staging) | 64 PG-backed tests;104 browser views/26 accessibility scans; four queued views and cancel/unsupported/error forms |
-| P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
-| P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
-| P7 customer target story | IN PROGRESS for A–F scope | W018 actual same-host outbound/QNX mailbox replay + sensor/job; separate customer host pending |
-| P8 hardening | IN PROGRESS; private runtime/restore passed (operator) | Active544f22c; private runtime/restore operator-passed; public HTTPS/auth/native/rollback/independent results pending |
-| P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
+| P0–P5 | Prior staging qualification retained | Original engine/evidence/tenant authorization unchanged; historical qualification retained |
+| P6 AI | PASS for disabled release mode | AI stays disabled; no provider qualification |
+| P7 customer targets | IN PROGRESS | Separate customer host unavailable; machine endpoints remain disabled |
+| P8 hardening | IN PROGRESS | Production recovery/runtime/backup/restore/HTTPS/password/codes/browser passed; native and independent acceptance incomplete |
+| P9–P10 | INCOMPLETE | Public reachability observed; full independent acceptance and production native not passed |
 
-The private web service/socket are active at544f22c (read-only unit observation).
-Private HTTP/runtime/restore success is operator-provided; public HTTPS is unverified.
-This task made no DNS/Nginx change. Original engine runtime digest remains
-`02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.
-Existing QNX features/evidence remain qualified; this is separate from web execution.
-AI provider: not configured or verified. Playback material: genuine saved QNX cases.
+Production native execution is **BLOCKED: approved_executor_registry_missing**.
+No production QNX runs occurred (`runs: []`). The acceptance coordinator refuses
+execution until an exact already-approved organization/project/target, private
+route and before/after build pair is registered. Do not create a guessed registry,
+copy arbitrary SSH material or broaden permissions to clear this gate. Executor
+provisioning requires a separate reviewed local operator workflow. Do not repeat
+the successful authentication recovery or downgrade production to fix this blocker.
 
-Remaining work: separate
-customer-runner acceptance, intended HTTPS auth/native/browser/isolation/rollback
-and later vhost/TLS/operational verification,
-optional project-consented AI provider setup and independent UAT. No secrets should
-be sent in chat. PRIVATE_INSTALL.md gives the concrete operator-only procedure.
-Continue implementation/staging without changing unrelated VPS services.
+The HTTPS workflow completed its own configuration rollback drill before acceptance;
+full rollback of the newly active application was not exercised this turn. Existing
+historical rollback records remain. Off-server disaster recovery is deferred.
+See [the W028 evidence](evidence/production-password-acceptance/checks.json) and
+[HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md). No privileged action ran by the agent.
+No unrelated VPS application, QNX process, credential or database record was changed
+by this documentation/evidence checkpoint.
+
+## Historical installation checkpoints (superseded where noted)
 
 2026-11-08 earlier recovery update (W010, historical): the operator ran preparation for exact application
 revision `4ed4855f7633176baea06f2be53154630a9d4d1f`; it failed during clone with

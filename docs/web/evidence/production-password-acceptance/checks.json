@@ -1,0 +1,68 @@
+{
+  "observed_UTC": "2026-11-09T15:10:51Z",
+  "checkpoint": "W028",
+  "application_revision": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "operator_driver_revision": "1ee18b6be6084e7e8dd7036a52947374a288b27f",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de",
+  "provenance": {
+    "operator_console": "reviewed recovery --apply output provided by operator",
+    "production_browser": "inspected local nonsecret browser-report.json and operator-cleanup.json",
+    "active_pointer_and_units": "agent read-only observation",
+    "backup_restore_runtime": "operator pipeline advanced beyond mandatory backup/isolated-restore/private-runtime gates; protected receipts not independently read this turn",
+    "external_public": "fresh Firecrawl remote fetch; maxAge0, TLS verification not disabled"
+  },
+  "original_release_validation": {
+    "passed": true,
+    "retained_bytecode_files": 14,
+    "original_files_changed": false
+  },
+  "immutable_activation": "PASS",
+  "dedicated_backup_and_isolated_restore": "PASS operator pipeline",
+  "private_runtime_and_readiness": "PASS operator pipeline",
+  "nginx_db_web_socket": "active; agent observed",
+  "HTTPS_landing_from_VPS": {
+    "status": 200,
+    "certificate_validation": true,
+    "HSTS": "max-age=31536000",
+    "X_Content_Type_Options": "nosniff",
+    "Referrer_Policy": "same-origin",
+    "CSP": "present; default-src self, frame-ancestors none, object-src none, base-uri none, form-action self"
+  },
+  "external_public_HTTP": 200,
+  "external_authenticated_acceptance": "PENDING",
+  "administrator_password": "PASS production HTTPS; valid/invalid login desktop and mobile-no-JS",
+  "administrator_MFA": "DEFERRED",
+  "access_codes": "PASS production HTTPS issuance/redemption/scope/revocation/usage limit/actual-clock expiration",
+  "browser_views": 46,
+  "accessibility_scans": 12,
+  "reported_accessibility_violations": 0,
+  "CSRF_origin": "PASS production browser",
+  "cross_tenant_and_administrator_denials": "PASS production browser",
+  "administrator_idle_and_absolute_expiration": "unit-qualified; full production durations not waited",
+  "native": {
+    "status": "blocked",
+    "reason": "approved_executor_registry_missing"
+  },
+  "production_native_runs": 0,
+  "cleanup": {
+    "temporary_account_disabled": true,
+    "temporary_codes_revoked": true,
+    "existing_users_changed": false,
+    "audit_runs_evidence_preserved": true,
+    "own_native_work_still_active": false
+  },
+  "customer_runner_endpoints": "DISABLED; separate customer host NOT_QUALIFIED",
+  "AI": "DISABLED",
+  "off_server_DR": "DEFERRED",
+  "P8": "IN_PROGRESS",
+  "P9_P10": "INCOMPLETE; independent acceptance and production native remain",
+  "agent_mutations_to_services_data_credentials_or_execution_permissions": false,
+  "rollback": "own HTTPS rollback drill prerequisite completed in operator workflow; prior failed-attempt recovery retained; full new application rollback not run this turn",
+  "next_action": "prepare/review exact existing lab project/target/build/route custody and executor registry provisioning; do not create a guessed route or rerun successful HTTPS recovery",
+  "evidence_sha256": {
+    "browser-report.json": "5edc430e306cb4516e6e269770838f4373e919307fcdd5b18feaa4c9fa903c01",
+    "operator-cleanup.json": "6b34d84f47feeec536767a01591f4b3cc05a1af828a816146dd038cf016934a9",
+    "external-public-fetch.json": "0638f67141156565c4729da7d8847c459036686a0c36be8adf7ebfeef5b3a223"
+  },
+  "agent_checkpoint_scope": "documentation and nonsecret evidence only"
+}

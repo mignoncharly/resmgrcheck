@@ -5,8 +5,11 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 stages an outbound customer runner alongside the private lab dispatcher,
 disabled by default. Customer SSH/QNX configuration stays local. HTTPS validates
@@ -212,3 +215,14 @@ Qualification now uses actual Gunicorn/Unix transport with Nginx TLS and Django/
 Actual systemd runtime/isolation still requires operator execution. Root operation
 launchers prevent bytecode writes even with -I; original source identity validation
 separately verifies retained derived caches before immutable pointer activation.
+
+## W028 deployed control-plane qualification
+
+Application3f4bafb is active behind dedicated HTTPS Nginx, Unix-socket Gunicorn and
+the preserved nonroot systemd/private database boundary. Production password/code/
+browser acceptance passed; independent public landing retrieval returned HTTPS200.
+The executor remains a separate privileged-custody boundary: absent approved registry
+means no native execution, regardless of successful web login or recorded playback.
+This checkpoint does not add routes/grants/credentials or change architecture.
+Customer machine endpoints and AI remain disabled. Actual production native,
+independent authenticated UAT and separate-host customer qualification remain open.

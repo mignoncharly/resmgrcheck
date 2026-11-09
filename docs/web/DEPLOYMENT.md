@@ -5,10 +5,13 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
-W021 current state (2026-11-09): immutable544f22c is active privately. The operator
+W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
 public handoffs below with one reviewed operator command that installs only the
@@ -189,3 +192,20 @@ hash reconstruction now proves all14 caches. A reviewed driver transition retain
 the unstarted/no-backup attempt and re-runs strict source/cache checks before any
 staging/action. Use HTTPS_DEPLOYMENT.md's same application with the new driver SHA.
 No privileged deployment was executed by the agent; actual P8 acceptance is pending.
+
+## W028 production activation and bounded public acceptance
+
+Operator driver1ee18b6 completed immutable application3f4bafb activation. The original
+544 release and all keys/data/history remain preserved. The operator workflow passed
+original-cache validation, fresh backup/isolated restore, private runtime and HTTPS
+checks before actual production browser acceptance. Agent pointer/unit checks confirm
+the new release and active own services. HTTPS200/certificate/security headers passed
+from the VPS; a fresh independent Firecrawl public landing fetch also returned200.
+Actual password/code/browser acceptance passed46 views/12 zero-violation scans.
+
+This is not full production completion: production native runs=0, missing approved
+executor registry BLOCKED; independent authenticated UAT and full new-application
+rollback remain pending. No repeat of the successful deployment is requested. No
+runtime source, Nginx configuration, unit, database, credential or execution grant
+was changed by this evidence-only checkpoint. Customer endpoints/AI remain disabled;
+off-server DR remains deferred. P8 IN_PROGRESS.

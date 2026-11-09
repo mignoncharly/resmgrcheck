@@ -5,10 +5,13 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
-W021 current state (2026-11-09): immutable544f22c is active privately. The operator
+W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
 public handoffs below with one reviewed operator command that installs only the
@@ -323,3 +326,19 @@ is read-only and emits metadata, known file paths and trusted-compile match stat
 never contents. Nginx/auth/QNX permissions and unrelated services were not changed.
 Actual private544/HTTP200 and HTTP-only404 restoration remain healthy; public HTTPS
 and password/code/native independent acceptance remain unqualified.
+
+## W028 active HTTPS release and distinct executor blocker
+
+Active3f4bafb is healthy; operator1ee18b6 completed immutable recovery and production
+HTTPS password/code/browser checks. Temporary acceptance principal disabled and codes
+revoked; existing users/audit/evidence retained. No recovery retry is needed. Public
+reachability is independently observed with a fresh remote HTTP200. Native acceptance
+is blocked before execution because the approved production registry does not exist;
+this is not a web service startup or password problem. Do not start workers or invent
+registry entries. Keep the private executor identity, exact organization/project/
+target/build/route binding and existing SSH trust requirements. Reviewed provisioning
+and native before/after/job acceptance are the next operations gate. The HTTPS
+configuration rollback drill is a completed workflow prerequisite; this turn did not
+exercise full new-application rollback. Independent authenticated UAT and full release
+rollback remain open, as do separate-host qualification and off-server DR. Customer
+endpoints and AI stay disabled. No privileged action ran by the agent this turn.

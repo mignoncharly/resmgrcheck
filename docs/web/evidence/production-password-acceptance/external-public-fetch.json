@@ -1,0 +1,13 @@
+{
+  "scope": "Independent off-server public landing-page reachability only; no authenticated or native acceptance",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de/",
+  "maxAge": 0,
+  "skipTlsVerification": false,
+  "http_status": 200,
+  "title": "ResMgrCheck · QNX lifecycle evidence",
+  "scrape_id": "01a1c0dc-106c-7798-bea3-f735efc29643",
+  "proxy": "basic",
+  "authenticated": false,
+  "native_execution": false,
+  "content_matches_expected_public_landing": true
+}

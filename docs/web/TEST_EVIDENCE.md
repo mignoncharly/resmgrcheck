@@ -5,8 +5,11 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 ## W015 — current inventory and outbound runner enrollment (2026-11-09)
 
@@ -1295,3 +1298,50 @@ free, and no3f4bafb release directory. Actual corrected recovery, fresh backup/r
 new private systemd isolation, public HTTPS/password/code/native and independent
 acceptance remain pending. AI/customer endpoints stay disabled; off-server DR deferred.
 P8 is IN_PROGRESS.
+
+## W028 actual production password/code/browser acceptance
+
+The operator completed recover_https_auth.py using application
+`3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58` and driver
+`1ee18b6be6084e7e8dd7036a52947374a288b27f`, with -I -B. Protected original-release
+validation reported PASS for all 14 retained bytecode files and no original-file
+changes. The workflow advanced through mandatory dedicated backup, isolated restore,
+private runtime/readiness and HTTPS checks, then finished browser acceptance without
+rollback. These gate outcomes are operator evidence plus code-path verification;
+protected snapshot/runtime/configuration receipts were not independently opened this
+turn. Agent read-only checks confirm current points to3f4bafb and nginx/db/web/socket
+are active. Original544 remains preserved.
+
+The actual nonsecret browser-report.json and operator-cleanup.json were read directly
+from .local/web/evidence/production-https-8702f911d6744bc5af36f2b2d607e1b2 and copied
+unchanged into evidence/production-password-acceptance. browser_passed is true;
+administrator_password/access_codes passed, MFA deferred. There are46 views across
+desktop/mobile/no-JS,12 accessibility scans with zero reported violations. Checks
+include invalid/valid password login, administrator overview/security/code issuance,
+code redemption, single-use limit, actual-clock expiry, active-session revocation,
+cross-tenant404, code-to-administrator404, GET logout405 and CSRF/origin. These are
+real HTTPS requests through production Nginx/Gunicorn/Unix-socket/systemd, not the
+previous loopback rehearsal. Full idle/absolute session durations were not waited;
+the report correctly retains their unit-only qualification. No credentials, cookies
+or traces were saved. Temporary account disabled, temporary codes revoked, existing
+users unchanged, audits/evidence preserved, no active native work left behind.
+
+VPS-origin standard-library HTTPS client verified the certificate and HTTP200,
+HSTS max-age31536000, CSP, nosniff and same-origin referrer policy. The generic external
+web tool could not retrieve the site; a fresh independent Firecrawl fetch then
+returned HTTP200, expected title/public recorded-evidence page, maxAge0 and
+skipTlsVerification=false. Receipt metadata is external-public-fetch.json. This
+qualifies off-server public reachability only, not external authenticated sessions
+or native testing. Independent authenticated/operator UAT remains pending.
+
+The browser report's overall passed=false denotes native BLOCKED, not browser or
+recovery failure. Native reason is approved_executor_registry_missing; runs=[] and
+no production QNX case executed. acceptance_operator.native_plan fails closed before
+selecting targets/builds or starting the executor. The registry requires exact
+approved tenant/project/target bindings, private existing route and a verified
+sensor before/after + job build pair. No route, key, target grant or execution
+permission was created/changed. Production customer endpoints and AI remain disabled;
+separate customer-host qualification absent, off-server DR deferred. Existing native
+and CLI evidence remains unchanged. Full application rollback and independent
+acceptance remain outstanding; P8 is IN_PROGRESS. This checkpoint changes only
+documentation/evidence, with JSON/count/integrity checks and no repeated test matrix.

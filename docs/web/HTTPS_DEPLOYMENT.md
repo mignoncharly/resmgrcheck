@@ -1,15 +1,22 @@
 # One-command HTTPS deployment and production acceptance
 
-Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W027 corrects recovery
-for the unchanged password-only application3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58.
-A new driver SHA is required; do not repeat55daf08. W026 requires a new
-immutable authentication correction before another deployment attempt. The owner authorizes the
-jury-facing HTTPS deployment while customer-runner endpoints and AI stay disabled.
-The earlier requirement to wait for separate customer-host qualification before
-any public jury deployment is superseded by that instruction; customer onboarding
-itself is still unqualified and disabled. Off-server DR remains deferred, not passed.
+W028 current state: application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58` is active
+at https://qnx-resmgrcheck.gestionatech.de. The operator completed driver
+`1ee18b6be6084e7e8dd7036a52947374a288b27f`. Production HTTPS password/code/browser
+acceptance passed; independent public-page retrieval returned HTTPS 200. Native
+acceptance is BLOCKED by `approved_executor_registry_missing`, and independent
+authenticated acceptance is still pending. P8 is IN PROGRESS. Customer-runner
+endpoints/AI remain disabled; off-server disaster recovery is deferred.
 
-## Current operator command: immutable authentication recovery
+**Do not repeat the completed deployment to address the native registry blocker.**
+The application remains healthy; this blocker is a separate approved-executor
+provisioning gate. No new privileged command is required for this evidence update.
+See [the W028 evidence](evidence/production-password-acceptance/checks.json).
+The following recovery procedure is retained for operator-reviewed recovery/rollback,
+not a request to rerun the completed attempt. Original release `544f22c` and protected
+receipts remain preserved; no cleanup/reset of their state is authorized.
+
+## Retained procedure: immutable authentication recovery
 
 Do not repeat the old application/driver command. W026 adopts the owner's approved
 username/password-only administrator policy: MFA is deferred, with existing
@@ -71,8 +78,9 @@ uses only the header overwritten by dedicated Nginx from its original peer. XFF
 and Forwarded stay stripped; missing/malformed identities fail closed. See pinned
 65.21.1 implementation and [allauth proxy/rate-limit configuration](https://docs.allauth.org/en/dev/common/rate_limits.html).
 
-The agent runs review, unprivileged tests and a read-only plan. The operator runs
-this single command with the reviewed application and driver SHAs from the handoff:
+The agent completed review, unprivileged tests and a read-only plan. The operator
+already ran this procedure with application3f4bafb/driver1ee18b6 successfully in W028.
+The parameterized command below is historical recovery reference only:
 
 ```sh
 sudo /usr/bin/python3 -I -B \

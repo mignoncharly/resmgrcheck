@@ -1,0 +1,313 @@
+{
+  "kind": "actual-production-HTTPS-browser-acceptance",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de",
+  "passed": false,
+  "administrator_password": "passed",
+  "administrator_MFA": "deferred",
+  "authentication_policy": "administrator-password-only-v1",
+  "access_codes": "passed",
+  "native": {
+    "status": "blocked",
+    "reason": "approved_executor_registry_missing"
+  },
+  "views": [
+    {
+      "view": "public-landing",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-before",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-after",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "genuine-recorded-job",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "anonymous-dashboard-denial",
+      "http_status": 302
+    },
+    {
+      "view": "public-registration-absent",
+      "http_status": 404
+    },
+    {
+      "view": "administrator-login",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "MFA-deferred-route",
+      "http_status": 404
+    },
+    {
+      "view": "administrator-overview",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "administrator-security",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "access-code-form",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "public-landing-desktop",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-overview",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-projects",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-targets",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-history",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-session",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "cross-tenant-project",
+      "http_status": 404
+    },
+    {
+      "view": "code-administrator-denial",
+      "http_status": 404
+    },
+    {
+      "view": "get-signout-has-no-side-effect",
+      "http_status": 405
+    },
+    {
+      "view": "public-landing-mobile-no-js",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-overview",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "code-projects",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "code-targets",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "code-history",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "code-session",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "cross-tenant-project",
+      "http_status": 404
+    },
+    {
+      "view": "code-administrator-denial",
+      "http_status": 404
+    },
+    {
+      "view": "get-signout-has-no-side-effect",
+      "http_status": 405
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-management",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "revoked-active-session",
+      "http_status": 302
+    },
+    {
+      "view": "revoked-active-session",
+      "http_status": 302
+    },
+    {
+      "view": "access-code-form",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "single-use-session",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "access-code-form",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "actual-expired-code-session",
+      "http_status": 302
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "administrator-login",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    },
+    {
+      "view": "MFA-deferred-route",
+      "http_status": 404
+    },
+    {
+      "view": "administrator-overview",
+      "mode": "mobile-no-js",
+      "http_status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "view": "public-landing",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-before",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-after",
+      "violations": []
+    },
+    {
+      "view": "genuine-recorded-job",
+      "violations": []
+    },
+    {
+      "view": "administrator-login",
+      "violations": []
+    },
+    {
+      "view": "administrator-overview",
+      "violations": []
+    },
+    {
+      "view": "administrator-security",
+      "violations": []
+    },
+    {
+      "view": "code-overview",
+      "violations": []
+    },
+    {
+      "view": "code-projects",
+      "violations": []
+    },
+    {
+      "view": "code-targets",
+      "violations": []
+    },
+    {
+      "view": "code-history",
+      "violations": []
+    },
+    {
+      "view": "code-session",
+      "violations": []
+    }
+  ],
+  "runs": [],
+  "independent_external_client": false,
+  "authentication_requests": [
+    {
+      "stage": "administrator-wrong-password-submit",
+      "endpoint": "password",
+      "status": 200
+    },
+    {
+      "stage": "administrator-password-submit",
+      "endpoint": "password",
+      "status": 302
+    },
+    {
+      "stage": "administrator-password-submit",
+      "endpoint": "password",
+      "status": 302
+    }
+  ],
+  "credentials_cookies_traces_saved": false,
+  "AI": "disabled",
+  "separate_customer_host": "not_qualified",
+  "customer_runner_endpoints": "disabled",
+  "public_landing_recorded_evidence": "passed",
+  "csrf_origin": "passed",
+  "code_expiration": "passed with actual clock",
+  "usage_limit": "passed",
+  "scope_and_revocation": "passed",
+  "idle_30minute_and_absolute_12hour_session_expiration": "unit-qualified; production duration not waited",
+  "browser_version": "158.0.8127.18",
+  "browser_passed": true
+}

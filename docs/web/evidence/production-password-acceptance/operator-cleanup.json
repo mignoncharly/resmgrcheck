@@ -1,0 +1,7 @@
+{
+  "temporary_account_disabled": true,
+  "temporary_codes_revoked": true,
+  "existing_users_changed": false,
+  "audit_runs_evidence_preserved": true,
+  "own_native_work_still_active": false
+}

@@ -5,10 +5,13 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
-W021 current state (2026-11-09): immutable544f22c is active privately. The operator
+W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
 public handoffs below with one reviewed operator command that installs only the
@@ -587,8 +590,9 @@ sudo /opt/resmgrcheck/current/.venv/bin/python \
   provision_administrator --username first-admin
 ```
 
-The password is entered through getpass, never argv/chat. Enroll administrator
-TOTP over the qualified private HTTPS route before privileged browser access.
+The password is entered through getpass, never argv/chat. Administrators use
+username/password only in this hackathon release; MFA is deferred. Existing
+authenticators and their encryption keys are retained for a reviewed future policy.
 Only an explicitly requested `--platform-owner` has cross-organization authority.
 Protected recovery uses the same wrapper with `recover_administrator --username`
 and explicit `--reset-mfa` only when necessary. There is no email/SMTP recovery.
@@ -833,3 +837,21 @@ service action, then continues the existing immutable deployment/backup/private/
 HTTPS workflow. Unknown data still refuses automatic recovery. No cache deletion,
 release overwrite, secret change or marker reset is required. Original544 remains
 healthy and restored; actual corrected activation and P8 acceptance are pending.
+
+## W028 recovery completed; do not repeat it for native provisioning
+
+The operator completed application3f4bafb/driver1ee18b6. All14 original caches passed
+validation unchanged. Mandatory fresh backup/isolated restore/private runtime gates
+completed, then production HTTPS password/code/browser acceptance passed. The agent
+confirmed the new current pointer, active nginx/db/web/socket and verified HTTPS200;
+an independent external public fetch also returned200. Existing secret files, keys,
+data, historical releases and recovery records remain preserved.
+
+Production native acceptance is separately BLOCKED: approved_executor_registry_missing.
+Do not rerun HTTPS deployment, reset recovery receipts or grant arbitrary target
+access to clear it. Prepare a reviewed dedicated executor provisioning procedure
+using the existing authorized lab route, exact approved project/target/build UUIDs,
+private credential custody and real inventory before any public live run. Do not
+copy SSH or license contents into chat/repository. Native runs are0 in this receipt;
+independent authenticated UAT is pending. Customer endpoints/AI remain disabled,
+off-server DR deferred and P8 IN_PROGRESS. See W028 test evidence for exact scope.

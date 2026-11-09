@@ -5,8 +5,11 @@ only; MFA is deferred and not enforced. Existing authenticators/encryption keys 
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
 rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
-current release policy. Actual private release remains544f22c; corrected immutable
-activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
+is active. Production password/code/browser acceptance passed; an independent
+external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
+approved executor registry; independent authenticated acceptance remains pending.
+P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 enrollment is staged/disabled by default.256-bit600s one-use enrollment
 credentials are HMAC-verifier-only in the DB, bound to a precreated exact target;
@@ -436,3 +439,21 @@ CPython3.12's [marshal writer](https://github.com/python/cpython/blob/v3.12.3/Py
 uses object references when serializing, so raw output is not a canonical signature
 of a compiled program across compilation contexts. [Python's marshal documentation](https://docs.python.org/3.12/library/marshal.html)
 warns against decoding untrusted data; this recovery does not decode candidates.
+
+## W028 observed production authentication boundary
+
+Password-only administrator and scoped-code acceptance passed through actual
+production HTTPS/Nginx/Unix-socket/Gunicorn/systemd. The saved report covers valid and
+invalid login, tenant/administrator denial, CSRF/origin, code scopes, use limit,
+actual expiry and active-session revocation. Temporary principals/codes were disabled/
+revoked and audits retained.46 browser views and12 automated accessibility scans
+reported zero violations; these do not substitute for independent security review.
+Production30-minute idle/12-hour absolute expiration durations were not waited.
+
+External public-page HTTP200 was independently observed with TLS verification not
+disabled. Off-server authenticated UAT remains pending. No production QNX runs occurred:
+missing executor registry fails closed without route/credential/grant creation or
+worker activation. Connection and saved evidence cannot prove lifecycle execution.
+Customer endpoints and AI remain disabled; no separate customer host is qualified,
+and off-server DR is deferred. Existing MFA authenticators/keys remain retained,
+with MFA deferred by the approved release policy. P8 remains IN_PROGRESS.
