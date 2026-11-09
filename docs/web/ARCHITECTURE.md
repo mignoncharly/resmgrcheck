@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 stages an outbound customer runner alongside the private lab dispatcher,
@@ -240,3 +242,12 @@ triggers denying all actual executor updates; shared code is unchanged. A servic
 context probe gates approval, followed by three real dashboard cases. These production
 steps are prepared, not executed.74 tests passed; native outcomes and independent UAT
 remain unverified. AI/customer endpoints stay disabled; P8 is IN_PROGRESS.
+
+## W030 root coordinator versus executor identity
+
+Registry ownership is checked in the execution plane under resmgr-exec. A root
+coordinator must explicitly validate that executor custody; its own UID is not a
+substitute. Fixed approved IDs and exact route/build/proof bindings now select this
+lab without label heuristics. The worker's self/root ownership rule, tenant model
+and immutable application remain unchanged. Actual provisioning/probe passed;
+resumed native qualification remains pending.

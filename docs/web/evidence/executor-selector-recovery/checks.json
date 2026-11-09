@@ -1,0 +1,55 @@
+{
+  "checkpoint": "W030",
+  "source_parent": "ce97df9e7e3671528316063a2bc36250b8d4d788",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "operator_result": {
+    "completed_steps": [
+      "validate_dedicated_database_scope",
+      "install_exact_private_lab_binding",
+      "actual_executor_systemd_context_probe",
+      "publish_exact_target_and_build_approvals"
+    ],
+    "failed_step": "native_dashboard_acceptance",
+    "failed_check": "exact_approved_native_plan_required",
+    "phase": "acceptance"
+  },
+  "confirmed_cause": "root acceptance coordinator invokes generic worker registry validator; registry owner resmgr-exec981 passes coordinator precheck, but worker validator under rootUID0 accepts only root ownership; PolicyError is suppressed and candidate_pairs becomes0",
+  "provenance": "operator safe stage/failure JSON plus exact source-path inspection and disposable PostgreSQL/filesystem regression; protected production state not readable by agent",
+  "correction": "fixed-ID root selector explicitly validates executor UID/GID0600 custody, exact registry/route/host/manifests, tenant/build approval, actual prior runtime proof and read-only DB lock guard metadata; generic worker validator unchanged",
+  "resume": "only known ce97 selector failure, exact completed phase, no native intent/result; unchanged web/unit/engine/private hashes verified; full old journal/failure/proof archived; proof driver preserved; no reinstall/probe repetition",
+  "tests": {
+    "combined_passed": 78,
+    "combined_seconds": 11.412,
+    "focused_refreshed_passed": 26,
+    "focused_seconds": 0.665,
+    "scope": "real disposable PostgreSQL/files, root UID mismatch modeled, privileged systemd/signals modeled; generic rejection and strict fixed acceptance reproduced; read-only SQL checker emits no mutation/DDL/grant",
+    "negative_cases": [
+      "registry insecure mode",
+      "unexpected UID",
+      "cross-tenant registry",
+      "changed manifest",
+      "changed private bytes",
+      "wrong failure or phase",
+      "existing native intent",
+      "interrupted history transition",
+      "changed proof/history"
+    ]
+  },
+  "current_read_only_health": {
+    "HTTPS_readyz": 200,
+    "certificate_verified": true,
+    "nginx_database_web_executor_services": "active/running",
+    "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58"
+  },
+  "new_production_lifecycle_run_IDs": [],
+  "production_native_acceptance": "NOT_RUN; previous failure occurred before bootstrap or queueing",
+  "actual_completed_probe": "PASS operator pipeline; retained protected receipt will be verified on resume",
+  "agent_privileged_changes": false,
+  "Nginx_authentication_engine_units_changed": false,
+  "keys_data_or_existing_evidence_changed": false,
+  "P8": "IN_PROGRESS",
+  "AI": "disabled",
+  "customer_runner": "disabled; separate-host unqualified",
+  "full_application_rollback": "NOT_RUN",
+  "independent_UAT": "NOT_RUN"
+}

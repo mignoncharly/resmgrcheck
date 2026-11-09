@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 enrollment is staged/disabled by default.256-bit600s one-use enrollment
@@ -475,3 +477,14 @@ guards/grants, source/manifest mismatches and revoked/quarantined approval fail 
 Root fault injection is limited to a pidfd-pinned read-only collection SSH child in
 the exact service cgroup after observed native pending. No QNX PID is signalled.
 Customer endpoints/AI remain disabled; P8 and independent security review stay open.
+
+## W030 preserve worker trust; validate coordinator custody explicitly
+
+The root coordinator no longer applies an executor-self-UID validator to executor-owned
+files. Its fixed selector requires exact expected UID/GID0600 registry/route/manifests,
+host-key hash, scoped approved IDs, actual retained runtime proof and read-only database
+guard metadata. Generic worker validation and application authorization are unchanged.
+Unknown resources and ownership are still rejected. No arbitrary registry or role override
+is introduced. The known pre-bootstrap ce97 failure can resume only with retained history,
+unchanged custody and no native intent/result.78 tests pass; actual resumed native execution
+is pending. No secrets or protected configuration are copied into the evidence records.

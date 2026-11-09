@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -871,3 +873,13 @@ provisioning, executor/runtime/DB qualification, native IDs, same-ID recovery an
 revocation remain NOT_RUN.74 relevant tests passed; privileged effects are modeled.
 The command stages an idle executor stop/start rehearsal; full compatible application
 rollback remains open. Do not reset state or delete historical target files.
+
+## W030 resume the completed executor provisioning
+
+Do not repeat ce97 or HTTPS recovery. The completed registry, actual service-context probe
+and approvals are preserved. [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md) describes the
+new exact-driver resume: archive the ce97 journal/failure/proof, verify unchanged custody/
+unit/application/engine and read-only DB guards, then run acceptance with the corrected
+fixed-ID root selector. It does not reinstall files, rerun the probe or reissue grants.
+Native IDs/outcomes and full acceptance remain pending; use only the new reviewed driver
+SHA from the handoff. Unknown states or recorded native work require review, not reset.

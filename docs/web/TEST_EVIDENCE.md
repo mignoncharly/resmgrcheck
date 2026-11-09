@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 ## W015 — current inventory and outbound runner enrollment (2026-11-09)
@@ -1377,3 +1379,34 @@ stop/start rehearsal is staged; full compatible application rollback remains ope
 [INDEPENDENT_UAT.md](INDEPENDENT_UAT.md) is NOT_RUN. See
 [evidence/production-executor-plan/checks.json](evidence/production-executor-plan/checks.json).
 Customer endpoints/AI remain disabled, off-server DR deferred and P8 IN_PROGRESS.
+
+## W030 root-coordinator ownership mismatch and resumable correction
+
+The operator's ce97 run passed private binding installation, the actual canonical
+executor credential/sandbox/DB/native capability probe and approval publication.
+The failure was acceptance/ exact_approved_native_plan_required. Source proves it
+occurred before any native intent, temporary account or browser batch was created.
+The protected state is not readable by the agent; no direct protected-log inspection
+is claimed. The revised root command will verify that exact state privately.
+
+acceptance.native_plan accepts registry metadata owned by resmgr-exec, then calls
+control.engine.registry under root. The latter correctly accepts only UID0 or its
+calling UID; a registry owned by UID981 fails executor_registry_permissions there.
+The selector suppresses PolicyError and returns zero pairs. A disposable PG/files
+regression reproduces the original result, then proves the fixed-ID root coordinator
+accepts exact executor custody. The generic worker validator remains unchanged and
+still rejects the same file under an unrelated UID. Labels are not authority.
+Negative checks reject insecure mode/UID, cross-tenant rows and altered manifests.
+
+78 combined tests pass in11.412s;26 focused tests refreshed in0.665s. PostgreSQL and
+files are real/disposable; root identity and systemd/signals are modeled. SQL capture
+proves the resume lock-guard checker emits no GRANT/DDL/mutations. Recovery tests
+prove original state/failure/runtime proof preserved across an archive/publication
+interruption, while wrong phase/failure, changed custody and native intents refuse
+adoption. Tests/evidence are in evidence/executor-selector-recovery.
+
+The agent independently observed3f4bafb current, trusted HTTPS /readyz/200 and active
+nginx/database/web/executor services. No privileged production change or QNX lifecycle
+test ran by the agent. Actual production probe success is operator evidence; native
+IDs/verdicts/recovery/revocation/cleanup and rollback/UAT remain unverified. AI/customer
+endpoints remain disabled, off-server DR deferred and P8 IN_PROGRESS.

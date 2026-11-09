@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -359,3 +361,13 @@ Keep all existing QNX history: the lab has148 free entries. The final guarded id
 executor stop/start is not full application rollback qualification. Independent
 [UAT](INDEPENDENT_UAT.md), compatible rollback and remaining P8 gates stay open.
 Customer endpoints/AI remain disabled; off-server DR deferred.
+
+## W030 selector failure after successful provisioning
+
+The canonical executor is active and web readiness remains200. Operatorce97 passed the
+actual probe and approvals but root acceptance misapplied the worker ownership rule.
+The revised command preserves completed resources and resumes only this exact failure
+with a protected history snapshot. It leaves an already-running idle dispatcher active
+and rechecks locks/approval/custody read-only. No HTTPS/authentication change or data/key
+replacement. Safe stage/failure JSON remains available; no individual diagnostic commands
+are requested. Native verdicts/cleanup, guarded rehearsal and independent UAT remain open.

@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
@@ -17,7 +19,7 @@ The published CLI/jury release `ca4f74e` remains independently recoverable.
 Next operator gate: [reviewed production executor provisioning and native acceptance](PRODUCTION_EXECUTOR.md).
 No HTTPS redeployment is required.
 
-## W028 current production checkpoint (2026-11-09)
+## W028 HTTPS checkpoint (executor status superseded by W030)
 
 Active immutable application: `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`.
 Completed operator recovery driver: `1ee18b6be6084e7e8dd7036a52947374a288b27f`.
@@ -48,13 +50,10 @@ independent authenticated/native acceptance remains pending.
 | P8 hardening | IN PROGRESS | Production recovery/runtime/backup/restore/HTTPS/password/codes/browser passed; native and independent acceptance incomplete |
 | P9–P10 | INCOMPLETE | Public reachability observed; full independent acceptance and production native not passed |
 
-Production native execution is **BLOCKED: approved_executor_registry_missing**.
-No production QNX runs occurred (`runs: []`). The acceptance coordinator refuses
-execution until an exact already-approved organization/project/target, private
-route and before/after build pair is registered. Do not create a guessed registry,
-copy arbitrary SSH material or broaden permissions to clear this gate. Executor
-provisioning requires a separate reviewed local operator workflow. Do not repeat
-the successful authentication recovery or downgrade production to fix this blocker.
+Production registry provisioning and the actual executor probe passed in ce97.
+Native acceptance is blocked at the root plan selector; W030 corrects it and prepares
+a history-preserving resume. No production lifecycle run IDs were created. Do not
+repeat HTTPS recovery or reset the completed provisioning state.
 
 The HTTPS workflow completed its own configuration rollback drill before acceptance;
 full rollback of the newly active application was not exercised this turn. Existing
@@ -424,3 +423,22 @@ stop/start rehearsal is staged; full compatible application rollback remains ope
 [INDEPENDENT_UAT.md](INDEPENDENT_UAT.md) is NOT_RUN. See
 [evidence/production-executor-plan/checks.json](evidence/production-executor-plan/checks.json).
 Customer endpoints/AI remain disabled, off-server DR deferred and P8 IN_PROGRESS.
+
+## W030 completed provisioning; selector recovery prepared
+
+Operatorce97df9 completed fixed private registry custody, actual executor systemd
+probe and exact approval publication. It stopped at exact_approved_native_plan_required
+before temporary-principal creation or native queueing. The root coordinator called
+a worker-only ownership validator as UID0 on the legitimate executor-owned registry;
+that rejection was suppressed into zero candidate pairs. The fixed coordinator now
+validates exact IDs/tenant/route/build/proof and executor UID/GID0600 explicitly.
+The generic worker ownership policy and immutable application are unchanged.
+
+78 combined tests pass;26 refreshed focused checks reproduce root-context rejection,
+strict corrected selection, negative custody/bindings and interrupted journal resume.
+Recovery archives the exact ce97 state/failure/proof and reuses completed provisioning
+after read-only checks. It refuses native intents, changed private bytes or unknown
+state. No reinstall, repeat systemd probe, HTTPS deployment or authentication change.
+Current3f4bafb HTTPS readiness200; nginx/db/web/executor active. New production native
+IDs remain absent and P8 IN_PROGRESS. See [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md)
+and [W030 evidence](evidence/executor-selector-recovery/checks.json).

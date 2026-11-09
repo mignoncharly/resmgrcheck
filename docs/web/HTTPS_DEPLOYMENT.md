@@ -4,13 +4,16 @@ W028 current state: application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58` is ac
 at https://qnx-resmgrcheck.gestionatech.de. The operator completed driver
 `1ee18b6be6084e7e8dd7036a52947374a288b27f`. Production HTTPS password/code/browser
 acceptance passed; independent public-page retrieval returned HTTPS 200. Native
-acceptance is BLOCKED by `approved_executor_registry_missing`, and independent
+acceptance stopped at root plan selection after successful executor provisioning
+and its actual systemd probe (W030); the corrected executor-only resume is prepared.
+Independent
 authenticated acceptance is still pending. P8 is IN PROGRESS. Customer-runner
 endpoints/AI remain disabled; off-server disaster recovery is deferred.
 
 **Do not repeat the completed deployment to address the native registry blocker.**
-The application remains healthy; this blocker is a separate approved-executor
-provisioning gate. No new privileged command is required for this evidence update.
+The application remains healthy; this blocker is a separate executor acceptance
+gate. Follow the reviewed new driver in PRODUCTION_EXECUTOR.md, preserving the
+completed registry/probe/approvals and all recovery history.
 See [the W028 evidence](evidence/production-password-acceptance/checks.json).
 The next separate operator workflow is [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md);
 it does not rerun this HTTPS deployment.

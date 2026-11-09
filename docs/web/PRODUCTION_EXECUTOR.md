@@ -4,13 +4,38 @@ W029 prepares one operator workflow for active application
 `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`, pinned engine
 `ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0` and the already qualified QNX8 lab.
 It does not redeploy HTTPS, change authentication settings or patch either immutable
-tree. Actual registry provisioning, systemd qualification and production native
-acceptance are **PENDING OPERATOR EXECUTION**. Existing W028 HTTPS/password/code
-acceptance remains passed. P8 is IN PROGRESS.
+tree. W030 supersedes the original pending state: operatorce97df9 completed private
+registry provisioning, the actual systemd qualification probe and approval publication.
+Root acceptance then stopped at exact_approved_native_plan_required before any
+temporary principal, native intent or browser batch. Existing W028 HTTPS/password/code
+acceptance remains passed. Native acceptance is pending; P8 is IN PROGRESS.
+
+## W030 correction and exact completed-state resume
+
+The root coordinator had reused acceptance.native_plan, whose generic worker binding
+validator accepts only root/self ownership. Under UID0 it rejected the correctly
+executor-owned registry; the selector swallowed that PolicyError into zero pairs.
+The fixed root selector explicitly checks expected executor UID/GID0600 custody,
+exact registry/route/host/manifests, approved tenant/target/build IDs, retained actual
+runtime proof and database guard metadata. Worker ownership policy is unchanged.
+
+The new operator command below resumes the existing ce97 attempt. It requires the
+exact known completed phase and failure, no native intent/result, unchanged application/
+engine/unit/HTTPS baseline and all seven private-file hashes. The full old journal,
+failure and runtime proof are archived root0600 under native-acceptance/attempt-ce97....json.
+Only after read-only preflight passes does the journal bind the new driver, retaining
+resumed_from_driver/runtime_proof_driver=ce97. The old proof is never relabeled as new.
+Interrupted archive/journal publication is resumable; unknown histories are refused.
+
+This path does not copy credentials again, reissue grants, repeat the actual probe,
+republish approvals or stop a healthy idle dispatcher. The lock-guard checker is
+read-only. It proceeds directly to the approved native browser batch and guarded
+executor rehearsal. Changed/revoked/quarantined approval or unexpected work still
+fails closed. Do not repeat the old ce97 command or reset protected state.
 
 ## One reviewed operator command
 
-Use the full committed driver SHA supplied in the handoff, replacing the placeholder:
+Use the new full committed driver SHA supplied in the handoff, replacing the placeholder:
 
 ```sh
 sudo /usr/bin/python3 -I -B \
@@ -21,8 +46,11 @@ sudo /usr/bin/python3 -I -B \
 
 Without --apply, this runs an unprivileged exact-commit read-only plan. Do not use
 prepare.py or recover_https_auth.py for this step. Local sudo is required because
-this creates dedicated private executor files, additive approval/audit records,
-restricted database locking permissions and a temporary executor-only probe override.
+initial provisioning creates dedicated private executor files, additive approval/audit
+records and restricted database locking permissions. The current completed-state
+resume instead reads protected state, records its preserved history and coordinates
+the actual production executor/acceptance. The fresh-provisioning behavior described
+below is retained as reference; completed gates are reused on this resume.
 Never send passwords, SSH files, configuration contents or license material in chat.
 
 ## Fixed scope and prerequisites

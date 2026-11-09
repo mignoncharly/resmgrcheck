@@ -55,6 +55,35 @@ def check_bindings(pair=None,allow_unapproved=False):
             ((allow_unapproved and not published and not build.approved and build.binding=='') or (build.approved and build.binding==str(build.pk))),'approved_build_changed')
     return target
 
+def approved_plan():
+    """Validate fixed executor custody from the root coordinator, without treating
+    root as the executor UID or changing the worker's ownership policy.
+    """
+    from django.db import connection
+    from executor_locking import install
+    idle();target=check_bindings();install(connection,check_only=True)
+    plan.require(target.state=='available','approved_target_not_available')
+    account=pwd.getpwnam('resmgr-exec');uid=account.pw_uid
+    expected=plan.registry()
+    plan.require(json.loads(plan.read_owned(plan.CONFIG/'registry.json',uid,{0o600}))==expected,'approved_registry_binding_differs')
+    plan.require(json.loads(plan.read_owned(plan.CONFIG/'target.json',uid,{0o600}))==plan.target_config(),'approved_target_configuration_differs')
+    plan.require(plan.read_owned(plan.CONFIG/'ssh-config',uid,{0o600})==plan.ssh_config(),'approved_ssh_configuration_differs')
+    plan.require(plan.digest(plan.read_owned(plan.CONFIG/'known-hosts',uid,{0o600}))==plan.KNOWN_HOSTS_SHA,'approved_host_identity_differs')
+    pair=plan.manifest_pair(ops.SOURCE)
+    for role,(_,expected_hash) in plan.MANIFESTS.items():
+        path=plan.CONFIG/(role+'-deployment.json');raw=plan.read_owned(path,uid,{0o600})
+        plan.require(plan.digest(raw)==expected_hash and json.loads(raw)==pair[role],'approved_manifest_identity_differs')
+    for name in ['registry.json','target.json','ssh-config','known-hosts','before-deployment.json','after-deployment.json']:
+        plan.require((plan.CONFIG/name).lstat().st_gid==account.pw_gid,'approved_resource_group_differs')
+    journal=json.loads(ops.read(plan.STATE/'state.json',private=True))
+    proof=json.loads(ops.read(plan.STATE/'runtime-proof.json',private=True))
+    plan.require(journal.get('kind')=='approved-production-qnx-executor-v1' and journal.get('application')==plan.APPLICATION and journal.get('ids')==plan.IDS and
+        proof.get('passed') is True and proof.get('kind')=='actual-systemd-executor-probe' and proof.get('application')==plan.APPLICATION and
+        proof.get('driver_revision')==journal.get('runtime_proof_driver',journal.get('driver_revision')) and
+        all(proof.get('deployments',{}).get(role,{}).get('deployment_id')==pair[role]['deployment_id'] for role in pair),'approved_runtime_proof_differs')
+    return {'status':'approved-existing-route','target_id':plan.IDS['target'],'project_id':plan.IDS['project'],
+        'organization_id':plan.IDS['organization'],'before_build':plan.IDS['before'],'after_build':plan.IDS['after']}
+
 def publish(driver):
     from django.db import transaction
     from django.utils import timezone
@@ -237,7 +266,7 @@ def acceptance_run(driver):
     from django.db import connections
     from control.models import AuditEvent,Run
     from control.jobs import ACTIVE
-    idle();check_bindings();selected=acceptance.native_plan()
+    selected=approved_plan()
     plan.require(selected.get('target_id')==plan.IDS['target'] and selected.get('before_build')==plan.IDS['before'] and selected.get('after_build')==plan.IDS['after'],'exact_approved_native_plan_required')
     previous=plan.STATE/'native-result.json'
     if previous.exists():
@@ -324,13 +353,14 @@ def rehearse():
     return {'passed':True,'idle_executor_stop_start':'passed','full_application_rollback':'not_run'}
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--phase',choices=['prepare','publish','acceptance','idle','verify','rehearse'],required=True);parser.add_argument('--driver-revision',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--phase',choices=['prepare','publish','acceptance','idle','verify','rehearse','resume-preflight'],required=True);parser.add_argument('--driver-revision',required=True);args=parser.parse_args()
     try:
         ops.DIAGNOSTIC=plan.STATE/'operator-diagnostic.log';ops.source_check(plan.APPLICATION,args.driver_revision);acceptance.load_application(plan.APPLICATION)
         if args.phase=='prepare':prepare();result={'passed':True,'approved':False}
         elif args.phase=='publish':publish(args.driver_revision);result={'passed':True,'approved':True}
         elif args.phase=='acceptance':result=acceptance_run(args.driver_revision)
         elif args.phase=='idle':idle();result={'passed':True}
+        elif args.phase=='resume-preflight':approved_plan();result={'passed':True,'read_only':True}
         elif args.phase=='rehearse':result=rehearse()
         else:
             idle();check_bindings();result=json.loads(ops.read(plan.STATE/'native-result.json',private=True));plan.require(result.get('passed') is True,'native_result_not_verified')

@@ -11,7 +11,7 @@ ROLE='resmgr_exec'
 PREFIX='rmc_executor_lock_only'
 TABLES=['control_user','control_accesscode']
 
-def install(connection,role=ROLE,prefix=PREFIX):
+def install(connection,role=ROLE,prefix=PREFIX,*,check_only=False):
     from django.db import transaction
     require(re.fullmatch('[a-z_][a-z0-9_]{0,62}',role) and re.fullmatch('[a-z_][a-z0-9_]{0,40}',prefix),'lock_guard_identity_invalid')
     quote=connection.ops.quote_name
@@ -25,6 +25,7 @@ def install(connection,role=ROLE,prefix=PREFIX):
         if rows:
             row=rows[0];require(row[1]==body and row[2] is False and row[3]==['search_path=pg_catalog'] and row[4]==row[5] and row[6] is True,'existing_lock_guard_differs')
         else:
+            require(not check_only,'lock_guard_missing')
             cursor.execute('CREATE FUNCTION public.'+quote(function)+'() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $rmc$'+body+'$rmc$')
             cursor.execute('REVOKE ALL ON FUNCTION public.'+quote(function)+'() FROM PUBLIC')
         cursor.execute("SELECT ('public.'||quote_ident(%s)||'()')::regprocedure::oid",[function]);function_oid=cursor.fetchone()[0]
@@ -39,9 +40,11 @@ def install(connection,role=ROLE,prefix=PREFIX):
             if existing:
                 require(existing==(function_oid,19,'O',0,True,'',False),'existing_lock_trigger_differs')
             else:
+                require(not check_only,'lock_trigger_missing')
                 require(not columns,'unprotected_existing_authorization_grant')
                 cursor.execute('CREATE TRIGGER '+quote(trigger)+' BEFORE UPDATE ON public.'+quote(table)+' FOR EACH ROW EXECUTE FUNCTION public.'+quote(function)+'()')
-            cursor.execute('GRANT UPDATE(id) ON public.'+quote(table)+' TO '+quote(role))
+            if check_only:require(columns=={'id'},'lock_column_grants_differ')
+            else:cursor.execute('GRANT UPDATE(id) ON public.'+quote(table)+' TO '+quote(role))
             cursor.execute('SELECT has_table_privilege(%s,%s,\'UPDATE\'),has_table_privilege(%s,%s,\'TRIGGER\')',[role,'public.'+table,role,'public.'+table])
             require(cursor.fetchone()==(False,False),'authorization_table_privilege_widened')
     return {'role':role,'columns':['id'],'actual_updates':'denied by invoker-role triggers','schema_or_table_ownership_granted':False}

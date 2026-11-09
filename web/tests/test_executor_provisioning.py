@@ -15,6 +15,42 @@ from executor_native_browser import NativeJourney
 DRIVER='6'*40
 
 class PrivateBindingFilesTests(unittest.TestCase):
+    def failed_selection_fixture(self,root):
+        config=root/'executor';config.mkdir(mode=0o700)
+        names=['ssh-key','known-hosts','ssh-config','target.json','registry.json','before-deployment.json','after-deployment.json']
+        for name in names:(config/name).write_bytes(name.encode());(config/name).chmod(0o600)
+        journal={'kind':'approved-production-qnx-executor-v1','application':plan.APPLICATION,'driver_revision':driver.FAILED_SELECTION_DRIVER,
+            'ids':plan.IDS,'phase':'approved_after_actual_runtime_probe','baseline':{'fixed':'fixture'},
+            'private_resource_hashes':{name:plan.digest(name.encode()) for name in names}}
+        proof={'passed':True,'kind':'actual-systemd-executor-probe','application':plan.APPLICATION,'driver_revision':driver.FAILED_SELECTION_DRIVER,'database_grants_verified':True}
+        failure={'passed':False,'phase':'acceptance','driver_revision':driver.FAILED_SELECTION_DRIVER,'failed_check':'exact_approved_native_plan_required','secrets_printed':False}
+        for name,value in [('state.json',journal),('runtime-proof.json',proof),('operator-failure.json',failure)]:driver.ops.record(root/name,value)
+        return config,journal,proof,failure
+
+    def test_known_completed_provisioning_resume_preserves_history_and_runtime_proof(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);config,journal,proof,failure=self.failed_selection_fixture(root)
+            with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config):
+                path=driver.preserve_failed_selection(journal,os.getuid());self.assertEqual(json.loads(path.read_text()),{'journal':journal,'runtime_proof':proof,'operator_failure':failure})
+                # Simulate interruption after archive but before journal transition;
+                # a failed read-only preflight may have replaced the latest failure.
+                driver.ops.record(root/'operator-failure.json',{'failed_check':'later_read_only_probe'})
+                self.assertEqual(driver.preserve_failed_selection(journal,os.getuid()),path)
+                updated=driver.bind_resume(journal,root/'state.json',DRIVER);driver.verify_resume_history(updated)
+                self.assertEqual(updated['private_resource_hashes'],journal['private_resource_hashes'])
+                self.assertEqual(json.loads((root/'runtime-proof.json').read_text()),proof)
+                self.assertEqual(json.loads(path.read_text())['journal'],journal)
+
+    def test_unknown_failure_native_intent_or_changed_private_bytes_cannot_be_adopted(self):
+        for change in ['failure','intent','bytes','phase']:
+            with self.subTest(change=change),tempfile.TemporaryDirectory() as temporary:
+                root=Path(temporary);config,journal,proof,failure=self.failed_selection_fixture(root)
+                if change=='failure':driver.ops.record(root/'operator-failure.json',{**failure,'failed_check':'different'})
+                if change=='intent':(root/'native-unknown.intent.json').write_text('{}')
+                if change=='bytes':(config/'ssh-key').write_bytes(b'preserve changed bytes')
+                if change=='phase':journal={**journal,'phase':'prepared'}
+                with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config),self.assertRaises(ValueError):driver.preserve_failed_selection(journal,os.getuid())
+                self.assertFalse((root/('attempt-'+driver.FAILED_SELECTION_DRIVER+'.json')).exists())
     def test_exact_private_file_is_resumable_and_unknown_contents_are_preserved(self):
         with tempfile.TemporaryDirectory() as temporary:
             path=Path(temporary)/'key'
@@ -151,6 +187,55 @@ class ApprovedProductionBindingTests(TestCase):
     def publish(self,proof=None):
         with patch.object(operator.ops,'read',return_value=json.dumps(proof or self.proof()).encode()):operator.publish(DRIVER)
 
+    def selected_fixture(self,root):
+        self.prepare();self.publish()
+        registry=root/'registry.json'
+        for name,value in [('registry.json',plan.registry()),('target.json',plan.target_config()),('state.json',{
+            'kind':'approved-production-qnx-executor-v1','application':plan.APPLICATION,'ids':plan.IDS,'driver_revision':DRIVER}),('runtime-proof.json',self.proof())]:
+            operator.ops.record(root/name,value)
+        (root/'ssh-config').write_bytes(plan.ssh_config());(root/'ssh-config').chmod(0o600)
+        (root/'known-hosts').write_bytes((plan.SOURCE/'.local/qnx-known-hosts').read_bytes());(root/'known-hosts').chmod(0o600)
+        for role,(name,_) in plan.MANIFESTS.items():
+            (root/(role+'-deployment.json')).write_bytes((plan.SOURCE/name).read_bytes());(root/(role+'-deployment.json')).chmod(0o600)
+        return registry
+
+    def test_root_generic_selector_rejects_executor_owned_registry_but_fixed_selector_accepts(self):
+        from types import SimpleNamespace
+        import acceptance_operator as generic
+        from control.engine import PolicyError,registry as worker_registry
+        uid=os.getuid();gid=os.getgid()
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',root):
+                registry=self.selected_fixture(root)
+                with patch.object(generic,'REGISTRY',registry),patch.object(operator.pwd,'getpwnam',return_value=SimpleNamespace(pw_uid=uid,pw_gid=gid)),patch('control.engine.os.getuid',return_value=0):
+                    rejected=generic.native_plan();self.assertEqual(rejected.get('candidate_pairs'),0)
+                    self.assertEqual(rejected['reason'],'exactly_one_operator_approved_before_after_lab_pair_required')
+                    BuildRelease.objects.filter(pk__in=[plan.IDS['before'],plan.IDS['after']]).update(label='Human display label only')
+                    selected=operator.approved_plan();self.assertEqual(selected['target_id'],plan.IDS['target'])
+                    self.assertEqual(selected['before_build'],plan.IDS['before']);self.assertEqual(selected['after_build'],plan.IDS['after'])
+                    # The generic worker rule remains strict under an unrelated UID.
+                    from django.test import override_settings
+                    with override_settings(EXECUTOR_REGISTRY=str(registry)),self.assertRaisesRegex(PolicyError,'executor_registry_permissions'):
+                        worker_registry(Target.objects.get(pk=plan.IDS['target']))
+
+    def test_fixed_selector_rejects_cross_tenant_insecure_or_changed_registry(self):
+        from types import SimpleNamespace
+        uid=os.getuid();gid=os.getgid()
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',root):
+                registry=self.selected_fixture(root);original=registry.read_bytes()
+                with patch.object(operator.pwd,'getpwnam',return_value=SimpleNamespace(pw_uid=uid,pw_gid=gid)):
+                    registry.chmod(0o644)
+                    with self.assertRaisesRegex(ValueError,'resource_protection'):operator.approved_plan()
+                    registry.chmod(0o600);changed=json.loads(original);changed['targets'][plan.IDS['target']]['project_id']=str(uuid.uuid4());registry.write_text(json.dumps(changed))
+                    with self.assertRaisesRegex(ValueError,'approved_registry_binding_differs'):operator.approved_plan()
+                    registry.write_bytes(original)
+                    with patch.object(operator.pwd,'getpwnam',return_value=SimpleNamespace(pw_uid=uid+1,pw_gid=gid)),self.assertRaisesRegex(ValueError,'resource_protection'):operator.approved_plan()
+                    (root/'before-deployment.json').write_text('{}')
+                    with self.assertRaisesRegex(ValueError,'approved_manifest_identity_differs'):operator.approved_plan()
+
     def test_prepare_is_additive_disabled_and_idempotent_then_exact_probe_publishes(self):
         from .helpers import tenant
         existing,org,project=tenant('Unrelated preserved organization','preserved-executor@example.test');original=User.objects.values().get(pk=existing.pk)
@@ -229,6 +314,9 @@ class LockOnlyDatabasePrivilegeTests(TestCase):
                     cursor.execute('SELECT id FROM public.control_user WHERE id=%s FOR UPDATE',[owner.pk])
             finally:cursor.execute('RESET ROLE')
         install(connection,role,prefix);install(connection,role,prefix)
+        from django.test.utils import CaptureQueriesContext
+        with CaptureQueriesContext(connection) as queries:install(connection,role,prefix,check_only=True)
+        self.assertFalse(any(row['sql'].lstrip().split()[0].upper() in {'GRANT','CREATE','ALTER','INSERT','UPDATE','DELETE'} for row in queries))
         with connection.cursor() as cursor:
             cursor.execute('SET LOCAL ROLE '+quote(role))
             try:

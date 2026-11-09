@@ -7,8 +7,10 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. Native execution is BLOCKED by the missing
-approved executor registry; independent authenticated acceptance remains pending.
+external public fetch returned HTTPS 200. W030: executor registry provisioning and
+the actual service-context probe passed in the operator workflow. Native acceptance
+stopped at root plan selection; its correction/resume is prepared. Independent
+authenticated acceptance remains pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -223,3 +225,13 @@ service-context probe, three dashboard cases and idle stop/start rehearsal.74 te
 pass with real disposable PG/files and modeled privileged effects. No root apply,
 production native run or full application rollback occurred. P8 remains IN_PROGRESS.
 [Independent UAT](INDEPENDENT_UAT.md) remains NOT_RUN; AI/customer endpoints disabled.
+
+## W030 acceptance-only resume; no application deployment
+
+Operatorce97 installed the executor registry, passed its actual systemd probe and
+published scoped approvals. The root plan selector then failed before native work.
+The correction changes coordinator tooling/tests only and retains active3f4bafb,
+Nginx/authentication configuration, units, keys, DB records and historical evidence.
+78 tests passed and current HTTPS readiness is200. The reviewed new driver privately
+verifies and archives the exact failed state, reuses the probe/approvals and resumes
+acceptance. Actual production native IDs and P8 completion remain pending.
