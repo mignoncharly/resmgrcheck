@@ -1,5 +1,14 @@
 # Private production qualification handoff
 
+W021 current state (2026-11-09): immutable544f22c is active privately. The operator
+confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
+[HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
+public handoffs below with one reviewed operator command that installs only the
+ResMgrCheck HTTPS settings, validates/reloads, proves rollback and runs real HTTPS
+browser acceptance. Customer runner/AI remain disabled and off-server DR deferred.
+Actual privileged/public/native acceptance results must still be recorded.
+
+
 W015 (2026-11-09) supersedes W014's pending observations below: the operator
 activated3821952, obtained private HTTP200/nonroot runtime success and completed
 the actual encrypted isolated restore with audit UPDATE/DELETE rejection. Preserve

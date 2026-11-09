@@ -1,0 +1,18 @@
+test_subprocess_failure_never_reflects_diagnostics_and_log_is_private (test_https_deploy.BoundedDeploymentCommandTests.test_subprocess_failure_never_reflects_diagnostics_and_log_is_private) ... ok
+test_timeout_reaps_only_the_owned_command_group (test_https_deploy.BoundedDeploymentCommandTests.test_timeout_reaps_only_the_owned_command_group) ... ok
+test_concurrent_deployment_and_symlink_backup_are_refused (test_https_deploy.HTTPSDeploymentTests.test_concurrent_deployment_and_symlink_backup_are_refused) ... ok
+test_deploy_and_repeat_backup_once_prove_rollback_and_preserve_other_sites (test_https_deploy.HTTPSDeploymentTests.test_deploy_and_repeat_backup_once_prove_rollback_and_preserve_other_sites) ... ok
+test_explicit_rollback_restores_only_owned_files_and_keeps_backup (test_https_deploy.HTTPSDeploymentTests.test_explicit_rollback_restores_only_owned_files_and_keeps_backup) ... ok
+test_failed_candidate_nginx_test_never_reloads_invalid_config (test_https_deploy.HTTPSDeploymentTests.test_failed_candidate_nginx_test_never_reloads_invalid_config) ... ok
+test_https_failure_restores_original_configuration_without_touching_other_sites (test_https_deploy.HTTPSDeploymentTests.test_https_failure_restores_original_configuration_without_touching_other_sites) ... ok
+test_interrupted_initial_backup_can_resume_without_replacing_it (test_https_deploy.HTTPSDeploymentTests.test_interrupted_initial_backup_can_resume_without_replacing_it) ... ok
+test_preflight_failure_causes_no_reload_or_configuration_mutation (test_https_deploy.HTTPSDeploymentTests.test_preflight_failure_causes_no_reload_or_configuration_mutation) ... ok
+test_reload_failure_also_restores_and_validates_original (test_https_deploy.HTTPSDeploymentTests.test_reload_failure_also_restores_and_validates_original) ... ok
+test_renewal_hook_is_a_noop_for_other_certificates_and_checks_before_reload (test_https_deploy.HTTPSDeploymentTests.test_renewal_hook_is_a_noop_for_other_certificates_and_checks_before_reload) ... ok
+test_unknown_concurrent_edit_is_not_overwritten_during_rollback (test_https_deploy.HTTPSDeploymentTests.test_unknown_concurrent_edit_is_not_overwritten_during_rollback) ... ok
+test_unknown_initial_resources_and_wrong_enabled_link_are_not_adopted (test_https_deploy.HTTPSDeploymentTests.test_unknown_initial_resources_and_wrong_enabled_link_are_not_adopted) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.649s
+
+OK

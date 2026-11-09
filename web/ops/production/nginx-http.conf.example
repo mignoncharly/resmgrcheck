@@ -1,13 +1,30 @@
-# Reviewed template ONLY. Install/enable after the private production/P9 gates.
-# Place these http-context definitions in a dedicated new conf.d file.
-limit_req_zone $binary_remote_addr zone=resmgrcheck_auth:1m rate=10r/m;
+# ResMgrCheck only. No URI, query, body, cookie, authorization or raw IP in access logs.
+log_format resmgrcheck_safe '$request_id $request_method $resmgrcheck_area $status $request_time';
 map $uri $resmgrcheck_area {
     default public;
     ~^/administrator/ administrator;
     ~^/access/ access;
     ~^/app/ application;
     ~^/api/ api;
+    ~^/runner/ runner-disabled;
     ~^/demo/ playback;
 }
-# Deliberately excludes URI/query/body/cookie/Authorization and raw client IP.
-log_format resmgrcheck_safe '$request_id $request_method $resmgrcheck_area $status $request_time';
+# Retain the installed zone's key/size so a graceful reload can reuse it safely.
+limit_req_zone $binary_remote_addr zone=resmgrcheck_auth:10m rate=10r/m;
+map "$request_method:$uri" $resmgrcheck_auth_post_key {
+    default "";
+    ~^POST:/(administrator/|access/) $realip_remote_addr;
+}
+limit_req_zone $resmgrcheck_auth_post_key zone=resmgrcheck_auth_post:1m rate=10r/m;
+map $upstream_http_content_security_policy $resmgrcheck_csp {
+    default $upstream_http_content_security_policy;
+    "" "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'";
+}
+map $upstream_http_x_frame_options $resmgrcheck_frame {
+    default DENY;
+    SAMEORIGIN SAMEORIGIN;
+}
+map $upstream_http_cache_control $resmgrcheck_cache {
+    default $upstream_http_cache_control;
+    "" no-store;
+}

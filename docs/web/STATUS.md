@@ -3,22 +3,26 @@
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
-W015 baseline inventory (2026-11-09): source and actual installed pointer were
-3821952e6c99cf8c6d548e59301166dde590b8a0. The operator confirms private HTTP200,
-nonroot systemd runtime checks and an actual encrypted isolated restore with audit
-UPDATE/DELETE rejection. These successful gates are accepted as operator evidence,
-not unnecessarily repeated or relabeled as agent execution. Read-only metadata
-confirms private web/socket/DB active and executor/backup timer inactive. External
-fetch could not access the requested HTTPS URL; public HTTP/TLS remain unverified.
+W021 current state (2026-11-09): active immutable application release is
+544f22c174ad48e1c8d741db0afdd3bf5b54f947. The operator confirms private HTTP200,
+nonroot/systemd isolation, operational encrypted local backup and successful isolated
+restore with audit UPDATE/DELETE protection. Agent read-only unit/pointer metadata
+confirms this active release. Those successful production gates are retained.
 
-The expanded A–F scope is implemented in private staging through W020: outbound
-enrollment/jobs/private ingestion, actual mailbox source-corrected QNX replay,
-sensor/job route regression, browser MFA/codes/comparison/download/mobile checks,
-stronger customer-local SSH trust binding and reviewed immutable upgrade commands.
-Production enrollment stays disabled. The owner confirms no separate customer
-runner host is available yet; implement/stage now, qualify that host later. Public
-TLS currently fails hostname verification. P8 is IN PROGRESS; public/independent
-acceptance and actual new-release root activation/isolation/rollback remain pending.
+The single reviewed workflow in [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) replaces
+individual diagnostic commands: protected own-config backups, narrow HTTPS install,
+nginx -t, graceful reload, bounded TLS/security/ACME checks, actual own-config rollback
+drill and real browser/admin/code/native acceptance with safe cleanup. All342 web
+regressions pass; a complete isolated browser rehearsal passes44 views/12 scans.
+No root deployment has run by the agent. Public TLS currently fails both local
+verified curl and an independent external fetch; no HTTP result is established.
+The one operator command and actual production/public evidence are pending.
+
+Customer-runner endpoints remain disabled; a separate customer host is unavailable.
+AI remains disabled. Off-server disaster recovery is deferred, not passed. The owner
+now authorizes jury HTTPS with these features disabled; separate-host acceptance is
+still required before enabling/advertising customer onboarding. P8 is IN PROGRESS;
+P9/P10 remain unverified where real public/native/independent results are absent.
 
 | Gate | State | Evidence |
 | --- | --- | --- |
@@ -30,10 +34,10 @@ acceptance and actual new-release root activation/isolation/rollback remain pend
 | P5 evidence/sharing | PASS (private staging, revised access) | Immutable inventories retained; W007 selected-evidence/download/comparison/cross-project boundaries and browser denials |
 | P6 AI analysis | PASS for disabled-AI release mode; enabled provider NOT_RUN | W006 no-AI native/browser proof, W007 code consent/budgets/revocation tests; dedicated provider unconfigured, no provider functionality claimed |
 | P7 customer target story | IN PROGRESS for A–F scope | W018 actual same-host outbound/QNX mailbox replay + sensor/job; separate customer host pending |
-| P8 hardening | IN PROGRESS; private runtime/restore passed (operator) | Active3821952; remaining HTTPS/auth/native/rollback and new runner security gates pending |
+| P8 hardening | IN PROGRESS; private runtime/restore passed (operator) | Active544f22c; private runtime/restore operator-passed; public HTTPS/auth/native/rollback/independent results pending |
 | P9–P10 | NOT_RUN | Independent operator UAT and release/public deployment gates remain |
 
-The private web service/socket are active at3821952 (read-only unit observation).
+The private web service/socket are active at544f22c (read-only unit observation).
 Private HTTP/runtime/restore success is operator-provided; public HTTPS is unverified.
 This task made no DNS/Nginx change. Original engine runtime digest remains
 `02b34132312d710a3700cc3347cdc89fa4329c43389732a43a6f41c3f6d05d2b`.

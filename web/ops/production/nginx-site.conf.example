@@ -1,10 +1,17 @@
-# Not enabled by prepare.py. Certificate issuance/verification and public exposure
-# require the remaining security/release gates and an operator-reviewed vhost check.
+# ResMgrCheck HTTPS only; generated from a reviewed immutable driver.
 server {
     listen 80;
     listen [::]:80;
     server_name qnx-resmgrcheck.gestionatech.de;
     access_log /var/log/nginx/resmgrcheck-access.log resmgrcheck_safe;
+    error_log /var/log/nginx/resmgrcheck-error.log crit;
+    server_tokens off;
+    location ^~ /.well-known/acme-challenge/ {
+        root /var/www/resmgrcheck-acme;
+        default_type text/plain;
+        limit_except GET { deny all; }
+        try_files $uri =404;
+    }
     location / { return 308 https://qnx-resmgrcheck.gestionatech.de$request_uri; }
 }
 server {
@@ -22,34 +29,49 @@ server {
     client_header_timeout 10s;
     send_timeout 30s;
     access_log /var/log/nginx/resmgrcheck-access.log resmgrcheck_safe;
-    # Warn/error logs remain root-protected; never enable request/body debug logging.
     error_log /var/log/nginx/resmgrcheck-error.log crit;
-    add_header Strict-Transport-Security 'max-age=31536000' always;
+    limit_req zone=resmgrcheck_auth_post burst=8 nodelay;
+    limit_req_status 429;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "$resmgrcheck_frame" always;
+    add_header Referrer-Policy "same-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+    add_header Content-Security-Policy "$resmgrcheck_csp" always;
+    add_header Cache-Control "$resmgrcheck_cache" always;
     location /static/ {
-        # Replace EXACT_RELEASE_SHA with the approved immutable release identity.
-        alias /var/lib/resmgrcheck/static/EXACT_RELEASE_SHA/;
+        alias /var/lib/resmgrcheck/static/544f22c174ad48e1c8d741db0afdd3bf5b54f947/;
         autoindex off;
-        add_header X-Content-Type-Options nosniff always;
-        add_header Strict-Transport-Security 'max-age=31536000' always;
+        add_header Strict-Transport-Security "max-age=31536000" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "$resmgrcheck_frame" always;
+        add_header Referrer-Policy "same-origin" always;
+        add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+        add_header Content-Security-Policy "$resmgrcheck_csp" always;
+        add_header Cache-Control "public, max-age=300" always;
     }
-    location ~ ^/(access/|administrator/login/)$ {
-        limit_req zone=resmgrcheck_auth burst=8 nodelay;
-        limit_req_status 429;
-        proxy_pass http://unix:/run/resmgrcheck-web/application.sock;
-        proxy_set_header Host qnx-resmgrcheck.gestionatech.de;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-Proto https;
-        proxy_set_header X-Forwarded-For '';
-        proxy_hide_header Strict-Transport-Security;
-        proxy_read_timeout 35s;
-    }
+    location ~ (^|/)\. { return 404; }
+    # Deployment contract: customer-host qualification is still outstanding.
+    location ^~ /runner/ { return 404; }
     location / {
         proxy_pass http://unix:/run/resmgrcheck-web/application.sock;
         proxy_set_header Host qnx-resmgrcheck.gestionatech.de;
-        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Real-IP $realip_remote_addr;
         proxy_set_header X-Forwarded-Proto https;
         proxy_set_header X-Forwarded-For '';
+        proxy_set_header Forwarded '';
+        proxy_cache off;
+        proxy_buffering off;
+        gzip off;
         proxy_hide_header Strict-Transport-Security;
+        proxy_hide_header X-Content-Type-Options;
+        proxy_hide_header X-Frame-Options;
+        proxy_hide_header Referrer-Policy;
+        proxy_hide_header Permissions-Policy;
+        proxy_hide_header Content-Security-Policy;
+        proxy_hide_header Cache-Control;
+        proxy_connect_timeout 5s;
         proxy_read_timeout 35s;
+        proxy_send_timeout 35s;
     }
 }

@@ -130,3 +130,41 @@ The four W018 runs retain their original route/source scope; do not relabel them
 as executions after W020 hardening. Discovery is not lifecycle/cleanup qualification.
 See evidence/runner-trust for results. Separate customer host, actual new private
 release/isolation/rollback, public TLS/HTTPS and independent acceptance remain.
+
+## W021 single-command jury HTTPS rollout (2026-11-09)
+
+The active private application is now544f22c, operator-confirmed runtime/readiness/
+backup/isolated restore/audit proof. No source update to that immutable release is
+needed by this correction. A route-wide review and72 administrator/code/machine
+regressions passed; no genuine application authorization gap was confirmed. The
+HTTPS candidate is finalized with error-response headers, preserved evidence CSP,
+POST-only auth/MFA limits, raw peer-IP identity, no proxy cache/buffering, private
+logging and persistent HTTP ACME. Only exact dedicated site/http settings and its
+lineage-guarded renewal hook may change, after protected backup, strict file/key/
+unit/release validation and nginx -t. Unknown resources/edits are refused.
+
+The operator-run workflow includes an actual own-config rollback/reapply drill,
+bounded trusted-TLS checks, one-certificate Certbot dry-run, temporary audited
+administrator/code browser journeys as a nonroot process, cleanup and existing-
+approved-lab native acceptance when possible. It never invents target approval,
+copies SSH keys, changes existing user passwords/MFA, patches current, rewrites
+historical evidence or modifies another site/service. Interrupted test identities
+are reconciled using protected intents plus append-only creation audit. Public/
+native/independent gates remain pending until their real observations exist.
+
+All342 web regression tests passed in89.677s. The focused command/rollback suite
+passed13 cases, including actual owned process-group timeout cleanup; four actual
+isolated Nginx/TLS/Unix-proxy cases passed, including spoofed forwarding,502/413/429
+headers and strict TLS rejection. The full browser-driver rehearsal passed44 views/
+12 zero-violation Axe scans in162.971s with actual Django/PG and private fixture TLS.
+Its native status remains BLOCKED/no execution and overall production acceptance
+false. These results are not root production or independent public qualification.
+
+Both an ordinary verified curl and independent Firecrawl fetch still fail public
+TLS before deployment (hostname mismatch / remote SSL error), with no target HTTP
+status or verification bypass. A valid dedicated certificate existing on disk is
+operator-provided; it is not yet served by the HTTP-only vhost. The one privileged
+command awaits the operator; the agent ran no deployment/reload. See
+[HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) and evidence/https-rollout. Customer
+endpoints remain disabled until a separate customer host is qualified. AI stays
+disabled; off-server DR is deferred. Independent existing-admin UAT is NOT_RUN.

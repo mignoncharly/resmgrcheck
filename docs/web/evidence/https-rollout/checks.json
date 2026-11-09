@@ -1,0 +1,55 @@
+{
+  "observed_at": "2026-11-09T10:42:05.167229+00:00",
+  "application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "source_parent": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "production_private_runtime_backup_restore": "passed, operator provided; active/nonroot unit metadata independently observed by agent",
+  "public_TLS_before_deployment": {
+    "local_curl_exit": 60,
+    "result": "certificate hostname mismatch; no target HTTP result",
+    "independent_external_client": "Firecrawl remote scrape",
+    "external_result": "SCRAPE_SSL_ERROR; no target HTTP result",
+    "TLS_verification_bypassed": false
+  },
+  "privileged_deployment_run_by_agent": false,
+  "unprivileged_checks": {
+    "authorization": {
+      "passed": 72,
+      "seconds": 14.665
+    },
+    "all_web_modules": {
+      "passed": 342,
+      "seconds": 89.677
+    },
+    "isolated_deployment_recovery_and_command_bounds": {
+      "passed": 13,
+      "seconds": 0.649
+    },
+    "actual_isolated_nginx_TLS_UNIX_proxy": {
+      "passed": 4,
+      "seconds": 2.765
+    },
+    "actual_isolated_browser_driver": {
+      "passed": true,
+      "seconds": 162.971,
+      "views": 44,
+      "accessibility_scans": 12,
+      "violations": 0,
+      "native_executions": 0,
+      "scope": "Django/PostgreSQL/nginx/private fixture TLS; production CLI TLS cannot be bypassed"
+    }
+  },
+  "production_HTTPS_apply_rollback_auth_native": "not_run; requires the one operator command",
+  "customer_runner": "disabled; separate-host qualification blocked",
+  "AI": "disabled",
+  "off_server_DR": "deferred",
+  "sha256": {
+    "web/ops/production/acceptance_operator.py": "3e4ed4d0e79f655af78e56f4a61bdafa8ae9220259cd3d361cc0cb981988ddd9",
+    "web/ops/production/deploy_https.py": "9a70d5ab4c048123e1cb669f54110a18916b5fc7f7a4e5ad504d02f96c0e7945",
+    "web/ops/production/https_checks.py": "77f82aa41475d39c4219afad2be43e898e8078a9d670220a1ff61e628969f26d",
+    "web/ops/production/https_config.py": "060b997713e727809e5181c0a136d939a2a2c7cedd3d0b4f90329ca94afac5ae",
+    "web/ops/production/nginx-bootstrap-http.conf": "555eaa01755b6bfb428a5a2d49aeecf0327463d1b2907a1255e06838c5d705d8",
+    "web/ops/production/nginx-bootstrap-site.conf": "01d8de1168539fe63e1bf30e05e64682769e083fa7e1fb021ddb82e3f3254b73",
+    "web/ops/production/public_acceptance.py": "e30794ba3065ce205b750b9476686d51ab3f20e43838029c0087d4676a4ba0d5"
+  },
+  "final_source_scope": "342-test full checkpoint plus final13 focused recovery/command tests after operator-only signal/static-permission refinements; application code unchanged"
+}

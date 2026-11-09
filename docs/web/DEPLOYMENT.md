@@ -1,5 +1,14 @@
 # Deployment record
 
+W021 current state (2026-11-09): immutable544f22c is active privately. The operator
+confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
+[HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
+public handoffs below with one reviewed operator command that installs only the
+ResMgrCheck HTTPS settings, validates/reloads, proves rollback and runs real HTTPS
+browser acceptance. Customer runner/AI remain disabled and off-server DR deferred.
+Actual privileged/public/native acceptance results must still be recorded.
+
+
 Requested URL: `https://qnx-resmgrcheck.gestionatech.de`. Public HTTPS unverified.
 W015 private pointer:3821952. Operator-confirmed private HTTP200/nonroot runtime/
 isolated encrypted restore are accepted, not repeated. Read-only metadata confirms
