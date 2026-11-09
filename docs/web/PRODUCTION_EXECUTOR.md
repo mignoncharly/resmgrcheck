@@ -8,7 +8,40 @@ tree. W030 supersedes the original pending state: operatorce97df9 completed priv
 registry provisioning, the actual systemd qualification probe and approval publication.
 Root acceptance then stopped at exact_approved_native_plan_required before any
 temporary principal, native intent or browser batch. Existing W028 HTTPS/password/code
-acceptance remains passed. Native acceptance is pending; P8 is IN PROGRESS.
+acceptance remains passed. W031 supersedes the selector-only blocker:885 passed
+selection, then web confirmation failed on dispatch-mutex permissions. Native
+acceptance is pending; P8 is IN PROGRESS.
+
+## W031 confirmation failure and guarded mutex resume
+
+The actual service journal confirms permission denied for table control_executorslot
+30 seconds before the old browser timeout. The web grant matrix lacks INSERT and
+row-lock permission for the dispatch mutex used by enqueue. Chromium/Django/real
+restricted PostgreSQL reproduce preview200, confirmation500 and no Run creation.
+The old browser saved no POST status and waited for a run URL that never appeared.
+
+The correction precreates only an empty dispatch row and grants UPDATE(name) to the
+web role, with an exact invoker-role BEFORE UPDATE guard denying every actual web
+slot update. INSERT/DELETE/table UPDATE/TRIGGER remain unavailable. The executor
+retains lease insert/update/clear authority. Occupied sentinel or unknown guards/
+grants cause transactional refusal. No migration, application/Nginx/authentication/
+unit change or existing record replacement. Existing valid mutex setup is checked
+read-only on retry. The original executor authorization-lock guards stay unchanged.
+
+Use the new driver SHA below. It verifies/archive-preserves the exact885 failure,
+native intents/cleanup andce97 runtime proof/history. A protected local DB preflight
+requires audit-linked disabled principals, revoked codes/sessions and **zero associated
+Run rows of any state**, then checks the empty browser report. Any existing run prevents
+automatic resubmission. Old metadata/history is never reset or deleted. Only then is
+the new journal bound and the guarded mutex installed/verified before acceptance.
+Completed private custody, approvals and actual systemd probe are reused. No credential
+copy, HTTPS deployment or dispatcher stop is needed before the native batch.
+
+The browser now reports native field/preview/confirmation/redirect stages separately
+and stores only action/status metadata. Bad POST status fails immediately; raw HTML,
+tokens, body text, cookies, passwords and traces remain unsaved.86 tests passed,
+including actual loopback Chromium/form/PG role reproduction and guarded confirmation
+302 without any native launch. Actual production native results remain pending.
 
 ## W030 correction and exact completed-state resume
 

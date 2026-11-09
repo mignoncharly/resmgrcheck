@@ -1,0 +1,85 @@
+{
+  "kind": "actual-production-HTTPS-browser-acceptance",
+  "origin": "https://qnx-resmgrcheck.gestionatech.de",
+  "passed": false,
+  "administrator_password": "passed",
+  "administrator_MFA": "deferred",
+  "authentication_policy": "administrator-password-only-v1",
+  "access_codes": "not_run",
+  "native": {
+    "status": "approved-existing-route",
+    "target_id": "40175a56-4472-58c9-84bc-6ae65b181c4a",
+    "project_id": "a12810c8-3dec-504d-b175-02989cde271f",
+    "organization_id": "13b7e6a0-8ba8-57ac-b096-11d51ddf50d3",
+    "before_build": "f9155afe-96b7-5a20-bc1f-d9089e80842a",
+    "after_build": "1f0aebce-de69-556f-9c25-d513265bce7b"
+  },
+  "views": [
+    {
+      "view": "administrator-login",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "MFA-deferred-route",
+      "http_status": 404
+    },
+    {
+      "view": "administrator-overview",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "access-code-form",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "code-entry",
+      "mode": "desktop",
+      "http_status": 200
+    },
+    {
+      "view": "cross-tenant-project",
+      "http_status": 404
+    },
+    {
+      "view": "code-cannot-approve-targets",
+      "http_status": 404
+    },
+    {
+      "view": "native-run-form",
+      "mode": "desktop",
+      "http_status": 200
+    }
+  ],
+  "accessibility": [
+    {
+      "view": "administrator-login",
+      "violations": []
+    },
+    {
+      "view": "administrator-overview",
+      "violations": []
+    }
+  ],
+  "runs": [],
+  "independent_external_client": false,
+  "authentication_requests": [
+    {
+      "stage": "administrator-wrong-password-submit",
+      "endpoint": "password",
+      "status": 200
+    },
+    {
+      "stage": "administrator-password-submit",
+      "endpoint": "password",
+      "status": 302
+    }
+  ],
+  "credentials_cookies_traces_saved": false,
+  "AI": "disabled",
+  "separate_customer_host": "not_qualified",
+  "failed_step": "native-run-form",
+  "error_class": "TimeoutError"
+}

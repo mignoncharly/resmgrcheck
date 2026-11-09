@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -235,3 +236,13 @@ Nginx/authentication configuration, units, keys, DB records and historical evide
 78 tests passed and current HTTPS readiness is200. The reviewed new driver privately
 verifies and archives the exact failed state, reuses the probe/approvals and resumes
 acceptance. Actual production native IDs and P8 completion remain pending.
+
+## W031 database mutex correction; no web deployment
+
+Operator885 reached the actual native form; confirmation failed with a journal-
+confirmed slot permission error. The guarded SQL correction adds a precreated dispatch
+row and web UPDATE(name) with mandatory deny-update trigger; no web lease-write
+authority or application/auth/Nginx/unit change.86 tests passed including actual
+Chromium and restricted PG confirmation. The exact completed install and failed
+browser history are retained for a root-only resume. Production native remains
+pending; application3f4bafb continues serving HTTPS readiness200.

@@ -8,6 +8,14 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 from public_acceptance import Journey,require,HOST
 
 class NativeJourney(Journey):
+    def submit(self,page,path,button,stage,status):
+        self.step=stage
+        with page.expect_response(lambda r:urlsplit(r.url).netloc==self.host and urlsplit(r.url).path==path and r.request.method=='POST',timeout=10000) as pending:
+            self.click(page,button)
+        observed=pending.value.status
+        self.results.setdefault('native_form_requests',[]).append({'stage':stage,'status':observed})
+        self.checkpoint();require(observed==status,stage.replace('-','_')+'_not_accepted')
+
     def click(self,page,name,exact=True):
         # Only authentication/code management POSTs use the public auth zone.
         # Native queue confirmations have their own application quotas.
@@ -17,14 +25,21 @@ class NativeJourney(Journey):
     def queue(self,page,profile,build,*,mode='fixed',original=None):
         native=self.secret['native'];self.step='queue-'+profile
         if original:
-            self.visit(page,'/app/runs/'+original['web_run_id']+'/replay/','source-replay')
-            page.locator('[name=build]').select_option(build);self.click(page,'Confirm and queue saved-input replay')
+            path='/app/runs/'+original['web_run_id']+'/replay/'
+            self.visit(page,path,'source-replay');self.step='native-replay-select-build'
+            page.locator('[name=build]').select_option(build,timeout=5000)
+            self.submit(page,path,'Confirm and queue saved-input replay','native-replay-confirm',302)
         else:
-            self.visit(page,'/app/projects/'+native['project_id']+'/runs/new/','native-run-form')
+            path='/app/projects/'+native['project_id']+'/runs/new/'
+            self.visit(page,path,'native-run-form')
             for name,value in [('target',native['target_id']),('build',build),('profile',profile),('suite','profile'),('fixture_mode',mode)]:
-                page.locator('[name='+name+']').select_option(value)
-            self.click(page,'Preview test request');self.click(page,'Confirm and queue')
-        page.wait_for_url('**/app/runs/*/');identifier=urlsplit(page.url).path.split('/')[3]
+                self.step='native-select-'+name
+                require(page.locator('[name='+name+']').select_option(value,timeout=5000)==[value],'native_selection_not_accepted')
+            self.submit(page,path,'Preview test request','native-preview',200)
+            require(page.get_by_role('button',name='Confirm and queue',exact=True).count()==1,'native_confirmation_form_missing')
+            self.submit(page,path,'Confirm and queue','native-confirm',302)
+        self.step='native-run-redirect';page.wait_for_url('**/app/runs/*/',timeout=5000)
+        require(urlsplit(page.url).netloc==self.host,'native_redirect_left_origin');identifier=urlsplit(page.url).path.split('/')[3]
         row={'web_run_id':identifier,'native_run_id':'w'+uuid.UUID(identifier).hex[:18],'profile':profile,
             'operation':'replay' if original else 'run','mode':mode,'status':'pending'}
         self.runs.append(row);self.checkpoint();return row

@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 ## W015 — current inventory and outbound runner enrollment (2026-11-09)
@@ -1409,4 +1410,37 @@ The agent independently observed3f4bafb current, trusted HTTPS /readyz/200 and a
 nginx/database/web/executor services. No privileged production change or QNX lifecycle
 test ran by the agent. Actual production probe success is operator evidence; native
 IDs/verdicts/recovery/revocation/cleanup and rollback/UAT remain unverified. AI/customer
+endpoints remain disabled, off-server DR deferred and P8 IN_PROGRESS.
+
+## W031 actual web-role queue failure and guarded recovery
+
+The local nonsecret production-native-c4b7d6cb10614552b733893d7d9fec01 report records
+native-run-form GET200, TimeoutError, runs=[]; its cleanup records disabled temporary
+account, revoked codes, unchanged existing users, preserved audits/evidence and no
+active own native work. Safe copies are in evidence/web-dispatch-recovery. A read-only
+journal metadata probe confirmed the exact production error marker permission denied
+for table control_executorslot in two entries30.086/30.083s before report publication.
+No journal contents, credentials, HTML/cookie/trace or protected config were displayed.
+
+The exact source web GRANT matrix is reproduced in disposable PostgreSQL under a
+real nonprivileged role. Signed/CSRF-checked preview succeeds200; confirmation fails
+with the slot permission error before Run creation. Chromium reproduces the resulting
+run-URL wait. With the guarded dispatch sentinel, identical form flow returns200 then
+302 and one queued model run, started_at=NULL. No dispatcher/QNX/native process runs.
+The fixture uses loopback HTTP and preauthenticated Django-client cookies; it does
+not claim production HTTPS/authentication/systemd/native qualification. Production
+HTTPS/auth acceptance from W028 remains independently recorded and unchanged.
+
+86 tests PASS in15.634s. Real PostgreSQL rejects web slot insert/delete/name or token
+updates and trigger disabling, while the executor role can insert/update/clear its
+lease. An occupied dispatch row is preserved and permission/DDL changes roll back.
+Metadata checks preserve the original executor authorization-row guard bodies.
+Recovery tests archive exact885 failure/intents/cleanup, preservece97 proof/history,
+reject unknown state and require DB-authoritative zero prior runs despite an empty
+browser report. Form submission now records safe action/status only and fails
+immediately on bad preview/confirmation, with no raw error body.
+
+Actual root resume, native IDs/verdicts/recovery/revocation/cleanup and guarded executor
+rehearsal are pending. No privileged production change ran by the agent. Current
+3f4bafb /readyz/ returns trusted HTTPS200 and own services are active. AI/customer
 endpoints remain disabled, off-server DR deferred and P8 IN_PROGRESS.

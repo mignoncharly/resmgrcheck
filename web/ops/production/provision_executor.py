@@ -12,6 +12,46 @@ DROP_DIR=Path('/etc/systemd/system')/(UNIT+'.d')
 DROP=DROP_DIR/'90-resmgrcheck-native-qualification.conf'
 CURRENT_STEP='source_validation'
 FAILED_SELECTION_DRIVER='ce97df9e7e3671528316063a2bc36250b8d4d788'
+FAILED_QUEUE_DRIVER='885f31c6d6bbce2f6ecc604de1eb700c7bafc143'
+
+def preserve_failed_browser(journal,uid):
+    plan.require(set(journal)=={'kind','application','driver_revision','ids','phase','baseline','private_resource_hashes','resumed_from_driver','runtime_proof_driver'} and
+        journal.get('driver_revision')==FAILED_QUEUE_DRIVER and journal.get('phase')=='approved_after_actual_runtime_probe' and
+        journal.get('resumed_from_driver')==FAILED_SELECTION_DRIVER,'unrecognized_browser_resume_state')
+    verify_resume_history(journal);verify_private(journal,uid)
+    plan.require(not (plan.STATE/'native-result.json').exists() and not (plan.STATE/'report.json').exists(),'completed_native_result_requires_review')
+    expected_failure={'passed':False,'phase':'acceptance','driver_revision':FAILED_QUEUE_DRIVER,'failed_check':'command_failed_runuser','secrets_printed':False}
+    expected_native={'driver_revision':FAILED_QUEUE_DRIVER,'failed_check':'CheckFailed','observer_errors':[],'browser_failed_step':'native-run-form'}
+    path=plan.STATE/('attempt-'+FAILED_QUEUE_DRIVER+'.json')
+    intents=[]
+    for intent_path in sorted(plan.STATE.glob('native-*.intent.json')):
+        item=json.loads(ops.read(intent_path,private=True));identifier=uuid.UUID(item['acceptance_id'])
+        plan.require(intent_path.name=='native-'+identifier.hex+'.intent.json' and item.get('driver_revision')==FAILED_QUEUE_DRIVER and item.get('application')==plan.APPLICATION,'browser_resume_intent_differs')
+        cleanup=json.loads(ops.read(plan.STATE/('native-'+identifier.hex+'.cleanup.json'),private=True))
+        plan.require(cleanup=={'temporary_account_disabled':True,'temporary_codes_revoked':True,'existing_users_changed':False,
+            'audit_runs_evidence_preserved':True,'own_native_work_still_active':False},'browser_resume_cleanup_differs')
+        intents.append({'intent':item,'cleanup':cleanup})
+    plan.require(1<=len(intents)<=3,'browser_resume_intent_count_unexpected')
+    expected={'journal':journal,'operator_failure':expected_failure,'native_failure':expected_native,'attempts':intents,
+        'runtime_proof':json.loads(ops.read(plan.STATE/'runtime-proof.json',private=True))}
+    if path.exists():plan.require(json.loads(ops.read(path,private=True))==expected,'browser_resume_history_differs')
+    else:
+        plan.require(json.loads(ops.read(plan.STATE/'operator-failure.json',private=True))==expected_failure and
+            json.loads(ops.read(plan.STATE/'native-failure.json',private=True))==expected_native,'browser_resume_failure_differs')
+        ops.new_file(path,(json.dumps(expected,sort_keys=True,indent=2)+'\n').encode())
+    return path
+
+def bind_browser_resume(journal,path,driver):
+    plan.require(json.loads(ops.read(path,private=True))==journal,'executor_journal_changed_during_resume')
+    updated={**journal,'driver_revision':driver,'resumed_from_queue_driver':FAILED_QUEUE_DRIVER}
+    ops.record(path,updated);return updated
+
+def verify_browser_resume_history(journal):
+    archive=json.loads(ops.read(plan.STATE/('attempt-'+FAILED_QUEUE_DRIVER+'.json'),private=True))
+    old=archive['journal']
+    plan.require(old.get('driver_revision')==FAILED_QUEUE_DRIVER and old.get('phase')=='approved_after_actual_runtime_probe' and
+        all(journal.get(key)==old.get(key) for key in ['kind','application','ids','baseline','private_resource_hashes','resumed_from_driver','runtime_proof_driver']) and
+        archive['runtime_proof']==json.loads(ops.read(plan.STATE/'runtime-proof.json',private=True)), 'browser_resume_history_differs')
 
 def preserve_failed_selection(journal,uid):
     """Adopt only the known pre-bootstrap selector failure, without resetting state."""
@@ -151,13 +191,14 @@ def apply(driver):
         binding={'kind':'approved-production-qnx-executor-v1','application':plan.APPLICATION,'driver_revision':driver,'ids':plan.IDS}
         journal=json.loads(ops.read(journal_path,private=True)) if journal_path.exists() else {**binding,'phase':'prepared'}
         known_failed=journal.get('driver_revision')==FAILED_SELECTION_DRIVER and driver!=FAILED_SELECTION_DRIVER
-        plan.require(known_failed or all(journal.get(k)==v for k,v in binding.items()),'another_executor_provisioning_recorded')
+        known_browser=journal.get('driver_revision')==FAILED_QUEUE_DRIVER and driver!=FAILED_QUEUE_DRIVER
+        plan.require(known_failed or known_browser or all(journal.get(k)==v for k,v in binding.items()),'another_executor_provisioning_recorded')
         baseline=own_baseline();public_health();plan.require(baseline['current'].endswith('/'+plan.APPLICATION),'active_application_differs')
         import recover_https_auth as immutable
         immutable.validate(Path('/opt/resmgrcheck/releases')/plan.APPLICATION,plan.APPLICATION)
         if 'baseline' in journal:plan.require(journal['baseline']==baseline,'protected_web_state_changed')
-        if not known_failed:journal['baseline']=baseline;ops.record(journal_path,journal)
-        if known_failed:plan.require(not DROP.exists() and not DROP.is_symlink(),'failed_selector_override_unexpected')
+        if not (known_failed or known_browser):journal['baseline']=baseline;ops.record(journal_path,journal)
+        if known_failed or known_browser:plan.require(not DROP.exists() and not DROP.is_symlink(),'failed_selector_override_unexpected')
         if DROP.exists() or DROP.is_symlink():remove_dropin(expected_drop)
         plan.require(not ops.command(['systemctl','show','--value','--property=DropInPaths',UNIT]).strip(),'executor_overrides_require_review')
         plan.require(ops.read(Path('/etc/systemd/system')/UNIT)==ops.git('show',plan.APPLICATION+':web/ops/production/'+UNIT),'executor_unit_differs')
@@ -171,7 +212,12 @@ def apply(driver):
             preserve_failed_selection(journal,exec_uid)
             helper('resume-preflight',driver)
             journal=bind_resume(journal,journal_path,driver)
+        if known_browser:
+            step('verify_failed_browser_attempt_and_zero_native_runs')
+            preserve_failed_browser(journal,exec_uid);helper('failed-browser-preflight',driver)
+            journal=bind_browser_resume(journal,journal_path,driver)
         if journal.get('resumed_from_driver')==FAILED_SELECTION_DRIVER:verify_resume_history(journal)
+        if journal.get('resumed_from_queue_driver')==FAILED_QUEUE_DRIVER:verify_browser_resume_history(journal)
         if journal.get('phase')=='verified':
             verify_private(journal,exec_uid)
             helper('verify',driver);plan.require(own_baseline()==baseline,'protected_web_state_changed')
@@ -185,6 +231,7 @@ def apply(driver):
         state=ops.command(['systemctl','show','--value','--property=ActiveState',UNIT]).strip()
         if journal.get('resumed_from_driver')==FAILED_SELECTION_DRIVER:
             step('resume_native_dashboard_acceptance');verify_private(journal,exec_uid);helper('resume-preflight',driver)
+            step('verify_guarded_web_queue_mutex');helper('web-queue-preflight',driver)
             plan.require(state in {b'active',b'inactive',b'failed'},'executor_not_ready_for_acceptance_resume')
             if state!=b'active':ops.command(['systemctl','start',UNIT],timeout=45)
             result=helper('acceptance',driver);plan.require(result.get('native_passed') is True,'native_acceptance_incomplete')
@@ -246,6 +293,7 @@ if __name__=='__main__':
                 'new_credentials':False,'root_required':True,'native_tests':'3 bounded cases; same-ID loss recovery and live/queued revocation',
                 'database_locking':'UPDATE(id) only on user/code, with invoker-role triggers denying every actual executor UPDATE',
                 'known_failed_selector_resume':FAILED_SELECTION_DRIVER,'completed_probe_and_approvals_on_resume':'verified and reused without reinstallation',
+                'known_failed_form_resume':FAILED_QUEUE_DRIVER,'web_queue_mutex':'precreated dispatch row; UPDATE(name) lock-only, every web slot UPDATE denied',
                 'Nginx_auth_web_database_services_changed':False,'temporary_own_executor_probe_override':True,'historical_target_files_deleted':False}))
     except BaseException as error:
         print(json.dumps({'passed':False,'failed_step':CURRENT_STEP,'failed_check':str(error) if isinstance(error,(ValueError,ops.CheckFailed)) and re.fullmatch('[a-z0-9_]{1,100}',str(error)) else type(error).__name__,

@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 enrollment is staged/disabled by default.256-bit600s one-use enrollment
@@ -488,3 +489,19 @@ Unknown resources and ownership are still rejected. No arbitrary registry or rol
 is introduced. The known pre-bootstrap ce97 failure can resume only with retained history,
 unchanged custody and no native intent/result.78 tests pass; actual resumed native execution
 is pending. No secrets or protected configuration are copied into the evidence records.
+
+## W031 lock-only web dispatch mutex
+
+The production error is a queue-mutex permission omission, confirmed by filtered
+journal metadata and real role/browser reproduction. Precreating dispatch avoids
+web INSERT authority. UPDATE(name) permits row locks; an invoker-role guard rejects
+every actual web slot UPDATE. Table UPDATE/INSERT/DELETE/TRIGGER, schema ownership
+and executor token/lease mutation are not granted. Real PG tests enforce these
+negatives and preserve executor writes. Unknown guard metadata or occupied sentinel
+fails transactionally without overwrite/reset. Actual root application is pending.
+
+The885 resume requires original protected history/cleanup and audit-linked inactive
+accounts, revoked codes and no associated Run rows of any state. Empty browser runs
+is insufficient. All keys/immutable source/authentication settings remain unchanged.
+Only form action/status metadata is added to diagnostics; raw bodies/tokens are not
+saved. Actual native acceptance and independent UAT remain open; P8 IN_PROGRESS.

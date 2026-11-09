@@ -51,6 +51,37 @@ class PrivateBindingFilesTests(unittest.TestCase):
                 if change=='phase':journal={**journal,'phase':'prepared'}
                 with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config),self.assertRaises(ValueError):driver.preserve_failed_selection(journal,os.getuid())
                 self.assertFalse((root/('attempt-'+driver.FAILED_SELECTION_DRIVER+'.json')).exists())
+
+    def browser_failure_fixture(self,root):
+        config,previous,proof,failure=self.failed_selection_fixture(root)
+        with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config):
+            driver.preserve_failed_selection(previous,os.getuid());journal=driver.bind_resume(previous,root/'state.json',driver.FAILED_QUEUE_DRIVER)
+        identifier=uuid.uuid4()
+        driver.ops.record(root/('native-'+identifier.hex+'.intent.json'),{'acceptance_id':str(identifier),'application':plan.APPLICATION,'driver_revision':driver.FAILED_QUEUE_DRIVER})
+        driver.ops.record(root/('native-'+identifier.hex+'.cleanup.json'),{'temporary_account_disabled':True,'temporary_codes_revoked':True,'existing_users_changed':False,'audit_runs_evidence_preserved':True,'own_native_work_still_active':False})
+        driver.ops.record(root/'operator-failure.json',{'passed':False,'phase':'acceptance','driver_revision':driver.FAILED_QUEUE_DRIVER,'failed_check':'command_failed_runuser','secrets_printed':False})
+        driver.ops.record(root/'native-failure.json',{'driver_revision':driver.FAILED_QUEUE_DRIVER,'failed_check':'CheckFailed','observer_errors':[],'browser_failed_step':'native-run-form'})
+        return config,journal
+
+    def test_closed_failed_browser_history_is_preserved_and_rebound_without_proof_reset(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);config,journal=self.browser_failure_fixture(root)
+            with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config):
+                path=driver.preserve_failed_browser(journal,os.getuid());saved=path.read_bytes()
+                driver.ops.record(root/'operator-failure.json',{'failed_check':'later_preflight'})
+                self.assertEqual(driver.preserve_failed_browser(journal,os.getuid()),path)
+                updated=driver.bind_browser_resume(journal,root/'state.json',DRIVER);driver.verify_browser_resume_history(updated);driver.verify_resume_history(updated)
+                self.assertEqual(path.read_bytes(),saved);self.assertEqual(updated['runtime_proof_driver'],driver.FAILED_SELECTION_DRIVER)
+                self.assertEqual(updated['resumed_from_queue_driver'],driver.FAILED_QUEUE_DRIVER)
+
+    def test_browser_resume_refuses_unknown_failure_or_incomplete_cleanup(self):
+        for change in ['failure','cleanup','result']:
+            with self.subTest(change=change),tempfile.TemporaryDirectory() as temporary:
+                root=Path(temporary);config,journal=self.browser_failure_fixture(root)
+                if change=='failure':driver.ops.record(root/'native-failure.json',{'failed_check':'unknown'})
+                if change=='cleanup':driver.ops.record(next(root.glob('native-*.cleanup.json')),{'temporary_account_disabled':False})
+                if change=='result':driver.ops.record(root/'native-result.json',{'passed':True})
+                with patch.object(plan,'STATE',root),patch.object(plan,'CONFIG',config),self.assertRaises(ValueError):driver.preserve_failed_browser(journal,os.getuid())
     def test_exact_private_file_is_resumable_and_unknown_contents_are_preserved(self):
         with tempfile.TemporaryDirectory() as temporary:
             path=Path(temporary)/'key'
@@ -177,6 +208,7 @@ class ApprovedProductionBindingTests(TestCase):
     def setUp(self):
         mocked=patch('executor_locking.install',return_value={'role':'resmgr_exec','columns':['id'],'actual_updates':'denied'})
         mocked.start();self.addCleanup(mocked.stop)
+        mocked_web=patch.object(operator,'web_queue_preflight',return_value={'passed':True});mocked_web.start();self.addCleanup(mocked_web.stop)
     def prepare(self):operator.prepare()
     def proof(self):
         pair=plan.manifest_pair(Path(__file__).resolve().parents[2])
@@ -292,6 +324,24 @@ class ApprovedProductionBindingTests(TestCase):
         with patch.object(operator,'idle',side_effect=ValueError('existing_work_requires_reconciliation')),patch.object(operator.ops,'command') as command:
             with self.assertRaisesRegex(ValueError,'existing_work_requires_reconciliation'):operator.rehearse()
             command.assert_not_called()
+
+    def test_failed_browser_preflight_requires_closed_principal_and_zero_runs_even_if_report_empty(self):
+        import acceptance_operator as acceptance
+        from control.models import User,Target,Project
+        identifier=uuid.uuid4();credentials=acceptance.bootstrap(identifier,{'status':'blocked','reason':'isolated fixture'})
+        cleanup=acceptance.close(credentials)
+        with tempfile.TemporaryDirectory() as temporary:
+            source=Path(temporary);state=source/'protected';state.mkdir(mode=0o700)
+            output=source/'.local/web/evidence'/('production-native-'+identifier.hex);output.mkdir(parents=True,mode=0o700)
+            operator.ops.record(state/('native-'+identifier.hex+'.intent.json'),{'acceptance_id':str(identifier),'application':plan.APPLICATION,'driver_revision':driver.FAILED_QUEUE_DRIVER})
+            operator.ops.record(state/('native-'+identifier.hex+'.cleanup.json'),cleanup)
+            operator.ops.record(output/'browser-report.json',{'failed_step':'native-run-form','error_class':'TimeoutError','runs':[],'credentials_cookies_traces_saved':False})
+            with patch.object(plan,'STATE',state),patch.object(operator.ops,'SOURCE',source),patch.object(operator,'approved_plan'):
+                proof=operator.failed_browser_preflight(driver.FAILED_QUEUE_DRIVER);self.assertTrue(proof['passed'])
+                project=Project.objects.get(pk=credentials['project_id']);target=Target.objects.create(project=project,name='Unlaunched fixture')
+                Run.objects.create(project=project,target=target,actor_id=credentials['account_id'],actor_auth_hash='0'*64,mfa_at=timezone.now(),
+                    native_run_id='w'+uuid.uuid4().hex[:18],operation='run',idempotency_key='prequeue-fixture-'+uuid.uuid4().hex,intent_sha256='0'*64,state='rejected')
+                with self.assertRaisesRegex(ValueError,'failed_browser_attempt_has_runs'):operator.failed_browser_preflight(driver.FAILED_QUEUE_DRIVER)
 
 class LockOnlyDatabasePrivilegeTests(TestCase):
     def test_real_nonprivileged_role_can_lock_but_cannot_mutate_authorization_rows(self):

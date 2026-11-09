@@ -4,10 +4,9 @@ W028 current state: application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58` is ac
 at https://qnx-resmgrcheck.gestionatech.de. The operator completed driver
 `1ee18b6be6084e7e8dd7036a52947374a288b27f`. Production HTTPS password/code/browser
 acceptance passed; independent public-page retrieval returned HTTPS 200. Native
-acceptance stopped at root plan selection after successful executor provisioning
-and its actual systemd probe (W030); the corrected executor-only resume is prepared.
-Independent
-authenticated acceptance is still pending. P8 is IN PROGRESS. Customer-runner
+acceptance passed root selection and then stopped at a web dispatch-mutex permission
+error (W031). Its guarded database correction and executor-only resume are prepared.
+Independent authenticated acceptance is still pending. P8 is IN PROGRESS. Customer-runner
 endpoints/AI remain disabled; off-server disaster recovery is deferred.
 
 **Do not repeat the completed deployment to address the native registry blocker.**

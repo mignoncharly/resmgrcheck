@@ -11,12 +11,15 @@ ROLE='resmgr_exec'
 PREFIX='rmc_executor_lock_only'
 TABLES=['control_user','control_accesscode']
 
-def install(connection,role=ROLE,prefix=PREFIX,*,check_only=False):
+def install(connection,role=ROLE,prefix=PREFIX,*,check_only=False,tables=None,column='id',denial='executor_authorization_update_forbidden'):
     from django.db import transaction
     require(re.fullmatch('[a-z_][a-z0-9_]{0,62}',role) and re.fullmatch('[a-z_][a-z0-9_]{0,40}',prefix),'lock_guard_identity_invalid')
+    tables=TABLES if tables is None else tables
+    require((list(tables)==TABLES and column=='id' and denial=='executor_authorization_update_forbidden') or
+        (list(tables)==['control_executorslot'] and column=='name' and denial=='web_dispatch_update_forbidden'),'lock_guard_scope_invalid')
     quote=connection.ops.quote_name
     function=prefix+'_guard'
-    body="BEGIN\n IF current_user = '"+role+"' THEN\n  RAISE EXCEPTION 'executor_authorization_update_forbidden';\n END IF;\n RETURN NEW;\nEND;"
+    body="BEGIN\n IF current_user = '"+role+"' THEN\n  RAISE EXCEPTION '"+denial+"';\n END IF;\n RETURN NEW;\nEND;"
     with transaction.atomic(),connection.cursor() as cursor:
         cursor.execute('SELECT rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls FROM pg_roles WHERE rolname=%s',[role])
         flags=cursor.fetchone();require(flags is not None and not any(flags),'lock_role_privileged_or_missing')
@@ -29,12 +32,12 @@ def install(connection,role=ROLE,prefix=PREFIX,*,check_only=False):
             cursor.execute('CREATE FUNCTION public.'+quote(function)+'() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $rmc$'+body+'$rmc$')
             cursor.execute('REVOKE ALL ON FUNCTION public.'+quote(function)+'() FROM PUBLIC')
         cursor.execute("SELECT ('public.'||quote_ident(%s)||'()')::regprocedure::oid",[function]);function_oid=cursor.fetchone()[0]
-        for index,table in enumerate(TABLES):
+        for index,table in enumerate(tables):
             trigger=prefix+'_'+str(index)
             cursor.execute('SELECT pg_get_userbyid(relowner)=current_user,pg_get_userbyid(relowner)=%s FROM pg_class WHERE oid=%s::regclass',[role,'public.'+table])
             owner=cursor.fetchone();require(owner==(True,False),'lock_table_ownership_invalid')
             cursor.execute("SELECT a.attname FROM pg_attribute a WHERE a.attrelid=%s::regclass AND a.attnum>0 AND NOT a.attisdropped AND has_column_privilege(%s,a.attrelid,a.attnum,'UPDATE')",['public.'+table,role])
-            columns={row[0] for row in cursor.fetchall()};require(columns in (set(),{'id'}),'unexpected_authorization_update_grants')
+            columns={row[0] for row in cursor.fetchall()};require(columns in (set(),{column}),'unexpected_authorization_update_grants')
             cursor.execute('SELECT tgfoid,tgtype,tgenabled,tgnargs,tgqual IS NULL,tgattr::text,tgisinternal FROM pg_trigger WHERE tgrelid=%s::regclass AND tgname=%s',['public.'+table,trigger])
             existing=cursor.fetchone()
             if existing:
@@ -43,8 +46,8 @@ def install(connection,role=ROLE,prefix=PREFIX,*,check_only=False):
                 require(not check_only,'lock_trigger_missing')
                 require(not columns,'unprotected_existing_authorization_grant')
                 cursor.execute('CREATE TRIGGER '+quote(trigger)+' BEFORE UPDATE ON public.'+quote(table)+' FOR EACH ROW EXECUTE FUNCTION public.'+quote(function)+'()')
-            if check_only:require(columns=={'id'},'lock_column_grants_differ')
-            else:cursor.execute('GRANT UPDATE(id) ON public.'+quote(table)+' TO '+quote(role))
+            if check_only:require(columns=={column},'lock_column_grants_differ')
+            else:cursor.execute('GRANT UPDATE('+quote(column)+') ON public.'+quote(table)+' TO '+quote(role))
             cursor.execute('SELECT has_table_privilege(%s,%s,\'UPDATE\'),has_table_privilege(%s,%s,\'TRIGGER\')',[role,'public.'+table,role,'public.'+table])
             require(cursor.fetchone()==(False,False),'authorization_table_privilege_widened')
-    return {'role':role,'columns':['id'],'actual_updates':'denied by invoker-role triggers','schema_or_table_ownership_granted':False}
+    return {'role':role,'columns':[column],'actual_updates':'denied by invoker-role triggers','schema_or_table_ownership_granted':False}

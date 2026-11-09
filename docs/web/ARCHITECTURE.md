@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W015 stages an outbound customer runner alongside the private lab dispatcher,
@@ -251,3 +252,12 @@ substitute. Fixed approved IDs and exact route/build/proof bindings now select t
 lab without label heuristics. The worker's self/root ownership rule, tenant model
 and immutable application remain unchanged. Actual provisioning/probe passed;
 resumed native qualification remains pending.
+
+## W031 web enqueue mutex versus executor lease
+
+The web process requires a dispatch-row lock to serialize queue/quota decisions;
+lease ownership remains in private-qnx under the executor. A precreated dispatch
+row plus guarded UPDATE(name) supplies locking without web lease insertion/mutation.
+No new browser-selected command/host/build authority or authentication configuration
+is introduced. This source correction is staged/tested; actual native qualification
+remains pending on the existing immutable3f4bafb application.

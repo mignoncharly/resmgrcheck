@@ -24,6 +24,7 @@ def prepare():
     locking=install(connection)
     if not AuditEvent.objects.filter(action='production.executor.lock_guard_installed',object_id='resmgr_exec').exists():
         audit(None,'production.executor.lock_guard_installed',object_id='resmgr_exec',lock_only=locking)
+    web_queue_preflight()
     with transaction.atomic():
         existing=AuditEvent.objects.filter(action='production.executor.prepared',object_id=plan.IDS['target']).first()
         if existing:
@@ -83,6 +84,47 @@ def approved_plan():
         all(proof.get('deployments',{}).get(role,{}).get('deployment_id')==pair[role]['deployment_id'] for role in pair),'approved_runtime_proof_differs')
     return {'status':'approved-existing-route','target_id':plan.IDS['target'],'project_id':plan.IDS['project'],
         'organization_id':plan.IDS['organization'],'before_build':plan.IDS['before'],'after_build':plan.IDS['after']}
+
+def web_queue_preflight():
+    from django.db import connection
+    from control.models import AuditEvent
+    from control.security import audit
+    from web_dispatch_locking import install
+    idle()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT EXISTS(SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.proname='rmc_web_dispatch_lock_only_guard')")
+        present=cursor.fetchone()[0]
+    result=install(connection,check_only=present)
+    if not AuditEvent.objects.filter(action='production.web_dispatch_lock_ready',object_id='dispatch').exists():
+        audit(None,'production.web_dispatch_lock_ready',object_id='dispatch',lock_only=result)
+    return {'passed':True,'sentinel':'dispatch','web_lease_mutation':False}
+
+def failed_browser_preflight(driver):
+    from django.db.models import Q
+    from control.models import AuditEvent,AccessCode,AccessSession,Run
+    idle();approved_plan();checked=[];intents=list(plan.STATE.glob('native-*.intent.json'))
+    plan.require(1<=len(intents)<=3,'failed_browser_intent_count_unexpected')
+    owner=ops.SOURCE.stat().st_uid
+    expected_cleanup={'temporary_account_disabled':True,'temporary_codes_revoked':True,'existing_users_changed':False,
+        'audit_runs_evidence_preserved':True,'own_native_work_still_active':False}
+    for path in intents:
+        intent=json.loads(ops.read(path,private=True));identifier=uuid.UUID(intent['acceptance_id'])
+        plan.require(path.name=='native-'+identifier.hex+'.intent.json' and intent.get('application')==plan.APPLICATION and intent.get('driver_revision')==driver,'failed_browser_intent_differs')
+        cleanup=json.loads(ops.read(plan.STATE/('native-'+identifier.hex+'.cleanup.json'),private=True))
+        plan.require(cleanup==expected_cleanup,'failed_browser_cleanup_unproven')
+        event=AuditEvent.objects.select_related('actor').filter(action='https.acceptance.created',details__acceptance_id=str(identifier)).get()
+        account=event.actor
+        plan.require(account is not None and account.username=='accept-'+identifier.hex[:18] and not account.is_active and
+            AuditEvent.objects.filter(actor=account,action='https.acceptance.closed',details__acceptance_id=str(identifier)).exists(),'failed_browser_principal_not_closed')
+        plan.require(not Run.objects.filter(Q(actor=account)|Q(access_session__code__created_by=account)).exists(),'failed_browser_attempt_has_runs')
+        plan.require(not AccessCode.objects.filter(created_by=account,revoked_at=None).exists() and
+            not AccessSession.objects.filter(code__created_by=account,revoked_at=None).exists(),'failed_browser_code_not_revoked')
+        output=ops.SOURCE/'.local/web/evidence'/('production-native-'+identifier.hex)
+        report=json.loads(plan.read_owned(output/'browser-report.json',owner,{0o600}))
+        plan.require(report.get('failed_step')=='native-run-form' and report.get('error_class')=='TimeoutError' and report.get('runs')==[] and
+            report.get('credentials_cookies_traces_saved') is False and not any(output.glob('request-*.json')),'failed_browser_report_differs')
+        checked.append({'acceptance_id':str(identifier),'lifecycle_runs':0,'temporary_principal_closed':True})
+    return {'passed':True,'read_only':True,'driver_revision':driver,'attempts':checked}
 
 def publish(driver):
     from django.db import transaction
@@ -267,6 +309,9 @@ def acceptance_run(driver):
     from control.models import AuditEvent,Run
     from control.jobs import ACTIVE
     selected=approved_plan()
+    from django.db import connection
+    from web_dispatch_locking import install
+    install(connection,check_only=True)
     plan.require(selected.get('target_id')==plan.IDS['target'] and selected.get('before_build')==plan.IDS['before'] and selected.get('after_build')==plan.IDS['after'],'exact_approved_native_plan_required')
     previous=plan.STATE/'native-result.json'
     if previous.exists():
@@ -353,7 +398,7 @@ def rehearse():
     return {'passed':True,'idle_executor_stop_start':'passed','full_application_rollback':'not_run'}
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--phase',choices=['prepare','publish','acceptance','idle','verify','rehearse','resume-preflight'],required=True);parser.add_argument('--driver-revision',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--phase',choices=['prepare','publish','acceptance','idle','verify','rehearse','resume-preflight','failed-browser-preflight','web-queue-preflight'],required=True);parser.add_argument('--driver-revision',required=True);args=parser.parse_args()
     try:
         ops.DIAGNOSTIC=plan.STATE/'operator-diagnostic.log';ops.source_check(plan.APPLICATION,args.driver_revision);acceptance.load_application(plan.APPLICATION)
         if args.phase=='prepare':prepare();result={'passed':True,'approved':False}
@@ -361,6 +406,8 @@ if __name__=='__main__':
         elif args.phase=='acceptance':result=acceptance_run(args.driver_revision)
         elif args.phase=='idle':idle();result={'passed':True}
         elif args.phase=='resume-preflight':approved_plan();result={'passed':True,'read_only':True}
+        elif args.phase=='failed-browser-preflight':result=failed_browser_preflight('885f31c6d6bbce2f6ecc604de1eb700c7bafc143')
+        elif args.phase=='web-queue-preflight':result=web_queue_preflight()
         elif args.phase=='rehearse':result=rehearse()
         else:
             idle();check_bindings();result=json.loads(ops.read(plan.STATE/'native-result.json',private=True));plan.require(result.get('passed') is True,'native_result_not_verified')

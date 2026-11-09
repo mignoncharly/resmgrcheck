@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -883,3 +884,13 @@ unit/application/engine and read-only DB guards, then run acceptance with the co
 fixed-ID root selector. It does not reinstall files, rerun the probe or reissue grants.
 Native IDs/outcomes and full acceptance remain pending; use only the new reviewed driver
 SHA from the handoff. Unknown states or recorded native work require review, not reset.
+
+## W031 resume after prequeue browser failure
+
+Use the new driver SHA from the handoff in [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md).
+Do not repeat885 or HTTPS recovery. The command preserves885 intent/cleanup/failure
+andce97 runtime proof, checks authoritative zero associated Run rows and closed
+principals, then installs/verifies the guarded web dispatch mutex before acceptance.
+It does not reinstall registry/keys, republish approvals or repeat the actual probe.
+Existing/uncertain runs cause review, never duplicate launch or state deletion.
+No application/unit/Nginx/auth changes; new native acceptance remains pending.

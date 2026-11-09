@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
@@ -51,8 +52,8 @@ independent authenticated/native acceptance remains pending.
 | P9–P10 | INCOMPLETE | Public reachability observed; full independent acceptance and production native not passed |
 
 Production registry provisioning and the actual executor probe passed in ce97.
-Native acceptance is blocked at the root plan selector; W030 corrects it and prepares
-a history-preserving resume. No production lifecycle run IDs were created. Do not
+The W030 root-selector correction passed. W031 addresses the subsequent web-role
+dispatch mutex error before queueing; production native remains unqualified. Do not
 repeat HTTPS recovery or reset the completed provisioning state.
 
 The HTTPS workflow completed its own configuration rollback drill before acceptance;
@@ -442,3 +443,21 @@ state. No reinstall, repeat systemd probe, HTTPS deployment or authentication ch
 Current3f4bafb HTTPS readiness200; nginx/db/web/executor active. New production native
 IDs remain absent and P8 IN_PROGRESS. See [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md)
 and [W030 evidence](evidence/executor-selector-recovery/checks.json).
+
+## W031 web queue mutex correction prepared
+
+Operator885 verified/reused completed provisioning, passed fixed root selection and
+reached the native form. The production journal confirms permission denied for table
+control_executorslot twice,30.086/30.083s before the browser's TimeoutError. The browser
+recorded no run IDs and cleanup closed its account/codes. Confirmation uses a dispatch
+mutex that the web role could neither create nor lock under the deployed grant matrix.
+
+The correction precreates its empty row and grants lock-only UPDATE(name), with a
+database trigger rejecting every actual web slot update. INSERT/DELETE/table-wide
+UPDATE remain unavailable; executor lease writes continue.86 tests passed, including
+real Chromium/HTTP/Django/PG reproduction (preview200/confirm500), then guarded positive
+confirmation302 without any native launch. No immutable application or Nginx/auth/unit/
+key change. New resume archives885 history and requires authoritative zero associated
+Run rows plus audited account/code closure; it never trusts an empty browser report
+alone. Actual production native/recovery/revocation/cleanup remain pending. Current
+3f4bafb readiness200; P8 IN_PROGRESS. See [PRODUCTION_EXECUTOR.md](PRODUCTION_EXECUTOR.md).

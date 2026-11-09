@@ -1,0 +1,76 @@
+{
+  "checkpoint": "W031",
+  "source_parent": "885f31c6d6bbce2f6ecc604de1eb700c7bafc143",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "confirmed_root_cause": "resmgr_web lacks INSERT/row-lock permission on control_executorslot. Native form GET/preview work; confirmation attempts to create/lock dispatch mutex, raises permission error and returns500; old browser waits30seconds for a run URL.",
+  "actual_production_journal_metadata": {
+    "unit": "resmgrcheck-web.service",
+    "exact_permission_marker_confirmed": true,
+    "marker": "permission denied for table control_executorslot",
+    "matching_entries": 2,
+    "seconds_before_browser_report": [
+      30.086,
+      30.083
+    ],
+    "raw_logs_printed": false
+  },
+  "actual_browser_metadata": {
+    "failed_step": "native-run-form",
+    "error_class": "TimeoutError",
+    "native_run_IDs_recorded": [],
+    "run_form_GET_status": 200,
+    "native_POST_statuses": "not recorded by old driver"
+  },
+  "operator_cleanup": {
+    "temporary_account_disabled": true,
+    "temporary_codes_revoked": true,
+    "existing_users_changed": false,
+    "audit_runs_evidence_preserved": true,
+    "own_native_work_still_active": false
+  },
+  "correction": "precreate empty dispatch sentinel; grant UPDATE(name) only with invoker-role BEFORE UPDATE guard denying every web slot update. Web INSERT/DELETE/tableUPDATE/TRIGGER remain absent; executor lease writes retain original permission.",
+  "actual_reproduction": {
+    "scope": "real Chromium, loopback HTTP, Django CSRF/signed form and disposable PostgreSQL with exact web-grant matrix; preauthenticated fixture cookie; no HTTPS/Nginx/native/systemd qualification",
+    "before": {
+      "POST_statuses": [
+        200,
+        500
+      ],
+      "database_runs": 0
+    },
+    "after": {
+      "POST_statuses": [
+        200,
+        302
+      ],
+      "database_runs": 1,
+      "state": "queued",
+      "native_launch": false
+    },
+    "negative_checks": [
+      "web cannot insert a lease",
+      "web cannot delete slots",
+      "web cannot update token or slot name",
+      "web cannot disable trigger",
+      "occupied sentinel preserved with transactional rollback"
+    ],
+    "executor_role_lease_insert_update_clear": "passed"
+  },
+  "tests": {
+    "passed": 86,
+    "seconds": 15.634,
+    "scope": "actual disposable PostgreSQL roles/files and Chromium form flow; privileged systemd/signals modeled"
+  },
+  "recovery": "archive exact885 journal/failure/native intents/cleanup and retaince97 proof/history. Require authoritative zero Run rows tied to old principal/codes and closed audit-linked accounts before binding new driver. No repeat registry install/probe/credential copy.",
+  "current_HTTPS_readiness": 200,
+  "own_nginx_db_web_executor_services": "active",
+  "application_Nginx_authentication_units_engine_credentials_changed": false,
+  "privileged_production_changes_by_agent": false,
+  "production_native_acceptance": "pending operator resume; no lifecycle verdict claimed",
+  "full_application_rollback": "NOT_RUN",
+  "independent_UAT": "NOT_RUN",
+  "customer_runner": "disabled",
+  "AI": "disabled",
+  "off_server_DR": "deferred",
+  "P8": "IN_PROGRESS"
+}

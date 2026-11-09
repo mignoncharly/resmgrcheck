@@ -9,8 +9,9 @@ current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a
 is active. Production password/code/browser acceptance passed; an independent
 external public fetch returned HTTPS 200. W030: executor registry provisioning and
 the actual service-context probe passed in the operator workflow. Native acceptance
-stopped at root plan selection; its correction/resume is prepared. Independent
-authenticated acceptance remains pending.
+passed root plan selection, then stopped at native form confirmation because the
+web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
+Actual native and independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 W021 historical state (2026-11-09; superseded by W028): immutable544f22c is active privately. The operator
@@ -371,3 +372,13 @@ with a protected history snapshot. It leaves an already-running idle dispatcher 
 and rechecks locks/approval/custody read-only. No HTTPS/authentication change or data/key
 replacement. Safe stage/failure JSON remains available; no individual diagnostic commands
 are requested. Native verdicts/cleanup, guarded rehearsal and independent UAT remain open.
+
+## W031 prequeue permission error
+
+Journal metadata confirms the browser's30s wait followed a control_executorslot
+permission error. The new driver checks each form POST status and reports its action
+immediately. One revised command archives885, verifies no old DB runs/principal
+authority remain and prepares the empty lock-only dispatch mutex. Dispatcher, private
+keys and completed probe/registry/approvals are preserved. Unknown or active work
+is never reset.86 tests passed; actual native outcomes/cleanup and full rollback/UAT
+remain unverified. Current HTTPS readiness200, same3f4bafb, own services active.
