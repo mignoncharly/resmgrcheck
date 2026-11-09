@@ -86,3 +86,7 @@ The backup DB role is SELECT-only; protected local wrappers retain root only for
 key custody/peer authentication and are contained with no capabilities/home/IP
 network. These service/OS claims are intended configuration and require the pending
 actual root qualification; staging tests are not that proof. See PRIVATE_INSTALL.md.
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+W016 supersedes W015's pending job route: signed polls bind one runner/target, immutable job/ticket/intent, build, organization/project and original native ID. One launch grant follows current authority checks and cannot be reissued/reset. A local fsynced intent precedes the grant; uncertainty selects same-ID collect. Interrupted uploads reuse an immutable local archive and per-chunk acknowledgement journal. Authenticated128KiB chunks are bounded to64MiB/job and256MiB outstanding. HTTP stores them in PostgreSQL only. The existing private executor validates canonical contracts/build/target/replay/native seals, publishes without replacement and creates the immutable evidence graph. Invalid/incomplete evidence or unobserved cleanup quarantines. Connection and upload alone never establish PASS or cleanup.

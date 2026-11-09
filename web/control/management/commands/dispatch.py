@@ -11,6 +11,10 @@ class Command(BaseCommand):
         if settings.ENVIRONMENT=='production' and settings.SERVICE_ROLE!='executor':raise CommandError('Private executor role required')
         os.umask(0o027)
         while True:
+            from control.runner_ingest import ingest_one
+            if ingest_one():
+                if options['once']:return
+                continue
             job=claim()
             if job:execute_claim(*job)
             if options['once']:return

@@ -155,3 +155,7 @@ Missing/stale facts cause a nonzero exit. Actual staging use passed with no queu
 work, expired lease or quarantine. Production unit/HTTPS alerts are not qualified
 until the dedicated root installation runs. [PRIVATE_INSTALL.md](PRIVATE_INSTALL.md)
 provides the exact next root command and service/backup/rollback qualification steps.
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+Customer `work` polls every30s; --once performs one job poll. Preserve device/job journals: reconnect collects the same native ID or resumes the same archive, never removes state to relaunch. The private `dispatch` ingests received evidence before local lab work; customer targets never route through server SSH. Defaults are two queued/active requests,20 daily requests and one native job in flight per target. Storage is bounded to256MiB outstanding uploads/64MiB per job, three retained ingestion attempts and a1GiB disk reserve. Failed stages remain for review; only this invocation's verified successful stage/chunks are cleaned after sealing. Keep quarantine until actual identity/native cleanup can be reviewed. No source data, keys or production units were changed.

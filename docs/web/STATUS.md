@@ -120,3 +120,7 @@ audit mutation was performed. Real corrected production restore remains pending;
 P8 stays IN PROGRESS and no public deployment/phase advancement is claimed.
 
 SMTP is no longer a product dependency or release blocker. Public signup, verification, email reset and invitations are removed. Administrators are locally provisioned; regular developers/testers use scoped access-code sessions. Earlier W002/W006 email requirements are historical and superseded. Original native/CLI identities and sealed bundles remain unchanged.
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+W016 implements signed job delivery, customer-local launch/upload journals and private evidence ingestion. Launch is granted once per immutable runner/job identity; retries collect the exact native ID or resume the same archive. HTTP cannot read SSH credentials or write evidence. Target quotas, stale authorization, capabilities/mode/build checks and cleanup quarantine are enforced.108 focused tests passed, plus a separate actual migration/legacy encrypted restore roundtrip. The loopback TLS job/upload/ingestion journey uses labeled recorded QNX bytes, not a new native execution. Additional-adapter, actual new-runner QNX/browser, separate-host and immutable production upgrade qualifications remain pending. Production stays3821952; public deployment remains withheld.

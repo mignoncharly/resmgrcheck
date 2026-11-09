@@ -47,7 +47,7 @@ class RunForm(forms.Form):
         if data.get('profile')=='sensor' and data.get('fixture_mode')=='drop-job':self.add_error('fixture_mode','UNSUPPORTED: the sensor adapter has no retained job obligation.')
         if data.get('fixture_mode')=='retain-third' and data.get('suite')=='profile':self.add_error('suite','Choose lifecycle to exercise the third reconnect cycle.')
         if target and data.get('profile'):
-            external=target.kind=='external-health'
+            external=target.kind=='external-health' or (target.kind=='customer-runner' and target.customerrunner.inventory['attachment']=='external-attach')
             profile=Profile.parse(load(settings.REPO_ROOT/'profiles'/(data['profile']+('-external' if external else '')+'.json')))
             caps=target.inventory.get('compiled_adapters',{}).get(profile.data['adapter']['id'])
             if caps is None:self.add_error('target','Capabilities are UNKNOWN. Request a private inventory first.')

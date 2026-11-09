@@ -79,3 +79,27 @@ class RunnerTLSJourneyTests(TransactionTestCase):
         with self.assertRaises(wire.ProtocolError):protected(link)
         path.chmod(0o644)
         with self.assertRaises(wire.ProtocolError):protected(path)
+
+    def test_real_tls_signed_job_and_recorded_evidence_ingestion_without_new_native_claim(self):
+        from .runner_fixture import local
+        from control.models import BuildRelease,Run
+        from control.jobs import auth_fingerprint
+        from control import runner_ingest
+        from customer_runner import work
+        from unittest.mock import patch
+        import shutil
+        source,request,configuration,inventory=local(self.root,self.target.pk,self.project.pk,self.org.pk)
+        self.client.enroll(self.token,inventory)
+        runner=CustomerRunner.objects.select_related('target').get(pk=self.target.pk)
+        runners.approve(self.user,self.target,runner.inventory_sha256)
+        self.client.exchange({'operation':'heartbeat','inventory':inventory})
+        build=BuildRelease.objects.create(target=self.target,label='Recorded native fixture',manifest=request['deployment'],approved=True)
+        run=Run.objects.create(project=self.project,target=self.target,build=build,actor=self.user,
+            actor_auth_hash=auth_fingerprint(self.user),mfa_at=self.user.date_joined,native_run_id=request['run_id'],
+            operation='run',profile='sensor',suite='profile',fixture_mode='fixed',idempotency_key='tls-recorded-evidence-only',intent_sha256='1'*64,state='queued')
+        def recorded_copy(configuration,args,**kwargs):shutil.copytree(source,Path(args[args.index('--out')+1]));return 0
+        with override_settings(MEDIA_ROOT=self.root/'sealed',PRIVATE_ROOT=self.root/'private'),patch.object(work,'storage',return_value={}),patch.object(work,'command',side_effect=recorded_copy):
+            result=work.run_once(self.client,configuration,self.root,inventory)
+            self.assertEqual(result['state'],'received');self.assertTrue(runner_ingest.execute(*runner_ingest.claim()))
+        run.refresh_from_db();self.assertEqual(run.state,'completed');self.assertTrue(run.target_cleanup_verified)
+        self.assertEqual(run.native_run_id,request['run_id'])

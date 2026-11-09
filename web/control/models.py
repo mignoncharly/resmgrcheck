@@ -166,6 +166,27 @@ class RunnerNonce(models.Model):
     class Meta:
         constraints=[models.UniqueConstraint(fields=['runner','nonce'],name='runner_nonce_once')]
 
+class RunnerJob(models.Model):
+    run=models.OneToOneField('Run',primary_key=True,on_delete=models.PROTECT)
+    runner=models.ForeignKey(CustomerRunner,on_delete=models.PROTECT)
+    ticket=models.UUIDField(default=uuid.uuid4,unique=True,editable=False)
+    intent=models.JSONField()
+    state=models.CharField(max_length=24,default='offered',db_index=True)
+    offered_at=models.DateTimeField(auto_now_add=True)
+    launch_granted_at=models.DateTimeField(null=True)
+    archive_sha256=models.CharField(max_length=64,blank=True)
+    archive_bytes=models.PositiveIntegerField(default=0)
+    ingest_lease=models.DateTimeField(null=True)
+    ingest_token=models.UUIDField(null=True)
+
+class RunnerChunk(models.Model):
+    job=models.ForeignKey(RunnerJob,on_delete=models.PROTECT)
+    index=models.PositiveSmallIntegerField()
+    data=models.BinaryField()
+    sha256=models.CharField(max_length=64)
+    class Meta:
+        constraints=[models.UniqueConstraint(fields=['job','index'],name='runner_upload_chunk_once')]
+
 class Run(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     project=models.ForeignKey(Project,on_delete=models.PROTECT)

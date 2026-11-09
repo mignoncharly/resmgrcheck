@@ -6,7 +6,8 @@ from .client import protected
 
 def config(path):
     value=wire.parse(protected(Path(path),16384))
-    wire.fields(value,'origin server_public_key target_id organization_id project_id engine_root target_config alias manifests attachment')
+    value.setdefault('allowed_modes',['corrected'])
+    wire.fields(value,'origin server_public_key target_id organization_id project_id engine_root target_config alias manifests attachment allowed_modes')
     import uuid
     for name in ['target_id','organization_id','project_id']:wire.require(str(uuid.UUID(value[name]))==value[name],'configuration_identity_invalid')
     wire.origin(value['origin']);wire.hex_value(value['server_public_key'])
@@ -15,6 +16,8 @@ def config(path):
         path=Path(value[name]);wire.require(path.is_absolute() and not any(p.is_symlink() for p in [path,*path.parents]),'configuration_path_invalid')
     wire.require((Path(value['engine_root'])/'resmgrcheck/__main__.py').is_file(),'engine_unavailable')
     wire.require(value['attachment'] in {'managed-fixture','external-attach'},'attachment_invalid')
+    wire.require(type(value['allowed_modes']) is list and value['allowed_modes'] and len(value['allowed_modes'])<=6 and
+        set(value['allowed_modes'])<={'corrected','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'},'runner_modes_invalid')
     wire.require(type(value['manifests']) is dict and len(value['manifests'])<=20,'manifest_allowlist_invalid')
     from resmgrcheck.contracts import load
     from resmgrcheck.deployment import Deployment
@@ -66,7 +69,7 @@ def discover(configuration,output):
     caps=checks['target_capabilities']['detail']['compiled_adapter_capabilities']
     target=Target.read(configuration['alias'],configuration['target_config'])
     return {'protocol':wire.VERSION,'runner_version':'1','engine_sha256':source_hash(Path(configuration['engine_root'])),'route_sha256':route_fingerprint(configuration),
-        'target_identity':target.public(),'compiled_adapters':caps,'attachment':configuration['attachment']}
+        'target_identity':target.public(),'compiled_adapters':caps,'attachment':configuration['attachment'],'allowed_modes':configuration['allowed_modes']}
 
 def route_fingerprint(configuration):
     """Pin local routing without sending addresses or SSH configuration contents."""
@@ -75,3 +78,13 @@ def route_fingerprint(configuration):
     return wire.fingerprint({'target':target.data,'alias':configuration['alias'],
         'target_config_sha256':__import__('hashlib').sha256(protected(Path(configuration['target_config']))).hexdigest(),
         'ssh_config_sha256':__import__('hashlib').sha256(protected(Path(target.data['ssh_config']))).hexdigest()})
+
+def storage(configuration,suite):
+    from resmgrcheck.transport import Target,Transport
+    target=Target.read(configuration['alias'],configuration['target_config'])
+    raw=Transport(target).ssh('df -g /data') # fixed read-only inventory, never supplied shell text
+    entries=re.search(rb'Files\s*:\s*([0-9]+) total\s+([0-9]+) avail',raw)
+    blocks=re.search(rb'Blocks\s*:\s*([0-9]+) total\s+([0-9]+) avail',raw)
+    wire.require(entries and blocks,'target_storage_unknown')
+    wire.require(int(entries[2])>=(120 if suite=='lifecycle' else 32) and int(blocks[2])>=512,'target_storage_insufficient')
+    return {'free_entries':int(entries[2]),'free_blocks':int(blocks[2])}

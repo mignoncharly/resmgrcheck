@@ -15,7 +15,7 @@ from .helpers import tenant,signed_client
 def discovery():
     return {'protocol':1,'runner_version':'1','engine_sha256':'a'*64,'route_sha256':'e'*64,
         'target_identity':{'uid':0,'processor':'x86_64','machine':'x86pc','release':'8.0.0','recipe_id':'b'*64,'root':'/data/resmgrcheck'},
-        'compiled_adapters':{'sensor-v1':['pending','unblock','state','release','health','timeout']},'attachment':'managed-fixture'}
+        'compiled_adapters':{'sensor-v1':['pending','unblock','state','release','health','timeout']},'attachment':'managed-fixture','allowed_modes':['corrected']}
 
 @override_settings(RUNNER_ENABLED=True,RUNNER_SIGNING_KEY='c'*64)
 class RunnerTests(TestCase):

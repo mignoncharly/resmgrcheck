@@ -28,7 +28,7 @@ def issue(actor,project,name):
         return target,token
 
 def inventory(value):
-    wire.fields(value,'protocol runner_version engine_sha256 route_sha256 target_identity compiled_adapters attachment')
+    wire.fields(value,'protocol runner_version engine_sha256 route_sha256 target_identity compiled_adapters attachment allowed_modes')
     wire.require(type(value['protocol']) is int and type(value['runner_version']) is str and len(value['runner_version'])<=40,'runner_version_invalid')
     wire.hex_value(value['engine_sha256']);wire.hex_value(value['route_sha256']);identity=value['target_identity']
     wire.fields(identity,'uid processor machine release recipe_id root')
@@ -40,6 +40,8 @@ def inventory(value):
     for name,caps in adapters.items():
         wire.require(name in REGISTRY and type(caps) is list and len(caps)==len(set(caps)) and set(caps)<=CAPABILITIES,'adapter_inventory_invalid')
     wire.require(value['attachment'] in {'managed-fixture','external-attach'},'attachment_invalid')
+    wire.require(type(value['allowed_modes']) is list and value['allowed_modes'] and len(value['allowed_modes'])<=6 and
+        set(value['allowed_modes'])<={'corrected','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'},'runner_modes_invalid')
     return value
 
 def status(runner):
@@ -96,6 +98,7 @@ def authenticate(message):
             RunnerNonce.objects.filter(pk__in=list(expired)).delete()
             RunnerNonce.objects.create(runner=runner,nonce=payload['nonce'],expires_at=timezone.now()+timedelta(seconds=125))
     except IntegrityError:raise wire.ProtocolError('runner_request_replayed') from None
+    CustomerRunner.objects.filter(pk=runner.pk,revoked_at__isnull=True).update(last_seen=timezone.now())
     return runner,payload
 
 def heartbeat(runner,body):

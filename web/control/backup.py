@@ -14,6 +14,7 @@ from .engine import PolicyError
 
 MAGIC=b'RMCBK001';LOCK=726301820497;BOUND=4*1024**3
 TABLES=('control_user','control_organization','control_project','control_run','control_artifact','control_auditevent','control_accesscode','control_accesssession','control_sourcesubmission','control_aianalysis')
+RUNNER_TABLES=('control_customerrunner','control_runnerenrollment','control_runnernonce','control_runnerjob','control_runnerchunk')
 AUDIT_BODY="BEGIN RAISE EXCEPTION 'Audit events are append-only'; END;"
 
 @contextmanager
@@ -46,7 +47,12 @@ def pg(tool,args,*,timeout=120,check=True):
 
 def identity(cursor):
     counts={}
-    for table in TABLES:
+    # Keep pre-runner immutable snapshots restorable. A new snapshot must account
+    # for the complete additive runner schema, never silently omit partial tables.
+    cursor.execute('SELECT to_regclass(name) IS NOT NULL FROM unnest(%s::text[]) name',[list(RUNNER_TABLES)])
+    present=[row[0] for row in cursor.fetchall()]
+    if any(present) and not all(present):raise PolicyError('backup_runner_schema_incomplete')
+    for table in TABLES+(RUNNER_TABLES if all(present) else ()):
         cursor.execute('SELECT count(*) FROM '+table);counts[table]=cursor.fetchone()[0]
     cursor.execute('SELECT id::text,sha256 FROM control_artifact ORDER BY id')
     return {'counts':counts,'artifact_sha256':hashlib.sha256(json.dumps(cursor.fetchall(),separators=(',',':')).encode()).hexdigest()}

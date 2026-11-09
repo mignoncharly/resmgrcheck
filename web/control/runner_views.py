@@ -22,8 +22,12 @@ def machine(request,operation):
         if operation=='enroll':result=runners.enroll(value)
         elif operation=='exchange':
             runner,payload=runners.authenticate(value);body=payload['body']
-            wire.require(type(body) is dict and body.get('operation')=='heartbeat','runner_operation_invalid')
-            result=runners.response(payload,runners.heartbeat(runner,body))
+            wire.require(type(body) is dict,'runner_operation_invalid')
+            if body.get('operation')=='heartbeat':answer=runners.heartbeat(runner,body)
+            else:
+                from .runner_jobs import exchange
+                answer=exchange(runner,body)
+            result=runners.response(payload,answer)
         else:raise wire.ProtocolError('runner_operation_invalid')
         reply=JsonResponse(result);reply['Cache-Control']='no-store';return reply
     except (wire.ProtocolError,ValueError,TypeError,KeyError,AttributeError):
@@ -63,3 +67,25 @@ def revocation(request,project_id,target_id):
     runner=get_object_or_404(CustomerRunner.objects.select_related('target'),target_id=target_id,target__project=project)
     runners.revoke(request.user,runner.target)
     return redirect('runner_detail',project_id=project.pk,target_id=target_id)
+
+@administrator
+@require_POST
+def approve_build(request,project_id,target_id,build_id):
+    from .models import BuildRelease
+    from resmgrcheck.deployment import Deployment
+    from django.db import transaction
+    from .security import audit
+    project,_=project_access(request.user,project_id,'admin')
+    with transaction.atomic():
+        runner=get_object_or_404(CustomerRunner.objects.select_for_update().select_related('target'),target_id=target_id,target__project=project)
+        build=get_object_or_404(BuildRelease.objects.select_for_update(),pk=build_id,target_id=target_id)
+        if runners.status(runner)!='connected':return JsonResponse({'error':'runner_not_approved_or_connected'},status=409)
+        try:
+            selected=Deployment.parse(build.manifest)
+            wire.require(request.POST.get('deployment_id')==selected.data['deployment_id'],'runner_build_changed')
+            for a,b in [('uid','uid'),('processor','architecture'),('machine','machine'),('release','release'),('recipe_id','recipe_id')]:
+                wire.require(runner.inventory['target_identity'][a]==selected.data[b],'runner_build_incompatible')
+        except (ValueError,KeyError):return JsonResponse({'error':'runner_build_incompatible'},status=409)
+        build.approved=True;build.binding=str(build.pk);build.save(update_fields=['approved','binding'])
+        audit(request.user,'runner.build_approved',project.organization,target_id,build_id=str(build.pk),deployment_id=selected.data['deployment_id'])
+    return redirect('targets',project_id=project.pk)

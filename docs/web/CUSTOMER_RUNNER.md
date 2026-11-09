@@ -1,8 +1,8 @@
 # Customer-owned outbound runner, protocol1
 
 Enrollment/heartbeat is implemented and staged (W015), disabled in production.
-Job delivery/evidence ingestion and additional-adapter qualification are the next
-checkpoints. No separate customer runner host is available. Actual loopback HTTPS
+W016 implements signed jobs, same-ID recovery, bounded upload and private ingestion.
+Additional native and separate-host qualification remain pending. No separate customer runner host is available. Actual loopback HTTPS
 tests use fixture discovery, not a licensed remote QNX target or public service.
 
 The customer retains their own legally licensed QNX SDK/runtime, SSH identity,
@@ -30,7 +30,8 @@ locally; neither private configuration nor token belongs in Git):
   "target_config": "/etc/customer-runner/target.json",
   "alias": "customer-qnx",
   "manifests": {},
-  "attachment": "managed-fixture"
+  "attachment": "managed-fixture",
+  "allowed_modes": ["corrected"]
 }
 ```
 
@@ -66,3 +67,14 @@ proxies. An explicit private CA bundle can be supplied with --ca-file for isolat
 testing; there is no insecure TLS option. Server-key rotation needs out-of-band
 review and explicit re-pinning. Application/MFA/backup keys remain separate from
 the new runner signing key. Enrollment/heartbeat alone cannot execute anything.
+
+## Run approved work
+
+After separate inventory approval and explicit compatible-build approval, map each deployment hash to the customer-local immutable manifest in `manifests`. Only locally allowlisted modes can run; add deliberate defects only in an explicitly owned lab.
+
+```sh
+/srv/customer/venv/bin/python -B -m customer_runner work \
+  --config /etc/customer-runner/runner.json --state /var/lib/customer-runner
+```
+
+Use --once for one poll. The fsynced launch intent precedes the single central grant. Any uncertain result selects exact-ID collect, never run/replay again. A lost upload acknowledgement retries the same immutable archive/chunk; accepted prefixes are journaled. New native results remain withheld until private canonical validation. Missing original local replay evidence, changed route/build/source, revoked authorization, missing capabilities or uncertain cleanup blocks work. Customer operator installation/build/deploy remains local and explicit; the control plane cannot supply shell strings, target addresses or binaries.

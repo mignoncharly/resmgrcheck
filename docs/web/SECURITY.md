@@ -183,3 +183,7 @@ do not qualify production UID982, real DB/keys or full namespace/BPF containment
 Actual corrected root-managed activation, runtime_check and private HTTP200 in both
 modes remain mandatory before advancing the current production gate. No public
 deployment or P8 pass follows from user-manager tests alone.
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+Launch grants are durable single-use transitions, fenced by current user/code authority,15-minute queue/MFA freshness, exact runner capability/route/build and quotas. A local fsynced journal precedes grant delivery, so crashes/loss never select a replacement run or silently restart an external service. Customer-local mode/build allowlists may refuse central approval. Fixed read-only storage inventory reserves native file/block budget. Chunk uploads are signed/idempotent/bounded; DB guards reject changed archives/chunks and deleted/reset launch provenance. HTTP may insert chunks but cannot update/delete them or seal artifacts; private sealing precedes chunk cleanup. Tar modes, links, traversal and unknown members are refused. Native contracts/identity/seals are verified before no-replace publication. Failed stages remain for bounded recovery. Real PostgreSQL SET ROLE and loopback TLS upload/ingestion passed; independent review and separate-host/public/native-runner qualification remain pending.

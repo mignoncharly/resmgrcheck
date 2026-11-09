@@ -655,3 +655,7 @@ the public URL and real operations externally. No public deployment has occurred
 Implementation references: [PostgreSQL synchronized dump snapshots](https://www.postgresql.org/docs/16/app-pgdump.html),
 [systemd containment](https://www.freedesktop.org/software/systemd/man/255/systemd.exec.html),
 [Django deployment checklist](https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/).
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+W016 adds additive migrations0018/0019 and narrow runner-table grants. A real development migration roundtrip preserved existing audit rows and restored a pre-runner-schema encrypted archive. New snapshots account for the complete runner schema; partial schemas fail closed. Production rollback must preserve additive tables/customer records, not reverse migrations after enrollment, and keep executors stopped while old code lacks customer routing guards. No broad production activation command is ready: actual new-runner QNX/browser, separate-host and immutable upgrade/rollback qualification remain. Keep3821952 and its verified backup/keys intact; do not use the old restore-only upgrade helper for this broader scope.

@@ -7,9 +7,10 @@ from .agent import config,discover,route_fingerprint
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('operation',choices=['enroll','heartbeat'])
+    p.add_argument('operation',choices=['enroll','heartbeat','work'])
     p.add_argument('--config',required=True);p.add_argument('--state',required=True);p.add_argument('--enrollment-file')
     p.add_argument('--ca-file',help='Optional explicit trusted CA bundle; TLS verification is always enabled')
+    p.add_argument('--once',action='store_true',help='Process at most one job poll')
     args=p.parse_args();os.umask(0o077)
     try:
         configuration=config(args.config);state=Path(args.state)
@@ -35,7 +36,17 @@ def main():
                 token=protected(Path(args.enrollment_file),128).decode('ascii').strip()
                 result=client.enroll(token,inventory)
                 wire.require(result['organization_id']==configuration['organization_id'] and result['project_id']==configuration['project_id'],'enrollment_tenant_mismatch')
-            else:result=client.exchange({'operation':'heartbeat','inventory':inventory})
+            elif args.operation=='heartbeat':result=client.exchange({'operation':'heartbeat','inventory':inventory})
+            else:
+                from .work import run_once
+                while True:
+                    try:print(json.dumps(run_once(client,configuration,state,inventory)),flush=True)
+                    except wire.ProtocolError:
+                        if args.once:raise
+                        print(json.dumps({'state':'disconnected_or_work_withheld','cleanup_verified':False}),flush=True)
+                    if args.once:break
+                    time.sleep(30)
+                return
             print(json.dumps({'state':result['state'],'runner_public_key':wire.public(seed),'inventory_sha256':wire.fingerprint(inventory),'native_test_executed':False}))
         finally:os.close(fd)
     except (wire.ProtocolError,OSError,ValueError,KeyError,TypeError):

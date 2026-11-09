@@ -16,8 +16,13 @@ GRANT INSERT,UPDATE,DELETE ON
  control_run,control_sourcesubmission,control_aianalysis,control_aiusage,
  django_session,control_cache,account_emailaddress,account_emailconfirmation,
  mfa_authenticator,usersessions_usersession TO resmgr_web;
+GRANT INSERT,UPDATE ON control_customerrunner,control_runnerenrollment,control_runnerjob TO resmgr_web;
+GRANT INSERT,DELETE ON control_runnernonce TO resmgr_web;
+GRANT INSERT ON control_runnerchunk TO resmgr_web;
 GRANT INSERT,UPDATE ON control_run,control_target,control_executorslot,control_artifact,
  control_sourcesubmission,control_aianalysis TO resmgr_exec;
+GRANT UPDATE ON control_runnerjob TO resmgr_exec;
+GRANT DELETE ON control_runnerchunk TO resmgr_exec;
 GRANT DELETE ON control_ratebucket TO resmgr_exec;
 GRANT INSERT,UPDATE ON control_aianalysis,control_aiproviderstate,control_aiusage,control_ailease TO resmgr_ai;
 -- No runtime schema CREATE, relation ownership, role membership, DDL or audit rewrite.

@@ -41,3 +41,7 @@ applications must survive a rollback.
 The former SMTP prerequisite is superseded by ACCESS_MODEL.md. Production uses
 protected local administrator provisioning/recovery, scoped access-code sessions,
 mandatory administrator MFA and no public registration/email authentication.
+
+## W016 — staged runner job and evidence route (2026-11-09)
+
+Signed job delivery, one-launch journals, same-ID recovery, bounded upload and private ingestion are staged.108 focused regressions plus one actual additive migration/legacy encrypted restore test passed. The real loopback TLS evidence-upload journey imports genuine recorded QNX bytes and retains their original native ID; it does not establish new native activity. Production pointer remains3821952. No new code/schema/key/grant was deployed. Additional native/browser and immutable release checks continue; public activation still requires separate-host customer qualification and independent acceptance.

@@ -31,5 +31,5 @@ class PolicyMiddleware:
         if 'Content-Security-Policy' not in response:
             response['Content-Security-Policy']="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; frame-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'"
         response['Permissions-Policy']='camera=(), microphone=(), geolocation=()'
-        response['Cache-Control']='no-store' if request.user.is_authenticated or request.path.startswith(('/access/','/administrator/')) else 'no-cache'
+        response['Cache-Control']='no-store' if request.user.is_authenticated or request.path.startswith(('/access/','/administrator/','/runner/')) else 'no-cache'
         return response

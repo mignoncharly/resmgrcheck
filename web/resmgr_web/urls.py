@@ -9,6 +9,7 @@ urlpatterns=[
  path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/',runner_views.detail,name='runner_detail'),
  path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/approve/',runner_views.approval,name='runner_approve'),
  path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/revoke/',runner_views.revocation,name='runner_revoke'),
+ path('app/projects/<uuid:project_id>/runners/<uuid:target_id>/builds/<uuid:build_id>/approve/',runner_views.approve_build,name='runner_build_approve'),
  path('healthz/',views.health,name='health'),path('readyz/',views.readiness,name='readiness'),
  path('administrator/login/',account.LoginView.as_view(template_name='control/administrator_login.html'),name='account_login'),
  path('administrator/reauthenticate/',account.ReauthenticateView.as_view(),name='account_reauthenticate'),

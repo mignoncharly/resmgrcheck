@@ -2,7 +2,7 @@
 import hashlib,re,uuid
 from datetime import datetime,timezone as dt_timezone,timedelta
 from django.conf import settings
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError,ObjectDoesNotExist
 from django.db import transaction
 from django.http import Http404
 from django.utils import timezone
@@ -28,11 +28,17 @@ def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,
     if not verified(request.user) or not mfa_authenticated(request,900):raise QueueError('recent_verified_mfa_required')
     if target.project_id!=project.pk or not target.approved:raise QueueError('target_not_approved')
     if target.state=='quarantined':raise QueueError('target_quarantined')
-    if target.kind in {'customer-request','customer-runner'} or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')
+    if target.kind=='customer-request' or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')
     if operation!='inventory' and (not build or build.target_id!=target.pk or not build.approved):raise QueueError('build_not_approved')
     if not re.fullmatch(r'[A-Za-z0-9_-]{16,64}',key):raise QueueError('idempotency_key_invalid')
     if operation not in {'run','replay','inventory'} or profile not in {'sensor','job'} or suite not in {'profile','lifecycle','health'} or mode not in {'fixed','ignore-unblock','retain-waiter','retain-third','duplicate-terminal','drop-job'}:raise QueueError('execution_selection_invalid')
     if operation=='replay' and (not original or original.project_id!=project.pk or original.state!='completed' or original.purged_at):raise QueueError('original_evidence_unavailable')
+    if target.kind=='customer-runner':
+        if operation=='inventory':raise QueueError('customer_inventory_uses_signed_heartbeat')
+        from .runner_jobs import capable
+        from customer_runner.protocol import ProtocolError
+        try:capable(target,build,profile,suite,mode)
+        except (ProtocolError,ValueError,OSError,ObjectDoesNotExist):raise QueueError('customer_runner_capability_or_approval_unavailable') from None
     intent={'project':str(project.pk),'target':str(target.pk),'build':str(build.pk) if build else None,'operation':operation,'profile':profile,'suite':suite,'mode':mode,'original':str(original.pk) if original else None}
     fingerprint=digest(intent)
     authorized_at=assurance_at(request)
@@ -43,6 +49,14 @@ def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,
         if existing:
             if existing.intent_sha256!=fingerprint:raise QueueError('idempotency_intent_conflict')
             return existing,False
+        if target.kind=='customer-runner':
+            from .models import CustomerRunner
+            Target.objects.select_for_update().get(pk=target.pk)
+            runner=CustomerRunner.objects.select_for_update().get(pk=target.pk)
+            try:capable(target,build,profile,suite,mode)
+            except (ProtocolError,ValueError,OSError):raise QueueError('customer_runner_capability_or_approval_unavailable') from None
+            if Run.objects.filter(target=target,state__in=ACTIVE).count()>=2:raise QueueError('target_queue_full')
+            if Run.objects.filter(target=target,created_at__gte=timezone.now().replace(hour=0,minute=0,second=0,microsecond=0)).count()>=runner.daily_limit:raise QueueError('target_daily_quota')
         if original:
             saved=Run.objects.select_for_update().get(pk=original.pk)
             if saved.purged_at or saved.project_id!=project.pk or saved.state!='completed':raise QueueError('original_evidence_unavailable')
