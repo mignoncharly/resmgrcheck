@@ -1,5 +1,13 @@
 # Private production qualification handoff
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 W021 current state (2026-11-09): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
@@ -787,3 +795,21 @@ Actual new private/HTTPS qualification remains pending operator execution.
 The committed authentication application is325f367c803b44e2f5ac5f4bb3264a7abfb7f08f.
 Its immutable recovery plan passed unprivileged review. Actual current remains544f22c;
 use the reviewed driver SHA from the handoff with this application revision.
+
+## W026 password-only administrators and preserved recovery state
+
+Use the current password-only application/driver SHAs in HTTPS_DEPLOYMENT.md, not
+the old325f367/e6890b0 command. Its previous preparation failed release inventory
+before backup/staging, independently of MFA. The new helper preserves the exact
+prepared journal in history, validates original tracked files and any retained
+cache against committed source, and refuses unknown resources. Existing secrets,
+MFA authenticators, DB/audit/evidence and original544 directory remain intact.
+
+The single reviewed root command stages a new immutable directory/static tree,
+creates/binds an encrypted snapshot and isolated restore proof, switches only the
+private web/socket, verifies nonroot runtime/readiness and then runs strict HTTPS/
+rollback/password/code acceptance. It does not migrate schema, change units/grants,
+create QNX routes, enable customer endpoints/AI, patch current in place or reset
+protected state. Same-command retry and --rollback retain all records/releases.
+Exact protected caches and actual new service/public acceptance remain operator
+gates; unprivileged test success does not complete P8.

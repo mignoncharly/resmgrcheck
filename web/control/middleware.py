@@ -2,10 +2,27 @@ from django.conf import settings
 from django.http import HttpResponse
 from .security import consume_rate
 
+class AdministratorSessionMiddleware:
+    def __init__(self,get_response):self.get_response=get_response
+    def __call__(self,request):
+        from django.contrib.auth import logout
+        from django.utils import timezone
+        from .security import is_code,audit
+        if request.user.is_authenticated and not is_code(request.user):
+            now=timezone.now().timestamp();started=request.session.get('rmc_admin_started_at');seen=request.session.get('rmc_admin_last_seen')
+            valid=(isinstance(started,(int,float)) and isinstance(seen,(int,float)) and
+                now-settings.ADMIN_SESSION_ABSOLUTE_SECONDS<started<=now+5 and now-settings.ADMIN_SESSION_IDLE_SECONDS<seen<=now+5)
+            if not valid:
+                audit(request.user,'administrator.session_expired');logout(request)
+            else:request.session['rmc_admin_last_seen']=now
+        return self.get_response(request)
+
 class PolicyMiddleware:
     def __init__(self,get_response):self.get_response=get_response
     def __call__(self,request):
         from .security import is_code
+        if not settings.ADMIN_MFA_REQUIRED and request.path.startswith('/administrator/2fa/'):
+            return HttpResponse('Not found.',status=404)
         if request.path.startswith('/administrator/') and is_code(request.user):
             return HttpResponse('Administrator access required. Sign out before administrator login.',status=404)
         if request.method=='POST':

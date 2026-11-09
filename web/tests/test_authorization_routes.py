@@ -1,6 +1,7 @@
 """Enumerate exposed routes; real DB principals, no production accounts or keys."""
 import re,uuid
 from datetime import timedelta
+import time
 from django.conf import settings
 from django.test import TestCase,Client,override_settings
 from django.urls import get_resolver,URLResolver,resolve,reverse
@@ -61,8 +62,9 @@ class RouteBoundaryTests(TestCase):
         fresh=Client();self.assertEqual(fresh.post('/access/',{'code':self.raw}).status_code,302)
         AccessSession.objects.filter(pk=fresh.session['rmc_access_session']).update(expires_at=timezone.now()-timedelta(seconds=1))
         self.assertEqual(fresh.get('/app/').status_code,302)
-    def test_administrator_objects_still_require_recent_mfa_and_membership(self):
+    def test_administrator_objects_still_require_recent_password_and_membership(self):
         self.assertEqual(self.admin.get(reverse('project',args=[self.project.pk])).status_code,200)
         stale=signed_client(self.user)
+        session=stale.session;session['account_authentication_methods'][0]['at']=time.time()-1000;session.save()
         self.assertIn('reauthenticate',stale.get(reverse('access_codes',args=[self.org.pk])).url)
         self.assertEqual(self.admin.get(reverse('project',args=[UNKNOWN])).status_code,404)

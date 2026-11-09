@@ -1,16 +1,27 @@
 # DWEB-001 — Administrator accounts and scoped access-code sessions
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Owner-approved2026-11-07. Replaces the former public registration/email account
 decision for the web application. Historical native evidence and earlier web test
 records are preserved; they do not qualify the revised authentication gate.
 
 Only administrators have username/password accounts. A protected local command
 provisions them; there is no public signup, email verification, invitation or email
-reset route, and no SMTP dependency. Argon2 password hashes, TOTP/offline second-factor
-recovery codes, password changes and administrator session revocation are retained.
-Forgotten passwords/lost MFA require the audited protected local recovery procedure.
-An offline MFA recovery code is a second factor alongside the password; it is not an
-email/password-reset workflow. Production provisioning/recovery requires root.
+reset route, and no SMTP dependency. Argon2 password hashes, password changes and administrator session revocation are
+mandatory. MFA is deferred for this hackathon release: existing authenticators and
+encryption keys are retained but neither login nor privileged actions require a
+second factor. Only a reviewed future release may reactivate it. Protected local
+password recovery preserves these records; --reset-mfa is refused while deferred.
+Production provisioning/recovery requires root. Administrator sessions expire after
+30 idle minutes or12 absolute hours; privileged actions retain recent-password
+confirmation without an MFA challenge.
 
 Developers/testers receive an administrator-issued code and create no User row.
 Generation uses256 random secret bits plus a random locator. The raw value is shown
@@ -93,7 +104,7 @@ bundles, manifests, SDK/SSH authentication, CLI, QNX fixtures and published rele
 are unchanged. Retention still protects historical hashes, audit and supervised
 cleanup facts. See OPERATIONS.md for commands and TEST_EVIDENCE.md for actual results.
 
-Acceptance requires PostgreSQL provisioning/login/MFA, invalid/expired/revoked code,
+Acceptance requires PostgreSQL provisioning/password login (MFA deferred), invalid/expired/revoked code,
 limits/concurrency, session/code revocation, rate/CSRF, project/target/evidence/AI
 boundaries, queued execution authorization, anonymous denial and real responsive/
 JavaScript-disabled browser qualification. Public deployment remains gated on this

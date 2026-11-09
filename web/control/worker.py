@@ -20,7 +20,7 @@ LEASE_SECONDS=30
 def reauthorize(run,recovery=False):
     actor=job_principal(run)
     if not recovery:
-        if not verified(actor) or (not is_code(actor) and not enrolled(actor)) or auth_fingerprint(actor)!=run.actor_auth_hash:raise PolicyError('actor_authorization_revoked')
+        if not verified(actor) or (settings.ADMIN_MFA_REQUIRED and not is_code(actor) and not enrolled(actor)) or auth_fingerprint(actor)!=run.actor_auth_hash:raise PolicyError('actor_authorization_revoked')
         try:permission(actor,run.project_id,'run',target=run.target,run=run.original if run.original_id else None)
         except Http404:raise PolicyError('project_authorization_revoked')
     if run.target.project_id!=run.project_id:raise PolicyError('target_tenant_mismatch')

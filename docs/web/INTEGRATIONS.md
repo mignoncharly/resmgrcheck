@@ -1,5 +1,13 @@
 # Private operator integrations
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Never paste credentials or protected files into chat. Use dedicated ResMgrCheck
 accounts; do not borrow another VPS application's database/mail/provider secrets.
 
@@ -12,7 +20,7 @@ email password reset are removed. Legacy private SMTP entries are ignored and
 never loaded into the application's environment; their values are not printed.
 
 Provision administrator usernames locally with the protected command documented
-in OPERATIONS.md. Administrators use passwords plus MFA; developers/testers redeem
+in OPERATIONS.md. Administrators use username/password only for this release (MFA deferred); developers/testers redeem
 scoped codes into browser sessions without accounts. Code secrets are shown only
 once and cannot be recovered from the server. Recovery is a protected local server
 procedure, never email. No user should send credentials or codes in chat.

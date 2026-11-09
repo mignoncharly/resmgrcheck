@@ -1,5 +1,13 @@
 # ResMgrCheck Production Web + AI: implementation contract
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Status: **implementation specification**, not a deployed or verified web application.
 Baseline: public qualified commit `ca4f74e0fcff33b6f6ebf6c553b3f8379f6440e0`.
 Implementation branch: `feature/production-web-ai`.
@@ -34,8 +42,8 @@ Split the public **control plane** from the **execution plane**:
 
 ## Real-user workflows to ship
 
-1. Anonymous landing, scope, documentation and recorded demo. Distinct administrator username/password/MFA login and developer access-code redemption. No public registration.
-2. Only locally provisioned administrators have password accounts, securely hashed with mandatory MFA, protected password changes and global session revocation. Lost-password/MFA recovery is an audited protected server-side procedure. No email authentication or SMTP dependency. Developers/testers have revocable browser sessions after code redemption, without user accounts.
+1. Anonymous landing, scope, documentation and recorded demo. Distinct administrator username/password login (MFA deferred for the hackathon) and developer access-code redemption. No public registration.
+2. Only locally provisioned administrators have password accounts, securely hashed; MFA is deferred, with existing keys/authenticators retained, protected password changes and global session revocation. Password recovery is an audited protected server-side procedure; deferred MFA records are preserved. No email authentication or SMTP dependency. Developers/testers have revocable browser sessions after code redemption, without user accounts.
 3. Administrator-issued cryptographically random access codes carry explicit project/target/evidence grants, optional expiry, redemption and active-session limits, download/live/AI permissions, usage/audit and immediate revocation. Display raw codes once; store only a secure keyed verifier. Never accept them as unrestricted API credentials. Repeat scoped authorization in every view/API, queue, execution boundary, download and AI retrieval. Administrators retain scoped organization roles; no public administrator signup.
 4. Target management: explicit local/owned lab or verified remote agent; capability discovery and provenance. Accurate connect, unknown, unavailable, unsupported, and last-seen statuses.
 5. Profile/scenario selection with server-side validation; target compatibility checks, required capability checks, preview and confirmation.
@@ -58,7 +66,7 @@ Split the public **control plane** from the **execution plane**:
 
 **P1. App foundation**: pinned supported backend dependencies; Django app, PostgreSQL migrations, health/readiness, config separation, env-based settings, static assets, accessibility shell, typed data models. Unit tests and isolated staging deployment.
 
-**P2. Identity and authorization (reopened by approved access decision)**: protected local administrator provisioning/recovery, username/password plus MFA, password changes/session revocation; no signup/email/SMTP. Scoped one-time-display access codes with secure verifier storage, serialized redemption/session limits, immediate revocation, secure browser sessions and organization/project/target/evidence/AI/live permissions. Test PostgreSQL concurrency, expired/revoked/bad codes, authorization and CSRF, background launch revocation, anonymous denial and JavaScript-disabled browser behavior. Preserve historical authors/audit/evidence through safe migrations. Use OWASP ASVS 5.0 Level 2 as a checklist where applicable, not a claimed certification.
+**P2. Identity and authorization (reopened by approved access decision)**: protected local administrator provisioning/recovery, username/password only (MFA deferred), password changes/session revocation,30-minute idle/12-hour absolute session expiration; no signup/email/SMTP. Scoped one-time-display access codes with secure verifier storage, serialized redemption/session limits, immediate revocation, secure browser sessions and organization/project/target/evidence/AI/live permissions. Test PostgreSQL concurrency, expired/revoked/bad codes, authorization and CSRF, background launch revocation, anonymous denial and JavaScript-disabled browser behavior. Preserve historical authors/audit/evidence through safe migrations. Use OWASP ASVS 5.0 Level 2 as a checklist where applicable, not a claimed certification.
 
 **P3. Real engine integration**: fixed command adapters, target capability inventory, policy/allowlists, run-id mapping, durable job states, bounded subprocess execution, exact recovery; real QNX staging tests prove existing engine still works. No arbitrary external-service lifecycle support.
 

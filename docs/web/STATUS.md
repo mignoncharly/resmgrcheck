@@ -1,5 +1,13 @@
 # Production web implementation status
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
@@ -315,3 +323,33 @@ updated HTTPS_DEPLOYMENT.md. P8 remains IN_PROGRESS; P9/P10 not claimed.
 The committed authentication application is325f367c803b44e2f5ac5f4bb3264a7abfb7f08f.
 Its immutable recovery plan passed unprivileged review. Actual current remains544f22c;
 use the reviewed driver SHA from the handoff with this application revision.
+
+## W026 password-only administrators and preserved recovery state
+
+W026 implements the approved password-only administrator policy. No enrollment,
+MFA login or MFA privileged gate is active; existing authenticators, their encrypted
+records, MFA source key and LoadCredential remain intact.15-minute privileged
+reauthentication uses the password; sessions have30-minute idle and12-hour absolute
+limits. Local provisioning/recovery, hashing, CSRF/origin, rate limits, audit,
+revocation and all tenant/project/target/evidence scopes remain enforced. Developer/
+jury sessions still use administrator-issued codes without personal accounts.
+
+The previous e6890b0 RuntimeError was original-release validation rejecting untracked/
+ignored content, before staging/backup, not an MFA failure. Protected metadata shows
+prepared325f367, no backup bound, original544 active/ready200, HTTP404 restored and
+old diagnostic data predating this attempt. Unprivileged metadata identifies three
+root-owned750 Python cache directories, with no unexpected visible source files.
+Root -I ignored environment-only bytecode suppression. New launchers set -B and
+sys.dont_write_bytecode. Only caches matching fresh committed-source compilation
+may be retained; unknown files, links, unsafe modes or altered payloads still stop
+recovery, and nothing is deleted/chmodded. Exact protected cache payload validation
+remains an operator-workflow gate, not an observation from unprivileged metadata.
+
+392 web tests PASS in93.974s. Actual isolated Django/PostgreSQL/Gunicorn26.2/Unix/
+Nginx/private-TLS browser acceptance PASS in150.878s:46 desktop/mobile/no-JS views,
+12 zero-violation scans, password-only login and scoped code management/expiry/
+revocation. Actual systemd/new private release/public HTTPS qualification is pending.
+The reviewed recovery adopts only the known unstarted prepared attempt with retained
+history, creates a new immutable release, preserves old data/keys/receipts and
+checks backup/restore/private readiness/isolation before HTTPS. P8 IN_PROGRESS;
+no new QNX execution or production-native/customer-host qualification is claimed.

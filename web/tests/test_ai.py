@@ -33,7 +33,7 @@ class AITests(TestCase):
         return provider
     def request(self):
         result=RequestFactory().post('/app/analysis/');result.user=self.owner
-        result.session={'account_authentication_methods_user':str(self.owner.pk),'account_authentication_methods':[{'method':'mfa','type':'totp','at':time.time()}]}
+        result.session={'account_authentication_methods_user':str(self.owner.pk),'account_authentication_methods':[{'method':'password','at':time.time()}]}
         return result
     def queued(self,run=None,key=None):
         run=run or self.recorded('broken');payload,citations=evidence_pack(self.owner,run,'timeout','explain')

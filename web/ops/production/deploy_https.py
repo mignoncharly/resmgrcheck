@@ -7,6 +7,7 @@ immutable release or changes another site, application unit, database role or ke
 import argparse,errno,fcntl,grp,hashlib,json,os,pwd,re,secrets,signal,stat,struct,subprocess,sys,time
 from contextlib import contextmanager
 from pathlib import Path
+sys.dont_write_bytecode=True # -I ignores PYTHONDONTWRITEBYTECODE; protect immutable source.
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from https_config import HOST,http_config,site_config,renewal_hook
 from https_checks import Client,CheckFailed,checks,require
@@ -419,7 +420,7 @@ def apply(revision,driver,rollback=False,acceptance=True):
                 'protected_report':str(STATE/'report.json'),'external_and_authenticated_acceptance':'pending'}),flush=True)
             if acceptance:
                 print(json.dumps({'step':'authenticated_browser_acceptance','status':'running','maximum_seconds':1500}),flush=True)
-                acceptance_result=command([str(OPT/'current/.venv/bin/python'),'-I',HERE/'acceptance_operator.py','--release',revision,'--driver-revision',driver,
+                acceptance_result=command([str(OPT/'current/.venv/bin/python'),'-I','-B',HERE/'acceptance_operator.py','--release',revision,'--driver-revision',driver,
                     '--state',str(STATE)],timeout=1800,progress='authenticated_browser_acceptance')
                 value=json.loads(acceptance_result);report['authenticated_acceptance']=value
                 report['public_acceptance']='passed' if value.get('overall_acceptance')=='passed' else 'in_progress'

@@ -1,5 +1,13 @@
 # Initial expanded private release from3821952
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 This is an operator-run private upgrade, not authorization to expose HTTPS. Keep
 P8 IN PROGRESS. The initial expanded release keeps customer machine endpoints and
 AI disabled, preserves canonical units/LoadCredential/nonroot execution, and never

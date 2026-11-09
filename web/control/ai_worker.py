@@ -55,7 +55,7 @@ def execute(identifier,token):
         if slot.analysis_id!=analysis.pk or slot.token!=token or slot.expires_at<=timezone.now():raise PolicyError('ai_lease_lost')
         provider=configuration()
         if provider.public()!=analysis.pricing:raise PolicyError('ai_provider_policy_changed')
-        if not verified(actor) or (not is_code(actor) and not enrolled(actor)) or auth_fingerprint(actor)!=analysis.actor_auth_hash:raise PolicyError('ai_actor_authorization_revoked')
+        if not verified(actor) or (settings.ADMIN_MFA_REQUIRED and not is_code(actor) and not enrolled(actor)) or auth_fingerprint(actor)!=analysis.actor_auth_hash:raise PolicyError('ai_actor_authorization_revoked')
         permission(actor,analysis.run.project_id,'ai',target=analysis.run.target,run=analysis.run)
         project=analysis.run.project
         if not project.ai_enabled or project.ai_daily_budget_microusd==0:raise PolicyError('ai_project_disabled')

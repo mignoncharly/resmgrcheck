@@ -8,7 +8,7 @@ from django.http import Http404
 from django.utils import timezone
 from allauth.account.internal.flows.login import get_authentication_records
 from .models import Run,Target,BuildRelease,ExecutorSlot
-from .security import project_access,verified,enrolled,audit,mfa_authenticated,is_code,principal_fields,permission,assurance_at
+from .security import project_access,verified,enrolled,audit,authentication_recent,is_code,principal_fields,permission,assurance_at
 from resmgrcheck.contracts import digest
 from resmgrcheck.registrations import PROFILES,REGISTRY
 
@@ -26,7 +26,7 @@ def auth_fingerprint(user):
 
 def enqueue(request,project,target,build,*,profile,suite,mode,key,original=None,operation='run'):
     permission(request.user,project.pk,'inventory' if operation=='inventory' else 'replay' if operation=='replay' else 'run',target=target,run=original)
-    if not verified(request.user) or not mfa_authenticated(request,900):raise QueueError('recent_verified_mfa_required')
+    if not verified(request.user) or not authentication_recent(request,900):raise QueueError('recent_authentication_required')
     if target.project_id!=project.pk or not target.approved:raise QueueError('target_not_approved')
     if target.state=='quarantined':raise QueueError('target_quarantined')
     if target.kind=='customer-request' or (target.kind=='external-health' and suite!='health'):raise QueueError('required_capability_unsupported')

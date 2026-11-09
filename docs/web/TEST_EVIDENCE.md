@@ -1,5 +1,13 @@
 # Production web test evidence
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 ## W015 — current inventory and outbound runner enrollment (2026-11-09)
 
 The operator confirms actual private HTTP200, nonroot systemd runtime_check and
@@ -1188,3 +1196,52 @@ checking an owned killed child raced /proc reaping; it now accepts disappearance
 between lookup/read as a reaped process, while any still-present process must be
 a zombie. The final pass includes all strict rollback/TLS/security regressions.
 No application supervision behavior changed for that test correction.
+
+## W026 password-only administrators and preserved recovery state
+
+Evidence: evidence/password-only. Operator-run read-only probe confirmed e6890b0's
+RuntimeError at original release unknown_untracked_content, phase prepared, no
+backup bound and no completed staged manifest. The exact original544 remains active,
+private readiness200, own HTTP404/root0644 files/link restored and units active.
+The preparation diagnostic's Git-ownership markers predate this attempt and are not
+the new failure. No secrets/protected contents were displayed. Unprivileged walk
+finds root-owned750 __pycache__ directories under resmgrcheck, web/control and
+web/resmgr_web, no unexpected visible files; contents are inaccessible to agent.
+
+The Python regression proves -I ignores PYTHONDONTWRITEBYTECODE while -I -B prevents
+writes. Root launchers also set sys.dont_write_bytecode before repository imports.
+Cache validation compares bounded protected regular single-link files, interpreter/
+header/source binding and exact marshal bytes of fresh compilation of Git-trusted
+source; it never imports or unmarshals the candidate and never deletes/chmods it.
+Tests reject tampered payload/header, unrelated files, symlinks and world-write.
+Actual protected cache equality remains required by the operator command. Prepared
+325f367/e6890b0 can transition only with original544 still current and no backup
+bound/verified; its exact journal is retained. Unknown states/resources are refused.
+
+Full web suite392 tests PASS in93.974s using disposable PostgreSQL/files/processes.
+It covers current password-only login both with/without stored MFA, unchanged
+Authenticator records, local recovery preserving records/refusing reset, actual
+invalid-login/rate/CSRF tests, secure cookies/origin, idle/absolute expiry and recent
+password checks, code issuance/revocation/limits/concurrency, scoped protected routes,
+queued native/AI authority and start revocation, immutable/audit/backup/restore and
+existing runner guards. Legacy MFA compatibility tests use explicit test-only
+ADMIN_MFA_REQUIRED=True; they do not claim current MFA enforcement. Native scheduling
+tests now create administrators without authenticators. Schema/models/migrations,
+engine/CLI/native evidence/units/dependency locks were not changed.
+
+The final browser rehearsal uses actual Gunicorn26.2 over an actual Unix socket,
+Django/PostgreSQL and Nginx TLS, rather than a fake loopback REMOTE_ADDR. It PASSes
+in150.878s:46 views/12 zero-violation accessibility scans on desktop and mobile/no-JS,
+real wrong/correct password, no MFA redirect, deferred MFA route404, access codes,
+expiry/usage/revocation, tenant/admin denial, CSRF and cookie/header checks. Its
+fixture CA is explicitly trusted/pinned for this isolated host only; production
+has no TLS bypass. Native status remains blocked and no QNX runs execute. It is
+not actual systemd, production DB role, public deployment or independent UAT.
+
+Final focused immutable-recovery and cache regressions also pass; see exact logs.
+Privileged side effects are modeled there, filesystem/pointer/history checks real.
+New protected receipt output explicitly names password-only/deferred policy and
+safe failure stages. Real production activation/isolation, retained cache proof,
+fresh backup/restore, independent public TLS and password/code/native acceptance
+are pending the new operator command. AI/customer endpoints disabled; off-server
+DR deferred. P8 remains IN_PROGRESS.

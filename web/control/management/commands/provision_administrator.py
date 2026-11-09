@@ -52,4 +52,4 @@ class Command(BaseCommand):
                 if not organization:raise CommandError('organization: unknown active organization')
                 Membership.objects.update_or_create(user=user,organization=organization,defaults={'role':options['role'],'active':True})
             audit(user,'administrator.provisioned',object_id=user.pk,legacy_adopted=bool(options['adopt_user']),platform_owner=user.is_superuser,organization_ids=options['organization'])
-        self.stdout.write('Administrator provisioned; existing sessions revoked. MFA enrollment/verification is required before privileged access.')
+        self.stdout.write('Administrator provisioned; existing sessions revoked. Username/password authentication is enabled; MFA is deferred for this release.')

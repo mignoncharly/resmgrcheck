@@ -1,0 +1,36 @@
+{
+  "source_parent": "e6890b0842a32cab4aa19b029dc9081b449200d8",
+  "authentication_policy": "administrator-password-only-v1",
+  "MFA": "DEFERRED, retained implementation/data/keys; not currently enforced",
+  "tests": {
+    "full_web_suite": {
+      "passed": 392,
+      "seconds": 93.974
+    },
+    "actual_Gunicorn_Unix_nginx_Django_PG_TLS_browser": {
+      "passed": 1,
+      "seconds": 150.878,
+      "views": 46,
+      "accessibility_scans": 12,
+      "violations": 0
+    },
+    "derived_bytecode_recovery": {
+      "passed": 4,
+      "seconds": 0.053
+    },
+    "immutable_recovery": {
+      "passed": 16,
+      "seconds": 0.256
+    }
+  },
+  "scope": "unprivileged isolated qualification; actual Gunicorn26.2/Unix/nginx; no actual production/systemd/independent external or QNX execution",
+  "runtime_cache_correction": "-I ignores environment-only bytecode suppression; -B plus sys.dont_write_bytecode prevent writes. Retained caches must exactly match fresh trusted-source compilation; no unmarshal/import/delete/chmod of unknown cache.",
+  "application_or_deployment_in_production": "NOT_RUN",
+  "P8": "IN_PROGRESS",
+  "real_QNX_this_change": "NOT_RUN; existing evidence unchanged",
+  "production_native_blocker": "approved_executor_registry_missing",
+  "customer_runner": "disabled; separate-host qualification pending",
+  "AI": "disabled",
+  "off_server_DR": "deferred",
+  "original_secrets_database_evidence_units": "preserved"
+}

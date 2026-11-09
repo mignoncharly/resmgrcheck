@@ -1,0 +1,62 @@
+{
+  "provenance": "operator-run read-only inspect_https.py; safe JSON supplied by operator; unprivileged source/inventory inspection by agent",
+  "active_application_revision": "544f22c174ad48e1c8d741db0afdd3bf5b54f947",
+  "auth_upgrade": {
+    "revision": "325f367c803b44e2f5ac5f4bb3264a7abfb7f08f",
+    "driver_revision": "e6890b0842a32cab4aa19b029dc9081b449200d8",
+    "phase": "prepared",
+    "backup_bound": false,
+    "original_release": "unknown_untracked_content",
+    "staged_auth_release": "FileNotFoundError"
+  },
+  "preparation_diagnostic": {
+    "bytes": 630,
+    "mtime_ns": 1794147003963025433,
+    "updated_after_auth_journal": false,
+    "tail_markers": [
+      "git_ownership",
+      "git_refusal"
+    ]
+  },
+  "current_HTTP": 404,
+  "private_readiness": 200,
+  "current_HTTPS_verified": false,
+  "nginx_web_socket": "active",
+  "own_original_configs": "exact protected backups/bootstrap root0644 and correct enabled link; hook absent",
+  "latest_acceptance_cleanup": {
+    "temporary_account_disabled": true,
+    "temporary_codes_revoked": true,
+    "existing_users_changed": false,
+    "audit_runs_evidence_preserved": true,
+    "own_native_work_still_active": false
+  },
+  "unprivileged_cache_directory_metadata": [
+    {
+      "path": "resmgrcheck/__pycache__",
+      "uid": 0,
+      "gid": 0,
+      "mode": "0750",
+      "symlink": false,
+      "contents": "unreadable to agent; exact protected payload validation remains an operator-workflow gate"
+    },
+    {
+      "path": "web/control/__pycache__",
+      "uid": 0,
+      "gid": 0,
+      "mode": "0750",
+      "symlink": false,
+      "contents": "unreadable to agent; exact protected payload validation remains an operator-workflow gate"
+    },
+    {
+      "path": "web/resmgr_web/__pycache__",
+      "uid": 0,
+      "gid": 0,
+      "mode": "0750",
+      "symlink": false,
+      "contents": "unreadable to agent; exact protected payload validation remains an operator-workflow gate"
+    }
+  ],
+  "visible_unexpected_files": 0,
+  "MFA_was_cause_of_previous_recovery_RuntimeError": false,
+  "secrets_printed": false
+}

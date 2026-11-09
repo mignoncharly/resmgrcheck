@@ -1,5 +1,13 @@
 # Optional evidence-grounded engineering assistant
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Implementation branch:feature/production-web-ai. Current provider qualification is
 recorded in TEST_EVIDENCE/STATUS, not inferred from this document. OpenAI is the one
 implemented provider; other providers are unsupported. A model is explicitly
@@ -8,8 +16,8 @@ independent of native execution, deterministic evaluation and offline reporting.
 
 ## Trust and consent
 
-A locally provisioned project administrator with MFA sets opt-in and a daily budget.
-A developer with a current scoped code session (or an administrator with recent MFA) selects one collected native case, optionally
+A locally provisioned project administrator with recent password authentication sets opt-in and a daily budget.
+A developer with a current scoped code session (or an administrator with recent password authentication) selects one collected native case, optionally
 a reviewed original source excerpt and an earlier same-project run. The browser
 previews the exact redacted packet and a named provider/model/price ceiling. A
 signed five-minute confirmation binds actor, run, exact packet/provider and request

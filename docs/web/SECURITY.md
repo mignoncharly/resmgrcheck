@@ -1,5 +1,13 @@
 # Security boundaries and review
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 W015 enrollment is staged/disabled by default.256-bit600s one-use enrollment
 credentials are HMAC-verifier-only in the DB, bound to a precreated exact target;
 they never approve execution. A customer-local Ed25519 device key signs discovery/
@@ -7,7 +15,7 @@ requests; a separate central seed signs replies, using the strict existing priva
 file/systemd ACL validator. TLS trust, hostname verification and the pinned server
 key are mandatory. Requests have60s freshness and unique125s-retained nonces plus
 rate/capacity limits. The machine-only CSRF exemption refuses browser cookies;
-administrator mutations retain MFA/tenant/CSRF checks. PG guards prevent identity/
+administrator mutations retain recent-password/tenant/CSRF checks. PG guards prevent identity/
 tenant substitution and revoked-key resurrection. Changed discovery quarantines;
 stale heartbeat means disconnected, never healthy. Customer SSH/license material
 does not enter enrollment or central storage.68 checks include actual loopback TLS
@@ -26,7 +34,7 @@ and public execution of privileged lab operations. Fail closed on missing approv
 required capability, evidence, ownership or transport certainty.
 
 Controls to qualify: locally provisioned administrator usernames, Argon2 passwords,
-mandatory administrator MFA, scoped access-code browser sessions, secure sessions and invalidation, CSRF, shared rate limits, explicit
+password-only administrator authentication (MFA deferred), scoped access-code browser sessions, secure sessions and invalidation, CSRF, shared rate limits, explicit
 membership scoping, fixed profile/route/build allowlists, bounded subprocesses,
 original run-ID recovery, target leases/quarantine, immutable artifact verification,
 safe downloads and report sandboxing, audited roles/exports, retention and backups.
@@ -376,3 +384,29 @@ publishes safe metadata even after failure. The immutable upgrade scope permits
 only the exact settings insertion in application code; native/runtime/units/schema/
 credentials remain frozen. Original release, backup proofs and HTTPS history are
 retained. Production acceptance is still required before readiness is claimed.
+
+## W026 password-only administrators and preserved recovery state
+
+Current administrator assurance is password-only, explicitly owner-approved for
+the hackathon. MFA is deferred, not an enforced security control. Stored authenticators
+and MFA encryption/LoadCredential keys remain unchanged for reviewed future use.
+The adapter suppresses MFA challenges in current mode and enrollment/manage routes
+return404; protected local recovery refuses --reset-mfa while deferred. No signup,
+email reset or developer password accounts are added. Recent-password checks replace
+MFA freshness for privileged actions and queued authorization. The historical
+immutable mfa_at column now stores current-policy authorization time; no existing
+rows/triggers are rewritten and this field is not represented as proof of MFA.
+
+Session clocks enforce30-minute idle/12-hour absolute lifetime independently of
+MFA. Revocation/password hashes, tenant/role/project/target/build/evidence selectors,
+CSRF/origin and shared rate limits remain mandatory. Original nonroot Unix-only
+systemd isolation and overwritten X-Real-IP trust remain unchanged. Current and
+future-compatibility tests distinguish the policy explicitly.
+
+Release validation now narrowly recognizes derived Python caches only after
+exact trusted-source compilation comparison, strong metadata/header checks and
+bounded reads. It does not load/unmarshal cache contents or treat a .pyc suffix
+as trust. All unrelated untracked content is refused/preserved. Root -I no longer
+relies on ignored environment-only suppression: -B and sys.dont_write_bytecode
+protect immutable trees. No source/key chmod, cache deletion, state reset or
+security-check bypass is used to resume the old failed preparation.

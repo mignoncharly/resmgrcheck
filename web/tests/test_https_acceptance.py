@@ -42,7 +42,7 @@ class ProductionAcceptanceIdentityTests(TestCase):
         self.assertTrue(result['temporary_account_disabled']);self.assertFalse(User.objects.get(pk=account.pk).is_active)
         self.assertTrue(AccessCode.objects.get(pk=code.pk).revoked_at);self.assertTrue(AccessSession.objects.get().revoked_at)
         self.assertEqual(client.get('/app/').status_code,302);self.assertEqual(User.objects.values().get(pk=existing.pk),original)
-        self.assertNotIn(credentials['password'],json.dumps(result));self.assertNotIn(credentials['totp_secret'],json.dumps(result))
+        self.assertNotIn(credentials['password'],json.dumps(result));self.assertNotIn('totp_secret',credentials)
     def test_cleanup_cannot_adopt_existing_administrator_by_name_or_id(self):
         existing,_,_=tenant('Unrelated administrator','no-cleanup@example.test')
         with self.assertRaises(CheckFailed):acceptance.close({'account_id':str(existing.pk),'username':existing.username,'acceptance_id':str(uuid.uuid4())})

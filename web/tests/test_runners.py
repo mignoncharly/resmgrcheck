@@ -114,12 +114,14 @@ class RunnerTests(TestCase):
         self.info['compiled_adapters']={};self.enroll();runners.approve(self.user,self.target,self.runner.inventory_sha256)
         self.runner=CustomerRunner.objects.select_related('target').get();self.assertEqual(runners.status(self.runner),'unsupported')
 
-    def test_browser_requests_need_mfa_project_scope_and_csrf(self):
+    def test_browser_requests_need_recent_password_project_scope_and_csrf(self):
         self.enroll();url=reverse('runner_detail',args=[self.project.pk,self.target.pk])
         self.assertEqual(self.browser.get(url).status_code,200)
         other,_,_=tenant('Foreign administrator','foreign-runner-admin@example.test')
         self.assertEqual(signed_client(other,mfa=True).get(url).status_code,404)
-        self.assertEqual(signed_client(self.user).get(url).status_code,302)
+        password=signed_client(self.user);self.assertEqual(password.get(url).status_code,200)
+        session=password.session;session['account_authentication_methods'][0]['at']=time.time()-1000;session.save()
+        self.assertIn('/administrator/reauthenticate/',password.get(url).url)
         csrf=signed_client(self.user,mfa=True,csrf=True)
         self.assertEqual(csrf.post(reverse('runner_approve',args=[self.project.pk,self.target.pk]),{'inventory_sha256':self.runner.inventory_sha256}).status_code,403)
 

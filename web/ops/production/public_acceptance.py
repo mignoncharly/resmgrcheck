@@ -20,7 +20,7 @@ class Journey:
     def __init__(self,origin,out,credentials):
         self.origin=origin;self.host=urlsplit(origin).netloc;self.out=out;self.secret=credentials;self.step='initializing';self.views=[];self.scans=[];self.runs=[];self.last_post=0
         self.results={'kind':'actual-production-HTTPS-browser-acceptance','origin':origin,'passed':False,
-            'administrator_password_MFA':'not_run','access_codes':'not_run','native':credentials['native'],
+            'administrator_password':'not_run','administrator_MFA':'deferred','authentication_policy':'administrator-password-only-v1','access_codes':'not_run','native':credentials['native'],
             'views':self.views,'accessibility':self.scans,'runs':self.runs,'independent_external_client':False,
             'authentication_requests':[],
             'credentials_cookies_traces_saved':False,'AI':'disabled','separate_customer_host':'not_qualified'}
@@ -63,20 +63,14 @@ class Journey:
             self.step='administrator-correct-password-form'
             page.locator('[name=login]').fill(self.secret['username']);page.locator('[name=password]').fill(self.secret['password'])
         self.step='administrator-password-submit'
-        self.click(page,'Sign in as administrator');page.wait_for_url('**/administrator/2fa/authenticate/**')
-        self.step='administrator-password-only-denial'
-        require(page.context.request.get(self.origin+'/app/',max_redirects=0).status==302,'password_bypassed_MFA')
-        for attempt in range(3):
-            self.step='administrator-MFA-submit'
-            page.locator('[name=code]').fill(totp(self.secret['totp_secret']));self.click(page,'Sign In');page.wait_for_timeout(200)
-            if urlsplit(page.url).path=='/app/':break
-            require(attempt<2,'MFA_failed');time.sleep(30-time.time()%30+.1)
-        require(urlsplit(page.url).path=='/app/','MFA_not_completed')
+        self.click(page,'Sign in as administrator');page.wait_for_url('**/app/')
+        require(page.context.request.get(self.origin+'/app/',max_redirects=0).status==200,'password_login_not_completed')
+        self.denied(page.context,'/administrator/2fa/',404,'MFA-deferred-route')
         for cookie in page.context.cookies():
             if cookie['name'] in {'resmgrcheck_session','resmgrcheck_csrf'}:
                 require(cookie['secure'] and cookie['httpOnly'] and cookie['sameSite']=='Lax','cookie_security_flags')
         self.visit(page,'/app/','administrator-overview',mode,scan=mode=='desktop')
-        self.results['administrator_password_MFA']='passed'
+        self.results['administrator_password']='passed'
     def issue(self,page,label,*,live=False,max_sessions=2,max_redemptions=2,expires=None):
         self.step='code-issuance';path='/administrator/organizations/'+self.secret['organization_id']+'/codes/'
         self.visit(page,path,'access-code-form')
@@ -222,7 +216,7 @@ def main():
     out=Path(args.out);require(out.is_absolute() and out.is_dir() and out.stat().st_uid==os.geteuid() and out.stat().st_mode&0o077==0,'private_output_required')
     credentials=json.loads(sys.stdin.buffer.read(32769));journey=Journey(args.origin,out,credentials)
     try:
-        result=journey.run();print(json.dumps({'passed':result['passed'],'browser_passed':result['browser_passed'],'administrator_password_MFA':result['administrator_password_MFA'],
+        result=journey.run();print(json.dumps({'passed':result['passed'],'browser_passed':result['browser_passed'],'authentication_policy':result['authentication_policy'],'administrator_password':result['administrator_password'],'administrator_MFA':'deferred',
             'access_codes':result['access_codes'],'native':result['native'],'views':len(result['views']),'accessibility_scans':len(result['accessibility']),
             'protected_browser_report':str(out/'browser-report.json')}))
     except BaseException as error:

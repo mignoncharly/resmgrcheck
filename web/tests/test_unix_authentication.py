@@ -25,6 +25,7 @@ class UnixAuthenticationTests(TestCase):
         with override_settings(ALLAUTH_TRUSTED_CLIENT_IP_HEADER=None):
             response=self.post('/administrator/login/',{'login':self.account.username,'password':PASSWORD})
         self.assertEqual(response.status_code,403);self.assertNotIn('_auth_user_id',self.client.session)
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_correct_proxy_identity_keeps_password_MFA_and_CSRF_requirements(self):
         response=self.post('/administrator/login/',{'login':self.account.username,'password':'Wrong password probe'})
         self.assertEqual(response.status_code,200);self.assertNotIn('_auth_user_id',self.client.session)

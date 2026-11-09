@@ -1,6 +1,6 @@
 # One-command HTTPS deployment and production acceptance
 
-Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W025 requires a new
+Current private release:544f22c174ad48e1c8d741db0afdd3bf5b54f947. W026 requires a new
 immutable authentication correction before another deployment attempt. The owner authorizes the
 jury-facing HTTPS deployment while customer-runner endpoints and AI stay disabled.
 The earlier requirement to wait for separate customer-host qualification before
@@ -9,13 +9,35 @@ itself is still unqualified and disabled. Off-server DR remains deferred, not pa
 
 ## Current operator command: immutable authentication recovery
 
-Do not repeat the HTTPS-only command against544f22c: allauth cannot determine the
-client IP from Gunicorn's empty Unix REMOTE_ADDR and returns403 on login POST.
-The reviewed application correction trusts only X-Real-IP in production, which the
-dedicated Nginx host overwrites using the original peer. Forwarded chains remain
-stripped, malformed/missing peer values fail closed, and password/MFA/CSRF/rate
-limits remain required. See the installed65.21.1 implementation and the official
-[allauth proxy/rate-limit configuration](https://docs.allauth.org/en/dev/common/rate_limits.html).
+Do not repeat the old application/driver command. W026 adopts the owner's approved
+username/password-only administrator policy: MFA is deferred, with existing
+records and encryption keys retained. Developer/jury access remains scoped codes.
+No registration/email route is added. Password hashing, recent-password privileged
+checks,30-minute idle/12-hour absolute session expiration, revocation, CSRF/origin,
+shared rate limits and audit remain required.
+
+The previous e6890b0 recovery failed at original-release validation before staging
+or backup: strict Git inventory rejected untracked/ignored content. Metadata shows
+root-owned750 __pycache__ directories left in the original release. The root Python
+-I invocation ignored PYTHONDONTWRITEBYTECODE. This failure was independent of MFA.
+New root launchers use -B and set sys.dont_write_bytecode before repository imports.
+Retained caches are never imported/unmarshaled for validation or deleted/chmodded:
+header/tag/owner/type/link/size/source binding and exact marshal payload must match
+fresh compilation of the committed source. Any unrelated file or mismatch still
+fails closed and is preserved. Actual protected cache equality is checked/receipted
+by the operator workflow; source metadata alone does not prove cache integrity.
+
+The prepared325f367/e6890b0 attempt can transition only while original544 is still
+current, no backup was bound/verified and its phase is exactly prepared. Its exact
+journal is retained under a protected historical name; unknown states cannot be
+adopted. New source scope names only the reviewed authentication/policy/interface
+files plus tests/docs/ops; migrations, units, dependencies, engine and target/build
+registrations stay frozen. No policy change is applied to the old immutable tree.
+
+The X-Real-IP correction remains: Gunicorn's Unix REMOTE_ADDR is empty, so allauth
+uses only the header overwritten by dedicated Nginx from its original peer. XFF
+and Forwarded stay stripped; missing/malformed identities fail closed. See pinned
+65.21.1 implementation and [allauth proxy/rate-limit configuration](https://docs.allauth.org/en/dev/common/rate_limits.html).
 
 The agent runs review, unprivileged tests and a read-only plan. The operator runs
 this single command with the reviewed application and driver SHAs from the handoff:
@@ -23,7 +45,7 @@ this single command with the reviewed application and driver SHAs from the hando
 ```sh
 sudo /usr/bin/python3 -I \
   /home/mignon/projects/resmgrcheck/web/ops/production/recover_https_auth.py \
-  --release 325f367c803b44e2f5ac5f4bb3264a7abfb7f08f \
+  --release PASSWORD_ONLY_APPLICATION_FULL_SHA \
   --driver-revision REVIEWED_FULL_DRIVER_SHA \
   --apply
 ```
@@ -48,7 +70,7 @@ cause review/refusal. Interrupted stages/new releases are retained; retry the sa
 command/SHAs without overwriting unknown resources.
 
 The command then runs the existing strict TLS/security/renewal/rollback/browser
-workflow. Password/MFA POST statuses and precise safe stages are recorded without
+workflow. Password POST statuses and precise safe stages are recorded without
 contents. Safe operator cleanup metadata is published even on browser failure.
 Missing native registry remains BLOCKED, never automatically provisioned. No QNX
 permissions/credentials are changed. Customer endpoints/AI remain disabled.
@@ -202,14 +224,14 @@ private service, DB, all evidence and keys intact. Other sites remain unchanged.
 ## Automated real-HTTPS acceptance
 
 After TLS/readiness/rollback pass, the local root coordinator appends an isolated,
-audited temporary administrator with a random password and TOTP. Existing user
+audited temporary administrator with a random password and no new authenticator. Existing user
 passwords/MFA and application/MFA/backup keys remain unchanged. New acceptance
 credentials are root600 and passed only over an owned pipe to Playwright running
 as the repository operator, never root. No credentials/cookies, traces, HARs or
 secret screenshots are saved in browser artifacts or printed.
 
 The browser uses the intended public HTTPS origin with normal certificate validation.
-It checks real username/password/TOTP, wrong password, password-only denial, code
+It checks real username/password login, wrong-password denial, deferred MFA routes, code
 issuance/redemption, project/admin scope, active-session revocation, usage limits,
 actual short-code expiry, secure cookies, hostile-origin CSRF, desktop/mobile/no-JS
 pages and accessibility. Thirty-minute idle and12-hour absolute session duration

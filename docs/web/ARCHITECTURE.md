@@ -1,10 +1,18 @@
 # Web architecture
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 W015 stages an outbound customer runner alongside the private lab dispatcher,
 disabled by default. Customer SSH/QNX configuration stays local. HTTPS validates
 the central origin; pinned Ed25519 keys authenticate both directions.600s one-use
 enrollment binds a device key to a preselected organization/project/target, followed
-by separate MFA administrator approval of its exact inventory. Unique nonces and
+by separate password-authenticated administrator approval of its exact inventory. Unique nonces and
 60s freshness prevent request replay. Local route fingerprints and PG guards fence
 silent route/key/tenant substitution. Connection is distinct from lifecycle proof.
 Job delivery/ingestion are the next checkpoint; enrollment grants no native command.
@@ -27,7 +35,7 @@ allowlist of genuine saved QNX evidence, isolated from the execution queue.
 Administrator organization/project membership and access-code project/target/evidence
 grants scope every object lookup, download, comparison and AI retrieval. Developer
 sessions create no user accounts; only locally provisioned administrators have
-username/password/MFA credentials. There is no email/SMTP workflow. UUIDs are identifiers, never authorization. Delayed jobs recheck
+username/password credentials (MFA deferred). There is no email/SMTP workflow. UUIDs are identifiers, never authorization. Delayed jobs recheck
 current user membership, project, target and immutable build approval before use.
 The database is the durable queue: explicit transitions, locks, leases, idempotency
 and target quarantine. A stale lease permits status/collection, never blind relaunch.
@@ -189,3 +197,18 @@ real Gunicorn transport tests, rather than inventing a loopback peer. A one-sett
 correction is deployed as a new immutable application with a separate static tree;
 existing root-owned runtime configuration remains unchanged. The application does
 not serve static files; the reviewed Nginx alias selects the new tree.
+
+## W026 password-only administrators and preserved recovery state
+
+Administrator assurance is a release policy independent of project/target/code
+permissions. ADMIN_MFA_REQUIRED=False selects password freshness and suppresses
+allauth MFA challenges without uninstalling its app/schema or deleting authenticators.
+The explicit future true path is retained/tested but requires reviewed reactivation.
+Session clocks/revocation and durable worker checks stay independent. Existing
+immutable mfa_at fields retain their schema and now carry current-policy assurance
+time; no historical record is relabelled as an MFA result.
+
+Qualification now uses actual Gunicorn/Unix transport with Nginx TLS and Django/PG.
+Actual systemd runtime/isolation still requires operator execution. Root operation
+launchers prevent bytecode writes even with -I; original source identity validation
+separately verifies retained derived caches before immutable pointer activation.

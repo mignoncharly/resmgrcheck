@@ -7,6 +7,8 @@ from django.core.mail.backends.base import BaseEmailBackend
 from .models import Membership
 
 class MFAAdapter(DefaultMFAAdapter):
+    def is_mfa_enabled(self,user,types=None):
+        return settings.ADMIN_MFA_REQUIRED and super().is_mfa_enabled(user,types)
     def encrypt(self,text):return Fernet(settings.MFA_ENCRYPTION_KEY.encode()).encrypt(text.encode()).decode()
     def decrypt(self,text):return Fernet(settings.MFA_ENCRYPTION_KEY.encode()).decrypt(text.encode()).decode()
     def can_delete_authenticator(self,authenticator):

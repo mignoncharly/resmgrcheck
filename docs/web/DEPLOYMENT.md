@@ -1,5 +1,13 @@
 # Deployment record
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 W021 current state (2026-11-09): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
@@ -49,7 +57,7 @@ applications must survive a rollback.
 
 The former SMTP prerequisite is superseded by ACCESS_MODEL.md. Production uses
 protected local administrator provisioning/recovery, scoped access-code sessions,
-mandatory administrator MFA and no public registration/email authentication.
+password-only administrator authentication (MFA deferred) and no public registration/email authentication.
 
 ## W016 — staged runner job and evidence route (2026-11-09)
 
@@ -160,3 +168,14 @@ fresh encrypted backup/isolated restore, private readiness/isolation, retained
 failed-driver history and completed same-cert renewal proof are checked. Customer
 registry absence remains a blocker, not permission to provision credentials/routes.
 No corrected production activation has been performed by the agent.
+
+## W026 password-only administrators and preserved recovery state
+
+The current approved application uses password-only administrators with dormant
+MFA preserved. The previous recovery failure was untracked-content validation,
+not MFA. Follow HTTPS_DEPLOYMENT.md's updated single immutable recovery command;
+known prepared325f367/e6890b0 history and original544 are retained. Derived caches
+must match exact trusted compilation; new root launchers prevent bytecode writes.
+Unknown content or changed state remains a blocker and is never deleted to force
+retry.392 regressions and actual isolated Gunicorn/Nginx browser checks pass;
+actual systemd/new release/public HTTPS/independent acceptance remain pending.

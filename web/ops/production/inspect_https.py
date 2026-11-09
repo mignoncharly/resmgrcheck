@@ -2,6 +2,7 @@
 """Read-only, metadata-only inspection of this deployment. Never prints logs/configs."""
 import hashlib,http.client,json,os,re,socket,subprocess,sys
 from pathlib import Path
+sys.dont_write_bytecode=True # -I ignores PYTHONDONTWRITEBYTECODE; protect immutable source.
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import deploy_https as deployment
 
@@ -11,6 +12,38 @@ def inspect():
     result={'read_only':True,'secrets_printed':False,'state':{}}
     active=deployment.OPT/'current';revision=active.resolve().name if active.is_symlink() else ''
     result['active_application_revision']=revision if re.fullmatch('[0-9a-f]{40}',revision) else None
+    journal=deployment.STATE/'auth-upgrade.json'
+    if journal.exists():
+        value=json.loads(deployment.read(journal,private=True))
+        result['auth_upgrade']={key:value.get(key) for key in ['phase','step','failure','from_revision','revision','driver_revision','backup_verified']
+            if isinstance(value.get(key),(str,bool)) and (isinstance(value[key],bool) or re.fullmatch('[a-zA-Z0-9_]{1,100}',value[key]))}
+        result['auth_upgrade']['backup_bound']=bool(value.get('backup'))
+        import upgrade_private,recover_https_auth
+        for name,check in [('original_release',lambda:upgrade_private.validate(deployment.OPT/'releases'/recover_https_auth.ACTIVE,recover_https_auth.ACTIVE)),
+                ('staged_auth_release',lambda:recover_https_auth.validate(deployment.OPT/'releases'/value['revision'],value['revision']))]:
+            try:check();result['auth_upgrade'][name]='valid'
+            except Exception as error:
+                # Fixed known classifications only; never arbitrary exception text.
+                known={'Unknown untracked release content':'unknown_untracked_content','Private release manifest differs':'private_manifest_differs',
+                    'Release has tracked changes':'tracked_changes','Release revision differs':'revision_differs',
+                    'Release source differs':'source_differs','Unexpected release Git metadata':'git_metadata_invalid'}
+                result['auth_upgrade'][name]=known.get(str(error),type(error).__name__)
+        try:
+            retained=recover_https_auth.validate_original(deployment.OPT/'releases'/recover_https_auth.ACTIVE,recover_https_auth.ACTIVE)
+            result['auth_upgrade']['original_release_current_validation']={'passed':True,'retained_bytecode_files':len(retained)}
+        except Exception as error:
+            code=str(error)
+            result['auth_upgrade']['original_release_current_validation']={'passed':False,
+                'failed_check':code if isinstance(error,deployment.CheckFailed) and re.fullmatch('[a-z0-9_]{1,100}',code) else type(error).__name__}
+    error_path=deployment.CONFIG/'prepare-error.log'
+    if error_path.exists():
+        raw=deployment.read(error_path,private=True)
+        markers={'git_ownership':b'dubious ownership','git_refusal':b'fatal:', 'backup_policy':b'PolicyError:',
+            'permission_denied':b'Permission denied','missing_file':b'No such file or directory','missing_database':b'does not exist',
+            'restore_audit_unproven':b'backup_restored_audit_trigger_unproven'}
+        result['preparation_diagnostic']={'bytes':len(raw),'mtime_ns':error_path.stat().st_mtime_ns,
+            'updated_after_auth_journal':journal.exists() and error_path.stat().st_mtime_ns>=journal.stat().st_mtime_ns,
+            'tail_markers':[key for key,marker in markers.items() if marker in raw[-16000:]]}
     for key in ['driver_revision','application_revision','phase','failure']:
         value=state.get(key)
         result['state'][key]=value if isinstance(value,str) and re.fullmatch('[a-z0-9_]{1,100}',value) else None

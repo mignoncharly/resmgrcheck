@@ -7,6 +7,7 @@ No migrations, credential replacement, unit edits, native grants or route provis
 """
 import argparse,http.client,json,os,re,secrets,shutil,signal,socket,stat,sys,time
 from pathlib import Path
+sys.dont_write_bytecode=True # -I ignores PYTHONDONTWRITEBYTECODE; protect immutable source.
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import deploy_https as https
 import upgrade_private as previous
@@ -15,18 +16,50 @@ release=previous.release;p=previous.p
 ACTIVE='544f22c174ad48e1c8d741db0afdd3bf5b54f947'
 FAILED_DRIVER='cf15209ba98c7891fe2ab991868b5c06eed57de3'
 MANIFEST='.https-auth-release.json'
+PREVIOUS_AUTH_APPLICATION='325f367c803b44e2f5ac5f4bb3264a7abfb7f08f'
+PREVIOUS_AUTH_DRIVER='e6890b0842a32cab4aa19b029dc9081b449200d8'
 SETTING=b"# Production is reachable only through the private Unix socket. Dedicated Nginx\n# overwrites this header with its original peer and strips forwarded-IP chains.\nALLAUTH_TRUSTED_CLIENT_IP_HEADER = 'X-Real-IP' if ENVIRONMENT == 'production' else None\n"
 ANCHOR=b"ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if ENVIRONMENT == 'production' else 'http'\n"
+POLICY=b"ADMIN_MFA_REQUIRED = False # Hackathon policy: password-only; retained MFA needs a reviewed reactivation.\nADMIN_SESSION_IDLE_SECONDS = 1800\nADMIN_SESSION_ABSOLUTE_SECONDS = 43200\nMIDDLEWARE.insert(MIDDLEWARE.index('allauth.account.middleware.AccountMiddleware'),'control.middleware.AdministratorSessionMiddleware')\n"
+APP_CHANGES={'web/resmgr_web/settings.py',*['web/control/'+name+'.py' for name in ['auth','security','middleware','signals','jobs','worker','ai_jobs','ai_worker']],
+    *['web/control/management/commands/'+name+'.py' for name in ['provision_administrator','recover_administrator']],
+    *['web/control/templates/control/'+name+'.html' for name in ['account','administrator_login','overview','projects','public_page']]}
+CURRENT_STEP='source_scope'
+
+def step(journal,path,name):
+    global CURRENT_STEP
+    CURRENT_STEP=name;journal['step']=name;https.record(path,journal)
 
 def scope(revision,driver):
     https.source_check(revision,driver)
     https.git('merge-base','--is-ancestor',ACTIVE,revision)
     changed=https.git('diff','--name-only',ACTIVE,revision).decode().splitlines()
-    require(all(name=='web/resmgr_web/settings.py' or name.startswith(('docs/web/','web/tests/','web/ops/production/')) for name in changed),'auth_upgrade_scope_exceeded')
+    require(all(name in APP_CHANGES or name.startswith(('docs/web/','web/tests/','web/ops/production/')) for name in changed),'auth_upgrade_scope_exceeded')
     frozen=['web/ops/production/runtime.py','web/ops/production/prepare.py',*['web/ops/production/'+name for name in p.UNITS]]
     require(not https.git('diff','--name-only',ACTIVE,revision,'--',*frozen).strip(),'auth_upgrade_runtime_or_units_changed')
     old=https.git('show',ACTIVE+':web/resmgr_web/settings.py');new=https.git('show',revision+':web/resmgr_web/settings.py')
-    require(old.count(ANCHOR)==1 and new==old.replace(ANCHOR,ANCHOR+SETTING),'auth_upgrade_settings_differs')
+    mfa_anchor=b"MFA_ADAPTER = 'control.auth.MFAAdapter'\n"
+    require(old.count(ANCHOR)==1 and new==old.replace(ANCHOR,ANCHOR+SETTING).replace(mfa_anchor,mfa_anchor+POLICY),'auth_upgrade_settings_differs')
+
+def validate_original(path,revision):
+    release.owned_directory(path)
+    require(p.protected_json(path/previous.MANIFEST)==previous.identity(revision),'original_private_manifest_differs')
+    release.check_clean(path,revision,None);release.check_venv(path/'.venv',Path(previous.identity(revision)['venv']))
+    names=set()
+    for flags in [[],['--ignored']]:names.update(release.git(path,'ls-files','--others','--exclude-standard','-z',*flags).decode().split('\0'))
+    from release_bytecode import retained_caches
+    return retained_caches(path,revision,names- {''},{previous.MANIFEST,'.venv'})
+
+def upgrade_journal(path,journal,binding):
+    if all(journal.get(k)==v for k,v in binding.items()):return journal
+    require(journal.get('kind')==binding['kind'] and journal.get('from_revision')==ACTIVE and
+        journal.get('revision')==PREVIOUS_AUTH_APPLICATION and journal.get('driver_revision')==PREVIOUS_AUTH_DRIVER and
+        journal.get('phase')=='prepared' and not journal.get('backup') and not journal.get('backup_verified') and
+        (p.OPT/'current').is_symlink() and (p.OPT/'current').resolve()==p.OPT/'releases'/ACTIVE,'another_auth_upgrade_recorded')
+    history=path.with_name('auth-upgrade-'+PREVIOUS_AUTH_DRIVER+'.json')
+    if history.exists():require(json.loads(https.read(history,private=True))==journal,'previous_auth_journal_history_differs')
+    else:https.new_file(history,(json.dumps(journal,sort_keys=True,indent=2)+'\n').encode())
+    updated={**binding,'phase':'prepared_after_reviewed_password_policy'};https.record(path,updated);return updated
 
 def identity(revision):
     return {'kind':'resmgrcheck-https-auth-release','from_revision':ACTIVE,'revision':revision,
@@ -104,11 +137,15 @@ def apply(revision,driver,rollback=False):
     with release.release_lock():
         journal_path=https.STATE/'auth-upgrade.json';binding={**identity(revision),'driver_revision':driver}
         if journal_path.exists():
-            journal=json.loads(https.read(journal_path,private=True));require(all(journal.get(k)==v for k,v in binding.items()),'another_auth_upgrade_recorded')
+            journal=upgrade_journal(journal_path,json.loads(https.read(journal_path,private=True)),binding)
         else:
             require(not rollback,'no_auth_upgrade_to_rollback');journal={**binding,'phase':'prepared'};https.record(journal_path,journal)
         old=p.OPT/'releases'/ACTIVE;new=p.OPT/'releases'/revision;current=p.OPT/'current'
-        release.check_current(current,old,new);previous.validate(old,ACTIVE)
+        release.check_current(current,old,new)
+        step(journal,journal_path,'original_release_validation')
+        cache_inventory=validate_original(old,ACTIVE);https.record(https.STATE/'original-validated-bytecode.json',{'revision':ACTIVE,'retained_caches':cache_inventory})
+        print(json.dumps({'step':'original_release_validation','status':'passed','tracked_revision':ACTIVE,
+            'validated_retained_bytecode_files':len(cache_inventory),'original_files_changed':False}),flush=True)
         for name in p.UNITS:
             require(https.read(p.UNIT_ROOT/name)==(old/'web/ops/production'/name).read_bytes(),'auth_upgrade_installed_unit_differs')
             require(not https.command(['systemctl','show','--value','--property=DropInPaths',name]).strip(),'auth_upgrade_unit_overrides_require_review')
@@ -119,19 +156,20 @@ def apply(revision,driver,rollback=False):
             validate(new,revision);https.apply(revision,driver,True,False)
             web('stop');release.check_current(current,old,new);release.switch_current(current,old);web('start');private_ready();https.units_and_runtime(ACTIVE)
             journal['phase']='rolled_back';https.record(journal_path,journal);print(json.dumps({'auth_upgrade_rollback':'passed','private_revision':ACTIVE,'keys_database_units_preserved':True}));return
-        stage(revision,new)
+        step(journal,journal_path,'stage_immutable_release');stage(revision,new)
         state=json.loads(https.read(https.STATE/'state.json',private=True))
         if state.get('phase')=='verified' and state.get('application_revision')==revision and state.get('driver_revision')==driver:
             require(current.resolve()==new,'verified_auth_release_pointer_differs');https.apply(revision,driver);return
-        original_http(state);snapshot(journal,journal_path,new)
+        original_http(state);step(journal,journal_path,'fresh_backup_and_isolated_restore');snapshot(journal,journal_path,new)
         try:
-            web('stop');release.check_current(current,old,new);release.switch_current(current,new)
+            step(journal,journal_path,'private_activation');web('stop');release.check_current(current,old,new);release.switch_current(current,new)
             journal['phase']='private_pointer_switched';https.record(journal_path,journal)
-            raw=https.command([str(new/'.venv/bin/python'),'-I',https.HERE/'auth_release_runtime.py','--release',revision],timeout=120)
-            require(json.loads(raw).get('passed') is True,'auth_release_runtime_unproven')
+            raw=https.command([str(new/'.venv/bin/python'),'-I','-B',https.HERE/'auth_release_runtime.py','--release',revision],timeout=120)
+            proof=json.loads(raw)
+            require(proof.get('passed') is True and proof.get('authentication_policy')=='administrator-password-only-v1' and proof.get('administrator_MFA')=='deferred','auth_release_runtime_unproven')
             web('start');private_ready();https.units_and_runtime(revision)
             journal['phase']='private_runtime_verified';https.record(journal_path,journal)
-            bind_https(revision,driver);https.apply(revision,driver)
+            step(journal,journal_path,'HTTPS_and_password_acceptance');bind_https(revision,driver);https.apply(revision,driver)
             journal['phase']='HTTPS_browser_workflow_completed';https.record(journal_path,journal)
         except BaseException as error:
             journal['failure']=str(error) if isinstance(error,CheckFailed) else type(error).__name__
@@ -158,4 +196,4 @@ if __name__=='__main__':
                 'new_release_directory':str(p.OPT/'releases'/args.release),'original_release_preserved':True,'fresh_backup_and_isolated_restore':True,
                 'migrations_keys_units_native_grants_changed':False,'dedicated_web_restart_required':True,'HTTPS_acceptance_after_private_runtime':True,'root_required':True}))
     except BaseException as error:
-        print(json.dumps({'passed':False,'failed_check':str(error) if isinstance(error,CheckFailed) else type(error).__name__,'secrets_printed':False}));raise SystemExit(1) from None
+        print(json.dumps({'passed':False,'failed_step':CURRENT_STEP,'failed_check':str(error) if isinstance(error,CheckFailed) else type(error).__name__,'secrets_printed':False}));raise SystemExit(1) from None

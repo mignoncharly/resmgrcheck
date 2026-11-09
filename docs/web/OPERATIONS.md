@@ -1,5 +1,13 @@
 # Operations record
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 W021 current state (2026-11-09): immutable544f22c is active privately. The operator
 confirms HTTP200, nonroot/isolation and encrypted isolated restore/audit proof.
 [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md) supersedes the historical multi-command
@@ -88,20 +96,20 @@ create organizations or grant global access. The first administrator can create
 their organization after login. `--platform-owner` is an explicit local elevation
 with cross-organization powers; avoid it for routine scoped administration.
 
-Open `/administrator/login/`, enter the local username/password and enroll TOTP
-before privileged access. Preserve offline second-factor recovery codes securely.
-Password changes and "revoke all sessions" require the current password plus MFA
-assurance. Administrators can inspect browser sessions and revoke them globally. A lost
-password/MFA requires the protected local operator procedure:
+Open `/administrator/login/` and enter the local username/password. MFA is deferred;
+no enrollment is required for this release. Password changes and "revoke all sessions"
+retain password confirmation; privileged workflows request recent password
+reauthentication when stale. Administrators can inspect/revoke browser sessions.
+A lost password requires the protected local operator procedure:
 
 ```sh
 .local/web/venv/bin/python web/ops/staging.py manage.py recover_administrator --username first-admin
-# Explicitly add --reset-mfa only after independently verifying administrator ownership.
+# Deferred MFA records and encryption keys must remain intact.
 ```
 
 Recovery changes the password, increments the session version, revokes existing
-sessions and appends an audit event. MFA remains unless `--reset-mfa` is specified;
-then the next privileged login must enroll it again. Production commands require
+sessions and appends an audit event. Deferred MFA records remain intact; --reset-mfa
+is refused in this release. Production commands require
 the root operator and the dedicated production configuration/venv, not this staging
 launcher. The development exception also checks the owned checkout and exact
 private socket, port and staging/test database name; changing the environment
@@ -282,3 +290,21 @@ status/stage only. Never request raw protected diagnostics, credentials or cooki
 The independent production-native blocker is approved_executor_registry_missing;
 resolve only through a separately reviewed lab custody/approval workflow. Customer
 runner endpoints and AI remain disabled; off-server DR stays deferred.
+
+## W026 password-only administrators and preserved recovery state
+
+Administrator login and privileged workflows require username/password only;
+MFA is deferred. Do not remove authenticators or application/MFA/backup keys.
+Local password recovery revokes sessions and preserves MFA data; --reset-mfa is
+refused in current mode. Stale privileged sessions reauthenticate by password;
+idle30 minutes/absolute12 hours expire independently of MFA. Developer/jury codes
+remain scoped, expirable/revocable and auditable without personal accounts.
+
+The previous root recovery stopped at strict untracked-content validation before
+staging/backup. Do not clear state, remove caches or edit the old release. The new
+single command validates derived caches against trusted committed source and
+preserves prior preparation history before new immutable activation. Safe step/
+failed_check JSON identifies failures; operator-cleanup metadata remains available
+even after browser failure. Production-native registry remains missing; customer
+host and AI qualification are still deferred/disabled. Preserve encrypted local
+backups; off-server recovery automation is deferred, not passed.

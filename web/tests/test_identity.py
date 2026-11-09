@@ -48,6 +48,7 @@ class AdministratorTests(TestCase):
     def test_anonymous_cannot_access_private_dashboard_or_api(self):
         owner,org,project=tenant('Private','private-admin@example.test')
         for url in ['/app/',reverse('project_api',args=[project.pk]),reverse('team',args=[org.pk])]:self.assertEqual(self.client.get(url).status_code,302)
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_username_password_login_requires_real_totp(self):
         account=user('mfa-admin@example.test',mfa=True)
         response=self.client.post(reverse('account_login'),{'login':account.username,'password':PASSWORD})
@@ -65,6 +66,7 @@ class AdministratorTests(TestCase):
         self.client.post(reverse('account_login'),{'login':account.username,'password':PASSWORD});self.assertNotIn('_auth_user_id',self.client.session)
         account.is_active=True;account.is_staff=False
         with self.assertRaises(DatabaseError),transaction.atomic():account.save()
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_first_login_requires_real_enrollment_and_reauthentication(self):
         account=user('enroll-admin@example.test');self.client.post(reverse('account_login'),{'login':account.username,'password':PASSWORD})
         self.assertIn('totp/activate',self.client.get('/app/').url)
@@ -75,11 +77,13 @@ class AdministratorTests(TestCase):
         secret=self.client.session['mfa.totp.secret'];code=format_hotp_value(hotp_value(secret,int(time.time())//30))
         response=self.client.post(reverse('mfa_activate_totp'),{'code':code});self.assertEqual(response.status_code,302)
         self.assertTrue(Authenticator.objects.filter(user=account,type='totp').exists())
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_owner_requires_current_mfa_assurance(self):
         owner,_,_=tenant('MFA scope','step-up@example.test');client=signed_client(owner)
         self.assertIn('reauthenticate',client.get('/app/').url)
         session=client.session;session['account_authentication_methods_user']=str(owner.pk);session['account_authentication_methods']=[{'method':'mfa','type':'totp','at':time.time()-50000}];session.save()
         self.assertIn('reauthenticate',client.get('/app/').url)
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_local_recovery_revokes_sessions_and_resets_mfa_only_explicitly(self):
         account=user('recover-admin@example.test',mfa=True);client=signed_client(account,mfa=True)
         output=io.StringIO();call_command('recover_administrator',username=account.username,password_file=str(self.password_file()),reset_mfa=True,stdout=output)
@@ -95,6 +99,7 @@ class AdministratorTests(TestCase):
         self.assertEqual(first.post(reverse('logout_all'),{'password':'incorrect'}).status_code,400)
         self.assertEqual(first.post(reverse('logout_all'),{'password':PASSWORD}).status_code,302)
         self.assertEqual(second.get('/app/').status_code,302)
+    @override_settings(ADMIN_MFA_REQUIRED=True)
     def test_administrator_session_view_is_mfa_scoped_without_email_dependencies(self):
         account=user('session-list-admin@example.test',mfa=True);client=signed_client(account,mfa=True)
         response=client.get(reverse('usersessions_list'));self.assertContains(response,'Browser sessions');self.assertContains(response,'Revoke all sessions')

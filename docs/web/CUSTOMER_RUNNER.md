@@ -1,5 +1,13 @@
 # Customer-owned outbound runner, protocol1
 
+Current policy (W026, owner-approved2026-11-09): administrators use username/password
+only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
+retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,
+rate limits, audit and session revocation remain mandatory. Customer machine
+endpoints and AI stay disabled. Historical MFA qualification below is not the
+current release policy. Actual private release remains544f22c; corrected immutable
+activation/public acceptance is pending. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
+
 Enrollment/heartbeat is implemented and staged (W015), disabled in production.
 W016 implements signed jobs, same-ID recovery, bounded upload and private ingestion.
 Additional native and separate-host qualification remain pending. No separate customer runner host is available. Actual loopback HTTPS
@@ -13,7 +21,7 @@ and customer-private target connectivity. No inbound runner listener is provided
 The separate customer_runner package uses the pinned cryptography dependency from
 web/requirements.lock; the original engine/CLI stays standard-library-only.
 
-An MFA project administrator creates enrollment under Targets. Privately deliver
+A project administrator with recent password authentication creates enrollment under Targets. Privately deliver
 the one-time600s credential; save it locally in an owned0600 regular file, never
 argv/URL/chat. Compare the displayed public server key via a trusted channel.
 Create an absolute owned0600 configuration with this schema (replace placeholders

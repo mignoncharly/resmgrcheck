@@ -4,6 +4,7 @@ then disable only that identity. Never changes existing users, keys or target ro
 """
 import argparse,json,os,pwd,re,secrets,signal,stat,sys,time,uuid
 from pathlib import Path
+sys.dont_write_bytecode=True # -I ignores PYTHONDONTWRITEBYTECODE; protect immutable source.
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import deploy_https as deployment
 from https_checks import require,CheckFailed
@@ -24,7 +25,7 @@ def load_application(release):
     require(settings.ENVIRONMENT=='production' and settings.SERVICE_ROLE=='operator' and
         str(connection.settings_dict['HOST'])=='/run/resmgrcheck-db' and str(connection.settings_dict['PORT'])=='5448' and
         connection.settings_dict['NAME']=='resmgrcheck_web' and connection.settings_dict['USER']=='resmgr_owner','dedicated_operator_context_required')
-    require(not settings.RUNNER_ENABLED and not settings.AI_CONFIG,'customer_runner_and_AI_must_stay_disabled')
+    require(not settings.ADMIN_MFA_REQUIRED and not settings.RUNNER_ENABLED and not settings.AI_CONFIG,'customer_runner_and_AI_must_stay_disabled')
     from control.models import AIProviderState
     require(not AIProviderState.objects.filter(available=True).exists(),'AI_provider_state_must_be_disabled')
 
@@ -84,13 +85,11 @@ def native_plan():
 
 def bootstrap(identifier,plan):
     from django.db import transaction
-    from allauth.mfa.totp.internal.auth import generate_totp_secret,TOTP
     from control.models import User,Organization,Membership,Project
     from control.security import audit
-    password=secrets.token_urlsafe(36);secret=generate_totp_secret()
+    password=secrets.token_urlsafe(36)
     with transaction.atomic():
         account=User.objects.create_user('accept-'+identifier.hex[:18],password,is_staff=True,is_active=True)
-        TOTP.activate(account,secret)
         organization=Organization.objects.create(name='HTTPS acceptance '+identifier.hex[:12])
         Membership.objects.create(user=account,organization=organization,role='owner')
         project=Project.objects.create(organization=organization,name='HTTPS acceptance workspace',created_by=account)
@@ -100,7 +99,7 @@ def bootstrap(identifier,plan):
             organization=Organization.objects.get(pk=plan['organization_id']);project=Project.objects.get(pk=plan['project_id'])
             Membership.objects.create(user=account,organization=organization,role='admin')
         audit(account,'https.acceptance.created',organization,account.pk,acceptance_id=str(identifier),native_plan=plan['status'])
-    return {'username':account.username,'password':password,'totp_secret':secret,'account_id':str(account.pk),
+    return {'username':account.username,'password':password,'account_id':str(account.pk),
         'acceptance_id':str(identifier),'organization_id':str(organization.pk),'project_id':str(project.pk),
         'foreign_project_id':str(foreign_project.pk),'native':plan}
 
@@ -147,10 +146,10 @@ def run(release,driver,state):
     if completed.exists():
         prior=json.loads(deployment.read(completed,private=True))
         if (prior.get('application_revision')==release and prior.get('driver_revision')==driver and
-                prior.get('browser_passed') is True and prior.get('temporary_account_disabled') is True and
+                prior.get('authentication_policy')=='administrator-password-only-v1' and prior.get('browser_passed') is True and prior.get('temporary_account_disabled') is True and
                 (prior.get('native',{}).get('status')=='passed' or plan['status']!='approved-existing-route')):
             print(json.dumps({'overall_acceptance':'passed' if prior.get('passed') else 'in_progress',
-                'reused_verified_browser_acceptance':True,'administrator_password_MFA':prior['administrator_password_MFA'],
+                'reused_verified_browser_acceptance':True,'administrator_password':prior['administrator_password'],'administrator_MFA':'deferred',
                 'access_codes':prior['access_codes'],'native':prior['native'],'independent_external_acceptance':'pending'}));return
     identifier=uuid.uuid4()
     output=source/'.local/web/evidence'/('production-https-'+identifier.hex);output.mkdir(mode=0o700)
@@ -164,9 +163,9 @@ def run(release,driver,state):
         private=state/('acceptance-'+identifier.hex+'.private.json');deployment.new_file(private,json.dumps(credentials).encode())
         if plan['status']=='approved-existing-route' and executor_before in {b'inactive',b'failed'}:
             deployment.command(['systemctl','start','resmgrcheck-executor.service']);started=True
-        raw=deployment.command(['/usr/sbin/runuser','-u',owner.pw_name,'--',browser_python,'-I',deployment.HERE/'public_acceptance.py',
+        raw=deployment.command(['/usr/sbin/runuser','-u',owner.pw_name,'--',browser_python,'-I','-B',deployment.HERE/'public_acceptance.py',
             '--origin','https://'+deployment.HOST,'--out',output],data=json.dumps(credentials).encode(),timeout=1500)
-        result=json.loads(raw);require(result.get('administrator_password_MFA')=='passed' and result.get('access_codes')=='passed','authenticated_acceptance_failed')
+        result=json.loads(raw);require(result.get('authentication_policy')=='administrator-password-only-v1' and result.get('administrator_password')=='passed' and result.get('administrator_MFA')=='deferred' and result.get('access_codes')=='passed','authenticated_acceptance_failed')
     finally:
         cleanup=close(credentials) if credentials else {'bootstrap_committed':False,'own_native_work_still_active':False}
         if started and not cleanup['own_native_work_still_active']:
@@ -180,7 +179,7 @@ def run(release,driver,state):
     result.update(cleanup);result['application_revision']=release;result['driver_revision']=driver
     deployment.record(state/'acceptance-report.json',result)
     print(json.dumps({'overall_acceptance':'passed' if result.get('passed') else 'in_progress','browser_passed':result.get('browser_passed'),
-        'administrator_password_MFA':result['administrator_password_MFA'],'access_codes':result['access_codes'],
+        'administrator_password':result['administrator_password'],'administrator_MFA':'deferred','access_codes':result['access_codes'],
         'native':result.get('native',{'status':'not_run'}),'browser_evidence':str(output),'cleanup':cleanup,'independent_external_acceptance':'pending'}))
 
 

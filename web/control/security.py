@@ -60,15 +60,28 @@ def mfa_authenticated(request,recent=43200):
     records=get_authentication_records(request,request.user)
     return enrolled(request.user) and any(r.get('method')=='mfa' and r.get('at',0)>time.time()-recent for r in records)
 
+def authentication_recent(request,recent=43200):
+    if is_code(request.user):return verified(request.user)
+    if not verified(request.user):return False
+    if settings.ADMIN_MFA_REQUIRED:return mfa_authenticated(request,recent)
+    now=time.time()
+    return any(r.get('method')=='password' and isinstance(r.get('at'),(int,float)) and now-recent<r['at']<=now+5
+        for r in get_authentication_records(request,request.user))
+
 def assurance_at(request):
     if is_code(request.user):return timezone.now()
     from datetime import datetime,timezone as tz
-    records=[r['at'] for r in get_authentication_records(request,request.user) if r.get('method')=='mfa']
+    # Historical immutable DB column mfa_at stores current-policy authorization
+    # time. Password mode is not evidence of MFA; no records/schema are rewritten.
+    method='mfa' if settings.ADMIN_MFA_REQUIRED else 'password'
+    records=[r['at'] for r in get_authentication_records(request,request.user) if r.get('method')==method]
     if not records:raise Http404
     return datetime.fromtimestamp(max(records),tz.utc)
 
 def require_mfa(request,recent=43200):
     if is_code(request.user):return None if verified(request.user) else redirect('developer_access')
+    if not settings.ADMIN_MFA_REQUIRED:
+        return None if authentication_recent(request,recent) else redirect(reverse('account_reauthenticate')+'?next='+request.path)
     if not enrolled(request.user):return redirect('mfa_activate_totp')
     if not mfa_authenticated(request,recent):return redirect(reverse('mfa_reauthenticate')+'?next='+request.path)
     return None
@@ -187,7 +200,7 @@ def start_authority(record,action='run'):
             from .jobs import auth_fingerprint
             try:
                 if not verified(actor) or auth_fingerprint(actor)!=record.actor_auth_hash:raise Http404
-                if not is_code(actor) and not enrolled(actor):raise Http404
+                if settings.ADMIN_MFA_REQUIRED and not is_code(actor) and not enrolled(actor):raise Http404
                 execution=getattr(record,'run',record)
                 permission(actor,execution.project_id,action,target=execution.target,run=execution if action=='ai' else execution.original if execution.original_id else None)
             except Http404:raise PolicyError('authorization_revoked_before_child') from None

@@ -6,7 +6,7 @@ from django.utils import timezone
 from allauth.account.internal.flows.login import get_authentication_records
 from resmgrcheck.contracts import canonical
 from .models import AIAnalysis,AIProviderState,AIUsage,AILease,Project,Run
-from .security import project_access,verified,mfa_authenticated,audit,permission,principal_fields,assurance_at
+from .security import project_access,verified,authentication_recent,audit,permission,principal_fields,assurance_at
 from .jobs import auth_fingerprint
 from .engine import PolicyError
 from .ai_provider import Provider,reservation
@@ -20,7 +20,7 @@ def public_provider():
 
 def enqueue_analysis(request,run,task,payload,citations,key,source=None,compared=None):
     permission(request.user,run.project_id,'ai',target=run.target,run=run)
-    if not verified(request.user) or not mfa_authenticated(request,900):raise PolicyError('ai_recent_mfa_required')
+    if not verified(request.user) or not authentication_recent(request,900):raise PolicyError('ai_recent_authentication_required')
     if not re.fullmatch(r'[A-Za-z0-9_-]{16,64}',key):raise PolicyError('ai_idempotency_key_invalid')
     provider=public_provider();maximum,_=reservation(payload,provider)
     digest=hashlib.sha256(canonical({'payload':payload,'citations':citations,'policy':provider.public()})).hexdigest()

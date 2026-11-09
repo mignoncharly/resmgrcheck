@@ -3,7 +3,12 @@ from django.dispatch import receiver
 from .security import audit
 
 @receiver(user_logged_in)
-def login_audit(sender,request,user,**kwargs):audit(user,'account.login')
+def login_audit(sender,request,user,**kwargs):
+    from django.utils import timezone
+    if request is not None:
+        request.session['rmc_admin_started_at']=timezone.now().timestamp()
+        request.session['rmc_admin_last_seen']=request.session['rmc_admin_started_at']
+    audit(user,'account.login')
 @receiver(user_logged_out)
 def logout_audit(sender,request,user,**kwargs):audit(user,'account.logout')
 @receiver(user_login_failed)

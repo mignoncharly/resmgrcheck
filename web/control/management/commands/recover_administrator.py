@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand,CommandError
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
+from django.conf import settings
 from allauth.mfa.models import Authenticator
 from allauth.usersessions.models import UserSession
 from control.models import User
@@ -8,11 +9,12 @@ from control.security import audit
 from .provision_administrator import local_operator,protected_password
 
 class Command(BaseCommand):
-    help='Protected local administrator recovery, never email. Revoke all sessions; optional explicit lost-MFA reset requires reenrollment.'
+    help='Protected local password recovery, never email. Revoke all sessions and preserve deferred MFA records.'
     def add_arguments(self,parser):
         parser.add_argument('--username',required=True);parser.add_argument('--password-file');parser.add_argument('--reset-mfa',action='store_true')
     def handle(self,*args,**options):
         local_operator()
+        if options['reset_mfa'] and not settings.ADMIN_MFA_REQUIRED:raise CommandError('MFA is deferred; retained authenticators cannot be reset in this release')
         with transaction.atomic():
             user=User.objects.select_for_update().filter(username__iexact=options['username'],is_staff=True).first()
             if not user:raise CommandError('Administrator not found')

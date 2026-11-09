@@ -28,6 +28,7 @@ class AuthReleaseTests(unittest.TestCase):
         self.stack.enter_context(patch.object(auth.https,'require_root'));self.stack.enter_context(patch.object(auth,'scope'))
         self.stack.enter_context(patch.object(auth.release,'release_lock',side_effect=contextlib.nullcontext))
         self.stack.enter_context(patch.object(auth.previous,'validate'))
+        self.stack.enter_context(patch.object(auth,'validate_original',return_value=[]))
         self.original=self.stack.enter_context(patch.object(auth,'original_http'))
         self.ready=self.stack.enter_context(patch.object(auth,'private_ready'))
         self.runtime=self.stack.enter_context(patch.object(auth.https,'units_and_runtime',return_value={'nonroot_isolation':'passed'}))
@@ -38,7 +39,7 @@ class AuthReleaseTests(unittest.TestCase):
             if 'ActiveState' in argv:return b'inactive'
             if '--property=ActiveState' in argv:return b'inactive'
             if '--property=DropInPaths' in argv:return b''
-            return b'{"passed":true}'
+            return b'{"passed":true,"authentication_policy":"administrator-password-only-v1","administrator_MFA":"deferred"}'
         self.command=self.stack.enter_context(patch.object(auth.https,'command',side_effect=command))
         def stage(revision,path):path.mkdir(exist_ok=True)
         self.staging=self.stack.enter_context(patch.object(auth,'stage',side_effect=stage))
@@ -110,8 +111,9 @@ class AuthReleaseTests(unittest.TestCase):
 
 class AuthScopeTests(unittest.TestCase):
     def test_only_exact_production_setting_insertion_is_allowed(self):
-        old=b'prefix\n'+auth.ANCHOR+b'suffix\n';correct=old.replace(auth.ANCHOR,auth.ANCHOR+auth.SETTING)
-        for candidate,allowed in [(correct,True),(correct+b'UNREVIEWED=True\n',False)]:
+        anchor=b"MFA_ADAPTER = 'control.auth.MFAAdapter'\n"
+        old=b'prefix\n'+auth.ANCHOR+anchor+b'suffix\n';correct=old.replace(auth.ANCHOR,auth.ANCHOR+auth.SETTING).replace(anchor,anchor+auth.POLICY)
+        for candidate,allowed in [(correct,True),(correct+b'UNREVIEWED=True\n',False),(correct.replace(b'ADMIN_MFA_REQUIRED = False',b'ADMIN_MFA_REQUIRED = True'),False)]:
             with patch.object(auth.https,'source_check'),patch.object(auth.https,'git',side_effect=[b'',b'web/resmgr_web/settings.py\n',b'',old,candidate]):
                 if allowed:auth.scope(REVISION,DRIVER)
                 else:
@@ -124,6 +126,19 @@ class AuthScopeTests(unittest.TestCase):
             root=Path(temporary);sentinel=root/'unrelated';sentinel.write_bytes(b'preserve unknown bytes')
             with self.assertRaises((FileNotFoundError,CheckFailed,RuntimeError)):auth.stage(REVISION,root)
             self.assertEqual(sentinel.read_bytes(),b'preserve unknown bytes')
+
+    def test_prepared_previous_attempt_migrates_only_with_history_and_no_backup_or_pointer_change(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);opt=root/'opt';(opt/'releases'/auth.ACTIVE).mkdir(parents=True);(opt/'current').symlink_to(opt/'releases'/auth.ACTIVE)
+            path=root/'auth-upgrade.json';binding={**auth.identity(REVISION),'driver_revision':DRIVER}
+            old={**auth.identity(auth.PREVIOUS_AUTH_APPLICATION),'driver_revision':auth.PREVIOUS_AUTH_DRIVER,'phase':'prepared'}
+            auth.https.record(path,old)
+            with patch.object(auth.p,'OPT',opt):
+                updated=auth.upgrade_journal(path,old,binding)
+                self.assertEqual(updated['revision'],REVISION)
+                self.assertEqual(json.loads(path.with_name('auth-upgrade-'+auth.PREVIOUS_AUTH_DRIVER+'.json').read_text()),old)
+                changed={**old,'backup':{'unknown':'receipt'}}
+                with self.assertRaisesRegex(CheckFailed,'another_auth_upgrade_recorded'):auth.upgrade_journal(path,changed,binding)
 
 class SnapshotRecoveryTests(unittest.TestCase):
     def test_verified_snapshot_is_hash_checked_and_not_repeated(self):

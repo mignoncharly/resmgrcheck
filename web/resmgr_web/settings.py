@@ -113,6 +113,10 @@ LOGGING = {'version':1,'disable_existing_loggers':False,'formatters':{'private':
 # No request bodies, credentials or raw provider errors are logged.
 ACCOUNT_ADAPTER = 'control.auth.AccountAdapter'
 MFA_ADAPTER = 'control.auth.MFAAdapter'
+ADMIN_MFA_REQUIRED = False # Hackathon policy: password-only; retained MFA needs a reviewed reactivation.
+ADMIN_SESSION_IDLE_SECONDS = 1800
+ADMIN_SESSION_ABSOLUTE_SECONDS = 43200
+MIDDLEWARE.insert(MIDDLEWARE.index('allauth.account.middleware.AccountMiddleware'),'control.middleware.AdministratorSessionMiddleware')
 MIDDLEWARE.append('control.middleware.PolicyMiddleware')
 import sys
 if str(REPO_ROOT) not in sys.path: sys.path.insert(0,str(REPO_ROOT))
