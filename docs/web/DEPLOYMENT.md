@@ -255,3 +255,12 @@ selection, temporary own executor override, separate same-ID recollection, stric
 cleanup-gated release, then one new dashboard qualification batch. Original immutable
 releases, evidence/ERROR, credentials, backups and unrelated services remain intact.
 Actual root execution and full app rollback/independent acceptance are pending.
+
+## W034 acceptance continuation, not redeployment
+
+Keep public application3f4bafb and its HTTPS/authentication configuration. Recovery
+uses a new immutable operator driver, an exact journaled Git-index permission repair,
+and a temporary override of only resmgrcheck-executor.service. Both old ERROR and
+75b3c54 partial evidence are retained. All root work remains operator-run; the driver
+refuses unknown state before mutation and restores only its own override. Actual
+native acceptance and guarded rollback/UAT are still open; do not report P8 passed.

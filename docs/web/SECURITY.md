@@ -538,3 +538,17 @@ Actual production recollection/acceptance is still pending. AI/customer endpoint
 remain disabled; off-server DR deferred and P8 IN_PROGRESS. The deployed recovery
 branch still terminally withholds incomplete collections; this command reconciles
 only the exact reviewed case and refuses unknown failures.
+
+## W034 evaluator Git metadata permission boundary
+
+A root Git index refresh under umask0077 can revoke executor read access despite
+--no-optional-locks. Production engine checks now disable diff.autoRefreshIndex.
+Recovery may grant read only to resmgr-exec on the exact root-owned index after
+verifying committed entries, source status, single-link regular-file custody and
+recorded inode/hash. The executor receives no Git directory/index write permission,
+no additional key access and no wildcard safe.directory trust. Changed source,
+unknown index/lock, symlinks or unexpected failed-collection signatures refuse repair.
+Actual service-context Git reads are required before native work. Worker failure
+reports contain allowlisted checks and source module/line numbers, never locals,
+private paths or arbitrary exception contents. Native quarantine remains until
+canonical same-ID evidence proves cleanup; an unsealed evaluated file is insufficient.

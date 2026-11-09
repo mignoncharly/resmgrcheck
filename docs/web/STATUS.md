@@ -500,3 +500,34 @@ relaunches the original ID. No web/Nginx/authentication/engine source deployment
 Chromium and modeled systemd restoration. Actual root recollection/new batch remain
 pending. Current3f4bafb HTTPS200 and own services active. Full app rollback and
 independent UAT remain open. P8 IN_PROGRESS; AI/customer endpoints disabled.
+
+## W034 recovery evaluator Git index access
+
+Operator75b3c54 confirmed missing recovery-controller selection, then failed in the
+actual executor worker. The read-only follow-up shows the exact approved selector
+installed and fresh native collection bytes retained in its separate private directory,
+but no usable sealed summary. Original run274989f6-c306-4581-8f69-3db1ca21997d remains
+blocked ERROR, quarantined, with its lease held and no recovery audit. Account/codes
+remain revoked; original inventory hashes match.
+
+Agent inspection confirms engine .git/index root:root0600; unprivileged evaluator
+identity fails at git status with index permission denied. A real temporary Git
+reproduction confirms git diff HEAD refreshes the index under umask0077 despite
+--no-optional-locks. Explicit diff.autoRefreshIndex=false prevents that write.
+The reviewed recovery now guards that setting, verifies the exact failed collection
+signature/index tree, journals original metadata, and grants only root:resmgr-exec0640
+on the same index inode/bytes. Actual executor Git reads precede native collection.
+No source/keys/old evidence overwrite; a fresh recovery output preserves75b3c54's
+partial output. Unknown failure signatures or index changes refuse repair.
+
+95 tests PASS in13.548s. Root permission changes/systemd are modeled; real Git,
+PostgreSQL, Chromium and archived QNX evidence checks pass. The exact protected
+CalledProcessError signature remains a mandatory apply-time check, not an observed
+value in the supplied probe. Current3f4bafb HTTPS200, nginx/db/web/executor active,
+recovery override absent. Actual corrected recollection/new native acceptance and
+rollback/UAT remain pending. P8 IN_PROGRESS; AI/customer endpoints remain disabled.
+
+Independent index-free verification read all4782 tracked engine files against the
+pinnedca4f74e Git tree: zero content/type/executable-mode mismatches. It read no
+private configuration and did not refresh the index. Tracked source integrity is
+intact; the confirmed fault concerns generated Git metadata permissions.

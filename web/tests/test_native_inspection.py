@@ -14,6 +14,23 @@ import executor_operator as operator
 from executor_native_browser import NativeJourney,failure_check
 
 class SafeInspectionFilesTests(unittest.TestCase):
+    def test_recovery_inspection_has_no_mutation_or_target_call(self):
+        import recover_executor_collection as recovery
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            with patch.object(recovery,'PRIVATE',root),patch.object(recovery,'STATE_ROOT',root),\
+                patch('control.models.AuditEvent.objects') as audit,patch.object(recovery,'exact_run',side_effect=ValueError('exact_blocked_ERROR_required')),\
+                patch.object(recovery,'original_inventory',side_effect=ValueError('PRIVATE')),\
+                patch.object(recovery,'verify_recollection',side_effect=FileNotFoundError('PRIVATE')),\
+                patch('resmgrcheck.transport.Transport') as transport,patch.object(recovery,'install_selection') as install:
+                audit.filter.return_value.exists.return_value=False
+                result=probe.recovery_metadata(SimpleNamespace(),os.getuid())
+                self.assertEqual(result['blocked_or_released_binding'],'exact_blocked_ERROR_required')
+                self.assertEqual(result['original_inventory'],'ValueError');self.assertNotIn('PRIVATE',json.dumps(result))
+                self.assertFalse(result['selection']['present']);self.assertTrue(all(not f['present'] for f in result['files']))
+                transport.assert_not_called();install.assert_not_called();self.assertEqual(list(root.iterdir()),[])
+
     def test_observer_check_names_are_retained_without_arbitrary_exception_text(self):
         self.assertEqual(operator.observer_failure(ValueError('native_cleanup_unproven')),
             {'error_class':'ValueError','failed_check':'native_cleanup_unproven'})

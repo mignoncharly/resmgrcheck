@@ -1,5 +1,5 @@
 """Retained real QNX evidence; disposable PostgreSQL/files; no new native execution."""
-import copy,json,os,pwd,shutil,sys,tempfile,unittest,uuid
+import copy,json,os,pwd,shutil,subprocess,sys,tempfile,unittest,uuid
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch,Mock
@@ -17,6 +17,105 @@ from resmgrcheck import workflow,deployment
 SOURCE=Path(__file__).resolve().parents[2]
 ARCHIVE=SOURCE/'docs/evidence/phase10/executions/p10demo2-broken'
 DRIVER='a'*40
+
+class EngineIndexTests(unittest.TestCase):
+    def repository(self,root):
+        def git(*args):return subprocess.check_output(['git','-C',str(root),*args],stderr=subprocess.PIPE)
+        git('init','-q');(root/'tracked.py').write_text('x=1\n');git('add','tracked.py')
+        git('-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','Fixture')
+        return git
+
+    def test_real_git_diff_refresh_ignores_optional_locks_but_explicit_disabled_refresh_preserves_index(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);git=self.repository(root);index=root/'.git/index';index.chmod(0o640)
+            os.utime(root/'tracked.py',(1,1));before=index.read_bytes();inode=index.stat().st_ino
+            old=os.umask(0o077)
+            try:
+                git('--no-optional-locks','diff','HEAD','--')
+                self.assertNotEqual(index.read_bytes(),before);self.assertNotEqual(index.stat().st_ino,inode)
+                self.assertEqual(index.stat().st_mode&0o777,0o600)
+                index.chmod(0o640);os.utime(root/'tracked.py',(2,2));before=index.read_bytes();info=index.stat()
+                git('--no-optional-locks','-c','diff.autoRefreshIndex=false','diff','HEAD','--')
+                self.assertEqual(index.read_bytes(),before);self.assertEqual(index.stat().st_ino,info.st_ino)
+                self.assertEqual(index.stat().st_mode&0o777,0o640)
+                (root/'tracked.py').write_text('x=2\n')
+                self.assertTrue(git('--no-optional-locks','-c','diff.autoRefreshIndex=false','diff','HEAD','--'))
+            finally:os.umask(old)
+
+    def test_index_entries_require_exact_committed_tree_and_no_staged_conflict(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);git=self.repository(root)
+            original=recovery.index_entries(git('ls-tree','-rz','HEAD'),tree=True)
+            self.assertEqual(recovery.index_entries(git('ls-files','--stage','-z')),original)
+            (root/'tracked.py').write_text('tampered');git('add','tracked.py')
+            self.assertNotEqual(recovery.index_entries(git('ls-files','--stage','-z')),original)
+            for raw in [b'100644 '+b'a'*40+b' 2\ttracked.py\0',b'120000 '+b'a'*40+b' 0\tlink\0',
+                        b'100644 '+b'a'*40+b' 0\t../bad\0']:
+                with self.assertRaises(ValueError):recovery.index_entries(raw)
+
+    def test_repair_is_narrow_and_resumes_after_interrupted_group_change(self):
+        from contextlib import ExitStack
+        import deploy_https as ops
+        with tempfile.TemporaryDirectory() as temporary,ExitStack() as stack:
+            base=Path(temporary);engine=base/'engine';engine.mkdir();git=self.repository(engine)
+            engine.chmod(0o755);(engine/'.git').chmod(0o755)
+            index=engine/'.git/index';index.chmod(0o600);initial=index.read_bytes();inode=index.stat().st_ino
+            private=base/'private';private.mkdir();state=base/'state';state.mkdir()
+            stack.enter_context(patch.object(plan,'ENGINE_ROOT',engine));stack.enter_context(patch.object(plan,'STATE',state))
+            stack.enter_context(patch.object(plan,'ENGINE',git('rev-parse','HEAD').decode().strip()))
+            stack.enter_context(patch.object(recovery,'PRIVATE',private));previous=recovery.recovery_path(recovery.FAILED_COLLECTION)
+            (previous/'cases/timeout/bundle').mkdir(parents=True)
+            for name,value in [('result.json',{'run_id':recovery.NATIVE,'host_error':'CalledProcessError','execution_exit':2}),
+                ('cases/timeout/bundle/partial.json',{'kind':'partial-run','schema_version':1,'state':'incomplete','error_type':'CalledProcessError'})]:
+                path=previous/name;path.write_bytes(canonical(value));path.chmod(0o600)
+            (previous/'request.json').write_bytes(b'fixture');(previous/'request.json').chmod(0o600)
+            stack.enter_context(patch.dict(recovery.ORIGINAL_HASHES,{'request.json':plan.digest(b'fixture')}))
+            stack.enter_context(patch.object(recovery.pwd,'getpwnam',return_value=SimpleNamespace(pw_uid=os.getuid())))
+            stack.enter_context(patch.object(recovery.grp,'getgrnam',return_value=SimpleNamespace(gr_gid=12345)))
+            stack.enter_context(patch.object(ops,'require_root'))
+            stack.enter_context(patch.object(ops,'command',side_effect=lambda argv:subprocess.check_output(list(map(str,argv)),stderr=subprocess.PIPE)))
+            # Root custody/chown are modeled; index bytes, Git tree checks, chmod,
+            # intent journal and interrupted resumption use actual temporary files.
+            virtual_gid=[0];real_stat=Path.stat;real_lstat=Path.lstat;real_fstat=os.fstat
+            def metadata(value,path):
+                if path in {engine,engine/'.git',index}:
+                    fields=list(value);fields[4]=0;fields[5]=virtual_gid[0] if path==index else 0
+                    return os.stat_result(fields)
+                return value
+            stack.enter_context(patch.object(Path,'stat',lambda path,*a,**kw:metadata(real_stat(path,*a,**kw),path)))
+            stack.enter_context(patch.object(Path,'lstat',lambda path,*a,**kw:metadata(real_lstat(path,*a,**kw),path)))
+            stack.enter_context(patch.object(os,'fstat',lambda fd:metadata(real_fstat(fd),Path(os.readlink('/proc/self/fd/'+str(fd))))))
+            stack.enter_context(patch.object(os,'fchown',side_effect=lambda fd,uid,gid:virtual_gid.__setitem__(0,gid)))
+            args=['git','--no-optional-locks','-c','diff.autoRefreshIndex=false','-C',str(engine)]
+            with patch.object(os,'fchmod',side_effect=InterruptedError),self.assertRaises(InterruptedError):
+                recovery.repair_engine_index(DRIVER,args)
+            self.assertTrue((state/'engine-index-read-repair.json').exists());self.assertEqual(index.read_bytes(),initial)
+            recovery.repair_engine_index(DRIVER,args);recovery.repair_engine_index(DRIVER,args)
+            self.assertEqual(index.stat().st_mode&0o777,0o640);self.assertEqual(index.read_bytes(),initial)
+            self.assertEqual(index.stat().st_ino,inode);self.assertEqual(virtual_gid[0],12345)
+            partial=previous/'cases/timeout/bundle/partial.json';original_partial=partial.read_bytes()
+            partial.write_bytes(canonical({'kind':'partial-run','schema_version':1,'state':'incomplete','error_type':'Invalid'}))
+            with self.assertRaisesRegex(ValueError,'previous_collection_failure_requires_review'):recovery.repair_engine_index(DRIVER,args)
+            partial.write_bytes(original_partial)
+            saved=engine/'.git/index.saved';index.rename(saved);index.symlink_to(saved)
+            with self.assertRaisesRegex(ValueError,'resource_symlink'):recovery.repair_engine_index(DRIVER,args)
+            index.unlink();saved.rename(index)
+            (engine/'.git/index.lock').write_bytes(b'unknown')
+            with self.assertRaisesRegex(ValueError,'engine_index_lock_present'):recovery.repair_engine_index(DRIVER,args)
+            self.assertEqual((engine/'.git/index.lock').read_bytes(),b'unknown');(engine/'.git/index.lock').unlink()
+            index.write_bytes(initial+b'tampered')
+            with self.assertRaises((ValueError,subprocess.CalledProcessError)):recovery.repair_engine_index(DRIVER,args)
+
+    def test_executor_git_readiness_is_required_and_redacts_failures(self):
+        import executor_probe as probe
+        with patch.object(plan,'read_owned',return_value=b'index') as read,\
+            patch.object(probe.subprocess,'run') as command:
+            command.side_effect=[SimpleNamespace(returncode=0,stdout=plan.ENGINE.encode()),SimpleNamespace(returncode=0,stdout=b'')]
+            self.assertTrue(probe.evaluator_git_readiness());self.assertEqual(read.call_count,2)
+            self.assertTrue(all('diff.autoRefreshIndex=false' in c.args[0] for c in command.call_args_list))
+            command.side_effect=[SimpleNamespace(returncode=128,stdout=b'PRIVATE')]
+            with self.assertRaisesRegex(ValueError,'^evaluator_git_identity_unreadable_or_changed$'):probe.evaluator_git_readiness()
+
 
 class ControllerSelectionTests(unittest.TestCase):
     def test_missing_selection_reproduces_bootstrap_failure_then_exact_manifest_avoids_it(self):
@@ -117,6 +216,16 @@ class RecollectionEvidenceTests(unittest.TestCase):
                     recovery.verify_recollection(run,result)
 
 class ExecutorContextRecoveryTests(unittest.TestCase):
+    def test_worker_failure_keeps_check_and_location_but_never_secret_exception_text(self):
+        for value in ['native_recollection_not_expected_FAIL','PRIVATE-SECRET']:
+            try:plan.require(False,value)
+            except ValueError as error:
+                with patch.object(recovery,'STEP','same_id_cli_collection'):result=recovery.worker_failure(error)
+            self.assertEqual(result['failed_step'],'same_id_cli_collection')
+            self.assertEqual(result['failed_check'],value if value.startswith('native_') else 'ValueError')
+            self.assertEqual(result['source_locations'][-1]['module'],'executor_plan.py')
+            self.assertNotIn('PRIVATE',json.dumps(result));self.assertNotIn('/home/',json.dumps(result))
+
     def test_interrupted_stop_attempt_restores_canonical_executor_start(self):
         with tempfile.TemporaryDirectory() as temporary:
             drop=Path(temporary);calls=[]

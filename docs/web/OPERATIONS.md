@@ -405,3 +405,14 @@ reviewed dashboard batch only after proof. Failed/interrupted recovery restores 
 the known executor override; unknown state is retained for review. Complete recovery
 output is reused. No Nginx/web/database restart occurs. Actual runtime is pending;
 full app rollback and independent UAT remain open. See PRODUCTION_EXECUTOR W033.
+
+## W034 index-access recovery
+
+Keep the75b3c54 partial collection, original ERROR, held lease and quarantine. The
+updated recover_executor_collection.py performs the exact failed-signature/index-tree
+checks and journaled executor-group index-read repair in one operator workflow, then
+actual-unit validation and same-ID recollection. Do not manually chmod trees, clear
+leases, delete partial bundles or rerun provision_executor alone. It restores only
+its own executor override on exit; Nginx/web/database services are unchanged.
+If preflight reports previous_collection_failure_requires_review, no repair is
+authorized by the evidence: retain state and investigate the actual marker.

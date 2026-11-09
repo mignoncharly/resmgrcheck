@@ -1519,3 +1519,44 @@ rollback and independent UAT NOT_RUN. See evidence/native-collection-recovery.
 Twelve focused recovery tests refreshed PASS in0.317s after strict controller
 manifest parsing. Complete input-directory publication/resumption also rejects
 symlinks and preserves interrupted unactivated initialization directories.
+
+## W034 — recovery index refresh and service-readable evaluator identity
+
+Operator75b3c54: missing selector confirmed; actual unit worker exited1 with a generic
+ValueError. The accessible journal proves ExecStartPre ran and the worker started;
+this was not a failure to launch systemd's executable. A read-only protected probe
+confirmed the approved selector SHAabe191304ede875bdd88f2749214ea2fee2439ab33e4c7ac5121fcd52c6b45ac,
+matching original request, separate partial collection files, unsealed summary,
+unchanged original inventory, no recovery audit and held quarantine/lease.
+
+Direct agent metadata inspection: /opt/resmgrcheck/engine/.git/index root:root0600.
+Calling the installed engine evaluator identity without privilege failed with
+CalledProcessError; Git reported index permission denied. Index mtime/ctime
+1794239761084233660 precedes the75 recovery and aligns with earlier provisioning.
+Exact historical writer attribution is not audited; the faulty write mechanism is
+reproduced with real Git: changing only source mtime then running git diff HEAD with
+--no-optional-locks under umask0077 replaces the index and makes it0600. With
+diff.autoRefreshIndex=false, bytes/inode/mode remain unchanged; altered source is
+still detected. No production source/index was modified by the agent.
+
+Correction tests: 95 PASS in13.548s across executor collection recovery/provisioning,
+native inspection, queue browser, jobs and evidence. Tests use real temporary Git,
+disposable PostgreSQL and Chromium plus genuine archived QNX bytes. Root custody,
+chown and systemd control are modeled. Index stage/tree mismatch, symlinks, unknown
+locks, altered bytes and unrelated partial-error signatures refuse recovery; a
+journaled interruption after group change resumes without replacing index bytes or
+old evidence. Diagnostics retain safe stages/source locations, never exception
+contents. The actual retained bundle-error type was not included in the supplied
+inspection; the operator command must verify CalledProcessError in both retained
+summary and partial marker before granting any access.
+
+Agent observations: active3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58, HTTPS readiness200
+with certificate verification, own nginx/db/web/executor active, recovery override
+absent. This is a VPS-origin health check, not independent external acceptance.
+Actual corrected systemd collection/new dashboard scenarios/rollback/UAT NOT_RUN.
+P8 remains IN_PROGRESS. See evidence/native-index-recovery/checks.json.
+
+Independent index-free verification read all4782 tracked engine files against the
+pinnedca4f74e Git tree: zero content/type/executable-mode mismatches. It read no
+private configuration and did not refresh the index. Tracked source integrity is
+intact; the confirmed fault concerns generated Git metadata permissions.

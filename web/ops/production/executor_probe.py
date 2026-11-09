@@ -1,10 +1,23 @@
 #!/usr/bin/env python3
 """Runs only under the canonical executor unit's credential/sandbox context."""
-import io,json,os,pwd,re,sys
+import io,json,os,pwd,re,subprocess,sys
 from pathlib import Path
 sys.dont_write_bytecode=True
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import executor_plan as plan
+
+def evaluator_git_readiness():
+    """Exercise the evaluator's Git reads as the actual service UID before launch."""
+    git=['git','--no-optional-locks','-c','diff.autoRefreshIndex=false','-c','safe.directory=',
+        '-c','safe.directory='+str(plan.ENGINE_ROOT),'-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false',
+        '-C',str(plan.ENGINE_ROOT)]
+    index=plan.ENGINE_ROOT/'.git/index'
+    before=plan.read_owned(index,0,{0o640,0o644},16*1024**2)
+    for args,expected in [(['rev-parse','HEAD'],plan.ENGINE.encode()),(['status','--porcelain'],b'')]:
+        result=subprocess.run([*git,*args],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20)
+        plan.require(result.returncode==0 and result.stdout.strip()==expected,'evaluator_git_identity_unreadable_or_changed')
+    plan.require(plan.read_owned(index,0,{0o640,0o644},16*1024**2)==before,'evaluator_git_index_changed')
+    return True
 
 def probe(*,require_capacity=True):
     uid=pwd.getpwnam('resmgr-exec').pw_uid
@@ -21,6 +34,7 @@ def probe(*,require_capacity=True):
     from resmgrcheck.deployment import Deployment,verify_remote,engine_info
     from resmgrcheck.contracts import Profile,load
     plan.require(settings.SERVICE_ROLE=='executor' and settings.ENVIRONMENT=='production' and not settings.RUNNER_ENABLED and not settings.AI_CONFIG,'executor_policy')
+    evaluator_git_readiness()
     output=io.StringIO();call_command('runtime_check',stdout=output)
     runtime=json.loads(output.getvalue())
     with connection.cursor() as cursor:
@@ -62,7 +76,7 @@ def probe(*,require_capacity=True):
     from recover_executor_collection import install_selection
     install_selection(selected['before'])
     return {'passed':True,'kind':'actual-systemd-executor-probe','application':plan.APPLICATION,
-        'driver_revision':Path(__file__).resolve().parent.name,'runtime':runtime,'database_grants_verified':True,
+        'driver_revision':Path(__file__).resolve().parent.name,'runtime':runtime,'database_grants_verified':True,'evaluator_git_reads_verified':True,
         'deployments':deployments,'compiled_adapters':capabilities,'target_file_entries_available':int(match[2]),
         'target_file_budget_required':128 if require_capacity else 0,
         'target_contact':'read-only identity, manifests, SHA256 downloads and compiled capability discovery',

@@ -202,7 +202,7 @@ def apply(driver):
         if DROP.exists() or DROP.is_symlink():remove_dropin(expected_drop)
         plan.require(not ops.command(['systemctl','show','--value','--property=DropInPaths',UNIT]).strip(),'executor_overrides_require_review')
         plan.require(ops.read(Path('/etc/systemd/system')/UNIT)==ops.git('show',plan.APPLICATION+':web/ops/production/'+UNIT),'executor_unit_differs')
-        engine_git=['git','--no-optional-locks','-c','safe.directory=','-c','safe.directory='+str(plan.ENGINE_ROOT),
+        engine_git=['git','--no-optional-locks','-c','diff.autoRefreshIndex=false','-c','safe.directory=','-c','safe.directory='+str(plan.ENGINE_ROOT),
             '-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',plan.ENGINE_ROOT]
         plan.require(ops.command([*engine_git,'rev-parse','HEAD']).decode().strip()==plan.ENGINE and
             not ops.command([*engine_git,'diff','HEAD','--']).strip(),'pinned_engine_changed')

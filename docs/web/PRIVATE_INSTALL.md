@@ -916,3 +916,15 @@ private evidence. Quarantine/lease release requires canonical same-supervisor na
 cleanup proof. The command then resumes one explicit new dashboard qualification
 batch. Actual root recovery is pending. Do not manually clear the slot or change the
 old run verdict. No SDK bootstrap or secrets replacement is permitted.
+
+## W034 no immutable application replacement
+
+The75b3c54 failure left public3f4bafb healthy. The missing controller selector is now
+installed, but engine Git index0600 blocks nonroot bundle sealing. Recovery grants
+only executor-group read on the verified root-owned index; source bytes, immutable
+application, database records, keys and prior attempts remain intact. A protected
+intent receipt makes interruption resumable. New root Git checks disable automatic
+index refresh. Use the newly committed recover_executor_collection.py driver, not
+75b3c54 or another HTTPS deployment. Actual same-ID canonical cleanup and subsequent
+dashboard acceptance remain required before P8 can advance. See PRODUCTION_EXECUTOR
+W034 for exact guarded repair scope and refusal conditions.

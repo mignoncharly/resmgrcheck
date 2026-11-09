@@ -1,0 +1,50 @@
+{
+  "checkpoint": "W034",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "failed_recovery_driver": "75b3c542b1823bc258147bd9175aa7f2acff634d",
+  "web_run_id": "274989f6-c306-4581-8f69-3db1ca21997d",
+  "native_run_id": "w274989f6c30645818f",
+  "agent_observed": {
+    "engine_index_owner": "root:root",
+    "engine_index_mode": "0600",
+    "engine_index_mtime_ns": 1794239761084233660,
+    "unprivileged_evaluator_identity": "CalledProcessError: Git index permission denied",
+    "real_git_optional_locks_do_not_prevent_diff_refresh": true,
+    "explicit_auto_refresh_false_preserves_index": true,
+    "HTTPS_readiness": 200,
+    "dedicated_units_active": true,
+    "temporary_recovery_override_present": false,
+    "engine_tracked_files_verified_without_index": 4782,
+    "engine_tracked_mismatches": 0
+  },
+  "operator_reported": {
+    "approved_selector_installed": true,
+    "original_inventory": "passed",
+    "separate_recollection": "unsealed",
+    "original_state": "blocked",
+    "original_verdict": "ERROR",
+    "quarantined": true,
+    "lease_held": true,
+    "recovery_audit_present": false,
+    "account_and_codes_revoked": true
+  },
+  "protected_partial_exception_type": "not printed in supplied probe; required apply-time check",
+  "tests": {
+    "passed": 95,
+    "seconds": 13.548,
+    "real": [
+      "Git refresh reproduction",
+      "temporary PostgreSQL",
+      "Chromium",
+      "archived native evidence"
+    ],
+    "modeled": [
+      "root ownership/chown",
+      "systemd control"
+    ]
+  },
+  "corrected_production_recovery": "NOT_RUN",
+  "independent_external_acceptance": "pending",
+  "P8": "IN_PROGRESS",
+  "secrets_printed": false
+}

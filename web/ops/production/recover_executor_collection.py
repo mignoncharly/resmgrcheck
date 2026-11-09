@@ -4,13 +4,14 @@
 Never overwrites the original sealed graph or launches a native case. The read-only
 plan needs no root; --apply validates the exact blocked attempt before any change.
 """
-import argparse,fcntl,json,os,pwd,re,stat,sys,uuid
+import argparse,fcntl,grp,json,os,pwd,re,stat,sys,uuid
 from pathlib import Path
 sys.dont_write_bytecode=True
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import executor_plan as plan
 
 FAILED='45bde2e4a51dea4830589bab7466700512ee615f'
+FAILED_COLLECTION='75b3c542b1823bc258147bd9175aa7f2acff634d'
 RUN='274989f6-c306-4581-8f69-3db1ca21997d'
 NATIVE='w274989f6c30645818f'
 ATTEMPT='beb038e6bb43435888c62e95a95efdb8'
@@ -25,6 +26,64 @@ ORIGINAL_HASHES={'request.json':'4fd73f5e50d291da338fd5c57ecdd493484bb5ca0f7d38b
 def selected_path():return STATE_ROOT/'lab/deployment.json'
 def recovery_path(driver):return PRIVATE/('recovered-'+RUN+'-'+driver)
 def receipt_path(driver):return PRIVATE/('recovered-'+driver+'.json')
+
+def index_entries(raw,tree=False):
+    rows=[]
+    for record in raw.split(b'\0'):
+        if not record:continue
+        header,name=record.split(b'\t',1);mode,second,third=header.split(b' ')
+        identity=third if tree else second
+        plan.require((second==b'blob' if tree else third==b'0') and mode in {b'100644',b'100755'} and
+            not name.startswith(b'/') and b'..' not in name.split(b'/'),'engine_index_entries_invalid')
+        rows.append((name,mode,identity))
+    plan.require(len({r[0] for r in rows})==len(rows),'engine_index_entries_invalid')
+    return sorted(rows)
+
+def repair_engine_index(driver,git):
+    """Grant only executor-group read on the exact trusted Git index; retain bytes."""
+    import deploy_https as ops
+    from resmgrcheck.contracts import loads
+    ops.require_root();uid=pwd.getpwnam('resmgr-exec').pw_uid;gid=grp.getgrnam('resmgr-exec').gr_gid
+    previous=recovery_path(FAILED_COLLECTION)
+    # Refuse an unrelated failure; do not relabel the partial native result as sealed.
+    summary=loads(plan.read_owned(previous/'result.json',uid,{0o600}))
+    partial=loads(plan.read_owned(previous/'cases/timeout/bundle/partial.json',uid,{0o600}))
+    plan.require(summary.get('run_id')==NATIVE and summary.get('host_error')=='CalledProcessError' and
+        summary.get('execution_exit')==2 and partial=={'kind':'partial-run','schema_version':1,'state':'incomplete','error_type':'CalledProcessError'} and
+        not (previous/'cases/timeout/bundle/bundle.json').exists(),'previous_collection_failure_requires_review')
+    plan.require(plan.digest(plan.read_owned(previous/'request.json',uid,{0o600}))==ORIGINAL_HASHES['request.json'],
+        'previous_collection_request_differs')
+    index=plan.ENGINE_ROOT/'.git/index';raw=plan.read_owned(index,0,{0o600,0o640},16*1024**2)
+    for directory in [plan.ENGINE_ROOT,index.parent]:
+        metadata=directory.lstat()
+        plan.require(metadata.st_uid==0 and stat.S_ISDIR(metadata.st_mode) and not metadata.st_mode&0o022,'engine_git_directory_protection')
+    plan.require(not (index.parent/'index.lock').exists() and not (index.parent/'index.lock').is_symlink(),'engine_index_lock_present')
+    plan.require(index_entries(ops.command([*git,'ls-files','--stage','-z']))==
+        index_entries(ops.command([*git,'ls-tree','-rz',plan.ENGINE]),tree=True),'engine_index_tree_differs')
+    record=plan.STATE/'engine-index-read-repair.json'
+    info=index.stat()
+    if record.exists():
+        original=json.loads(ops.read(record,private=True))
+        plan.require(original.get('kind')=='exact-engine-index-read-repair' and original.get('engine')==plan.ENGINE and
+            original.get('failed_driver')==FAILED_COLLECTION and original.get('sha256')==plan.digest(raw) and
+            original.get('inode')==info.st_ino and original.get('device')==info.st_dev and
+            original.get('original_mode')==0o600 and original.get('original_gid')==0,'engine_index_repair_record_differs')
+    else:
+        plan.require(info.st_gid==0 and stat.S_IMODE(info.st_mode)==0o600,'engine_index_original_protection_differs')
+        original={'kind':'exact-engine-index-read-repair','engine':plan.ENGINE,'failed_driver':FAILED_COLLECTION,
+            'driver_revision':driver,'sha256':plan.digest(raw),'inode':info.st_ino,'device':info.st_dev,
+            'original_mode':0o600,'original_gid':0}
+        ops.new_file(record,(json.dumps(original,sort_keys=True)+'\n').encode())
+    plan.require((info.st_gid,stat.S_IMODE(info.st_mode)) in {(0,0o600),(gid,0o600),(gid,0o640)},'engine_index_repair_protection_differs')
+    fd=os.open(index,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    try:
+        opened=os.fstat(fd)
+        plan.require(opened==info,'engine_index_changed')
+        os.fchown(fd,0,gid);os.fchmod(fd,0o640);os.fsync(fd)
+    finally:os.close(fd)
+    plan.require(plan.read_owned(index,0,{0o640},16*1024**2)==raw,'engine_index_bytes_changed')
+    print(json.dumps({'step':'exact_engine_index_read_repair','passed':True,'source_and_index_bytes_changed':False,
+        'scope':'root-owned Git index; executor group read only','previous_failed_collection_preserved':True}),flush=True)
 
 def exact_run(*,released=False):
     from control.models import Run,ExecutorSlot,AuditEvent,AccessCode,AccessSession
@@ -153,12 +212,15 @@ def release_verified(run,proof,driver):
         audit(None,'production.native_collection.recovered',run.project.organization,RUN,**proof,driver_revision=driver)
 
 def worker(driver):
+    global STEP
     import executor_probe
     # Reuses ExecStartPre/runtime_check, account, credentials, sandbox and grant tests.
+    STEP='actual_executor_runtime_probe'
     runtime=executor_probe.probe(require_capacity=False) # Collection creates no QNX files.
     cgroup=Path('/proc/self/cgroup').read_text()
     plan.require(any(line.endswith(':/system.slice/resmgrcheck-executor.service') for line in cgroup.splitlines()),'actual_executor_cgroup_required')
     from control.models import AuditEvent
+    STEP='original_blocked_evidence_validation'
     released=AuditEvent.objects.filter(action='production.native_collection.recovered',object_id=RUN).exists()
     run=exact_run(released=released);before=original_inventory(run)
     manifest=plan.manifest_pair(Path('/opt/resmgrcheck/current'))['before']
@@ -169,6 +231,7 @@ def worker(driver):
     from resmgrcheck.contracts import load
     from control.engine import run_path
     binding=registry(run.target,run.build);path=recovery_path(driver)
+    STEP='reserve_separate_recollection'
     reserve_recollection(path,Request.parse(load(run_path(run)/'request.json')))
     # A complete retained recollection is revalidated, not repeated after interruption.
     complete=False
@@ -177,18 +240,22 @@ def worker(driver):
         if (path/'result.json').exists():
             _,summary,_=inspect_execution(path);complete=all(row['bundle_id'] for row in summary['cases'])
     if not complete:
+        STEP='same_id_cli_collection'
         plan.require(not released,'released_recovery_evidence_missing')
         code,_,_=command([settings.ENGINE_PYTHON,'-m','resmgrcheck','collect','--target',binding.alias,'--config',str(binding.config),
             '--run-id',NATIVE,'--out',str(path),'--wait'],binding,lambda:None,timeout=100)
         plan.require(code==1,'native_recollection_not_expected_FAIL')
+    STEP='canonical_recollection_verification'
     proof=verify_recollection(run,path)
     plan.require(original_inventory(run)==before,'original_evidence_changed_during_recovery')
+    STEP='verified_lease_release'
     release_verified(run,proof,driver)
     # Original state/verdict/artifact graph remain ERROR; record separate recovery proof.
     proof={**proof,'passed':True,'driver_revision':driver,'application':plan.APPLICATION,'web_run_id':RUN,
         'kind':'actual-systemd-same-ID-recollection','evidence_directory':str(path),
         'original_inventory_sha256':plan.digest(json.dumps(before,sort_keys=True).encode()),'runtime':runtime}
     from resmgrcheck.artifacts import atomic_write
+    STEP='retain_recollection_receipt'
     receipt=receipt_path(driver)
     if receipt.exists():
         old=json.loads(plan.read_owned(receipt,os.geteuid(),{0o600}))
@@ -197,6 +264,23 @@ def worker(driver):
             old['runtime'].get('passed') is True,'recollection_receipt_differs')
     else:atomic_write(receipt,(json.dumps(proof,sort_keys=True,indent=2)+'\n').encode())
     return {'passed':True,'same_ID_recollection':True,'original_ERROR_retained':True}
+
+def worker_failure(error):
+    """Source locations only: no exception values, source lines, locals or paths."""
+    allowed={'recover_executor_collection.py','executor_probe.py','executor_plan.py',
+        'engine.py','storage.py','workflow.py','deployment.py','contracts.py','artifacts.py'}
+    locations=[];trace=error.__traceback__
+    while trace:
+        name=Path(trace.tb_frame.f_code.co_filename).name
+        if name in allowed:locations.append({'module':name,'line':trace.tb_lineno})
+        trace=trace.tb_next
+    checks={'exact_blocked_ERROR_required','native_recollection_not_expected_FAIL',
+        'same_ID_supervisor_or_partial_differs','recovered_native_verdict_or_cleanup_unproven',
+        'recovered_request_or_coverage_differs','recovery_resource_type_or_owner',
+        'selection_directory_protection','selected_controller_differs','recovery_directory_protection'}
+    return {'passed':False,'failed_step':STEP,
+        'failed_check':str(error) if str(error) in checks else type(error).__name__,
+        'source_locations':locations[-8:],'original_ERROR_retained':True,'secrets_printed':False}
 
 def dropin(tool):
     python=Path('/opt/resmgrcheck/releases')/plan.APPLICATION/'.venv/bin/python'
@@ -295,9 +379,10 @@ def apply(driver):
     plan.require((plan.ENGINE_ROOT/'.local/state').is_symlink() and (plan.ENGINE_ROOT/'.local/state').resolve()==STATE_ROOT,'engine_state_binding')
     import recover_https_auth as immutable
     immutable.validate(Path('/opt/resmgrcheck/releases')/plan.APPLICATION,plan.APPLICATION)
-    git=['git','--no-optional-locks','-c','safe.directory=','-c','safe.directory='+str(plan.ENGINE_ROOT),'-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',plan.ENGINE_ROOT]
+    git=['git','--no-optional-locks','-c','diff.autoRefreshIndex=false','-c','safe.directory=','-c','safe.directory='+str(plan.ENGINE_ROOT),'-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false','-C',plan.ENGINE_ROOT]
     plan.require(ops.command([*git,'rev-parse','HEAD']).decode().strip()==plan.ENGINE,'engine_revision_differs')
     plan.require(not ops.command([*git,'diff','HEAD','--']).strip(),'engine_source_differs')
+    STEP='exact_engine_index_read_repair';repair_engine_index(driver,git)
     for directory in [tool.parent,tool]:provision.directory(directory,0,0o755)
     for name in ['executor_plan.py','executor_probe.py','recover_executor_collection.py']:
         provision.exact_file(tool/name,ops.git('show',driver+':web/ops/production/'+name),0,0o644)
@@ -346,10 +431,15 @@ if __name__=='__main__':
                 provision.validate_source(args.driver_revision)
                 print(json.dumps({'read_only_plan':True,'same_native_run_id':NATIVE,'original_ERROR_retained':True,
                     'recovery_native_launch':False,'root_required':True,'recollection_identity':'actual resmgrcheck-executor.service',
+                    'index_repair':'same root-owned inode and bytes; exact committed entries; executor group read only',
+                    'prior_partial_failure_signature_required':'CalledProcessError; otherwise refuse repair',
+                    'preserved_partial_driver':FAILED_COLLECTION,
                     'evidence':'separate private recovery directory','release_lease_only_after_canonical_cleanup':True,
                     'after_verified_cleanup':'one reviewed dashboard acceptance batch: 3 native cases and a withheld queued revocation case',
                     'Nginx_auth_database_services_changed':False,'P8':'IN_PROGRESS'}))
     except BaseException as error:
+        if args.worker:
+            print(json.dumps(worker_failure(error)));raise SystemExit(1) from None
         print(json.dumps({'passed':False,'failed_step':provision.CURRENT_STEP if not args.worker and STEP=='native_dashboard_acceptance' else STEP,
             'failed_check':str(error) if (isinstance(error,ValueError) or not args.worker and isinstance(error,provision.ops.CheckFailed)) and re.fullmatch('[a-z0-9_]{1,100}',str(error)) else type(error).__name__,
             'original_ERROR_retained':True,'secrets_printed':False}));raise SystemExit(1) from None

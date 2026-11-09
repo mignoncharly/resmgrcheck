@@ -33,6 +33,39 @@ def file_metadata(path,root,uid):
     except (OSError,ValueError) as error:row['read_validation']=safe_error(error)
     return row
 
+def recovery_metadata(run,uid):
+    """Fixed failed recovery only; inspect retained bytes, never contact the target."""
+    import recover_executor_collection as recovery
+    driver='75b3c542b1823bc258147bd9175aa7f2acff634d'
+    path=recovery.recovery_path(driver)
+    result={'driver_revision':driver,'files':[file_metadata(path/name,path,uid) for name in
+        ['request.json','state.json','result.json','cases/timeout/status.json',
+         'cases/timeout/partial-events.jsonl','cases/timeout/bundle/result.json',
+         'cases/timeout/bundle/partial.json','cases/timeout/bundle/bundle.json']]}
+    for label,name,field in [('host_error','result.json','host_error'),
+                            ('bundle_error','cases/timeout/bundle/partial.json','error_type')]:
+        if (path/name).exists():
+            value=json.loads(plan.read_owned(path/name,uid,{0o600})).get(field)
+            result[label]=value if value in {None,'CalledProcessError','Invalid','PermissionError','TransportError'} else 'other'
+    selected=recovery.selected_path()
+    result['selection']=file_metadata(selected,selected.parent,uid)
+    if result['selection'].get('read_validation')=='passed':
+        from resmgrcheck.contracts import loads
+        result['selection_matches_approved']=loads(plan.read_owned(selected,uid,{0o600}))==plan.manifest_pair(ops.SOURCE)['before']
+    from control.models import AuditEvent
+    released=AuditEvent.objects.filter(action='production.native_collection.recovered',object_id=RUN).exists()
+    result['recovery_audit_present']=released
+    for name,check in [('blocked_or_released_binding',lambda:recovery.exact_run(released=released)),
+                       ('original_inventory',lambda:recovery.original_inventory(run)),
+                       ('recollection_proof',lambda:recovery.verify_recollection(run,path))]:
+        try:check();result[name]='passed'
+        except Exception as error:
+            allowed={'exact_blocked_ERROR_required','original_authority_not_closed','blocked_lease_binding_differs',
+                'released_recovery_state_differs','sealed_original_differs','recovered_request_or_coverage_differs',
+                'same_ID_supervisor_or_partial_differs','recovered_native_verdict_or_cleanup_unproven'}
+            result[name]=str(error) if str(error) in allowed else safe_error(error)
+    return result
+
 def inspect():
     import acceptance_operator as acceptance
     acceptance.load_application(plan.APPLICATION)
@@ -82,6 +115,8 @@ def inspect():
                 plan.require(re.fullmatch('collection-[0-9]{6}',snapshot.name) and not snapshot.is_symlink(),'history_path_invalid')
                 paths.extend(snapshot/name for name in ['result.json','state.json','timeout/status.json','timeout/partial-events.jsonl'])
         result['files']=[file_metadata(path,root,uid) for path in paths]
+        try:result['recovery']=recovery_metadata(run,uid)
+        except Exception as error:result['recovery']={'inspection_failed':safe_error(error)}
         for name,check in [('inventory',lambda:verify_inventory(run)),('execution',lambda:inspect_execution(root)),
             ('expected_FAIL_and_cleanup',lambda:operator.completed(run,'FAIL'))]:
             try:check();result[name]='passed'

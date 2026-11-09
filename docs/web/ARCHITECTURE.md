@@ -272,3 +272,13 @@ partial ERROR is never overwritten: operator recollection uses the same native I
 and separate private evidence, linked by an append-only audit only after canonical
 continuity/cleanup checks. Original dashboard evidence remains unchanged. A distinct
 new acceptance batch follows only after verified cleanup. No new public endpoint.
+
+## W034 evaluator provenance dependency
+
+Native bundle sealing invokes the pinned engine's Git identity and source hashing
+as the executor UID. Approved target/controller access alone is insufficient: the
+service must also read root-owned Git metadata. The operational probe now verifies
+those exact Git reads. Root integrity checks disable index refresh; the narrowly
+guarded recovery grants group read on verified index metadata without replacing
+source or changing evaluator logic. Partial and sealed recovery attempts remain
+separate from the original blocked ERROR and its immutable web artifact graph.

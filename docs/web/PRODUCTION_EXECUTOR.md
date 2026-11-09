@@ -280,3 +280,25 @@ records remain. New acceptance must independently prove sensor defect FAIL, corr
 source replay PASS, job PASS, same-ID connection recovery, downloads and queued/live
 authorization revocation. Any new unknown failure stops; no passing receipt is invented.
 Actual execution remains pending. Full application rollback/independent UAT remain open.
+
+## W034 recover the evaluator index access failure
+
+Do not rerun driver75b3c54. Its selector installation and partial collection are
+retained. Root-run git diff may refresh the index even with --no-optional-locks;
+provisioning and recovery explicitly disable diff.autoRefreshIndex. The index is
+Git metadata, not a source file or credential. The dedicated recovery verifies
+HEAD/tracked changes and index entries against the pinned engine tree, requires
+root-owned single-link nonsymlink0600 index and trusted parent directories, then
+journals its hash/inode/device/original permissions before granting executor-group
+read (root:resmgr-exec0640). No index replacement or broad Git permission change.
+Unknown lock, index, signature or history stops. Interrupted group/mode adjustment
+resumes only against the recorded same inode/hash. Existing recovery state stays.
+
+Before that change, retained75 summary and bundle partial marker must both identify
+CalledProcessError and the request must match the original sealed request. A mismatch
+requires investigation, not automatic adoption. The actual sandboxed executor must
+then read the Git index and confirm clean pinned evaluator identity before collection.
+It recollects the same native ID into the new driver's directory, preserving75 partial
+bytes. Original ERROR and quarantine/lease release rules are unchanged. Only complete
+canonical FAIL/identity/prefix/cleanup proof permits the already-reviewed new dashboard
+batch. Keep the operator command as one continued shell command with backslashes.
