@@ -84,7 +84,13 @@ def project_member(request,project_id):
 @administrator
 @require_GET
 def account_settings(request):
-    return render(request,'control/account.html',{'sessions_form':PasswordConfirmation(),'sessions':UserSession.objects.filter(user=request.user).order_by('-created_at')[:30]})
+    return security_settings_response(request)
+
+def security_settings_response(request,form=None,status=200):
+    sessions=list(UserSession.objects.filter(user=request.user).order_by('-created_at')[:30])
+    for session in sessions:session.current=session.session_key==request.session.session_key
+    return render(request,'control/account.html',{'sessions_form':form if form is not None else PasswordConfirmation(),
+        'sessions':sessions,'is_account_page':False},status=status)
 
 @administrator
 @require_GET
@@ -97,7 +103,9 @@ def administrator_sessions(request):
 @require_POST
 def logout_all(request):
     form=PasswordConfirmation(request.POST)
-    if not form.is_valid() or not request.user.check_password(form.cleaned_data['password']):return HttpResponse('Password confirmation failed.',status=400)
+    if not form.is_valid() or not request.user.check_password(form.cleaned_data['password']):
+        if not form.errors:form.add_error('password','Password confirmation failed.')
+        return security_settings_response(request,form,status=400)
     user=request.user;User.objects.filter(pk=user.pk).update(session_version=F('session_version')+1)
     for session in UserSession.objects.filter(user=user):session.end()
     audit(user,'administrator.sessions_revoked');logout(request);return redirect('account_login')

@@ -1655,3 +1655,51 @@ remain applicable; no runtime or test source changed, so tests were not repeated
 Production native acceptance failure is resolved. Full application rollback is
 NOT_RUN; independent UAT remains pending, P8 IN_PROGRESS. Customer endpoints and
 AI remain disabled. No broader production-readiness/submission claim is made.
+
+## W037 administrator security redesign (2026-11-10; local only)
+
+The settings view inherited the shared authentication wrapper because context marks
+every /administrator/ route as an account page. That capped the entire two-column
+settings layout at510px. Only settings now override that context; its own content
+is capped at1080px. Shared sidebar/topbar, tokens, routes and authentication rules
+remain. Account actions, recorded sessions, recovery and danger zone are separate
+sections. Current-session labels compare actual stored keys without rendering keys;
+dates are explicitly UTC. No device/IP metadata is invented or displayed. Wrong
+or missing password returns the existing400 response with a bound, accessible
+settings form instead of a plain-text dead end; revocation/audit logic is unchanged.
+
+53 isolated PostgreSQL tests passed in11.681s:
+`tests.test_security_settings tests.test_identity tests.test_access_codes` via
+the existing staging wrapper. Coverage includes password change invalidating other
+sessions, current-session-only sign-out, password-confirmed global revocation and
+audit, missing/wrong password, real CSRF token acceptance, tokenless rejection on
+all three security POST routes, anonymous and code-user denial, and other-user
+session isolation/key non-disclosure. Initial test assumptions about the sign-out
+URL and cookie-based CSRF were corrected to use the existing/sign-out/ route and
+the rendered form token. No production account was accessed or changed.
+
+Before/after PNGs and browser check JSONs are in evidence/administrator-security-redesign.
+These are actual Chromium captures of locally rendered Django templates with an
+explicit synthetic preview identity/session, inline repository CSS and no production
+credentials. Before captures used the original770d5bf template. The referenced user
+screenshot was not attached.8 views per version cover1440/900/390/320px with JavaScript
+on/off; all have no horizontal overflow. Four axe WCAG2A/2AA/2.1AA scans per version
+report zero violations; after captures also verify visible keyboard focus. No-JS
+views are captured without scripting; axe itself runs only in scripting contexts.
+Desktop and320px no-JS screenshots were visually inspected. Browser captures are
+rendering/accessibility evidence; security mutations were exercised through actual
+Django test clients/database, not the synthetic preview. No external UAT is claimed.
+
+Reproduce after captures using staging manage.py shell with
+`exec(open('tests/browser/capture_security_settings.py').read())`. The source strips
+external scripts/static links and uses local CSS/axe to avoid production I/O.
+No frontend dependency was added. Existing95-test executor qualification was not
+repeated for this scoped account UI change. No QNX/native/AI/customer changes.
+
+Production remains immutable3f4bafb. No /opt tree was edited and no deployment ran.
+A separately reviewed immutable candidate release, private qualification, fresh
+encrypted backup/restore and operator authorization are required under the existing
+deployment/recovery procedure before this UI can appear live. Do not reuse the
+completed executor recovery command to deploy this application change.53 focused
+tests and git diff --check pass; independent UAT/full application rollback remain
+the existing separate release limitations.

@@ -1,1 +1,25 @@
-{% extends 'control/base.html' %}{% block content %}<div class="page-head"><div><p class="eyebrow">Protected administrator identity</p><h1>Administrator security</h1><p>{{ user.username }} · no email recovery</p></div></div><div class="grid equal"><section class="panel"><h2>Password &amp; sessions</h2><div class="card-list"><a class="list-card" href="{% url 'account_change_password' %}">Change password →</a></div><p class="spaced">Password recovery requires the protected local server procedure. MFA is deferred; existing authenticators remain stored for a future reviewed release. There is no email reset or public administrator signup.</p><form method="post" action="{% url 'account_logout' %}">{% csrf_token %}<button class="secondary">Sign out this session</button></form></section><section class="panel"><h2>Revoke all administrator sessions</h2><p>Password confirmation invalidates all browser authentication hashes and pending job authority. Existing native work remains under its owned supervisor bounds.</p><form method="post" action="{% url 'logout_all' %}">{% csrf_token %}{{ sessions_form.as_p }}<button class="danger">Revoke all administrator sessions</button></form></section></div><section class="panel"><h2>Recorded administrator sessions</h2>{% for session in sessions %}<p>Created {{ session.created_at }} UTC · last seen {{ session.last_seen_at|default:'Unknown' }}</p>{% empty %}<p>No recorded sessions.</p>{% endfor %}</section>{% endblock %}
+{% extends 'control/base.html' %}
+{% load tz %}
+{% block title %}Administrator security · ResMgrCheck{% endblock %}
+{% block content %}
+<div class="security-page">
+  <header class="page-head"><div><p class="eyebrow">Administrator account</p><h1>Administrator security</h1><p>Manage your password, browser sessions and recovery options.</p></div><span class="badge">{{ user.username }}</span></header>
+  <section class="panel" aria-labelledby="account-security-title">
+    <h2 id="account-security-title">Account security</h2>
+    <dl class="security-identity"><div><dt>Administrator username</dt><dd>{{ user.username }}</dd></div><div><dt>Current session</dt><dd>This browser is signed in as an administrator.</dd></div></dl>
+    <div class="security-actions"><div><h3>Password management</h3><p>Changing your password invalidates other administrator sessions and their pending authorization.</p><a class="button" href="{% url 'account_change_password' %}">Change password</a></div><div><h3>This browser</h3><p>Sign out when you finish working on a shared device.</p><form method="post" action="{% url 'account_logout' %}">{% csrf_token %}<button class="secondary">Sign out this session</button></form></div></div>
+  </section>
+  <section class="panel" aria-labelledby="sessions-title">
+    <div class="panel-head"><h2 id="sessions-title">Active administrator sessions</h2><span class="badge">Your account only</span></div>
+    <p class="muted">Recorded sessions are listed below. A record does not prove a browser is currently connected. Times are in UTC.</p>
+    {% timezone "UTC" %}<ul class="security-sessions">
+      {% for session in sessions %}<li><div><span class="security-label">Session</span>{% if session.current %}<strong class="badge badge-available">Current session</strong>{% else %}<strong>Other recorded session</strong>{% endif %}</div><div><span class="security-label">Created</span><time datetime="{{ session.created_at|date:'c' }}">{{ session.created_at|date:'d M Y, H:i' }}</time></div><div><span class="security-label">Last activity</span>{% if session.last_seen_at %}<time datetime="{{ session.last_seen_at|date:'c' }}">{{ session.last_seen_at|date:'d M Y, H:i' }}</time>{% else %}Unknown{% endif %}</div></li>{% empty %}<li>No recorded sessions. This does not mean this browser is signed out.</li>{% endfor %}
+    </ul>{% endtimezone %}
+  </section>
+  <section class="panel" aria-labelledby="recovery-title"><h2 id="recovery-title">Security and recovery</h2><p>Password recovery requires the protected local server procedure. Email recovery is unavailable.</p><p class="muted no-margin">MFA is deferred for this release. Existing authenticators remain stored for a future reviewed release.</p></section>
+  <section class="panel security-danger" aria-labelledby="danger-title"><p class="eyebrow">Danger zone</p><h2 id="danger-title">Revoke all administrator sessions</h2><p id="revoke-help">This signs out every browser, including this one, and invalidates pending job authority. Native work already started remains under its owned supervisor bounds.</p><form method="post" action="{% url 'logout_all' %}">{% csrf_token %}
+    {% if sessions_form.errors %}<div class="callout error" role="alert"><strong>Sessions were not revoked.</strong><p id="revoke-error">Enter your correct current password and try again.</p></div>{% endif %}
+    <div class="security-revoke"><div><label for="id_password">Confirm your current password</label><input type="password" name="password" id="id_password" autocomplete="current-password" required aria-describedby="revoke-help{% if sessions_form.errors %} revoke-error{% endif %}"{% if sessions_form.errors %} aria-invalid="true"{% endif %}></div><button class="danger" type="submit">Revoke all administrator sessions</button></div>
+  </form></section>
+</div>
+{% endblock %}

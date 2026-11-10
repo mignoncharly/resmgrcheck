@@ -1,5 +1,12 @@
 # Production web implementation status
 
+W037 (2026-11-10): administrator security redesign implemented and locally tested;
+not deployed. Settings alone bypass the login-width wrapper and use a1080px layout,
+real current-session matching, UTC session dates, recovery guidance and a separate
+password-confirmed danger zone with inline errors.53 focused tests passed; desktop,
+tablet and mobile/no-JS captures have no overflow or axe violations. Production
+remains3f4bafb. See evidence/administrator-security-redesign and TEST_EVIDENCE W037.
+
 Current policy (W026, owner-approved2026-11-09): administrators use username/password
 only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,

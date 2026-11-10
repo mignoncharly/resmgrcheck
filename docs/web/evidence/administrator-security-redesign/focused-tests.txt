@@ -1,0 +1,14 @@
+Creating test database for alias 'default'...
+.Forbidden (CSRF cookie not set.): /administrator/logout-all/
+Forbidden (CSRF cookie not set.): /sign-out/
+Forbidden (CSRF cookie not set.): /administrator/password/change/
+....Forbidden (CSRF cookie not set.): /administrator/login/
+..........................Forbidden (CSRF cookie not set.): /access/
+......................
+----------------------------------------------------------------------
+Ran 53 tests in 11.681s
+
+OK
+Destroying test database for alias 'default'...
+Found 53 test(s).
+System check identified no issues (0 silenced).

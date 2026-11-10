@@ -1,0 +1,61 @@
+{
+  "fixture": "Local template preview; synthetic display identity/session; no production access",
+  "checks": [
+    {
+      "keyboard_focus_visible": true,
+      "width": 1440,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 1440,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 900,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 900,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 390,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 390,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 320,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "keyboard_focus_visible": true,
+      "width": 320,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "fixture": "Local template preview; synthetic display identity/session; no production access",
+  "checks": [
+    {
+      "width": 1440,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 900,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 900,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 390,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "javascript": true,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 320,
+      "javascript": false,
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}
