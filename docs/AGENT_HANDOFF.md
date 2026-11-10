@@ -1,5 +1,14 @@
 # Engineering complete; local publication review pending
 
+Current production-web handoff (2026-11-10): remain on `feature/production-web-ai`
+for this work. Operator driver1fde3df completed same-ID recovery, native acceptance
+and the guarded executor rehearsal (W036). Do not repeat provisioning/acceptance.
+Read [web status](web/STATUS.md), [recovery completion](web/PRODUCTION_EXECUTOR.md)
+and evidence/production-native-acceptance under docs/web. Original ERROR, recovered
+FAIL, new defect FAIL and all histories remain preserved. Full application rollback
+and independent UAT are pending; AI/customer endpoints remain disabled. The older
+CLI/jury handoff below does not supersede this production-web checkpoint.
+
 Read AGENTS.md, STATUS.md, E013–E016 in TEST_EVIDENCE.md, KNOWN_LIMITATIONS.md and
 docs/submission/publication-handoff.md. Branch remains implementation/phase-1.
 Preserve unrelated work, SDK, images, private credentials/configuration and all

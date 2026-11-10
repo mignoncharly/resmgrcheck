@@ -7,25 +7,23 @@ rate limits, audit and session revocation remain mandatory. Customer machine
 endpoints and AI stay disabled. Historical MFA qualification below is not the
 current release policy. W028: immutable application `3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58`
 is active. Production password/code/browser acceptance passed; an independent
-external public fetch returned HTTPS 200. W030: executor registry provisioning and
-the actual service-context probe passed in the operator workflow. Native acceptance
-passed root plan selection, then stopped at native form confirmation because the
-web role lacked dispatch-mutex permissions. W031 corrects this without web deployment.
-W032: the mutex passed; sensor collection then failed with an unclassified observer
-ValueError. W033 operator metadata confirms blocked canonical ERROR, intact sealed
-evidence and a held lease/quarantined target. Same-ID recollection is staged with
-strict preflight and separate evidence; a new batch is conditional on verified
-cleanup. W034 adds the narrowly scoped Git index permission correction; W035
-rechecked it after the interrupted session. The operator confirms that recovery
-driver `1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6` has not run. Actual native and
-independent authenticated acceptance remain pending.
+external public fetch returned HTTPS 200. W036: operator recovery driver
+`1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6` completed same-ID recollection and
+production native acceptance. Original collection ERROR remains preserved;
+recollected defect FAIL and cleanup allowed the new acceptance batch. Sensor
+source-corrected timeout replay PASS, intentional defect FAIL, job timeout PASS,
+interrupted-connection same-ID recovery, live/queued revocation, verified evidence
+downloads and cleanup all passed. The guarded idle executor stop/start passed.
+Independent UAT and full application rollback remain pending. W030–W035 below
+preserve the original failures and preparation history.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
 The published CLI/jury release `ca4f74e` remains independently recoverable.
 
-Next operator gate: [reviewed production executor provisioning and native acceptance](PRODUCTION_EXECUTOR.md).
-No HTTPS redeployment is required.
+Native recovery/acceptance is complete; do not repeat provisioning or qualification.
+Next remaining acceptance work: [independent UAT](INDEPENDENT_UAT.md) and a separately
+reviewed compatible application rollback drill. No HTTPS redeployment is required.
 
 ## W028 HTTPS checkpoint (executor status superseded by W030)
 
@@ -55,13 +53,13 @@ independent authenticated/native acceptance remains pending.
 | P0–P5 | Prior staging qualification retained | Original engine/evidence/tenant authorization unchanged; historical qualification retained |
 | P6 AI | PASS for disabled release mode | AI stays disabled; no provider qualification |
 | P7 customer targets | IN PROGRESS | Separate customer host unavailable; machine endpoints remain disabled |
-| P8 hardening | IN PROGRESS | Production recovery/runtime/backup/restore/HTTPS/password/codes/browser passed; native and independent acceptance incomplete |
-| P9–P10 | INCOMPLETE | Public reachability observed; full independent acceptance and production native not passed |
+| P8 hardening | IN PROGRESS | Production native recovery/acceptance and executor rehearsal passed W036; full application rollback and independent UAT pending |
+| P9–P10 | INCOMPLETE | Public reachability and production native passed; full independent acceptance incomplete |
 
 Production registry provisioning and the actual executor probe passed in ce97.
-The W030 root-selector correction passed. W031 addresses the subsequent web-role
-dispatch mutex error before queueing; production native remains unqualified. Do not
-repeat HTTPS recovery or reset the completed provisioning state.
+W036 completes the native recovery and dashboard qualification after the selector,
+dispatch mutex, controller selection and Git index corrections. Preserve completed
+provisioning, all prior ERROR/FAIL records and separate recovery evidence.
 
 The HTTPS workflow completed its own configuration rollback drill before acceptance;
 full rollback of the newly active application was not exercised this turn. Existing
@@ -563,3 +561,34 @@ used; root custody/systemd remain modeled. No production code changed this turn.
 Use the pinned1fde3df recovery command in PRODUCTION_EXECUTOR.md, preserving its
 driver identity on retry. Native acceptance, full application rollback and
 independent UAT remain pending. Evidence: evidence/native-resume-verification.
+
+## W036 production same-ID recovery and native acceptance passed (2026-11-10)
+
+The operator ran the pinned1fde3df command successfully. Its supplied output records
+the exact index repair without source/index byte changes, same-ID recollection of
+w274989f6c30645818f with canonical FAIL, original ERROR retained, and a successful
+new native acceptance batch. The private final report is
+/var/lib/resmgrcheck/private/operator/native-acceptance/report.json. The agent did
+not read that protected report or run the privileged command.
+
+| Native ID | Actual result | Evidence |
+| --- | --- | --- |
+| wbfcf8cf53f354a45b5 | Sensor intentional cancellation defect FAIL | Same supervisor/ID recovered after connection interruption; partial evidence retained |
+| w85d0f7bb970a4ca8bc | Sensor timeout corrected-source replay PASS | Canonical comparison fixed; fixture mode stayed ignore-unblock |
+| weead18b9841f4ff386 | Job timeout PASS | Session/code revoked during live collection; cleanup verified |
+
+All three runs have verified cleanup, immutable bundle IDs and verified downloads.
+Queued web runed8cacad-0717-4cee-a341-ae26cf8e0a8e was rejected before native launch;
+it has no native verdict/evidence (NOT_RUN). Temporary account/codes were closed,
+no own native work remained active, and prior users/audit/runs/evidence were preserved.
+The operator report also records guarded idle executor stop/start PASS and unchanged
+HTTPS. Successful harness qualification does not change the intentional FAIL.
+
+The agent read the matching local browser/cleanup reports and checked HTTPS200 with
+valid TLS, unchanged3f4bafb pointer, nginx/db/web/executor active/running, repaired
+index root:resmgr-exec0640 and no loaded executor drop-in. These host checks are
+separate from the operator-run native observations. No production database reread,
+new QNX call or repeat acceptance occurred in this documentation turn. W035's95
+focused tests remain the applicable regression evidence; no source changed.
+See evidence/production-native-acceptance. Full application rollback and independent
+UAT remain open; P8 remains IN_PROGRESS and customer endpoints/AI stay disabled.

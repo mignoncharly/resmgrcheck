@@ -1,0 +1,68 @@
+{
+  "P8": "IN_PROGRESS",
+  "browser_report": {
+    "live_and_queued_revocation_matches": true,
+    "passed": true,
+    "path": ".local/web/evidence/production-native-1461437adf8946d5b92c3b2db7ef74ff/browser-report.json",
+    "reported_native_IDs_and_verdicts_match": true,
+    "same_ID_recovery_matches": true,
+    "sha256": "4e4c83c851863b7c98a872b6084c34d2735100497392bcdac975a919dae8b4d2",
+    "source_corrected_comparison": "fixed",
+    "verified_cleanup_and_downloads": true
+  },
+  "cleanup_report": {
+    "matches_operator_report": true,
+    "path": ".local/web/evidence/production-native-1461437adf8946d5b92c3b2db7ef74ff/operator-cleanup.json",
+    "sha256": "6b34d84f47feeec536767a01591f4b3cc05a1af828a816146dd038cf016934a9"
+  },
+  "full_application_rollback": "not_run",
+  "host_checks": {
+    "HTTPS_readiness": 200,
+    "TLS_verify_result": 0,
+    "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+    "engine_index": {
+      "bytes": 728656,
+      "gid": 973,
+      "group": "resmgr-exec",
+      "mode": "0640",
+      "owner": "root",
+      "uid": 0
+    },
+    "executor_loaded_dropins": [],
+    "readiness_body": {
+      "status": "ready"
+    },
+    "units": {
+      "nginx.service": {
+        "ActiveState": "active",
+        "ExecMainStatus": 0,
+        "Result": "success",
+        "SubState": "running"
+      },
+      "resmgrcheck-db.service": {
+        "ActiveState": "active",
+        "ExecMainStatus": 0,
+        "Result": "success",
+        "SubState": "running"
+      },
+      "resmgrcheck-executor.service": {
+        "ActiveState": "active",
+        "ExecMainStatus": 0,
+        "Result": "success",
+        "SubState": "running"
+      },
+      "resmgrcheck-web.service": {
+        "ActiveState": "active",
+        "ExecMainStatus": 0,
+        "Result": "success",
+        "SubState": "running"
+      }
+    }
+  },
+  "independent_UAT": "pending",
+  "native_target_contacted_by_agent": false,
+  "observed_at_utc": "2026-11-10T08:53:19.500137+00:00",
+  "privileged_procedure_run_by_agent": false,
+  "provenance": "Agent read local browser and cleanup reports; separate host service/TLS/metadata checks. No protected report, production SQL or QNX target reread.",
+  "regression_tests": "W035: 95 passed in 14.709s; documentation-only follow-up, not repeated"
+}

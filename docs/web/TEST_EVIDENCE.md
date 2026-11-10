@@ -1606,3 +1606,52 @@ See evidence/native-resume-verification/checks.json and focused-tests.txt. Actua
 same-ID recollection and every production native acceptance gate remain NOT_RUN
 for the corrected driver; P8 remains IN_PROGRESS. No Nginx/authentication/customer
 runner/AI settings, keys, backups, approvals, native records or history changed.
+
+## W036 — operator production recovery and native acceptance passed, 2026-11-10
+
+Operator executed the reviewed1fde3df recovery from the4ecf2fb workspace. Supplied
+terminal output records index permission repair with unchanged source/index bytes,
+successful recollection of original nativew274989f6c30645818f with canonical FAIL
+and original sealed ERROR retained, followed by successful native dashboard
+acceptance and the guarded idle executor stop/start rehearsal. The full protected
+report path is /var/lib/resmgrcheck/private/operator/native-acceptance/report.json.
+The agent did not execute the procedure or independently read that protected report.
+The transcribed output is evidence/production-native-acceptance/operator-report.json.
+
+Actual operator-run cases:
+
+| Web run | Native run | Canonical verdict |
+| --- | --- | --- |
+| bfcf8cf5-3f35-4a45-b587-ff37f273a6bd | wbfcf8cf53f354a45b5 | FAIL: intentional sensor cancellation defect |
+| 85d0f7bb-970a-4ca8-bc31-b41ec62f09e5 | w85d0f7bb970a4ca8bc | PASS: sensor timeout corrected-source replay |
+| eead18b9-841f-4ff3-8630-b28b30f87d45 | weead18b9841f4ff386 | PASS: job timeout |
+
+Each has verified native cleanup, immutable bundle identity and verified download.
+The sensor defect connection interruption used SIGSTOP on the exact pidfd-pinned
+executor collection SSH child. Timeout/reap and lease-expiry recollection preserved
+the same native ID, supervisor and partial evidence prefix; its verdict remains FAIL.
+The corrected-source replay kept ignore-unblock mode and canonical comparison is
+fixed. Job code/session revocation occurred during observed pending/live collection;
+the running job completed PASS with cleanup. Queued web run
+ed8cacad-0717-4cee-a341-ae26cf8e0a8e was rejected before launch, with no native
+evidence or verdict (NOT_RUN). Temporary account/codes closed, existing users
+unchanged, audit/runs/evidence preserved and no own native work still active.
+
+Agent verification separately read the local production-native-1461437adf8946d5b92c3b2db7ef74ff
+browser and cleanup reports. Structured comparisons matched all three IDs/verdicts,
+cleanup/download/integrity flags, both full observation proofs and the queued
+rejection against supplied operator output. SHA256s of both local source reports
+are retained in agent-checks.json. No cookies, credentials, screenshot payloads or
+protected configuration were read or copied into this record.
+
+Fresh host checks: HTTPS /readyz/200 with TLS verification0 and expected ready JSON;
+unchanged application3f4bafb; nginx/db/web/executor active/running with successful
+main-process status; engine index root:resmgr-exec0640,728656 bytes; no loaded
+executor drop-ins. These host-origin observations do not constitute independent UAT.
+No new production SQL/target commands or acceptance rerun were executed by the agent.
+Documentation/JSON consistency and git diff --check passed. W035's95 focused tests
+remain applicable; no runtime or test source changed, so tests were not repeated.
+
+Production native acceptance failure is resolved. Full application rollback is
+NOT_RUN; independent UAT remains pending, P8 IN_PROGRESS. Customer endpoints and
+AI remain disabled. No broader production-readiness/submission claim is made.

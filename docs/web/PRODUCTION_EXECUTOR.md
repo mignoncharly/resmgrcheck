@@ -1,6 +1,7 @@
-> Current W035 gate: use the [pinned recovery command](#w035-pinned-command-after-the-interrupted-session), not the
-> old provisioning command directly. A sealed ERROR and held native ID must be
-> preserved and genuinely recollected before any new acceptance batch.
+> W036: the pinned recovery and production native acceptance completed successfully.
+> Do not rerun provisioning or native qualification. Preserve the original ERROR,
+> separate recovered FAIL and the completed acceptance evidence. See the
+> [completion record](#w036-completed-production-native-acceptance).
 
 
 # Production QNX executor qualification
@@ -337,3 +338,28 @@ qualification retains the defect FAIL and the original collection ERROR.
 
 Fresh HTTPS/service health does not establish any of these native results. Actual
 recovery/acceptance, full application rollback and independent UAT remain pending.
+
+## W036 completed production native acceptance
+
+The operator executed the W035 command on2026-11-10 with driver
+1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6. Same-ID recovery completed with canonical
+FAIL and verified cleanup while retaining the original ERROR. The subsequent
+dashboard batch passed all expected outcomes: intentional sensor FAIL, corrected
+sensor timeout replay PASS, job timeout PASS, same-ID connection interruption,
+queued and active-session revocation, cleanup and immutable evidence downloads.
+The guarded idle executor stop/start also passed. The original recovery command
+above is retained as history, not a request to run acceptance again.
+
+Completed native IDs, immutable bundle IDs and observation proofs are recorded in
+[operator report](evidence/production-native-acceptance/operator-report.json).
+That file transcribes the supplied terminal result; it is not a copy independently
+read from the protected report. [Agent checks](evidence/production-native-acceptance/agent-checks.json)
+record matching local browser/cleanup reports and fresh host health observations.
+The full protected report remains at
+/var/lib/resmgrcheck/private/operator/native-acceptance/report.json.
+
+No further root action is needed for this acceptance failure. Preserve driver
+identity, all prior journals, the original sealed ERROR and separate recovery
+evidence. The new intentional service verdict remains FAIL. Application3f4bafb
+continues serving HTTPS; full application rollback was not run and independent
+UAT is still pending. P8 is not declared complete.

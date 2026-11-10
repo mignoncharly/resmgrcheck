@@ -1,0 +1,84 @@
+{
+  "provenance": "Operator-supplied terminal output on 2026-11-10; protected report not independently read by agent",
+  "driver_revision": "1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6",
+  "recovery": {
+    "exact_engine_index_read_repair": "passed",
+    "source_and_index_bytes_changed": false,
+    "previous_failed_collection_preserved": true,
+    "native_run_id": "w274989f6c30645818f",
+    "same_ID_recollection": "passed",
+    "original_ERROR_retained": true,
+    "canonical_recovered_verdict": "FAIL"
+  },
+  "report": {
+    "passed": true,
+    "native_passed": true,
+    "report": "/var/lib/resmgrcheck/private/operator/native-acceptance/report.json",
+    "application_revision": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+    "native_runs": [
+      {
+        "role": "before",
+        "web_run_id": "bfcf8cf5-3f35-4a45-b587-ff37f273a6bd",
+        "native_run_id": "wbfcf8cf53f354a45b5",
+        "verdict": "FAIL",
+        "bundle_id": "e6004deb8546da1a0ad0798cc6ccaad7cc6e653f81094bc515ddf6b907ff98e8",
+        "cleanup_verified": true,
+        "download_verified": true
+      },
+      {
+        "role": "after",
+        "web_run_id": "85d0f7bb-970a-4ca8-bc31-b41ec62f09e5",
+        "native_run_id": "w85d0f7bb970a4ca8bc",
+        "verdict": "PASS",
+        "bundle_id": "5ce2343fcff555d055b019f7fea282c62d3b56e0a9049f82e27cbf7a56de934f",
+        "cleanup_verified": true,
+        "download_verified": true
+      },
+      {
+        "role": "job",
+        "web_run_id": "eead18b9-841f-4ff3-8630-b28b30f87d45",
+        "native_run_id": "weead18b9841f4ff386",
+        "verdict": "PASS",
+        "bundle_id": "a1d5c63be68dfd7f46843b26456a29a135d82ec182404c3d6ddb1444aed79c1a",
+        "cleanup_verified": true,
+        "download_verified": true
+      }
+    ],
+    "observations": [
+      {
+        "passed": true,
+        "native_run_id": "wbfcf8cf53f354a45b5",
+        "same_supervisor": true,
+        "launch_uncertain_observed": true,
+        "partial_SHA256": "7623ba7981d8b212a3087f778c6c9a5aa4322c8b58b869c3a11a3520f369c715",
+        "partial_evidence_preserved": true,
+        "canonical_verdict": "FAIL",
+        "cleanup_verified": true,
+        "fault": "SIGSTOP exact pidfd-pinned executor collection SSH child; engine timeout/reap; collect same ID after lease expiry"
+      },
+      {
+        "passed": true,
+        "live_run_id": "eead18b9-841f-4ff3-8630-b28b30f87d45",
+        "queued_run_id": "ed8cacad-0717-4cee-a341-ae26cf8e0a8e",
+        "timed_pending_observed": true,
+        "revoked_during_live_collection": true,
+        "live_canonical_verdict": "PASS",
+        "live_cleanup_verified": true,
+        "queued_state": "rejected",
+        "queued_native_launch": false,
+        "queued_verdict": "NOT_RUN; no native evidence claimed"
+      }
+    ],
+    "cleanup": {
+      "temporary_account_disabled": true,
+      "temporary_codes_revoked": true,
+      "existing_users_changed": false,
+      "audit_runs_evidence_preserved": true,
+      "own_native_work_still_active": false
+    },
+    "executor_idle_stop_start": "passed",
+    "full_application_rollback": "not_run",
+    "HTTPS_unchanged": true,
+    "independent_UAT": "pending"
+  }
+}

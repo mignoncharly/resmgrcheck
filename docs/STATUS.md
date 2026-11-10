@@ -1,5 +1,10 @@
 # Implementation status
 
+Current production-web follow-up (2026-11-10): W036 native recovery and production
+acceptance passed on `feature/production-web-ai`; original ERROR and intentional
+FAIL preserved. Full application rollback and independent UAT remain pending.
+See [current web status](web/STATUS.md). The CLI/jury checkpoint below is historical.
+
 Updated:2026-11-07. Branch:implementation/phase-1.
 
 | Item | Actual state |
