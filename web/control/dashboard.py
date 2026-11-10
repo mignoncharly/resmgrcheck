@@ -41,11 +41,16 @@ def target_list(request):return render(request,'control/target_list.html',{'targ
 @require_GET
 def run_history(request):
     runs=visible_runs(request.user).select_related('project','target','build')
+    project=None
+    if request.GET.get('project'):
+        try:identifier=uuid.UUID(request.GET['project'])
+        except ValueError:raise Http404
+        project,_=project_access(request.user,identifier);runs=runs.filter(project=project)
     state=request.GET.get('state','')
     if state in {'queued','running','completed','launch_uncertain','rejected','blocked','cancelled'}:runs=runs.filter(state=state)
     service=request.GET.get('service','')
     if service in PROFILES:runs=runs.filter(profile=service)
-    return render(request,'control/history.html',{'runs':runs[:100],'selected_state':state,'selected_service':service,'page':'runs','adapter_profiles':PROFILES})
+    return render(request,'control/history.html',{'project':project,'runs':runs[:100],'selected_state':state,'selected_service':service,'page':'runs','adapter_profiles':PROFILES})
 
 @secure_account
 @require_GET

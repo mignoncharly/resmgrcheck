@@ -1,0 +1,165 @@
+{
+  "fixture": "Actual Django routes and disposable database identities; static rendering for browser checks",
+  "checks": [
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 1440,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 1440,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 900,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 900,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 390,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 390,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 320,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "project",
+      "width": 320,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 1440,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 1440,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 900,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 900,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "not_applicable"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 390,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 390,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 320,
+      "javascript": true,
+      "overflow": false,
+      "axe_violations": [],
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    },
+    {
+      "forward_parent_dashboard_and_refresh": false,
+      "page": "run",
+      "width": 320,
+      "javascript": false,
+      "overflow": false,
+      "axe_violations": "not_run",
+      "keyboard_focus": true,
+      "mobile_menu": "passed"
+    }
+  ]
+}

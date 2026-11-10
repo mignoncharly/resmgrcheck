@@ -1,0 +1,1 @@
+{% for entry in app_nav.sections %}{% if group == 'all' or entry.group == group %}<a href="{{ entry.url }}"{% if entry.active %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">{{ entry.symbol }}</span>{{ entry.label }}</a>{% endif %}{% endfor %}

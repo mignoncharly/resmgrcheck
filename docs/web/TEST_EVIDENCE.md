@@ -1734,3 +1734,63 @@ exact-commit read-only plan is checked after committing this driver. Existing W0
 screenshots/53 application tests qualify the fixed UI candidate; no needless QNX
 retest ran. Deployment instructions identify the one local root command, resumable
 driver identity and actual pending production gates in SECURITY_PAGE_DEPLOYMENT.md.
+
+## W039 application-wide navigation
+
+The shared base previously had a nonclickable Workspace/project caption, isolated
+desktop/mobile lists and child pages with missing page flags. Only runner templates
+had local breadcrumbs. One template tag now resolves named URLs and authorized
+parents for all rendered application routes; three shared partials render the
+same menu, breadcrumbs and contextual returns. Existing runner-only breadcrumbs
+were removed. The base renders context navigation before any account-form wrapper.
+
+Coverage includes overview/projects/project, global/project targets, new run,
+run history/details/replay, compare, project AI/source controls, source/analysis
+details, customer-runner detail, organization creation/project creation/team/audit/
+retention, access-code list/detail, administrator security/password/sessions and
+restricted access-session pages. Project membership remains the existing form on
+project details. Mutation-only routes get no invented GET destination. Report/API/
+download contents and immutable native evidence remain unchanged.
+
+Navigation only links authorized parents. Tests walk all generated section,
+breadcrumb and return URLs with actual database-backed administrator or restricted
+code clients; verify direct refresh and exactly one active menu entry; verify
+foreign/malformed project scopes are404; and verify invalid/revoked identities are
+redirected without private context. Source/analysis error-template parents resolve
+through the existing visible/permission queries, never by an unvalidated return URL.
+Run history's new optional project filter checks project_access before narrowing
+visible_runs. State/adapter filters return from run details through encoded,
+allowlisted parameters. No authentication, worker, QNX or runner behavior changed.
+
+The expanded67-test suite passed in40.959s across navigation, dashboard archived
+evidence, settings security, access codes and runner regressions. After adding
+explicit error-template parent checks, the6 navigation tests were refreshed
+separately:6 PASS in23.418s; see final-navigation-tests.txt. No production database or QNX target
+was contacted. Initial fixture issues (wrong runner kind/missing discovery schema)
+were corrected using the existing customer-runner discovery fixture. An overlapping
+baseline browser test initially conflicted with another disposable test database;
+the completed baseline and final runs were serialized. No production state changed.
+
+Before:16 actual Chromium views of original8ef2707 templates/CSS, two pages at
+four widths with JS on/off. After:32 administrator/restricted-code views of project
+and run pages at1440/900/390/320px, JS on/off. After journeys click the shared Back to
+Projects link, Dashboard breadcrumb, direct run/project URL and refresh. Mobile
+details menus open/close without script; keyboard focus and document overflow are
+checked. Sixteen after axe WCAG2A/2AA/2.1AA scans report zero violations; no-JS views
+are explicitly not axe scans. Captures and JSONs are in evidence/global-navigation.
+These browser journeys replay actual route HTML fetched by authorized test clients;
+they are local browser/route evidence, not production HTTP/authenticated UAT.
+
+No supplied screenshot attachment was available, so original local rendering was
+the baseline. Desktop run and mobile project captures were visually inspected.
+Existing tables may scroll within their own labeled containers; document width
+and breadcrumbs do not overflow. No remaining known application-page parent-link
+gap is identified within the implemented route set. Downloads/API/machine endpoints
+and immutable report documents intentionally retain their original representation.
+Production deployment and independent external UAT are not performed. The old
+W038 immutable candidate excludes this navigation work; any subsequent deployment
+requires a newly reviewed candidate/driver, not direct editing of current.
+Read-only current-pointer inspection found21a6f571195af35593996d7f9e7b8bb77d843c35,
+the earlier security-page candidate. Its protected activation report was not read
+and its qualification is not relabeled as agent-executed evidence. This navigation
+work did not change that pointer or any production file.

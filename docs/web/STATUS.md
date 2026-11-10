@@ -1,5 +1,17 @@
 # Production web implementation status
 
+W039: application-wide navigation implemented on feature/production-web-ai; not
+deployed. One permission-aware component supplies desktop/mobile section links,
+active state, breadcrumbs and contextual returns for project/target/run/compare,
+organization/admin/code/security, runner and AI/source screens. Run history can be
+scoped to an authorized project and preserves useful filter context on return.
+See NAVIGATION.md and TEST_EVIDENCE W039. W038's fixed21a6f57 candidate does not
+contain this navigation change; any subsequent deployment needs a separately
+reviewed immutable candidate/driver. Do not patch /opt/resmgrcheck/current.
+Read-only current-pointer observation at W039 is21a6f57 (the earlier security-page
+release). No protected deployment receipt was reread and no new production
+qualification is inferred from that pointer. Navigation is not deployed.
+
 W038: owner requested deployment of W037. A reviewed exact-candidate release driver
 is ready; activation remains pending local root execution because sudo requires a
 password. See [SECURITY_PAGE_DEPLOYMENT.md](SECURITY_PAGE_DEPLOYMENT.md). It reuses

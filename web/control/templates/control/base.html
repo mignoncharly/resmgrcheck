@@ -1,17 +1,12 @@
-{% load static %}<!doctype html>
+{% load static navigation %}<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}ResMgrCheck · QNX lifecycle evidence{% endblock %}</title>
 <link rel="icon" href="{% static 'control/favicon.svg' %}" type="image/svg+xml"><link rel="stylesheet" href="{% static 'control/app.css' %}"><script src="{% static 'control/app.js' %}" defer></script></head>
-<body><a class="skip" href="#main">Skip to content</a>
+<body>{% app_navigation as app_nav %}<a class="skip" href="#main">Skip to content</a>
 {% if user.is_authenticated %}
 <aside class="sidebar"><a class="brand" href="{% url 'overview' %}"><span class="brandmark" aria-hidden="true">&gt;_</span>ResMgrCheck</a>
-<p class="sidebar-label">Workspace</p><nav aria-label="Workspace">
-<a href="{% url 'overview' %}"{% if page == 'overview' %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">▦</span>Overview</a>
-<a href="{% url 'projects' %}"{% if page == 'projects' %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">◇</span>Projects</a>
-<a href="{% url 'target_list' %}"{% if page == 'targets' %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">⌘</span>Targets</a>
-<a href="{% url 'run_history' %}"{% if page == 'runs' %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">↗</span>Run history</a>
-<a href="{% url 'compare' %}"{% if page == 'compare' %} class="active" aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">⇄</span>Compare</a></nav>
-<p class="sidebar-label">Resources</p><nav aria-label="Resources"><a href="{% url 'demo' %}"><span class="nav-symbol" aria-hidden="true">▷</span>Evidence playback</a><a href="{% url 'public_page' 'docs' %}"><span class="nav-symbol" aria-hidden="true">≡</span>Documentation</a><a href="{% url 'account_settings' %}"><span class="nav-symbol" aria-hidden="true">⚙</span>Account &amp; security</a></nav>
+<p class="sidebar-label">Workspace</p><nav aria-label="Workspace">{% include 'control/partials/app_menu.html' with group='workspace' %}</nav>
+<p class="sidebar-label">Resources</p><nav aria-label="Resources">{% include 'control/partials/app_menu.html' with group='resources' %}</nav>
 <div class="sidebar-bottom"><span class="environment">{% if environment == 'production' %}Production{% else %}Private staging{% endif %}</span><p>Canonical QNX evidence.<br>AI never changes a verdict.</p></div></aside>
 <div class="app-area"><header class="app-topbar"><span class="breadcrumb">Workspace / {% if project %}{{ project.name }}{% else %}ResMgrCheck{% endif %}</span><a class="brand mobile-brand" href="{% url 'overview' %}"><span class="brandmark" aria-hidden="true">&gt;_</span><span class="visually-hidden">ResMgrCheck</span></a><div class="topbar-user"><span class="environment">{% if environment == 'production' %}Production{% else %}Staging{% endif %}</span><span class="email">{{ user.username }}</span><span class="avatar" aria-hidden="true">{{ user.username|first|upper }}</span><details class="mobile-menu"><summary>Menu</summary>{% include 'control/partials/mobile_nav.html' %}</details></div></header>
 <main id="main" class="workspace">
@@ -19,7 +14,7 @@
 <header class="public-header"><a class="brand" href="{% url 'home' %}"><span class="brandmark" aria-hidden="true">&gt;_</span>ResMgrCheck <span class="product">FOR QNX</span></a><nav aria-label="Main"><a href="{% url 'public_page' 'how-it-works' %}">How it works</a><a href="{% url 'demo' %}">Recorded demo</a><a href="{% url 'public_page' 'docs' %}">Docs</a><a href="{% url 'account_login' %}">Administrator login</a><a class="button" href="{% url 'developer_access' %}">Developer access ↗</a></nav><details class="mobile-menu"><summary>Menu</summary>{% include 'control/partials/mobile_nav.html' %}</details></header>
 <main id="main" class="public-main">
 {% endif %}
-{% for message in messages %}<div class="callout" role="status">{{ message }}</div>{% endfor %}{% if is_account_page %}<div class="auth-wrap">{% endif %}{% block content %}{% endblock %}{% if is_account_page %}</div>{% endif %}</main>
+{% if user.is_authenticated %}{% include 'control/partials/navigation.html' %}{% endif %}{% for message in messages %}<div class="callout" role="status">{{ message }}</div>{% endfor %}{% if is_account_page %}<div class="auth-wrap">{% endif %}{% block content %}{% endblock %}{% if is_account_page %}</div>{% endif %}</main>
 {% if user.is_authenticated %}</div>{% else %}
 <footer class="public-footer"><span>ResMgrCheck · Evidence for declared QNX lifecycle contracts.</span><nav aria-label="Footer"><a href="{% url 'public_page' 'security' %}">Security &amp; scope</a><a href="{% url 'public_page' 'privacy' %}">Privacy</a><a href="{% url 'public_page' 'terms' %}">Terms</a><a href="{% url 'public_page' 'contact' %}">Contact</a></nav></footer>
 {% endif %}</body></html>

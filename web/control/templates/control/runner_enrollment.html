@@ -1,5 +1,4 @@
 {% extends 'control/base.html' %}{% block content %}
-<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{% url 'targets' project.pk %}">Targets</a><span aria-current="page">Runner enrollment</span></nav>
 <section class="panel form-panel"><p class="eyebrow">Customer-owned runner</p><h1>Enroll {{ target.name }}</h1>
 <p>This one-time display expires in 10 minutes. Deliver it privately to the customer operator. It cannot approve a target or authorize execution.</p>
 <label for="enrollment-token">Enrollment credential</label><textarea id="enrollment-token" rows="3" readonly spellcheck="false" autocomplete="off">{{ token }}</textarea>
