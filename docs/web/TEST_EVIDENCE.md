@@ -1703,3 +1703,34 @@ deployment/recovery procedure before this UI can appear live. Do not reuse the
 completed executor recovery command to deploy this application change.53 focused
 tests and git diff --check pass; independent UAT/full application rollback remain
 the existing separate release limitations.
+
+## W038 exact security-page deployment driver prepared
+
+The owner requested deployment of21a6f57. Existing auth/initial-private installers
+are deliberately pinned to earlier release identities and inactive workers, so
+they are not valid commands for the current active/qualified executor. The new
+deploy_security_page.py uses their unchanged immutable stage/validate/shared-venv,
+release/HTTPS locks, encrypted snapshot/isolated restore, static inventory, actual
+unit isolation, private/public readiness and temporary-principal browser helpers.
+Its own separate protected journal preserves all completed HTTPS/native histories.
+App scope is exactly the reviewed settings view/template/CSS; configuration, schema,
+dependencies, units and native runtime are frozen. Only the own Nginx immutable
+static alias changes. No native acceptance, target approval or existing password
+mutation is performed. Unknown source/site/unit/queue/journal state stops.
+
+Thirty focused tests passed via staging:
+tests.test_security_release tests.test_https_auth_release tests.test_security_settings.
+The suite exercises exact alias diff, unknown/mismatched application refusal,
+helper receipts, guarded original restoration, no pointer switch on backup failure,
+automatic restoration after runtime failure, immutable/backup helper regressions
+and real disposable-DB settings/CSRF/session behavior. Root/service effects are
+modeled. A test fixture initially concatenated its extra filename without a newline;
+the corrected independent path now exercises rejection. See
+evidence/security-page-release/focused-tests.txt for the final run.
+
+Host sudo -n true returned password required. No password/config/key contents were
+requested or printed. No privileged deploy or production mutation occurred. The
+exact-commit read-only plan is checked after committing this driver. Existing W037
+screenshots/53 application tests qualify the fixed UI candidate; no needless QNX
+retest ran. Deployment instructions identify the one local root command, resumable
+driver identity and actual pending production gates in SECURITY_PAGE_DEPLOYMENT.md.

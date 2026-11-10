@@ -1,5 +1,12 @@
 # Production web implementation status
 
+W038: owner requested deployment of W037. A reviewed exact-candidate release driver
+is ready; activation remains pending local root execution because sudo requires a
+password. See [SECURITY_PAGE_DEPLOYMENT.md](SECURITY_PAGE_DEPLOYMENT.md). It reuses
+immutable staging/backup/restore/runtime/browser helpers, updates only the own
+static alias, preserves W036 native evidence and performs no native execution.
+Production pointer remains3f4bafb; no privileged procedure has run in this turn.
+
 W037 (2026-11-10): administrator security redesign implemented and locally tested;
 not deployed. Settings alone bypass the login-width wrapper and use a1080px layout,
 real current-session matching, UTC session dates, recovery guidance and a separate
