@@ -1,5 +1,12 @@
 # Production web implementation status
 
+W040: owner authorized deployment of navigation candidatedfe1060 from current21a6f57.
+The separately pinned deploy_navigation.py driver is prepared/tested; activation
+remains pending because noninteractive sudo requires a password. It reuses the
+existing immutable procedure with a separate navigation-release journal.33 helper
+tests pass; HTTPS readiness200/TLS verification0 and web/executor active were
+observed before activation. See NAVIGATION_DEPLOYMENT.md for the local root command.
+
 W039: application-wide navigation implemented on feature/production-web-ai; not
 deployed. One permission-aware component supplies desktop/mobile section links,
 active state, breadcrumbs and contextual returns for project/target/run/compare,

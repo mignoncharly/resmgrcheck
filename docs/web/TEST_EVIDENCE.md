@@ -1794,3 +1794,28 @@ Read-only current-pointer inspection found21a6f571195af35593996d7f9e7b8bb77d843c
 the earlier security-page candidate. Its protected activation report was not read
 and its qualification is not relabeled as agent-executed evidence. This navigation
 work did not change that pointer or any production file.
+
+## W040 navigation deployment preparation
+
+Owner requested deployment. Fresh current pointer is21a6f57; candidate is the
+committeddfe1060 navigation implementation. The new deploy_navigation.py is the
+existing reviewed security-page procedure with only pinned revisions, twelve-file
+scope, separate journal path/kind and plan metadata changed. Earlier driver bytes
+and protected histories remain intact. Its allowlist excludes authentication,
+worker/native, schema, runtime/unit and unrelated application changes.
+
+33 tests passed in0.303s across tests.test_navigation_release,
+tests.test_security_release and tests.test_https_auth_release. The new driver runs
+the same exact-alias/scope/backup-gate/failure-restoration/helper-receipt tests;
+an additional test checks its baseline matches the earlier candidate and that its
+journal is separate. Root/service operations are modeled; temporary-file checks
+are real. Candidate UI/security/navigation tests are retained from W039, not rerun
+as new production observations. See evidence/navigation-release/focused-tests.txt.
+
+Host sudo -n true returned password required. No privileged activation ran. Fresh
+HTTPS /readyz/ returned200 with TLS verification0; current pointer21a6f57 and
+web/executor active/running with Result=success were observed. No credentials,
+protected configuration or report contents were displayed. The exact-commit plan
+is checked after the driver checkpoint is committed. Actual new backup/restore,
+activation, browser acceptance and any failure restoration remain pending local
+operator execution, not passed. No production/Nginx/service/QNX mutation occurred.
