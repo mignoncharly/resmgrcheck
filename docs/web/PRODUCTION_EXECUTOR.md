@@ -1,4 +1,4 @@
-> Current W033 gate: use the [reviewed collection recovery](#w033-one-command-same-id-recovery-and-conditional-acceptance), not the
+> Current W035 gate: use the [pinned recovery command](#w035-pinned-command-after-the-interrupted-session), not the
 > old provisioning command directly. A sealed ERROR and held native ID must be
 > preserved and genuinely recollected before any new acceptance batch.
 
@@ -302,3 +302,38 @@ It recollects the same native ID into the new driver's directory, preserving75 p
 bytes. Original ERROR and quarantine/lease release rules are unchanged. Only complete
 canonical FAIL/identity/prefix/cleanup proof permits the already-reviewed new dashboard
 batch. Keep the operator command as one continued shell command with backslashes.
+
+## W035 pinned command after the interrupted session
+
+On2026-11-10 the operator confirmed that1fde3df had not been applied. Its read-only
+plan and95 focused regression tests passed. The later documentation/test-helper
+checkpoint leaves all production driver bytes identical, so keep this reviewed
+driver identity for the first invocation and any interrupted retry. From the
+repository root, the operator runs:
+
+```sh
+sudo /usr/bin/python3 -I -B \
+  web/ops/production/recover_executor_collection.py \
+  --driver-revision 1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6 \
+  --apply
+```
+
+Omitting `sudo` and `--apply` validates the exact-commit read-only plan. This was
+executed by the agent; the privileged command was not. Root is needed to inspect
+the protected journal/diagnostic state, adjust only the verified index metadata
+and run recovery in the actual executor unit. Do not change permissions manually.
+The retained protected CalledProcessError signature is still an apply-time gate;
+unknown state stops before repair. Keep original and partial evidence on failure.
+
+The last protected observation contains one launched sensor defect run, not zero
+native executions. Original web ID274989f6-c306-4581-8f69-3db1ca21997d and native
+IDw274989f6c30645818f remain blocked ERROR with an unresolved cleanup proof. The
+command first recollects that same ID; it never launches a replacement for it.
+Only verified canonical FAIL/cleanup permits the distinct new acceptance batch.
+That batch covers sensor timeout PASS through corrected-source replay, job timeout
+PASS, intentional defect FAIL, same-ID interrupted-connection recovery, queued and
+active-session revocation, cleanup and immutable downloadable evidence. A successful
+qualification retains the defect FAIL and the original collection ERROR.
+
+Fresh HTTPS/service health does not establish any of these native results. Actual
+recovery/acceptance, full application rollback and independent UAT remain pending.

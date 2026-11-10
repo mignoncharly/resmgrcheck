@@ -15,7 +15,10 @@ W032: the mutex passed; sensor collection then failed with an unclassified obser
 ValueError. W033 operator metadata confirms blocked canonical ERROR, intact sealed
 evidence and a held lease/quarantined target. Same-ID recollection is staged with
 strict preflight and separate evidence; a new batch is conditional on verified
-cleanup. Actual native and independent authenticated acceptance remain pending.
+cleanup. W034 adds the narrowly scoped Git index permission correction; W035
+rechecked it after the interrupted session. The operator confirms that recovery
+driver `1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6` has not run. Actual native and
+independent authenticated acceptance remain pending.
 P8 is IN PROGRESS. See [HTTPS_DEPLOYMENT.md](HTTPS_DEPLOYMENT.md).
 
 Branch: `feature/production-web-ai`. Specification: `3d9048a`, superseded for access by the owner-approved administrator/code decision (2026-11-07).
@@ -531,3 +534,32 @@ Independent index-free verification read all4782 tracked engine files against th
 pinnedca4f74e Git tree: zero content/type/executable-mode mismatches. It read no
 private configuration and did not refresh the index. Tracked source integrity is
 intact; the confirmed fault concerns generated Git metadata permissions.
+
+## W035 interrupted-session verification (2026-11-10)
+
+The five correction checkpoints after ce97df9 were already committed; the working
+tree was clean on return. Operator confirmation: the latest1fde3df recovery was
+not executed. Its unprivileged exact-commit plan passes. The original selector
+failure remains a coordinator/worker ownership-context mismatch, not a missing
+approval, unsupported operation or schema mismatch. Subsequent operator attempts
+encountered the guarded queue mutex, missing controller selection and Git index
+access failures documented in W031–W034.
+
+Fresh host observations: current application3f4bafb, HTTPS readiness200 with valid
+TLS and expected JSON, nginx/database/web/executor active/running with successful
+main-process status. Host index metadata remains root:root0600. The dedicated
+recovery override directory is absent. Protected diagnostics/journals and production
+SQL were not freshly readable: UID1000 has no noninteractive sudo authorization.
+The exact last protected state remains the W034 operator observation: one blocked
+ERROR run274989f6-c306-4581-8f69-3db1ca21997d, nativew274989f6c30645818f, held lease,
+quarantined target, intact original evidence, approved selector installed, separate
+unsealed collection and no recovery audit. Current QNX process liveness/cleanup
+cannot be inferred from the healthy executor service.
+
+All95 focused regressions passed in14.709s after fixing streaming static-file
+responses in the local Chromium test helper and asserting no failed browser
+requests. Real temporary Git/PostgreSQL/Chromium and archived QNX evidence were
+used; root custody/systemd remain modeled. No production code changed this turn.
+Use the pinned1fde3df recovery command in PRODUCTION_EXECUTOR.md, preserving its
+driver identity on retry. Native acceptance, full application rollback and
+independent UAT remain pending. Evidence: evidence/native-resume-verification.

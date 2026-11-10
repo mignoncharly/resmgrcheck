@@ -1,0 +1,11 @@
+Creating test database for alias 'default'...
+................................................................Found 95 test(s).
+System check identified no issues (0 silenced).
+{"step": "exact_engine_index_read_repair", "passed": true, "source_and_index_bytes_changed": false, "scope": "root-owned Git index; executor group read only", "previous_failed_collection_preserved": true}
+{"step": "exact_engine_index_read_repair", "passed": true, "source_and_index_bytes_changed": false, "scope": "root-owned Git index; executor group read only", "previous_failed_collection_preserved": true}
+...............................
+----------------------------------------------------------------------
+Ran 95 tests in 14.709s
+
+OK
+Destroying test database for alias 'default'...

@@ -123,7 +123,7 @@ class ChromiumQueueRoleTests(TransactionTestCase):
         client=Client(enforce_csrf_checks=True,HTTPS='on',HTTP_ORIGIN='https://testserver')
         page=client.get('/access/');token=re.search(r'name="csrfmiddlewaretoken" value="([^"]+)"',page.content.decode()).group(1)
         self.assertEqual(client.post('/access/',{'code':raw,'csrfmiddlewaretoken':token}).status_code,302);raw=None
-        requests=[];database=ThreadPoolExecutor(max_workers=1)
+        requests=[];streamed=[];database=ThreadPoolExecutor(max_workers=1)
         def http(method,path,body,content_type):
             from django.http import HttpResponse
             with connection.cursor() as cursor:
@@ -132,7 +132,10 @@ class ChromiumQueueRoleTests(TransactionTestCase):
                     try:response=client.generic(method,path,body,content_type=content_type)
                     except DatabaseError:response=HttpResponse(status=500)
                     if method=='POST':requests.append(response.status_code)
-                    return response.status_code,dict(response.items()),response.content
+                    if response.streaming:
+                        body=b''.join(response.streaming_content);streamed.append((response.status_code,len(body)))
+                    else:body=response.content
+                    return response.status_code,dict(response.items()),body
                 finally:cursor.execute('RESET ROLE')
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):pass
@@ -152,6 +155,7 @@ class ChromiumQueueRoleTests(TransactionTestCase):
         try:
             with tempfile.TemporaryDirectory() as temporary,sync_playwright() as runtime:
                 browser=runtime.chromium.launch(executable_path=str(binary));context=browser.new_context()
+                request_failures=[];context.on('requestfailed',lambda request:request_failures.append(request.failure))
                 document=context.new_page();document.set_default_timeout(1200);document.set_default_navigation_timeout(1200)
                 credentials={'native':{'project_id':str(project.pk),'target_id':str(target.pk)}}
                 journey=NativeJourney('http://127.0.0.1:'+str(server.server_port),Path(temporary),credentials);journey.visit=MethodType(visit,journey)
@@ -163,7 +167,9 @@ class ChromiumQueueRoleTests(TransactionTestCase):
                 row=journey.queue(document,'sensor',str(builds['before'].pk),mode='ignore-unblock')
                 saved=database.submit(lambda:Run.objects.get()).result()
                 self.assertEqual(requests,[200,302]);self.assertEqual(str(saved.pk),row['web_run_id'])
-                self.assertIsNone(saved.started_at);browser.close()
+                self.assertIsNone(saved.started_at);document.wait_for_load_state('networkidle')
+                self.assertTrue(streamed);self.assertTrue(all(status==200 and size>0 for status,size in streamed))
+                self.assertEqual(request_failures,[]);browser.close()
         finally:
             server.shutdown();thread.join(timeout=5);server.server_close()
             database.submit(connections.close_all).result(timeout=5);database.shutdown(wait=True)

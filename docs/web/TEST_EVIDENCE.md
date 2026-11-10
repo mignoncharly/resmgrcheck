@@ -1560,3 +1560,49 @@ Independent index-free verification read all4782 tracked engine files against th
 pinnedca4f74e Git tree: zero content/type/executable-mode mismatches. It read no
 private configuration and did not refresh the index. Tracked source integrity is
 intact; the confirmed fault concerns generated Git metadata permissions.
+
+## W035 — interrupted-session recovery verification, 2026-11-10
+
+Starting HEAD1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6 was clean. The operator
+confirmed no application of that recovery command after the disconnect. The
+unprivileged `recover_executor_collection.py --driver-revision
+1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6` plan passed, with same native ID,
+separate output, no recovery launch and conditional canonical cleanup release.
+
+Fresh host systemctl metadata: nginx/resmgrcheck-db/resmgrcheck-web/
+resmgrcheck-executor all active/running, Result=success, ExecMainStatus=0. Active
+pointer remains3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58. Public /readyz/ returned200,
+TLS verification0 and {"status":"ready"}. This is a host-origin check, not
+independent UAT. Host stat confirms index UID0/GID0, mode0600,728656 bytes; the
+sandbox's mapped ownership is not used as host identity evidence. No recovery
+override directory exists. Protected diagnostic access was denied and `sudo -n
+true` required a password. No production SQL, protected journal contents, native
+target commands or privileged recovery were executed. W034's protected findings
+remain explicitly operator-provided historical observations.
+
+Focused command (isolated staging database, not production):
+
+```sh
+.local/web/venv/bin/python -B web/ops/staging.py manage.py test \
+  tests.test_executor_collection_recovery tests.test_executor_provisioning \
+  tests.test_native_inspection tests.test_executor_queue_browser \
+  tests.test_jobs tests.test_evidence --noinput
+```
+
+Initial sandbox execution could not access the existing staging PostgreSQL process;
+the host execution passed95 tests in14.878s but printed two local browser-server
+FileResponse exceptions. The test helper incorrectly accessed `.content` on
+streaming static-file responses. It now consumes streaming_content, checks nonempty
+200 streaming responses and asserts no failed Chromium requests. The refreshed95
+tests pass in14.709s without those exceptions; the disposable test database was
+destroyed. Existing negatives cover changed/cross-tenant/unapproved plans, private
+custody, index identity, unrelated failure signatures and unverified cleanup.
+Real Git, disposable PostgreSQL, Chromium and archived native bytes are exercised;
+root metadata changes and service control remain modeled, not production evidence.
+
+Only the test helper, current status/recovery documentation and sanitized evidence
+changed this turn. Production correction remains the committed1fde3df driver.
+See evidence/native-resume-verification/checks.json and focused-tests.txt. Actual
+same-ID recollection and every production native acceptance gate remain NOT_RUN
+for the corrected driver; P8 remains IN_PROGRESS. No Nginx/authentication/customer
+runner/AI settings, keys, backups, approvals, native records or history changed.

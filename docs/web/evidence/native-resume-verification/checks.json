@@ -1,0 +1,47 @@
+{
+  "checkpoint": "W035",
+  "date_utc": "2026-11-10",
+  "reviewed_driver": "1fde3dfc1f4a3fbd74faa05bdc6212a1efc187c6",
+  "active_application": "3f4bafbd7d423fb5e55fc1e0f6a8ef326a273f58",
+  "operator_confirmed_latest_recovery_not_run": true,
+  "read_only_exact_commit_plan": "passed",
+  "fresh_agent_observations": {
+    "HTTPS_readiness": 200,
+    "TLS_verify_result": 0,
+    "readiness_body": {"status": "ready"},
+    "nginx_database_web_executor": "active/running; Result=success; ExecMainStatus=0",
+    "engine_index": {"uid": 0, "gid": 0, "mode": "0600", "bytes": 728656},
+    "recovery_override_directory_present": false,
+    "protected_diagnostic_read": "permission denied",
+    "noninteractive_sudo": "password required",
+    "production_database_inspected": false,
+    "QNX_contacted": false
+  },
+  "last_protected_state_source": "W034 operator inspection; not freshly reread",
+  "last_protected_state": {
+    "web_run_id": "274989f6-c306-4581-8f69-3db1ca21997d",
+    "native_run_id": "w274989f6c30645818f",
+    "state": "blocked",
+    "verdict": "ERROR",
+    "target": "quarantined",
+    "lease": "held",
+    "original_inventory": "passed",
+    "approved_controller_selector": "installed",
+    "separate_collection": "unsealed",
+    "recovery_audit_present": false,
+    "account_codes_sessions": "closed/revoked"
+  },
+  "tests": {
+    "passed": 95,
+    "seconds": 14.709,
+    "real": ["temporary Git", "disposable PostgreSQL", "Chromium", "archived QNX evidence"],
+    "modeled": ["root custody/chown", "systemd control"],
+    "browser_streaming_responses": "nonempty 200; no failed requests"
+  },
+  "production_driver_bytes_changed_this_turn": false,
+  "privileged_procedure_run_by_agent": false,
+  "current_native_liveness_and_cleanup": "unverified",
+  "corrected_production_native_acceptance": "NOT_RUN",
+  "P8": "IN_PROGRESS",
+  "secrets_printed": false
+}
