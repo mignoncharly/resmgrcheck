@@ -7,6 +7,11 @@ those facts separately, preserves the evidence, and replays the same contract
 against an explicitly selected candidate build. Sensor and job services use the
 same native runner, worker and evaluator.
 
+The later [impact and innovation extension](submission/impact-innovation.md) adds
+a return-code comparison, bounded native cycle reduction and an independently
+authored QFuse backend probe. Its source and native evidence are in the repository;
+the existing public jury ZIP and deployed application retain their earlier versions.
+
 ## Route A: Review without QNX (about five minutes)
 
 No SDK, account, network connection or access to the author's server is needed.

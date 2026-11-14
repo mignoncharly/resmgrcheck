@@ -1,0 +1,106 @@
+{
+  "kind": "impact-innovation-qualification",
+  "passed": true,
+  "source_revision": "5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9",
+  "native_build": {
+    "kind": "native-build-record",
+    "schema_version": 1,
+    "source_revision": "5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9",
+    "dirty": false,
+    "source_tree_sha256": "46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b",
+    "compiler_variant": "gcc_ntox86_64",
+    "binaries": {
+      "runner": "9cb98041df0c438e28be1464315a867342e02e486169f2e5929d4a431b6a8041",
+      "worker": "831854f56827c01bffd009531831dbe1791217de78cc58195e6e3a31359d6c2c",
+      "targetctl": "8376b347616d8c1cbe91ce0084fd4757f075a66d627ca93fd8220c4ae28fb972",
+      "job-v1-fixture": "bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44",
+      "mailbox-v1-fixture": "78e47d1c25acb1390fc836a771da143de252725b7167a78dbfb0fd022e3d9e06",
+      "sensor-v1-fixture": "020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174"
+    }
+  },
+  "results": {
+    "sensor-baseline": {
+      "verdict": "PASS",
+      "bundle_id": "4872d718a110747702ab0ed2659414b5004406cff894586a182d94db039cd995"
+    },
+    "sensor-retained": {
+      "verdict": "FAIL",
+      "bundle_id": "f2172fc3405a1e8a05149794c424c1bee5e1b6e59aed8bdaccece88ed8fe8f4c"
+    },
+    "sensor-reduction": {
+      "original_cycles": 20,
+      "smallest_reproduced_cycles": 3,
+      "attempts": [
+        [
+          1,
+          "PASS"
+        ],
+        [
+          2,
+          "PASS"
+        ],
+        [
+          3,
+          "FAIL"
+        ]
+      ],
+      "budget_one": "budget_exhausted"
+    },
+    "job-baseline": {
+      "verdict": "PASS",
+      "bundle_id": "ed944f392c426e78d49e63d9773b6e268a8bc26de05dc24efb9145c78923d732"
+    },
+    "job-retained": {
+      "verdict": "FAIL",
+      "bundle_id": "24be42bcc2aa5b6bac855005deef139015a87dbca13755856fe043847127a579"
+    },
+    "job-reduction": {
+      "original_cycles": 20,
+      "smallest_reproduced_cycles": 3,
+      "attempts": [
+        [
+          1,
+          "PASS"
+        ],
+        [
+          2,
+          "PASS"
+        ],
+        [
+          3,
+          "FAIL"
+        ]
+      ],
+      "budget_one": "budget_exhausted"
+    },
+    "qfuse-timeout": {
+      "abi1_adapter": false,
+      "assertions": {
+        "callback_drained_after_release": "PASS",
+        "callback_retained_while_wait_cancelled": "PASS",
+        "cancel_return": "PASS",
+        "cumulative_cancellations_stable_after_release": "PASS",
+        "independent_path_health": "PASS"
+      },
+      "cleanup_verified": true,
+      "scope": "qfuse-integration-probe-v1",
+      "verdict": "PASS"
+    },
+    "qfuse-signal": {
+      "abi1_adapter": false,
+      "assertions": {
+        "callback_drained_after_release": "PASS",
+        "callback_retained_while_wait_cancelled": "PASS",
+        "cancel_return": "PASS",
+        "cumulative_cancellations_stable_after_release": "PASS",
+        "independent_path_health": "PASS"
+      },
+      "cleanup_verified": true,
+      "scope": "qfuse-integration-probe-v1",
+      "verdict": "PASS"
+    }
+  },
+  "original_lab_selection_unchanged": true,
+  "independent_tester": false,
+  "production_redeployed": false
+}

@@ -1,0 +1,7 @@
+{"event":"ready","service_pid":29237270,"channel":2,"mode":"signal"}
+{"event":"callback_held"}
+{"event":"cancel_return","raw_return":-1,"api_error":4,"expected_error":4}
+{"event":"held_status","active_operations":1,"cancelled_waits":1,"cleanup_pending":0}
+{"event":"independent_health","raw_return":1,"value":81}
+{"event":"drained_status","active_operations":0,"cancelled_waits":1,"cleanup_pending":0}
+{"event":"cleanup","children_reaped":true,"mount_absent":true}

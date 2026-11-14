@@ -6,6 +6,7 @@ The sensor and job examples use one generic C11 runner/worker and Python evaluat
 
 ## Start Here
 
+- [New impact and innovation evidence](docs/submission/impact-innovation.md): a timeout return that conceals retained state, native reduction from20 requested cycles to a reproduced three-cycle failure, and a pinned independent QFuse backend integration. Qualified CLI extensions; the production application and original review ZIP keep their earlier revisions.
 - [Explore the public evidence demo](https://qnx-resmgrcheck.gestionatech.de/demo/): inspect the failure, actual source correction and job-service result without an SDK or account. This is recorded playback; it cannot launch private-lab tests.
 - [Set up your own QNX lab](docs/fresh-lab.md), then [reproduce the source correction](docs/codelab.md).
 - [Independent developer exercise and feedback](docs/independent-validation.md): help test setup, usability and integration effort. Independent results remain pending.

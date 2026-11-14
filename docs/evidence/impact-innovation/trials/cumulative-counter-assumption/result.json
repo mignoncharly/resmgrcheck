@@ -1,0 +1,1 @@
+{"abi1_adapter":false,"assertions":{"callback_and_cancelled_wait_drained_after_release":"FAIL","callback_retained_while_wait_cancelled":"PASS","cancel_return":"PASS","independent_path_health":"PASS"},"cleanup_verified":true,"scope":"qfuse-integration-probe-v1","verdict":"FAIL"}

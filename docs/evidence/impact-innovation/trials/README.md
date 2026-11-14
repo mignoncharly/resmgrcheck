@@ -1,5 +1,13 @@
 # Preserved trials
 
+`cumulative-counter-assumption` retains the first QFuse probe's original native
+events and FAIL result. Its test contract incorrectly required the cumulative
+cancelled_waits counter to reach zero after callback completion. Reading the pinned
+backend established the correct semantics; later probes verify active-operation
+drainage with the cumulative count stable. The trial's source revision identifies
+the then-current HEAD; its uncommitted probe is identified separately by source
+SHA256. It is not a clean-source qualification or an upstream defect report.
+
 `final-cycle-error` is the original sealed recording/evaluation from clean source
 21bf7f4, run `r-20261114140707-81036e2cd168-repeat`. Its producer bytes establish
 two passing cycles followed by retained pending state and successful owned-process

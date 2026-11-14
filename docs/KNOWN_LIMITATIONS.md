@@ -1,5 +1,16 @@
 # Known limitations
 
+E022 extension: cycle-count reduction tests one new managed instance per count
+with the original pinned deployment/settings and at most20 attempts. It changes
+only the requested count; its smallest reproduced count is specific to those
+recorded executions, not all scheduler interleavings or arbitrary operation
+sequences. Budget/uncertainty/different failure stops cannot establish a minimum.
+The return-code comparison is a declared limited predicate over verified bytes,
+not a third-party-tool benchmark. QFuse is a pinned independently authored backend
+with our synthetic test filesystem and a separate scoped probe, not an ABI1 adapter
+or independent developer adoption. Original trial results remain pinned to their
+original evaluator; the known final-cycle ERROR trial must be inspected at21bf7f4.
+
 2026-11-14 update: E019 adds agent-run fresh-image reproduction with new guest
 keys, four native cases and actual source-fixed replay. This does not establish
 independent developer reproduction, arbitrary external-service integration or

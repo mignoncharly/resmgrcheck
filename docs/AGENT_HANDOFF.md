@@ -1,5 +1,21 @@
 # Current release handoff
 
+Latest extension checkpoint (2026-11-14): D032/E022 adds return-check, bounded
+cycle reduction and an optional pinned QFuse backend probe. Source5e1fb8a passed131
+host tests,16 expected native outcomes and12 new browser views. Evidence/guide:
+docs/submission/impact-innovation.md and docs/evidence/impact-innovation/qualification.
+Both repeat searches have1 PASS /2 PASS /3 FAIL; one-attempt budgets stop. The first
+blocked search is preserved at trials/final-cycle-error and requires21bf7f4 to
+inspect its original sealed ERROR. Current regression explicitly reevaluates raw
+bytes under the corrected final-cycle classification without rewriting that bundle.
+The original wrong cumulative-counter QFuse trial is preserved too. QFuse's
+cancelled_waits is cumulative, not outstanding; continuing callback is allowed.
+The separate probe is not frozen ABI1, upstream endorsement or external adoption.
+Existing lab and fresh-review deployment selections/manifest were restored after
+qualification; the separate guest was gracefully stopped with guarded identity
+checks and the original lab listener remained present. Production remains7ecb812; public review ZIP and held YouTube draft
+remain at their existing versions. No independent tester/UAT or10/10 claim.
+
 2026-11-14: remain on feature/production-web-ai. The owner supplied the successful
 final JSON for exact driver b289dc3. Production application 7ecb812 is active;
 HTTPS/browser acceptance and compatible application rollback passed. Agent checks

@@ -1,0 +1,929 @@
+[
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/ssh-config",
+      "resmgrcheck-fresh",
+      "df -g /data"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.115,
+    "stdout": "/dev/hd0t179   /data/\n    Blocks:    15649 total     13513 avail   [4096-byte blocks]\n    Files :     3072 total      2817 avail\n    Type  : qnx6\n    Flags : 00000000 []\n    Option: \n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "deploy",
+      "--build",
+      "build/qnx-x86_64",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 5.086,
+    "stdout": "deployed 7ea27c56fc6897f6ccf3d18cb0a6fc819da9c373c481677eff782471fe155b33; target fresh-review\ncandidate manifest: build/qnx-x86_64/manifest.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "doctor",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 3.935,
+    "stdout": "host: PASS - Python >=3.10 and OpenSSH with local routing available\nsdk: PASS - installed SDK environment available\ncompiler_variant: PASS - gcc_ntox86_64 available\ntarget_reachable: PASS - OpenSSH reached the configured alias\ntarget_compatibility: PASS - {'processor': 'x86_64', 'machine': 'x86pc', 'release': '8.0.0', 'uid': 0}\nssh_command_path: PASS - /proc/boot/sh\ntransfer: PASS - actual SFTP roundtrip bytes matched in an exclusive owned probe directory\ntarget_capabilities: PASS - 3 actual compiled adapter declarations; missing required: none\nservice_instance_capabilities: UNKNOWN - no service instance was launched; private observers are qualified during run, not inferred here\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "fixed",
+      "--run-id",
+      "impactc1114-sensor-baseline",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 3.808,
+    "stdout": "run impactc1114-sensor-baseline; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline\ntimeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.4s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "return-check",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline/cases/timeout/bundle",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline-return.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.119,
+    "stdout": "Return-code predicate: SATISFIED; canonical verdict: PASS\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/sensor.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "retain-waiter",
+      "--run-id",
+      "impactc1114-sensor-retained",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 1,
+    "expected": [
+      1
+    ],
+    "seconds": 3.855,
+    "stdout": "run impactc1114-sensor-retained; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (1.4s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "return-check",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained/cases/timeout/bundle",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained-return.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.128,
+    "stdout": "Return-code predicate: SATISFIED; canonical verdict: FAIL\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/sensor-repeat.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "retain-third",
+      "--run-id",
+      "impactc1114-sensor-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 3,
+    "expected": [
+      1,
+      3
+    ],
+    "seconds": 5.209,
+    "stdout": "run impactc1114-sensor-repeat20; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (2.8s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "reduce",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 13.692,
+    "stdout": "reduce cycles=1 run=r-20261114140918-fae3b3dd7130\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (1.5s)\nreduce cycles=2 run=r-20261114140922-d7d93e542de6\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (2.1s)\nreduce cycles=3 run=r-20261114140926-c3af0ecca347\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (2.7s)\nReduction: reproduced; result /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/reduction.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "reduce",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20",
+      "--max-attempts",
+      "1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 3,
+    "expected": [
+      3
+    ],
+    "seconds": 4.02,
+    "stdout": "reduce cycles=1 run=r-20261114140932-830d1e5bbf1e\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (1.4s)\nReduction: budget_exhausted; result /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget/reduction.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/job.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "fixed",
+      "--run-id",
+      "impactc1114-job-baseline",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 3.863,
+    "stdout": "run impactc1114-job-baseline; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline\ntimeout: starting; baseline pending\ntimeout: baseline PASS; PASS (1.5s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "return-check",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline/cases/timeout/bundle",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline-return.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.125,
+    "stdout": "Return-code predicate: SATISFIED; canonical verdict: PASS\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/job.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "retain-waiter",
+      "--run-id",
+      "impactc1114-job-retained",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 1,
+    "expected": [
+      1
+    ],
+    "seconds": 3.925,
+    "stdout": "run impactc1114-job-retained; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained\ntimeout: starting; baseline pending\ntimeout: baseline PASS; FAIL (1.4s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "return-check",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained/cases/timeout/bundle",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained-return.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.126,
+    "stdout": "Return-code predicate: SATISFIED; canonical verdict: FAIL\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "run",
+      "--profile",
+      "profiles/job-repeat.json",
+      "--suite",
+      "profile",
+      "--fixture-mode",
+      "retain-third",
+      "--run-id",
+      "impactc1114-job-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 3,
+    "expected": [
+      1,
+      3
+    ],
+    "seconds": 5.185,
+    "stdout": "run impactc1114-job-repeat20; target fresh-review; output /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (2.8s)\nresult: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20/result.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "reduce",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 13.832,
+    "stdout": "reduce cycles=1 run=r-20261114140949-261c0b23b307\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (1.4s)\nreduce cycles=2 run=r-20261114140953-d4805b3e4984\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (2.1s)\nreduce cycles=3 run=r-20261114140957-7d06061c3fec\nrepeat: starting; baseline pending\nrepeat: baseline PASS; FAIL (2.8s)\nReduction: reproduced; result /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/reduction.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "reduce",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20",
+      "--max-attempts",
+      "1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json"
+    ],
+    "exit": 3,
+    "expected": [
+      3
+    ],
+    "seconds": 4.188,
+    "stdout": "reduce cycles=1 run=r-20261114141003-95ae7baa37f7\nrepeat: starting; baseline pending\nrepeat: baseline PASS; PASS (1.6s)\nReduction: budget_exhausted; result /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget/reduction.json\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "integrations/qfuse/run.py",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/qfuse-timeout"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 2.063,
+    "stdout": "{\"run_id\": \"qfuse-cfc2307d591547829ead18dcba00cd6c\", \"verdict\": \"PASS\", \"output\": \"/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/qfuse-timeout\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "integrations/qfuse/run.py",
+      "--target",
+      "fresh-review",
+      "--config",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/target-fresh.json",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/qfuse-signal",
+      "--signal"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 1.564,
+    "stdout": "{\"run_id\": \"qfuse-5a61a18a475c45d08bb8bbcea8efeaca\", \"verdict\": \"PASS\", \"output\": \"/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/qfuse-signal\"}\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.127,
+    "stdout": "execution impactc1114-job-baseline: complete; test exit 0\ntimeout: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.166,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-baseline/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget/attempt-1"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.13,
+    "stdout": "execution r-20261114141003-95ae7baa37f7: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget/attempt-1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget/attempt-1/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.187,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-budget/attempt-1/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.141,
+    "stdout": "execution r-20261114140949-261c0b23b307: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.228,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-2"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.142,
+    "stdout": "execution r-20261114140953-d4805b3e4984: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-2",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-2/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.219,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-2/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-3"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.162,
+    "stdout": "execution r-20261114140957-7d06061c3fec: incomplete; test exit 3\nrepeat: FAIL - repetition_incomplete, pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-3",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-3/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.274,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-3/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.194,
+    "stdout": "execution impactc1114-job-repeat20: incomplete; test exit 3\nrepeat: FAIL - repetition_incomplete, pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.287,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-repeat20/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.128,
+    "stdout": "execution impactc1114-job-retained: complete; test exit 1\ntimeout: FAIL - pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.179,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-retained/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.125,
+    "stdout": "execution impactc1114-sensor-baseline: complete; test exit 0\ntimeout: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.163,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-baseline/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget/attempt-1"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.138,
+    "stdout": "execution r-20261114140932-830d1e5bbf1e: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget/attempt-1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget/attempt-1/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.182,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-budget/attempt-1/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-1"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.124,
+    "stdout": "execution r-20261114140918-fae3b3dd7130: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-1",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-1/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.172,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-1/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-2"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.154,
+    "stdout": "execution r-20261114140922-d7d93e542de6: complete; test exit 0\nrepeat: PASS - all_obligations_satisfied\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-2",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-2/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.21,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-2/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-3"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.18,
+    "stdout": "execution r-20261114140926-c3af0ecca347: incomplete; test exit 3\nrepeat: FAIL - repetition_incomplete, pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-3",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-3/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.264,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-reduction/attempt-3/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.173,
+    "stdout": "execution impactc1114-sensor-repeat20: incomplete; test exit 3\nrepeat: FAIL - repetition_incomplete, pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.307,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-repeat20/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "inspect",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.123,
+    "stdout": "execution impactc1114-sensor-retained: complete; test exit 1\ntimeout: FAIL - pending_state_not_released\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "resmgrcheck",
+      "report",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained",
+      "--out",
+      "/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained/report.html"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.172,
+    "stdout": "report: /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/sensor-retained/report.html\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "ssh",
+      "-F",
+      "/home/mignon/projects/resmgrcheck/.local/fresh-lab-20261114/ssh-config",
+      "resmgrcheck-fresh",
+      "df -g /data"
+    ],
+    "exit": 0,
+    "expected": [
+      0
+    ],
+    "seconds": 0.116,
+    "stdout": "/dev/hd0t179   /data/\n    Blocks:    15649 total     12272 avail   [4096-byte blocks]\n    Files :     3072 total      2637 avail\n    Type  : qnx6\n    Flags : 00000000 []\n    Option: \n",
+    "stderr": ""
+  }
+]

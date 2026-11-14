@@ -1,5 +1,15 @@
 # ResMgrCheck: complete implementation plan in 10 phases
 
+2026-11-14 execution addendum (D032/E022): after the completed phase gates, the
+owner authorized a limited return-code comparison, bounded native cycle-count
+reduction and an independently authored backend integration. These CLI additions
+are qualified separately at clean5e1fb8a. Reduction changes only requested cycles,
+records each new owned attempt and stops on uncertainty/different failure/budget;
+it is not rerun-until-pass or general fuzzing. The pinned QFuse backend is unchanged,
+with our synthetic filesystem and separate scoped probe rather than a frozen ABI1
+extension. See [the review/reproduction guide](submission/impact-innovation.md).
+The original phase specification and historical results below remain preserved.
+
 **Implementing agent:** GPT-6.1 Sol, medium reasoning  
 **Prepared:** 6 November 2026  
 **Hackathon category:** Developer Tooling & Host Tools  

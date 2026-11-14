@@ -1,11 +1,15 @@
 # Implementation status
 
-Current authorized extension (2026-11-14, D032): return-code comparison and bounded
-cycle-count reduction are implemented; host checks are passing so far. Optional
-QFuse integration builds with qcc and a first native timeout run passes after
-correcting our interpretation of its cumulative counter. Clean-source native
-qualification of both services, the reducer and both QFuse cancellation modes
-remains in progress. This does not change the qualified production release.
+Current authorized extension (2026-11-14, D032/E022): clean5e1fb8a passed131 host
+tests and16 native executions with expected outcomes in the separate review
+guest. Both services demonstrate a satisfied timeout-return predicate alongside
+a retained-state FAIL, and reduce20 requested cycles to1 PASS /2 PASS /3 FAIL.
+Both one-attempt budgets stop without a minimum claim. QFuse timeout/signal probes
+pass with the independently authored backend unchanged. Four new reports pass12
+browser views. The first blocked search exposed a final-cycle classification bug;
+its original ERROR and our wrong cumulative-counter trial remain preserved.
+See submission/impact-innovation.md. Production7ecb812 and the public review ZIP
+retain earlier revisions; YouTube remains held and external validation pending.
 
 Current production checkpoint (2026-11-14): the operator executed driver b289dc3
 successfully. Its final result confirms application 7ecb812, HTTPS/browser acceptance

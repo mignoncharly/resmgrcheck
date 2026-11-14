@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "browser": "151.0.7922.34",
+  "checks": [
+    {
+      "report": "sensor-retained",
+      "mode": "laptop",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-retained",
+      "mode": "laptop",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "sensor-reduction/attempt-3",
+      "mode": "laptop",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-reduction/attempt-3",
+      "mode": "laptop",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "sensor-retained",
+      "mode": "narrow",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-retained",
+      "mode": "narrow",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "sensor-reduction/attempt-3",
+      "mode": "narrow",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-reduction/attempt-3",
+      "mode": "narrow",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "sensor-retained",
+      "mode": "no-js",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-retained",
+      "mode": "no-js",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "sensor-reduction/attempt-3",
+      "mode": "no-js",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    },
+    {
+      "report": "job-reduction/attempt-3",
+      "mode": "no-js",
+      "external_requests": [],
+      "page_errors": [],
+      "links_valid": true,
+      "no_overflow": true,
+      "keyboard_disclosure": true
+    }
+  ],
+  "source_bytes_unchanged": true
+}

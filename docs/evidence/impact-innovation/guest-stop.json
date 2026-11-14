@@ -1,0 +1,7 @@
+{
+  "separate_guest_stopped": true,
+  "graceful_guest_shutdown": "shutdown -S reboot with QEMU -no-reboot",
+  "QEMU_identity_guarded": true,
+  "review_listener_absent": true,
+  "original_lab_listener_present": true
+}

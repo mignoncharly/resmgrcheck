@@ -7,6 +7,16 @@ SSH host keys. Authentication stays in the operator's local OpenSSH configuratio
 
 ## Local target setup
 
+The [impact/innovation guide](submission/impact-innovation.md) includes the new
+`return-check BUNDLE --out FILE` comparison and `reduce EXECUTION --target lab
+--out DIRECTORY --max-attempts 20` workflow. Reduction requires a sealed managed
+repeat failure with verified cleanup, pins the saved deployment/target/settings,
+and changes only the requested cycle count on new instances. Exit0 means the same
+failure was reproduced at the smallest tested count; exit3 means budget exhausted
+or no reproduction; exit2 means blocked/uncertain. JSON retains every attempt and
+launch identity. It never silently retries a lost launch. The optional independently
+authored backend probe has [separate instructions](../integrations/qfuse/README.md).
+
 `lab` is a configuration name. Copy `config/targets.example.json` to ignored
 `config/target.local.json` and set its existing SSH alias/configuration path,
 expected remote UID, QNX release/processor/machine, and the SHA256 recipe identity

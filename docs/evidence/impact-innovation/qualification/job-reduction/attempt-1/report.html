@@ -1,0 +1,1003 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>ResMgrCheck report</title><style>
+:root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:16px/1.55 system-ui,sans-serif}
+main{max-width:1280px;margin:auto;padding:24px}h1{font-size:2rem;line-height:1.2}h2{margin-top:2rem}h3{margin-top:1.5rem}
+a{color:#084f9e}a:hover{text-decoration-thickness:3px}:focus-visible{outline:3px solid #965200;outline-offset:3px}
+p,li,td,th,dd,code,summary{overflow-wrap:anywhere}code,pre{font-family:ui-monospace,monospace;font-size:.875rem}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0;max-width:100%}nav{display:flex;gap:1rem;flex-wrap:wrap}
+section,.case-detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px;margin:16px 0}
+.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;min-width:800px;font-size:.9rem}caption{text-align:left;font-weight:700;padding:8px 0}
+th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:10px 8px}th{background:#eef2f5}th:first-child{min-width:110px}
+.badge{font-weight:750;padding:2px 7px;border:1px solid currentColor;border-radius:4px;white-space:nowrap;display:inline-block}
+.PASS{color:#075b34;background:#e6f6ed}.FAIL{color:#8a2020;background:#ffecec}.ERROR{color:#793900;background:#fff0da}
+.UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
+.muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
+summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.story{padding-left:24px}.story li{margin:12px 0}.story p{margin:4px 0}
+.filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
+@media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
+@media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
+</style></head><body><main><h1>ResMgrCheck report</h1><nav aria-label="Report sections"><a href="#summary">Summary</a><a href="#cases">Cases</a><a href="#timeline">Timeline</a><a href="#replay">Replay</a><a href="#evidence">Evidence</a></nav><section id="summary"><h2>Run summary</h2><span class="badge PASS">PASS</span><p>Completion: <strong>complete</strong>. Required coverage: <strong>complete</strong>.</p><dl class="facts"><dt>Run ID</dt><dd>r-20261114140949-261c0b23b307</dd><dt>Profile / adapter</dt><dd>job-repeat / job-v1</dd><dt>Configured service path</dt><dd>/dev/resmgrcheck-job</dd><dt>Observed target</dt><dd>QNX 8.0.0 / x86pc</dd><dt>Native source</dt><dd>5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9 (clean)</dd><dt>Fixture setting</dt><dd>retain-third</dd><dt>Case counts</dt><dd>PASS=1, FAIL=0, ERROR=0, UNSUPPORTED=0, NOT_RUN=0</dd><dt>Source location</dt><dd><code>/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1</code></dd></dl><details><summary>Configured target and deployment · fresh-review</summary><pre>{
+  &quot;compatibility&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;processor&quot;: &quot;x86_64&quot;,
+    &quot;recipe_id&quot;: &quot;18a58f39ac55bae803c7757dc79052704c01ca4e4d041c78d60b226253ef3643&quot;,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;root&quot;: &quot;/data/resmgrcheck&quot;,
+    &quot;uid&quot;: 0
+  },
+  &quot;deployment_id&quot;: &quot;7ea27c56fc6897f6ccf3d18cb0a6fc819da9c373c481677eff782471fe155b33&quot;,
+  &quot;management_helper&quot;: {
+    &quot;dirty&quot;: false,
+    &quot;sha256&quot;: &quot;8376b347616d8c1cbe91ce0084fd4757f075a66d627ca93fd8220c4ae28fb972&quot;,
+    &quot;source_revision&quot;: &quot;5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9&quot;,
+    &quot;source_tree_sha256&quot;: &quot;46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b&quot;
+  },
+  &quot;native_build&quot;: {
+    &quot;binaries&quot;: {
+      &quot;job-v1-fixture&quot;: &quot;bf0377fc49fdc382f73835cfa2be11a490340cdb6f72b0fc6fbb06f54d77ca44&quot;,
+      &quot;mailbox-v1-fixture&quot;: &quot;78e47d1c25acb1390fc836a771da143de252725b7167a78dbfb0fd022e3d9e06&quot;,
+      &quot;runner&quot;: &quot;9cb98041df0c438e28be1464315a867342e02e486169f2e5929d4a431b6a8041&quot;,
+      &quot;sensor-v1-fixture&quot;: &quot;020e50040f9993d37efa6dd5e6773a56dab51bbb8ec2545ac56330372b552174&quot;,
+      &quot;targetctl&quot;: &quot;8376b347616d8c1cbe91ce0084fd4757f075a66d627ca93fd8220c4ae28fb972&quot;,
+      &quot;worker&quot;: &quot;831854f56827c01bffd009531831dbe1791217de78cc58195e6e3a31359d6c2c&quot;
+    },
+    &quot;compiler_variant&quot;: &quot;gcc_ntox86_64&quot;,
+    &quot;dirty&quot;: false,
+    &quot;kind&quot;: &quot;native-build-record&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;source_revision&quot;: &quot;5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9&quot;,
+    &quot;source_tree_sha256&quot;: &quot;46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b&quot;
+  },
+  &quot;target&quot;: &quot;fresh-review&quot;
+}</pre></details><details><summary>Observed QNX target / evaluator · repeat</summary><pre>{
+  &quot;adapter_abi&quot;: 1,
+  &quot;bundle_id&quot;: &quot;0d2a236ec3980797af5cc7ed94464c89431b1d9ebe5993a3dcce927d5785de1d&quot;,
+  &quot;capabilities&quot;: [
+    &quot;pending&quot;,
+    &quot;unblock&quot;,
+    &quot;state&quot;,
+    &quot;release&quot;,
+    &quot;health&quot;,
+    &quot;timeout&quot;,
+    &quot;signal&quot;,
+    &quot;departure&quot;,
+    &quot;error-probe&quot;,
+    &quot;repeat&quot;,
+    &quot;ordering&quot;,
+    &quot;external-health&quot;
+  ],
+  &quot;evaluator&quot;: {
+    &quot;dirty&quot;: false,
+    &quot;source_revision&quot;: &quot;5e1fb8ad3667743bb4a901b53183fb39eb5f6fc9&quot;,
+    &quot;source_tree_sha256&quot;: &quot;46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b&quot;
+  },
+  &quot;target&quot;: {
+    &quot;machine&quot;: &quot;x86pc&quot;,
+    &quot;priority&quot;: 10,
+    &quot;release&quot;: &quot;8.0.0&quot;,
+    &quot;scheduling_policy&quot;: 2,
+    &quot;sysname&quot;: &quot;QNX&quot;,
+    &quot;version&quot;: &quot;2026/06/05-16:26:03EDT&quot;
+  },
+  &quot;tool_version&quot;: &quot;0.3.0&quot;
+}</pre></details><details><summary>Service usability and recovery scope</summary><p><strong>repeat</strong>: single_instance <span class="badge PASS">PASS</span>; owned_process_cleanup <span class="badge PASS">PASS</span>; fresh_client_health <span class="badge PASS">PASS</span></p><p class="muted">Health obligations refer to the original managed service instance. Recovery after restart cannot satisfy them.</p></details></section><section id="cases"><h2>Required cases and cycles</h2><p>Each repeat cycle is required. Aggregate and cycle verdicts are saved separately.</p><div id="filters" class="filter" hidden><label for="verdict-filter">Show verdict: </label><select id="verdict-filter"><option value="ALL">All recorded outcomes</option><option value="PASS">PASS</option><option value="FAIL">FAIL</option><option value="ERROR">ERROR</option><option value="UNSUPPORTED">UNSUPPORTED</option><option value="NOT_RUN">NOT_RUN</option></select><button type="button" id="reset-filter">Show all</button></div><noscript><p>All cases and details are available without JavaScript.</p></noscript><div class="table-scroll"><table><caption>Saved evaluated outcomes</caption><thead><tr><th scope="col">Scenario</th><th scope="col">Cycle</th><th scope="col">Attempt</th><th scope="col">Verdict</th><th scope="col">Reasons</th><th scope="col">Elapsed observed interval</th><th scope="col">Pending precondition</th></tr></thead><tbody><tr data-verdict="PASS"><td><a href="#case-1">repeat</a></td><td>aggregate</td><td>attempt1</td><td><span class="badge PASS">PASS</span></td><td>all_obligations_satisfied</td><td>771.01 ms</td><td>not recorded / see obligations</td></tr><tr data-verdict="PASS"><td><a href="#case-2">repeat</a></td><td>1</td><td>attempt1</td><td><span class="badge PASS">PASS</span></td><td>all_obligations_satisfied</td><td>601.31 ms</td><td>PASS</td></tr></tbody></table></div></section><section><h2>Case details</h2><p>Open a case to compare the declared obligation with exact recorded values. Event numbers reference zero-based NDJSON records.</p><details class="case-detail" id="case-1" data-verdict="PASS"><summary><span class="badge PASS">PASS</span> repeat · aggregate</summary><dl class="facts"><dt>Attempt</dt><dd>attempt1</dd><dt>Completion</dt><dd>complete</dd><dt>Reasons</dt><dd>all_obligations_satisfied</dd><dt>Elapsed observed interval</dt><dd>771.01 ms</dd></dl><h3>What the evidence establishes</h3><ol class="story"><li><strong>Pending request</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li><li><strong>Client operation</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li><li><strong>Pending state</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li><li><strong>Service-owned work</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li><li><strong>Next client</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li><li><strong>Test cleanup</strong> <span class="badge PASS">PASS</span><p>All owned test children were observed reaped. <a href="#event-repeat-224">#224</a> <a href="#event-repeat-16">#16</a> <a href="#event-repeat-31">#31</a> <a href="#event-repeat-46">#46</a> <a href="#event-repeat-65">#65</a> <a href="#event-repeat-78">#78</a> <a href="#event-repeat-92">#92</a> <a href="#event-repeat-111">#111</a> <a href="#event-repeat-113">#113</a> <a href="#event-repeat-139">#139</a> <a href="#event-repeat-153">#153</a> <a href="#event-repeat-171">#171</a> <a href="#event-repeat-185">#185</a> <a href="#event-repeat-200">#200</a> <a href="#event-repeat-215">#215</a> <a href="#event-repeat-222">#222</a></p></li></ol><p class="muted">These sentences describe saved assertions. Cleanup is separate from service health; observations are not timing guarantees.</p><div class="table-scroll"><table><caption>Declared obligations and actual observations</caption><thead><tr><th scope="col">Obligation / verdict / reason</th><th scope="col">Expected</th><th scope="col">Observed / source event references</th></tr></thead><tbody><tr><td>baseline_validity<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;deferred_release&quot;: true,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;message&quot;: 1,
+  &quot;normal&quot;: 2
+}</pre></td><td><a href="#event-repeat-28">#28</a> <a href="#event-repeat-43">#43</a> <a href="#event-repeat-58">#58</a> <a href="#event-repeat-108">#108</a> <a href="#event-repeat-126">#126</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;normal&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 28
+    },
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;MsgSendv&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;message&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 43
+    },
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;dup&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 58
+    },
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;normal&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 108
+    },
+    {
+      &quot;data&quot;: {
+        &quot;name&quot;: &quot;deferred_release_complete&quot;
+      },
+      &quot;event&quot;: &quot;stage&quot;,
+      &quot;ref&quot;: 126
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>repeat_coverage<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;all_required_cycles_complete&quot;: true,
+  &quot;cycles&quot;: 1,
+  &quot;reset&quot;: &quot;same-instance&quot;
+}</pre></td><td><a href="#event-repeat-127">#127</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cycle&quot;: 1,
+        &quot;deadline_ns&quot;: &quot;1488058167375&quot;,
+        &quot;fixture_pid&quot;: &quot;25063445&quot;
+      },
+      &quot;event&quot;: &quot;cycle_begin&quot;,
+      &quot;ref&quot;: 127
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>single_instance<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;fixture_count&quot;: 1,
+  &quot;ready_count&quot;: 1
+}</pre></td><td><a href="#event-repeat-5">#5</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;mode&quot;: &quot;retain-third&quot;,
+        &quot;path&quot;: &quot;/dev/resmgrcheck-job-r-20261114140949-261c0b23b307-repeat&quot;
+      },
+      &quot;event&quot;: &quot;ready&quot;,
+      &quot;ref&quot;: 5
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>owned_process_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;all_owned_children_reaped&quot;: true
+}</pre></td><td><a href="#event-repeat-224">#224</a> <a href="#event-repeat-16">#16</a> <a href="#event-repeat-31">#31</a> <a href="#event-repeat-46">#46</a> <a href="#event-repeat-65">#65</a> <a href="#event-repeat-78">#78</a> <a href="#event-repeat-92">#92</a> <a href="#event-repeat-111">#111</a> <a href="#event-repeat-113">#113</a> <a href="#event-repeat-139">#139</a> <a href="#event-repeat-153">#153</a> <a href="#event-repeat-171">#171</a> <a href="#event-repeat-185">#185</a> <a href="#event-repeat-200">#200</a> <a href="#event-repeat-215">#215</a> <a href="#event-repeat-222">#222</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;all_reaped&quot;: 1,
+        &quot;evidence_error&quot;: 0
+      },
+      &quot;event&quot;: &quot;cleanup&quot;,
+      &quot;ref&quot;: 224
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25071634&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 16
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25083906&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 31
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25088002&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 46
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25092098&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 65
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25100290&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 78
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25104386&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 92
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25108482&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 111
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25108503&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 113
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25116674&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 139
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25120770&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 153
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25124866&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 171
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25231362&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 185
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25235458&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 200
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25239554&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 215
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25063445&quot;,
+        &quot;raw_status&quot;: 15
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 222
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>evidence_completeness<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;complete_required_evidence&quot;: true
+}</pre></td><td><a href="#event-repeat-225">#225</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cleanup_ok&quot;: 1,
+        &quot;evidence_error&quot;: 0,
+        &quot;flow_complete&quot;: 1
+      },
+      &quot;event&quot;: &quot;run_final&quot;,
+      &quot;ref&quot;: 225
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>target_completion_status<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;finalized&quot;: true,
+  &quot;identity_and_ownership_bound&quot;: true
+}</pre></td><td><pre>{
+  &quot;events&quot;: [],
+  &quot;status&quot;: {
+    &quot;attempt_id&quot;: &quot;attempt1&quot;,
+    &quot;case_id&quot;: &quot;repeat&quot;,
+    &quot;cleanup_ok&quot;: true,
+    &quot;cycle&quot;: 1,
+    &quot;event_file&quot;: &quot;events.jsonl&quot;,
+    &quot;exit_code&quot;: 0,
+    &quot;kind&quot;: &quot;run-status&quot;,
+    &quot;lab_control&quot;: &quot;none&quot;,
+    &quot;profile_sha256&quot;: &quot;3e227d462132f6dfcfbb9f80959130b39faa06b5a3ddd6793edfb5353e333bb0&quot;,
+    &quot;run_id&quot;: &quot;r-20261114140949-261c0b23b307-repeat&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;service_instance_id&quot;: &quot;r-20261114140949-261c0b23b307-repeat&quot;,
+    &quot;source_tree_sha256&quot;: &quot;46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b&quot;,
+    &quot;started_ns&quot;: &quot;1477886254105&quot;,
+    &quot;state&quot;: &quot;complete&quot;,
+    &quot;supervisor_pid&quot;: &quot;25059350&quot;,
+    &quot;unresolved&quot;: []
+  }
+}</pre></td></tr></tbody></table></div></details><details class="case-detail" id="case-2" data-verdict="PASS"><summary><span class="badge PASS">PASS</span> repeat · cycle 1</summary><dl class="facts"><dt>Attempt</dt><dd>attempt1</dd><dt>Completion</dt><dd>complete</dd><dt>Reasons</dt><dd>all_obligations_satisfied</dd><dt>Elapsed observed interval</dt><dd>601.31 ms</dd></dl><h3>What the evidence establishes</h3><ol class="story"><li><strong>Pending request</strong> <span class="badge PASS">PASS</span><p>A pending request was established before the trigger. <a href="#event-repeat-161">#161</a> <a href="#event-repeat-160">#160</a> <a href="#event-repeat-162">#162</a> <a href="#event-repeat-131">#131</a></p></li><li><strong>Client operation</strong> <span class="badge PASS">PASS</span><p>The recorded client operation satisfied its declared obligation. <a href="#event-repeat-168">#168</a></p></li><li><strong>Pending state</strong> <span class="badge PASS">PASS</span><p>The observed pending state matched the contract after the trigger. <a href="#event-repeat-182">#182</a></p></li><li><strong>Service-owned work</strong> <span class="badge PASS">PASS</span><p>The observed service-owned state matched the declared contract. <a href="#event-repeat-182">#182</a></p></li><li><strong>Next client</strong> <span class="badge PASS">PASS</span><p>A fresh client satisfied the declared health check. <a href="#event-repeat-212">#212</a></p></li><li><strong>Test cleanup</strong> <span class="badge UNRECORDED">UNRECORDED</span><p>No separate assertion was recorded here. Inspect the detailed obligations and cycles. </p></li></ol><p class="muted">These sentences describe saved assertions. Cleanup is separate from service health; observations are not timing guarantees.</p><div class="table-scroll"><table><caption>Declared obligations and actual observations</caption><thead><tr><th scope="col">Obligation / verdict / reason</th><th scope="col">Expected</th><th scope="col">Observed / source event references</th></tr></thead><tbody><tr><td>pending_precondition<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;confirmed_before_trigger&quot;: true,
+  &quot;live_unblock_required&quot;: true,
+  &quot;pending&quot;: 1
+}</pre></td><td><a href="#event-repeat-161">#161</a> <a href="#event-repeat-160">#160</a> <a href="#event-repeat-162">#162</a> <a href="#event-repeat-131">#131</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;deadline_ns&quot;: &quot;1478610072211&quot;,
+        &quot;operation&quot;: &quot;timed&quot;,
+        &quot;timeout_ms&quot;: 500
+      },
+      &quot;event&quot;: &quot;deadline&quot;,
+      &quot;ref&quot;: 161
+    },
+    {
+      &quot;data&quot;: {
+        &quot;client_pid&quot;: &quot;25124866&quot;,
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;logical&quot;: &quot;5&quot;,
+        &quot;pending&quot;: 1,
+        &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+      },
+      &quot;event&quot;: &quot;pending&quot;,
+      &quot;ref&quot;: 160
+    },
+    {
+      &quot;data&quot;: {
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;live&quot;: 1,
+        &quot;logical&quot;: &quot;5&quot;,
+        &quot;mode&quot;: &quot;retain-third&quot;,
+        &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+      },
+      &quot;event&quot;: &quot;unblock&quot;,
+      &quot;ref&quot;: 162
+    },
+    {
+      &quot;data&quot;: {
+        &quot;cycle&quot;: 1,
+        &quot;generation&quot;: &quot;2&quot;,
+        &quot;pending&quot;: 0
+      },
+      &quot;event&quot;: &quot;cycle_ready&quot;,
+      &quot;ref&quot;: 131
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>cancellation_completion<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;allowance_ms&quot;: 2000,
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+  &quot;raw_return&quot;: -1
+}</pre></td><td><a href="#event-repeat-168">#168</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;MsgSendv&quot;,
+        &quot;api_error&quot;: 260,
+        &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+        &quot;facts&quot;: {},
+        &quot;normalized&quot;: &quot;TIMEOUT&quot;,
+        &quot;operation&quot;: &quot;timed&quot;,
+        &quot;raw_errno&quot;: 260,
+        &quot;raw_return&quot;: -1,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 168
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>terminal_reply_observation<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;primary_reply_error&quot;: 0,
+  &quot;primary_reply_rc&quot;: 0
+}</pre></td><td><a href="#event-repeat-163">#163</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;action&quot;: &quot;cancel&quot;,
+        &quot;error&quot;: 0,
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;logical&quot;: &quot;5&quot;,
+        &quot;rc&quot;: 0,
+        &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+      },
+      &quot;event&quot;: &quot;terminal_attempt&quot;,
+      &quot;ref&quot;: 163
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>state_observation<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;error&quot;: 0,
+  &quot;same_generation&quot;: true
+}</pre></td><td><a href="#event-repeat-182">#182</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 182
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>pending_state_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;pending&quot;: 0
+}</pre></td><td><a href="#event-repeat-182">#182</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 182
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>state_facts<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;job_exists&quot;: 1,
+  &quot;job_ready&quot;: 0
+}</pre></td><td><a href="#event-repeat-182">#182</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 182
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>counter_continuity<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;unblocks&quot;: 1
+}</pre></td><td><a href="#event-repeat-182">#182</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;completed&quot;: 1,
+        &quot;error&quot;: 0,
+        &quot;facts&quot;: {
+          &quot;job_exists&quot;: 1,
+          &quot;job_ready&quot;: 0
+        },
+        &quot;generation&quot;: &quot;3&quot;,
+        &quot;operation&quot;: &quot;state&quot;,
+        &quot;pending&quot;: 0,
+        &quot;unblocks&quot;: 1
+      },
+      &quot;event&quot;: &quot;control_result&quot;,
+      &quot;ref&quot;: 182
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>fresh_client_health<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;original_instance&quot;: true
+}</pre></td><td><a href="#event-repeat-212">#212</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;api&quot;: &quot;devctl&quot;,
+        &quot;api_error&quot;: 0,
+        &quot;error_name&quot;: &quot;EOK&quot;,
+        &quot;facts&quot;: {
+          &quot;job_id&quot;: 1,
+          &quot;value&quot;: 420
+        },
+        &quot;normalized&quot;: &quot;OK&quot;,
+        &quot;operation&quot;: &quot;health&quot;,
+        &quot;raw_errno&quot;: 0,
+        &quot;raw_return&quot;: 0,
+        &quot;result_shape&quot;: &quot;integer-record&quot;
+      },
+      &quot;event&quot;: &quot;result&quot;,
+      &quot;ref&quot;: 212
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>worker_cleanup<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;all_cycle_workers_reaped&quot;: true
+}</pre></td><td><a href="#event-repeat-139">#139</a> <a href="#event-repeat-153">#153</a> <a href="#event-repeat-171">#171</a> <a href="#event-repeat-185">#185</a> <a href="#event-repeat-200">#200</a> <a href="#event-repeat-215">#215</a> <a href="#event-repeat-218">#218</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25116674&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 139
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25120770&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 153
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25124866&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 171
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25231362&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 185
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25235458&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 200
+    },
+    {
+      &quot;data&quot;: {
+        &quot;child_pid&quot;: &quot;25239554&quot;,
+        &quot;raw_status&quot;: 0
+      },
+      &quot;event&quot;: &quot;reaped&quot;,
+      &quot;ref&quot;: 215
+    },
+    {
+      &quot;data&quot;: {
+        &quot;clean&quot;: 1,
+        &quot;cycle&quot;: 1,
+        &quot;pending&quot;: 0,
+        &quot;safe&quot;: 1,
+        &quot;state_observed&quot;: 1,
+        &quot;worker_pid&quot;: &quot;25124866&quot;,
+        &quot;worker_reaped&quot;: 1
+      },
+      &quot;event&quot;: &quot;cycle_end&quot;,
+      &quot;ref&quot;: 218
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr><tr><td>cycle_boundary<br><span class="badge PASS">PASS</span><br>all_obligations_satisfied</td><td><pre>{
+  &quot;clean&quot;: true,
+  &quot;known_state&quot;: true
+}</pre></td><td><a href="#event-repeat-127">#127</a> <a href="#event-repeat-218">#218</a><pre>{
+  &quot;events&quot;: [
+    {
+      &quot;data&quot;: {
+        &quot;cycle&quot;: 1,
+        &quot;deadline_ns&quot;: &quot;1488058167375&quot;,
+        &quot;fixture_pid&quot;: &quot;25063445&quot;
+      },
+      &quot;event&quot;: &quot;cycle_begin&quot;,
+      &quot;ref&quot;: 127
+    },
+    {
+      &quot;data&quot;: {
+        &quot;clean&quot;: 1,
+        &quot;cycle&quot;: 1,
+        &quot;pending&quot;: 0,
+        &quot;safe&quot;: 1,
+        &quot;state_observed&quot;: 1,
+        &quot;worker_pid&quot;: &quot;25124866&quot;,
+        &quot;worker_reaped&quot;: 1
+      },
+      &quot;event&quot;: &quot;cycle_end&quot;,
+      &quot;ref&quot;: 218
+    }
+  ],
+  &quot;status&quot;: null
+}</pre></td></tr></tbody></table></div></details></section><section id="timeline"><h2>Observed event timeline</h2><p>Times are target CLOCK_MONOTONIC offsets within each native case, not wall-clock or host durations. A configured/armed deadline is not an observed expiry. No events are invented to fill gaps.</p><details><summary>repeat · 225 producer observations</summary><p>Pending: observed (2)</p><p>Arming / directed trigger: observed (1)</p><p>Operation result: observed (7)</p><p>State: observed (1)</p><p>Fresh client: observed (1)</p><p>Cleanup: observed (17)</p><div class="table-scroll"><table><caption>Actual events and assertion source references</caption><thead><tr><th scope="col">Record</th><th scope="col">Target offset ms</th><th scope="col">Cycle</th><th scope="col">Producer / PID</th><th scope="col">Event</th><th scope="col">Recorded values</th></tr></thead><tbody><tr><td><span id="event-repeat-5">#5</span></td><td>12.681</td><td>1</td><td>fixture 25063445</td><td>ready</td><td><pre>{
+  &quot;mode&quot;: &quot;retain-third&quot;,
+  &quot;path&quot;: &quot;/dev/resmgrcheck-job-r-20261114140949-261c0b23b307-repeat&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-6">#6</span></td><td>12.957</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;ready&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-9">#9</span></td><td>28.120</td><td>1</td><td>worker 25071634</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;1&quot;,
+  &quot;operation&quot;: &quot;ready&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-16">#16</span></td><td>29.539</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25071634&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-19">#19</span></td><td>29.770</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;normal&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-28">#28</span></td><td>47.397</td><td>1</td><td>worker 25083906</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;normal&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-31">#31</span></td><td>51.199</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25083906&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-34">#34</span></td><td>52.107</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;message&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-43">#43</span></td><td>66.931</td><td>1</td><td>worker 25088002</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;message&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-46">#46</span></td><td>68.950</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25088002&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-49">#49</span></td><td>69.392</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;dup&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-58">#58</span></td><td>82.657</td><td>1</td><td>worker 25092098</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;dup&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-65">#65</span></td><td>84.100</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25092098&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-68">#68</span></td><td>84.550</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;negative&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-71">#71</span></td><td>102.515</td><td>1</td><td>worker 25100290</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 2,
+  &quot;error_name&quot;: &quot;ENOENT&quot;,
+  &quot;facts&quot;: {},
+  &quot;normalized&quot;: &quot;API_ERROR&quot;,
+  &quot;operation&quot;: &quot;negative&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 2,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-78">#78</span></td><td>104.685</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25100290&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-81">#81</span></td><td>105.039</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;hold&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-86">#86</span></td><td>125.505</td><td>1</td><td>worker 25104386</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;operation&quot;: &quot;hold&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-92">#92</span></td><td>127.032</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25104386&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-99">#99</span></td><td>140.137</td><td>1</td><td>fixture 25063445</td><td>pending</td><td><pre>{
+  &quot;client_pid&quot;: &quot;25108482&quot;,
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;logical&quot;: &quot;4&quot;,
+  &quot;pending&quot;: 1,
+  &quot;rcvid&quot;: &quot;4617596997233278977&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-100">#100</span></td><td>140.510</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;release&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-108">#108</span></td><td>155.538</td><td>1</td><td>worker 25108482</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;normal&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-121">#121</span></td><td>155.678</td><td>1</td><td>worker 25108503</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;operation&quot;: &quot;release&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-111">#111</span></td><td>157.457</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25108482&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-113">#113</span></td><td>157.613</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25108503&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-126">#126</span></td><td>158.618</td><td>1</td><td>supervisor 25059350</td><td>stage</td><td><pre>{
+  &quot;name&quot;: &quot;deferred_release_complete&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-127">#127</span></td><td>158.636</td><td>1</td><td>supervisor 25059350</td><td>cycle_begin</td><td><pre>{
+  &quot;cycle&quot;: 1,
+  &quot;deadline_ns&quot;: &quot;1488058167375&quot;,
+  &quot;fixture_pid&quot;: &quot;25063445&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-128">#128</span></td><td>158.650</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;cycle&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-131">#131</span></td><td>173.405</td><td>1</td><td>fixture 25063445</td><td>cycle_ready</td><td><pre>{
+  &quot;cycle&quot;: 1,
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;pending&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-136">#136</span></td><td>175.421</td><td>1</td><td>worker 25116674</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;2&quot;,
+  &quot;operation&quot;: &quot;cycle&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-139">#139</span></td><td>177.463</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25116674&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-142">#142</span></td><td>177.801</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;hold&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-147">#147</span></td><td>192.687</td><td>1</td><td>worker 25120770</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 0,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;hold&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-153">#153</span></td><td>194.145</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25120770&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-161">#161</span></td><td>210.544</td><td>1</td><td>worker 25124866</td><td>deadline</td><td><pre>{
+  &quot;deadline_ns&quot;: &quot;1478610072211&quot;,
+  &quot;operation&quot;: &quot;timed&quot;,
+  &quot;timeout_ms&quot;: 500
+}</pre></td></tr><tr><td><span id="event-repeat-160">#160</span></td><td>210.729</td><td>1</td><td>fixture 25063445</td><td>pending</td><td><pre>{
+  &quot;client_pid&quot;: &quot;25124866&quot;,
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;logical&quot;: &quot;5&quot;,
+  &quot;pending&quot;: 1,
+  &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-162">#162</span></td><td>711.408</td><td>1</td><td>fixture 25063445</td><td>unblock</td><td><pre>{
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;live&quot;: 1,
+  &quot;logical&quot;: &quot;5&quot;,
+  &quot;mode&quot;: &quot;retain-third&quot;,
+  &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-163">#163</span></td><td>711.460</td><td>1</td><td>fixture 25063445</td><td>terminal_attempt</td><td><pre>{
+  &quot;action&quot;: &quot;cancel&quot;,
+  &quot;error&quot;: 0,
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;logical&quot;: &quot;5&quot;,
+  &quot;rc&quot;: 0,
+  &quot;rcvid&quot;: &quot;4621256171930517505&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-168">#168</span></td><td>711.589</td><td>1</td><td>worker 25124866</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;MsgSendv&quot;,
+  &quot;api_error&quot;: 260,
+  &quot;error_name&quot;: &quot;ETIMEDOUT&quot;,
+  &quot;facts&quot;: {},
+  &quot;normalized&quot;: &quot;TIMEOUT&quot;,
+  &quot;operation&quot;: &quot;timed&quot;,
+  &quot;raw_errno&quot;: 260,
+  &quot;raw_return&quot;: -1,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-171">#171</span></td><td>712.820</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25124866&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-174">#174</span></td><td>712.999</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;state&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-182">#182</span></td><td>728.101</td><td>1</td><td>worker 25231362</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 1,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 0
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;state&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 1
+}</pre></td></tr><tr><td><span id="event-repeat-185">#185</span></td><td>729.574</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25231362&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-189">#189</span></td><td>729.868</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;release&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-194">#194</span></td><td>743.482</td><td>1</td><td>worker 25235458</td><td>control_result</td><td><pre>{
+  &quot;completed&quot;: 1,
+  &quot;error&quot;: 0,
+  &quot;facts&quot;: {
+    &quot;job_exists&quot;: 1,
+    &quot;job_ready&quot;: 1
+  },
+  &quot;generation&quot;: &quot;3&quot;,
+  &quot;operation&quot;: &quot;release&quot;,
+  &quot;pending&quot;: 0,
+  &quot;unblocks&quot;: 1
+}</pre></td></tr><tr><td><span id="event-repeat-200">#200</span></td><td>744.773</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25235458&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-203">#203</span></td><td>745.045</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;health&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-212">#212</span></td><td>758.468</td><td>1</td><td>worker 25239554</td><td>result</td><td><pre>{
+  &quot;api&quot;: &quot;devctl&quot;,
+  &quot;api_error&quot;: 0,
+  &quot;error_name&quot;: &quot;EOK&quot;,
+  &quot;facts&quot;: {
+    &quot;job_id&quot;: 1,
+    &quot;value&quot;: 420
+  },
+  &quot;normalized&quot;: &quot;OK&quot;,
+  &quot;operation&quot;: &quot;health&quot;,
+  &quot;raw_errno&quot;: 0,
+  &quot;raw_return&quot;: 0,
+  &quot;result_shape&quot;: &quot;integer-record&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-215">#215</span></td><td>759.540</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25239554&quot;,
+  &quot;raw_status&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-218">#218</span></td><td>759.943</td><td>1</td><td>supervisor 25059350</td><td>cycle_end</td><td><pre>{
+  &quot;clean&quot;: 1,
+  &quot;cycle&quot;: 1,
+  &quot;pending&quot;: 0,
+  &quot;safe&quot;: 1,
+  &quot;state_observed&quot;: 1,
+  &quot;worker_pid&quot;: &quot;25124866&quot;,
+  &quot;worker_reaped&quot;: 1
+}</pre></td></tr><tr><td><span id="event-repeat-219">#219</span></td><td>759.969</td><td>1</td><td>supervisor 25059350</td><td>phase</td><td><pre>{
+  &quot;name&quot;: &quot;cleanup&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-220">#220</span></td><td>759.985</td><td>1</td><td>supervisor 25059350</td><td>fixture_stop</td><td><pre>{
+  &quot;blocked_worker_reaped&quot;: 1,
+  &quot;child_pid&quot;: &quot;25063445&quot;
+}</pre></td></tr><tr><td><span id="event-repeat-221">#221</span></td><td>760.010</td><td>1</td><td>supervisor 25059350</td><td>signal_sent</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25063445&quot;,
+  &quot;error&quot;: 0,
+  &quot;rc&quot;: 0,
+  &quot;signal&quot;: 15
+}</pre></td></tr><tr><td><span id="event-repeat-222">#222</span></td><td>760.609</td><td>1</td><td>supervisor 25059350</td><td>reaped</td><td><pre>{
+  &quot;child_pid&quot;: &quot;25063445&quot;,
+  &quot;raw_status&quot;: 15
+}</pre></td></tr><tr><td><span id="event-repeat-224">#224</span></td><td>760.772</td><td>1</td><td>supervisor 25059350</td><td>cleanup</td><td><pre>{
+  &quot;all_reaped&quot;: 1,
+  &quot;evidence_error&quot;: 0
+}</pre></td></tr><tr><td><span id="event-repeat-225">#225</span></td><td>771.007</td><td>1</td><td>supervisor 25059350</td><td>run_final</td><td><pre>{
+  &quot;cleanup_ok&quot;: 1,
+  &quot;evidence_error&quot;: 0,
+  &quot;flow_complete&quot;: 1
+}</pre></td></tr></tbody></table></div><p><a href="cases/repeat/bundle/observations.jsonl">Complete raw event stream</a></p></details></section><section id="replay"><h2>Replay these saved inputs</h2><p>Run from the repository root with the lab prerequisites from README. Use a new output directory. Do not automatically retry an uncertain launch.</p><p>Saved inputs: <a href="replay.json">/home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1/replay.json</a></p><pre>python3 -m resmgrcheck replay /home/mignon/projects/resmgrcheck/.local/evidence/impact-innovation-20261114c/job-reduction/attempt-1/replay.json --target fresh-review --out runs/replay-new</pre><p>Original selected deployment: <code>7ea27c56fc6897f6ccf3d18cb0a6fc819da9c373c481677eff782471fe155b33</code>. Native source/build and hashes are shown in the summary.</p><p>Without candidate selection, workflow replay retains the original immutable deployment. To test an actual source correction, build and deploy it, then add <code>--candidate-manifest build/qnx-x86_64/manifest.json</code>. Keep the saved contract and fixture setting unchanged. Changing fixture mode is a disclosed incomparable contrast.</p></section><section id="evidence"><h2>Evidence and instrumentation</h2><p>Managed examples use explicit lab pending/unblock/state and ordering instrumentation. Deliberate defect settings remain disclosed and are checked against the corrected contract. These directed tests do not establish exhaustive concurrency or absence of memory leaks.</p><ul><li><a href="request.json">request.json</a></li><li><a href="replay.json">replay.json</a></li><li><a href="state.json">state.json</a></li><li><a href="result.json">result.json</a></li></ul><details><summary>repeat raw artifacts</summary><ul><li><a href="cases/repeat/bundle/bundle.json">bundle.json</a></li><li><a href="cases/repeat/bundle/plan.json">plan.json</a></li><li><a href="cases/repeat/bundle/profile.json">profile.json</a></li><li><a href="cases/repeat/bundle/builds.json">builds.json</a></li><li><a href="cases/repeat/bundle/target-manifest.json">target-manifest.json</a></li><li><a href="cases/repeat/bundle/observations.jsonl">observations.jsonl</a></li><li><a href="cases/repeat/bundle/status.json">status.json</a></li><li><a href="cases/repeat/bundle/result.json">result.json</a></li><li><a href="cases/repeat/bundle/replay.json">replay.json</a></li><li><a href="cases/repeat/bundle/notes.txt">notes.txt</a></li></ul></details></section><footer><p class="muted">ResMgrCheck · Offline evidence view · No network assets. Saved evaluator outcomes are authoritative; filters only change presentation.</p></footer></main><script>
+const controls = document.getElementById('filters');
+const select = document.getElementById('verdict-filter');
+if (controls && select) {
+  controls.hidden = false;
+  select.addEventListener('change', () => {
+    document.querySelectorAll('[data-verdict]').forEach(node => {
+      node.hidden = select.value !== 'ALL' && node.dataset.verdict !== select.value;
+    });
+  });
+  document.getElementById('reset-filter').addEventListener('click', () => {
+    select.value = 'ALL'; select.dispatchEvent(new Event('change')); select.focus();
+  });
+}
+function discloseAnchor() {
+  const target = document.getElementById(location.hash.slice(1));
+  if (target) { target.hidden = false; let parent = target; while (parent) { if (parent.tagName === 'DETAILS') parent.open = true; parent = parent.parentElement; } }
+}
+window.addEventListener('hashchange', discloseAnchor); discloseAnchor();
+</script></body></html>

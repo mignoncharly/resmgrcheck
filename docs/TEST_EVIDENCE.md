@@ -1,5 +1,68 @@
 # Test evidence
 
+## E022: Native reduction and independently authored backend integration
+
+2026-11-14. Clean source5e1fb8a, runtime source-tree SHA256
+`46d1ffdbcbe9cd9a017a5a34e31fd8b63d4626aad2d813046d2765dc4337122b`
+was qualified on the separate QNX8.0.0 x86_64/x86pc KVM review guest. The
+[machine index](evidence/impact-innovation/qualification/index.json) is authoritative
+for exact source hashes/builds. Installed qcc/gcc_ntox86_64 and Make were reused;
+the existing core C binaries were unchanged and the optional external probe was
+compiled/linked with qcc, C11, Wall/Wextra/Werror. No SDK/image/binary/license material
+was added to Git. Pinned MIT QFuse source and LGPL libfuse dependencies remain
+ignored downloads with their original license texts and checked hashes.
+
+`python3 -m unittest discover -s tests/host -q`:131 passed. The final native command
+matrix is in [commands.json](evidence/impact-innovation/qualification/commands.json):
+
+- Both sensor/job baselines PASS; both deliberate retain-waiter cases FAIL with
+  pending1 despite a matching ETIMEDOUT260. All four derived limited return
+  predicates are SATISFIED; canonical results remain unchanged.
+- Both original20-cycle retain-third inputs FAIL at the third cycle, with later
+  work NOT_RUN. Both bounded searches record1 PASS,2 PASS,3 FAIL with the same
+  pending-state failure signature, verified original-instance observations and
+  owned cleanup. All smaller counts were tested once on new instances.
+- Both separate one-attempt budgets stop as budget_exhausted after1 PASS, without
+  a minimum claim. A preserved first search stopped at ERROR instead of continuing.
+- Both pinned QFuse timeout/signal probes PASS: cancelled client returns260/4
+  before release, public admin status observes retained callback/cancellation,
+  another path returns byte81, callback drains after release, both children are
+  reaped and mount disappears. The backend is unchanged; workload/harness are ours.
+
+Sixteen native executions matched expected outcomes:14 sealed ABI1 bundles and2
+separate scoped integration records. Service defects remain FAIL. All14 canonical
+executions were inspected and14 reports rendered. Four relevant new reports passed
+12 Chromium views (desktop, narrow, JavaScript disabled), artifact/anchor links,
+keyboard disclosure, no overflow, no external requests/page errors and unchanged
+source bytes. See [browser evidence](evidence/impact-innovation/qualification/browser/index.json).
+
+The initial qualification preflight lacked sourced SDK variables and stopped
+before native cases. After sourcing the installed environment, the first reduction
+established two PASS cycles and a third-cycle service FAIL, but the old evaluator
+classified an aborted final requested cycle as a coverage ERROR. The reducer stopped
+as designed. Its [original sealed bundle](evidence/impact-innovation/trials/final-cycle-error/bundle.json)
+and ERROR result remain unchanged at source21bf7f4. The correction marks known final
+failure coverage NOT_RUN while retaining the established FAIL; missing observations,
+unknown cleanup and other uncertainty still yield ERROR. Regression uses the actual
+recording plus explicitly synthetic missing-observation checks. Final qualification
+used new run IDs and clean5e1fb8a; no old result was relabelled.
+
+The first QFuse contract incorrectly expected cumulative cancelled_waits to become
+zero. Its [FAIL record](evidence/impact-innovation/trials/cumulative-counter-assumption/result.json)
+is preserved. Source inspection established the count increments until pool restart;
+the corrected contract checks drainage of active operations/cleanup and stability
+of cumulative cancellations. This is our contract correction, not an upstream bug.
+
+Original lab selection and the build manifest were preserved; the fresh-review
+selection was restored. The final separate-guest capacity check showed2637 available
+file entries of3072. The separate guest was then gracefully stopped with exact
+QEMU identity checks; its listener disappeared and the original lab listener
+remained. [Guest-stop evidence](evidence/impact-innovation/guest-stop.json) records
+that cleanup. No production deployment, YouTube publication, external contact
+or independent validation occurred. The [review guide](submission/impact-innovation.md)
+explains inputs, scope, reproduction commands and the judging relevance without
+invented adoption, debugging savings, hardware timing or win-probability claims.
+
 ## E021: Production explanation release and compatible rollback passed
 
 2026-11-14. The operator provided the final successful JSON for exact driver
