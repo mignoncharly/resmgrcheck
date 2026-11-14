@@ -1,5 +1,18 @@
 # Decisions
 
+## D031: Strengthen judge experience without inventing validation
+
+2026-11-14. Owner approved independent validation, consistent publication,
+fresh-user setup, video, clearer explanations and release acceptance. Preserve
+canonical native verdicts/raw bundles; add shared presentation prose from saved
+assertions with exact references. Missing/withheld/error assertions cannot receive
+success wording. Keep packaging revision separate from historical native identity.
+Prepare an independent exercise; the owner has no tester yet. Agent-run fresh-image
+reproduction is a separate useful proof, never independent adoption. New images,
+host keys and configuration stay ignored. Existing lab and services remain intact.
+Publication is now authorized for these priorities; Devpost attestations/submission
+remain separate. A10/10 score is a judging target, not a deliverable we can certify.
+
 ## D001: Keep the approved project scope
 
 **Date:** 2026-11-06. **State:** accepted execution specification.

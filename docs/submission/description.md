@@ -4,8 +4,8 @@ Category: Developer Tooling & Host Tools.
 
 ## One-line description
 
-Test QNX resource-manager cancellation and client-lifecycle contracts, preserve
-native evidence, and replay the same inputs against an explicitly selected fix.
+Know what cancellation left behind: test QNX resource-manager lifecycle contracts,
+inspect native evidence, and replay the same inputs against an identified source fix.
 
 ## Problem
 
@@ -13,6 +13,12 @@ A timed call returning the expected error does not establish that a service rele
 its pending client state or can serve the next client. A departing waiter can also
 leave work that legitimately belongs to the service. Those distinctions are easy
 to lose when debugging a resource manager with ad hoc client scripts.
+
+The intended user is a QNX developer implementing a service that defers requests:
+for example, a sensor reader or a service-owned job queue. The useful development
+question is whether the next client can still use the same service after a timeout,
+signal or departing client. This project provides recorded behavioral evidence;
+it does not establish safety certification or hardware worst-case timing.
 
 ## What it does
 
@@ -59,6 +65,20 @@ certification. External attachment is scoped read-only health with unverified
 running-build/instance identity; full external lifecycle remains unsupported without
 instrumentation. Target startup, licensed SDK and existing SSH authentication are
 manual prerequisites. No proprietary SDK/image/binary or credential is redistributed.
+
+## Try it and assess the scope
+
+The public evidence explorer is https://qnx-resmgrcheck.gestionatech.de/demo/.
+It shows genuine saved observations without an SDK or account and cannot launch
+private-lab work. The CLI and offline reports remain usable without the web service.
+The fresh-lab guide creates your own image and trust configuration, then the codelab
+walks through the actual source correction. Independent developer feedback and
+arbitrary external-service lifecycle integration are still pending.
+
+QNX's existing server-monitor detects unresolved unblock requests and can take
+configured actions. ResMgrCheck complements that operational mechanism with
+declared service contracts, directed lifecycle tests, post-state and next-client
+checks, evidence export and identified-source replay. No first/only-tool claim is made.
 
 ## Submission fields still owned by the operator
 

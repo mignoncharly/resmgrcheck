@@ -1,0 +1,16 @@
+{
+  "kind": "hackathon-improvement-gates",
+  "schema_version": 1,
+  "authorized_at": "2026-11-14",
+  "objective": "Strengthen all four equally weighted judging criteria without inventing scores or external validation",
+  "priorities": [
+    {"id": 1, "task": "Independent integration or reproduction", "state": "in_progress", "evidence": "docs/independent-validation.md", "requires": "Actual independent participant results"},
+    {"id": 2, "task": "Consistent public source, website and evidence delivery", "state": "in_progress"},
+    {"id": 3, "task": "Fresh-user codelab and setup", "state": "in_progress", "requires": "Separate fresh-lab proof and independent usability feedback"},
+    {"id": 4, "task": "Public YouTube demonstration under three minutes", "state": "pending", "requires": "Verified public upload of reviewed actual footage"},
+    {"id": 5, "task": "Clear failure, source fix, replay and second-service explanation", "state": "in_progress"},
+    {"id": 6, "task": "Feature freeze and remaining release acceptance", "state": "in_progress", "requires": "Compatible application rollback and independent UAT"}
+  ],
+  "judging_scores": "Not assigned; judges determine scores",
+  "devpost_submitted": false
+}

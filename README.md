@@ -6,6 +6,9 @@ The sensor and job examples use one generic C11 runner/worker and Python evaluat
 
 ## Start Here
 
+- [Explore the public evidence demo](https://qnx-resmgrcheck.gestionatech.de/demo/): inspect the failure, actual source correction and job-service result without an SDK or account. This is recorded playback; it cannot launch private-lab tests.
+- [Set up your own QNX lab](docs/fresh-lab.md), then [reproduce the source correction](docs/codelab.md).
+- [Independent developer exercise and feedback](docs/independent-validation.md): help test setup, usability and integration effort. Independent results remain pending.
 - [Five-minute review without QNX](docs/JURY_START_HERE.md#route-a-review-without-qnx-about-five-minutes): real before/after HTML reports, comparison, job evidence and the portable jury ZIP's 170-second demo.
 - [Complete hands-on QNX reproduction](docs/JURY_START_HERE.md#route-b-reproduce-on-qnx): your own licensed SDK/guest, build/deploy, deliberate failure, recorded source patch and candidate replay.
 - [Real QNX evidence and identities](docs/jury/EVIDENCE_INDEX.md), [full test record](docs/TEST_EVIDENCE.md), and [codelab](docs/codelab.md).
@@ -28,8 +31,11 @@ comparison context; E014 records browser inspection.
 the existing engine. Its [gate status](docs/web/STATUS.md), [actual web/native test
 record](docs/web/TEST_EVIDENCE.md), [architecture](docs/web/ARCHITECTURE.md) and
 [optional AI controls](docs/web/AI.md) distinguish private staging from production.
-The requested public HTTPS application is **not deployed yet**. The revised administrator/access-code gate,
-production isolation/hardening and release acceptance remain pending; no frontend rendering result substitutes for those gates.
+The public HTTPS application is reachable, with recorded evidence available without
+an account. Operator-run native acceptance is recorded in W036. The latest observed
+immutable application pointer and remaining rollback/independent UAT gates are
+tracked in [web status](docs/web/STATUS.md); a working public page alone does not
+complete those gates. Customer machine endpoints and AI remain disabled.
 The CLI and original evidence below remain independently usable.
 
 ## Prerequisites

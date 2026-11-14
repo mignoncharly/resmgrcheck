@@ -141,7 +141,9 @@ def prepare(out, video):
     package = out / 'resmgrcheck-jury'; package.mkdir()
     identities = json.loads((ROOT / 'docs/jury/identities.json').read_text())
     runtime = source_hash(ROOT)
-    assert runtime == identities['cases']['broken']['builds']['source_tree_sha256']
+    # Packaging may use a later presentation revision. Bind the frozen execution
+    # identity separately; never relabel older native observations as a new run.
+    native_runtime = identities['cases']['broken']['builds']['source_tree_sha256']
     assert sha(video) == identities['recording']['sha256']
     selected = list(DOCS)
     for label in LABELS:
@@ -165,7 +167,8 @@ def prepare(out, video):
         (package / destination).write_text(markdown_document((ROOT / source).read_text(), source, destination))
     links = check_links(package); privacy = scan(package)
     manifest = {'kind':'portable-jury-review','schema_version':1,'product_checkpoint':identities['product_checkpoint'],
-                'runtime_sha256':runtime,'packager_sha256':sha(__file__),'native_execution_for_packaging':False,
+                'runtime_sha256':native_runtime,'packager_runtime_sha256':runtime,
+                'packager_sha256':sha(__file__),'native_execution_for_packaging':False,
                 'video_sha256':sha(video),'video_seconds':170,'public_video_url':None,
                 'original_files':originals,'omissions':['private transport diagnostics','unrelated histories','SDK, runtime images, native executables and authenticated configuration'],
                 'redactions_to_sealed_bundles':False,'link_checks':links,'privacy_review':privacy}

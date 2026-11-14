@@ -1,5 +1,14 @@
 # Production web implementation status
 
+W041 (2026-11-14): approved hackathon improvements in progress. Shared report/demo
+assertion explanations pass117 host/10 dashboard tests; raw evidence and canonical
+verdicts remain unchanged. Host-origin current pointer namesdfe1060 and web/executor
+are active. This observation supersedes W040's pending-pointer statement, but no
+protected activation receipt or independent UAT was reread. New presentation changes
+are not deployed. Full compatible rollback and independent UAT remain open; local
+sudo requires authentication. Owner has no independent tester yet. See E018 in
+the engine test record and submission/improvement-gates.json.
+
 W040: owner authorized deployment of navigation candidatedfe1060 from current21a6f57.
 The separately pinned deploy_navigation.py driver is prepared/tested; activation
 remains pending because noninteractive sudo requires a password. It reuses the

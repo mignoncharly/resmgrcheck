@@ -8,6 +8,12 @@ See E015 for exact manifests, outputs and limitations.
 
 ## 1. Prepare the declared lab
 
+For a new installation, start with [your own fresh QNX lab](fresh-lab.md).
+It creates a new image and host keys without the author's bootstrap files.
+If you use an alternate target configuration, pass its `--config` path to every
+doctor/deploy/run/replay/status/collect command below, including in the corrected
+checkout. Keep the original lab configuration intact.
+
 Follow README's manual prerequisites: installed/licensed SDP, already booted owned
 QNX8.0.0 x86_64/x86pc guest, existing locally authenticated OpenSSH alias/SFTP,
 verified host keys and ignored target metadata. The CLI does not create these.

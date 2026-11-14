@@ -1,5 +1,17 @@
 # Engineering complete; local publication review pending
 
+2026-11-14 active task: owner approved the six hackathon improvement priorities.
+Continue on feature/production-web-ai. Read E018/current STATUS and improvement-gates.
+Presentation/setup changes pass117 host/10 dashboard/15 release-helper tests.
+Fresh image `.local/fresh-lab-20261114` has new guest keys and is booted at loopback
+22221; original22220 guest is unchanged. Next: verify SSH/native probes, then clean
+source build/deploy and sensor failure/source-corrected replay/job on this fresh guest.
+Keep its private config under .local; do not replace the normal target route.
+No independent tester available (owner reply); exercise is prepared, feedback pending.
+Public release/video are authorized by approval of the six priorities; entrant
+attestations/Devpost submission are not. Actual sudo authentication is unavailable.
+Complete/test concrete deployment/rollback work before requesting local root execution.
+
 Current production-web handoff (2026-11-10): remain on `feature/production-web-ai`
 for this work. Operator driver1fde3df completed same-ID recovery, native acceptance
 and the guarded executor rehearsal (W036). Do not repeat provisioning/acceptance.

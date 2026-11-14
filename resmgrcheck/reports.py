@@ -11,6 +11,7 @@ from urllib.parse import quote
 from .artifacts import atomic_write, bounded_read, guard_derived_output, inspect_bundle
 from .contracts import Plan, canonical, load, loads, require
 from .workflow import Request, inspect_execution
+from .story import assertion_story
 
 CSS = '''
 :root{color-scheme:light;--ink:#182b3b;--muted:#465868;--line:#ccd6de;--paper:#f4f6f8}
@@ -27,6 +28,7 @@ th,td{min-width:120px;text-align:left;vertical-align:top;border-bottom:1px solid
 .UNSUPPORTED,.NOT_RUN,.UNRECORDED{color:#465267;background:#eef1f6}.warning{border-left:5px solid #965200;padding:12px;background:#fff0da}
 .muted{color:var(--muted)}.facts{display:grid;grid-template-columns:minmax(120px,180px) minmax(0,1fr);gap:6px 16px}.facts dt{font-weight:700}.facts dd{margin:0}
 summary{cursor:pointer;font-weight:650;padding:6px 0}details:target{outline:3px solid #965200}button,select{font:inherit;padding:6px;margin-right:8px}
+.story{padding-left:24px}.story li{margin:12px 0}.story p{margin:4px 0}
 .filter{padding:12px 0}small{font-size:.85rem}[hidden]{display:none!important}.event-list{padding-left:20px}
 @media(max-width:600px){main{padding:12px}h1{font-size:1.6rem}section,.case-detail{padding:12px}.facts{grid-template-columns:1fr}.facts dd{margin-bottom:8px}th,td{padding:7px 6px}}
 @media print{body{background:white}main{max-width:none}.filter{display:none}.table-scroll{overflow:visible}}
@@ -155,6 +157,11 @@ class Renderer:
         body = '<details class="case-detail" id="' + key + '" data-verdict="' + esc(entry['verdict']) + '"><summary>' + badge(entry['verdict']) + ' ' + esc(title) + '</summary>'
         body += _facts([('Attempt', esc(case.plan['attempt_id'])), ('Completion', esc(entry.get('completion', case.result['completion']))),
                         ('Reasons', esc(', '.join(entry['reasons']))), ('Elapsed observed interval', esc(_elapsed(records, refs) if cycle else _elapsed(records)))])
+        body += '<h3>What the evidence establishes</h3><ol class="story">'
+        for step in assertion_story(entry):
+            links = ' '.join('<a href="#event-' + esc(case.plan['case_id']) + '-' + str(ref) + '">#' + str(ref) + '</a>' for ref in step['event_refs'] if ref in records)
+            body += '<li><strong>' + esc(step['label']) + '</strong> ' + badge(step['verdict']) + '<p>' + esc(step['description']) + ' ' + links + '</p></li>'
+        body += '</ol><p class="muted">These sentences describe saved assertions. Cleanup is separate from service health; observations are not timing guarantees.</p>'
         assertions = []
         for a in entry['assertions']:
             observed = a.get('observed', {})

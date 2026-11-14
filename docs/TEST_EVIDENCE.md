@@ -1,5 +1,37 @@
 # Test evidence
 
+## E018: Hackathon improvement checkpoint, 2026-11-14
+
+Owner approved six priorities. Initial sourcecc851a9 on feature/production-web-ai
+was clean. No independent tester is available (owner reply); an exercise and safe
+feedback form are prepared in independent-validation.md. No outreach was sent.
+
+Shared plain-language story views describe only saved assertions and retain exact
+verdicts/references. Web raw details remain available in keyboard disclosures.
+The private config helper hashes IFS bytes, validates routing types and exclusively
+creates0600 files; occupied/symlink destinations are preserved. Fresh-lab docs use
+new generated guest keys rather than the author's bootstrap. Packaging binds its
+own current source separately from the recorded native runtime identity.
+
+Actual checks on the changed working tree:
+
+- `python3 -m unittest discover -s tests/host -q`:117 tests PASS in14.636s.
+- Existing isolated staging venv, `web/ops/staging.py manage.py test
+  tests.test_dashboard --noinput`:10 tests PASS in7.402s; disposable test DB removed.
+  Initial sandbox access failed; authorized host execution passed.
+- `python3 -m unittest web.tests.test_navigation_release
+  web.tests.test_security_release -q`:15 tests PASS in0.037s; root/services modeled.
+- Installed mkqnximage built a new image under ignored .local/fresh-lab-20261114:
+  exit0 in4.0s, own host keys, no bootstrap/key/image copied. A new KVM guest booted
+  on previously unused loopback22221. Native connectivity/reproduction pending.
+- Host-origin service observation: web/executor active; current symlink names
+  dfe1060. No protected deployment receipt was read; sudo requires a local password.
+
+No production mutation, native-matrix repetition, independent reproduction, new
+public upload or completed submission is claimed at this checkpoint. Next: fresh
+guest probes and clean-source behavior proof, browser qualification and consistent
+release delivery. Historical evidence remains unchanged.
+
 ## E001: Operator bootstrap, 2026-11-06
 
 **Provenance:** terminal output supplied by the operator during environment setup. This record summarizes those observations; it is not a fabricated raw log or a claim that the repository-seeding agent executed the commands. The source and binary used for these runs existed before this repository checkpoint.

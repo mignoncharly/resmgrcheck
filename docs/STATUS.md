@@ -1,5 +1,15 @@
 # Implementation status
 
+Current hackathon improvement work (2026-11-14): the owner approved all six
+priorities. Work remains on `feature/production-web-ai`. Plain-language assertion
+views, a private target-config helper, fresh-lab instructions and the independent
+developer exercise are implemented. Host117, dashboard10 and release-helper15
+tests passed. A separate new QNX image built successfully with new guest keys and
+booted on loopback22221; native reproduction is pending. No independent tester is
+available yet; no adoption or independent UAT claim is made. Source/video publication,
+compatible app rollback and final independent feedback remain open. See E018 and
+submission/improvement-gates.json. Existing native evidence and lab are preserved.
+
 Current production-web follow-up (2026-11-10): W036 native recovery and production
 acceptance passed on `feature/production-web-ai`; original ERROR and intentional
 FAIL preserved. Full application rollback and independent UAT remain pending.
