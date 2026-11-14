@@ -7,9 +7,11 @@ MIT detection and all three asset downloads/hashes passed; receipt:
 ../evidence/hackathon-improvements-20261114/publication.json. The archive's original
 170s recording/native identities are retained. See readiness-current.json for the
 current state; readiness.json below is a historical preparation snapshot.
-The selected YouTube channel is @mignoncharly, with an exact draft awaiting approval.
-Production presentation rollout/compatible rollback and independent UAT remain open;
-the prepared root driver is in ../web/EVIDENCE_STORY_DEPLOYMENT.md. No independent
+The selected YouTube channel is @mignoncharly; the owner requested keeping its
+prepared video as a draft. W043/E021 confirm successful operator production
+presentation rollout/compatible rollback, with separate agent pointer/public/service
+checks. Independent UAT remains open. The completed root procedure is in
+../web/EVIDENCE_STORY_DEPLOYMENT.md and must not be repeated. No independent
 tester is available yet. Entrant attestations and Devpost submission remain separate.
 
 The local engineering and preparation work is complete. Product checkpoint

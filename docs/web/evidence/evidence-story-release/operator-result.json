@@ -1,0 +1,22 @@
+{
+  "kind": "operator-provided-release-result",
+  "recorded_at": "2026-11-14T13:11:39.394586+00:00",
+  "source": "User-provided terminal output; agent did not execute the privileged command or reread protected receipts",
+  "result": {
+    "passed": true,
+    "revision": "7ecb81231cbce91dfe866d515a6458073b0d0e0e",
+    "driver_revision": "b289dc3cb96cfc924df59fac288a9eff2c0efa9b",
+    "HTTPS_and_browser": "passed",
+    "native_acceptance": "W036 retained; not rerun",
+    "protected_state": "/var/lib/resmgrcheck/private/operator/evidence-story-release/state.json",
+    "full_application_rollback": "passed",
+    "independent_UAT": "pending"
+  },
+  "reported_progress": [
+    "dedicated_pre_auth_upgrade_backup",
+    "isolated_pre_auth_upgrade_restore",
+    "--acceptance",
+    "--acceptance-rollback",
+    "--acceptance-final"
+  ]
+}

@@ -1,5 +1,33 @@
 # Production web test evidence
 
+## W043: Operator release/rollback success and separate public verification
+
+2026-11-14. The operator ran the pinned b289dc3 deployment driver with --apply
+and provided its final successful JSON. It records application 7ecb812,
+HTTPS_and_browser passed and full_application_rollback passed. Progress identifies
+the dedicated backup, isolated restore, --acceptance, --acceptance-rollback and
+--acceptance-final stages. Native acceptance is explicitly W036 retained/not rerun;
+independent UAT is pending. The agent did not execute this privileged command or
+reread protected receipts. [Operator result](evidence/evidence-story-release/operator-result.json)
+preserves the supplied result with its provenance.
+
+Agent read-only checks then observed the exact active pointer
+7ecb81231cbce91dfe866d515a6458073b0d0e0e. Verified anonymous HTTPS requests returned
+200 for /readyz/, /demo/before/, /demo/after/ and /demo/job/; the readiness JSON is
+ready and all three playback pages contain the new readable evidence explanation
+and recorded-playback disclosure. Public response hashes are in
+[public-checks.json](evidence/evidence-story-release/public-checks.json).
+Read-only systemctl metadata confirms web/executor active/running, Result=success,
+ExecMainStatus=0, preserved in [services.json](evidence/evidence-story-release/services.json).
+These host-origin observations corroborate active delivery, not independent UAT
+or an independent inspection of protected browser/backup/rollback receipts.
+
+Only status/evidence documentation changed; no application/native source changed
+and no passed test matrix was repeated. The earlier dfe1060-pointer discrepancy is
+resolved by this actual execution and verification. Keep YouTube as a draft per
+the owner's explicit decision. Independent external UAT/developer feedback and
+entrant submission actions remain separate. Earlier summaries below are historical.
+
 Current policy (W026, owner-approved2026-11-09): administrators use username/password
 only; MFA is deferred and not enforced. Existing authenticators/encryption keys are
 retained. Scoped developer/jury codes, tenant/target/evidence authorization, CSRF,

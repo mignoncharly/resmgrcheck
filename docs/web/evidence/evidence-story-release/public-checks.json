@@ -1,0 +1,30 @@
+{
+  "kind": "post-release-public-verification",
+  "checked_at": "2026-11-14T13:11:13.206639+00:00",
+  "passed": true,
+  "observed_current_revision": "7ecb81231cbce91dfe866d515a6458073b0d0e0e",
+  "checks": {
+    "/readyz/": {
+      "status": 200,
+      "sha256": "a2c8d6de90a53a908e4d1d0a0a2d12a2868a26b38c2e4decdd2e5b9d69050d23",
+      "readable_evidence_story_present": false
+    },
+    "/demo/before/": {
+      "status": 200,
+      "sha256": "51299550f0c4daf93c4d1d34e4b69ac337f986225b0029833e27e1298c317b54",
+      "readable_evidence_story_present": true
+    },
+    "/demo/after/": {
+      "status": 200,
+      "sha256": "ba0f76f1cbab4d48d22e80f3aa10d8f20a7cf4e913fc5ba1f1f8c6ebfe987402",
+      "readable_evidence_story_present": true
+    },
+    "/demo/job/": {
+      "status": 200,
+      "sha256": "5034f7ae85d6ba6c9d21e36706af6784a440a21b1bf88fb8ff6fd1f864f2c9c8",
+      "readable_evidence_story_present": true
+    }
+  },
+  "request_authorization": "anonymous, no cookies or Authorization header",
+  "scope": "Agent host-origin pointer and verified HTTPS checks; not independent UAT or a reread of protected operator receipts"
+}

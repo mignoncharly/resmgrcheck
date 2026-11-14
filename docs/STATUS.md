@@ -1,18 +1,17 @@
 # Implementation status
 
-Latest owner responses2026-11-14: keep YouTube as a draft; no publish call was made.
-Owner reported the root drill completed successfully, but agent host verification
-still finds dfe1060 active with HTTPS200. The final safe driver JSON was requested
-to resolve that discrepancy. Production rollout/rollback remain unconfirmed; do not
-infer a pass from the checkbox response or the healthy previous application.
+Current production checkpoint (2026-11-14): the operator executed driver b289dc3
+successfully. Its final result confirms application 7ecb812, HTTPS/browser acceptance
+and full compatible application rollback passed. Agent read-only checks separately
+confirm the exact current pointer, HTTPS200 on readiness and all three recorded
+case pages with the new explanations, and healthy web/executor services. Protected
+receipts were not reread; native W036 acceptance was retained, not rerun. See E021
+and web/evidence/evidence-story-release for evidence provenance.
 
-Public delivery2026-11-14: reviewb289dc3 is published on main/feature; corrected
-source570a956 is published separately. The review release's ZIP,150s video and
-checksums were downloaded anonymously and hash-verified; MIT detection and five
-public source files matched. Public release links now replace owner-only ZIP access.
-See submission/readiness-current.json and E020. Exact YouTube draft approval and
-local-root production rollout/rollback remain pending, alongside independent UAT/
-developer feedback. No10/10 score or completed submission is asserted.
+Public source and review assets remain published and hash-verified (E020).
+YouTube stays a draft by owner request. Independent developer feedback and external
+UAT remain pending; no 10/10 score or completed submission is asserted. Current
+readiness is in submission/readiness-current.json. Historical checkpoints follow.
 
 Current hackathon improvement work (2026-11-14): the owner approved all six
 priorities. Work remains on `feature/production-web-ai`. Plain-language assertion
@@ -23,8 +22,8 @@ booted on loopback22221; E019's four-case native reproduction passed with actual
 source-corrected replay and observed cleanup. The new guest was then shut down;
 the original lab remains. Refreshed full web492 and offline browser45 views pass.
 No independent tester is
-available yet; no adoption or independent UAT claim is made. Source/video publication,
-compatible app rollback and final independent feedback remain open. See E018 and
+available yet; no adoption or independent UAT claim is made. Source/assets are public,
+production rollback passed, and YouTube remains held; independent feedback/UAT remain open. See E018 and
 submission/improvement-gates.json. Existing native evidence and lab are preserved.
 
 Current production-web follow-up (2026-11-10): W036 native recovery and production

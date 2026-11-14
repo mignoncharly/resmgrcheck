@@ -4,8 +4,9 @@
 keys, four native cases and actual source-fixed replay. This does not establish
 independent developer reproduction, arbitrary external-service integration or
 hardware timing. The owner has no independent tester yet. Full web492 and45 offline
-browser views pass. Presentation deployment/compatible production rollback and
-independent UAT remain separate gates; the exact public-video draft awaits approval.
+browser views pass. W043/E021 record successful operator presentation deployment
+and compatible production rollback, separately corroborated by agent public/service
+checks. Independent UAT remains pending; YouTube stays a draft by owner request.
 
 Updated: 2026-11-07.
 

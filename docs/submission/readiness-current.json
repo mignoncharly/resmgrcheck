@@ -1,7 +1,7 @@
 {
   "kind": "current-submission-readiness",
   "schema_version": 1,
-  "checked_at": "2026-11-14T12:58:22.411824+00:00",
+  "checked_at": "2026-11-14T13:11:39.394586+00:00",
   "published_review_revision": "b289dc3cb96cfc924df59fac288a9eff2c0efa9b",
   "public_repository_verified": true,
   "detected_license": "MIT",
@@ -9,12 +9,14 @@
   "public_assets_hash_verified": true,
   "fresh_target_reproduction_passed": true,
   "independent_developer_validation": "pending: no tester available",
-  "web_presentation_and_compatible_rollback": "Operator reported completed; host still observes original dfe1060 pointer; final safe result requested",
+  "web_presentation_and_compatible_rollback": "Passed: operator final result; active pointer, anonymous public pages and service health corroborated separately",
   "independent_web_UAT": "pending",
   "public_youtube_url": null,
   "youtube_state": "Held as a draft by owner; no publish call made",
   "submission_ready": false,
   "submitted": false,
   "confirmation": null,
-  "historical_readiness_record": "readiness.json"
+  "historical_readiness_record": "readiness.json",
+  "deployed_application_revision": "7ecb81231cbce91dfe866d515a6458073b0d0e0e",
+  "production_release_evidence": "docs/web/evidence/evidence-story-release/operator-result.json"
 }

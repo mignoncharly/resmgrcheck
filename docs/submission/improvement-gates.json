@@ -34,14 +34,15 @@
     {
       "id": 5,
       "task": "Clear failure, source fix, replay and second-service explanation",
-      "state": "verified_locally",
-      "evidence": "117 host tests, 10 dashboard tests, 45 offline browser views"
+      "state": "deployed_and_publicly_verified",
+      "evidence": "docs/web/evidence/evidence-story-release/public-checks.json"
     },
     {
       "id": 6,
       "task": "Feature freeze and remaining release acceptance",
-      "state": "in_progress",
-      "requires": "Resolve operator-reported completion versus observed original application pointer; independent UAT remains pending"
+      "state": "production_rollback_passed_independent_UAT_pending",
+      "requires": "Independent external UAT",
+      "evidence": "docs/web/evidence/evidence-story-release/operator-result.json"
     }
   ],
   "judging_scores": "Not assigned; judges determine scores",

@@ -1,5 +1,22 @@
 # Test evidence
 
+## E021: Production explanation release and compatible rollback passed
+
+2026-11-14. The operator provided the final successful JSON for exact driver
+b289dc3, application 7ecb812: HTTPS/browser and full application rollback passed;
+native W036 acceptance retained/not rerun; independent UAT pending. The agent did
+not execute the privileged drill or reread its protected receipts. W043 and
+[the operator result](web/evidence/evidence-story-release/operator-result.json)
+identify that evidence source explicitly.
+
+Separate agent observations confirm the active 7ecb812 pointer, HTTPS200 readiness,
+all three public recorded case pages with the new explanations, and healthy
+web/executor metadata. [Public checks](web/evidence/evidence-story-release/public-checks.json)
+and [service checks](web/evidence/evidence-story-release/services.json) preserve the
+observations. The earlier original-pointer discrepancy is resolved. Records-only
+follow-up: no native build, target run, full host/web matrix or deployment repeated.
+YouTube remains held as a draft; independent UAT/developer feedback remain pending.
+
 ## E020: Public source and downloadable review assets, 2026-11-14
 
 Atomic normal fast-forward publishedb289dc3 to public main/feature. The actual

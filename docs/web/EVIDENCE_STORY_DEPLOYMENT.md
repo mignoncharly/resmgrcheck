@@ -1,8 +1,16 @@
 # Evidence explanation release and compatible rollback
 
 Owner authorized the six hackathon improvement priorities on 2026-11-14.
-The observed active application is dfe1060e6a517b686d4948f8cea2fc848fcd0956.
-The exact presentation candidate is 7ecb81231cbce91dfe866d515a6458073b0d0e0e.
+W043 completion (2026-11-14): the operator's final result confirms this procedure
+passed. Agent checks separately confirm active application
+7ecb81231cbce91dfe866d515a6458073b0d0e0e, healthy web/executor services and readable
+public case pages. Protected receipts were not reread. Do not repeat the completed
+rollout/backup/rollback. Independent external UAT remains pending; evidence is in
+[evidence-story-release](evidence/evidence-story-release/operator-result.json).
+
+The procedure below is retained for provenance/recovery. Its original application
+was dfe1060e6a517b686d4948f8cea2fc848fcd0956; the exact presentation candidate
+was 7ecb81231cbce91dfe866d515a6458073b0d0e0e.
 Its only application changes are the report renderer, shared assertion-story
 module, case template and presentation filter. Native C/evaluator/authorization,
 migrations, dependencies, canonical units and customer/AI policy are unchanged.
@@ -44,7 +52,7 @@ attempts restoration only to the recognized original application, retaining the
 failure and incomplete stages for investigation. It performs no reverse migrations,
 database replacement, arbitrary release selection or data deletion.
 
-The local24 release-helper tests pass with real temporary files and modeled root/
-service changes. Those tests do not complete the production gate. Require a real
-`full_application_rollback: passed` result and retained three-stage receipts before
-updating its status. Independent external UAT remains a separate uncompleted gate.
+The local24 release-helper tests passed with real temporary files and modeled root/
+service changes. W043 adds the actual operator `full_application_rollback: passed`
+result and separately corroborated active delivery. Independent external UAT remains
+a separate uncompleted gate.

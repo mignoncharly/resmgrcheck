@@ -1,5 +1,18 @@
 # Production web implementation status
 
+W043 (2026-11-14): the operator supplied the successful final result from exact
+driver b289dc3. Immutable application 7ecb812 is active; HTTPS/browser acceptance
+and the candidate/previous/candidate compatible application rollback passed.
+The progress output includes fresh backup, isolated restore and all three browser
+acceptance stages. Agent read-only checks separately confirm the current pointer,
+HTTPS200 readiness and before/after/job playback with the new evidence explanations,
+and web/executor active/running with Result=success and ExecMainStatus=0. Protected
+receipts were not reread; no privileged drill or native QNX test ran by the agent
+in this checkpoint. Native W036 acceptance remains retained, not rerun.
+See evidence/evidence-story-release. Independent UAT/developer feedback remain
+pending; YouTube stays a draft by owner request. Do not repeat the passed rollout.
+W042 and earlier pending deployment statements below are historical.
+
 W042 (2026-11-14): full isolated web492 PASS after correcting hostname/umask
 test-fixture isolation; production settings unchanged. Evidence explanations pass
 45 offline browser views. The exact7ecb812 immutable presentation release and

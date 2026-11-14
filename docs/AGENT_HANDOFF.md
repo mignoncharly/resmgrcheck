@@ -1,39 +1,27 @@
-# Engineering complete; local publication review pending
+# Current release handoff
 
-Publication follow-up2026-11-14: b289dc3 is public main/feature; corrected570a956 is
-public qualification/hackathon-fresh-fixed. Releasehackathon-review-2026-11-14 contains
-hash-verified ZIP/video/checksums; anonymous source/license/download verification
-is committed. Docs follow-up changes no application/runtime code. Root driver remains
-exactb289dc3 and pins candidate7ecb812 from activedfe1060. Its read-only plan passed.
-Two asynchronous user questions remain: exact YouTube draft approval and local sudo
-driver execution. YouTube draft state is private at .local/submission/hackathon-video-20261114/draft-state.json.
-Owner selected Keep it as a draft; do not publish. Owner reported successful root
-execution, but host still observes dfe1060 and HTTPS200. Final safe JSON was requested
-asynchronously to resolve that discrepancy; do not mark rollout/rollback passed.
-No independent tester exists yet. Read readiness-current.json, not the preserved
-historical readiness.json, for remaining gates. Do not repeat passed QNX cases.
+2026-11-14: remain on feature/production-web-ai. The owner supplied the successful
+final JSON for exact driver b289dc3. Production application 7ecb812 is active;
+HTTPS/browser acceptance and compatible application rollback passed. Agent checks
+separately confirm the pointer, four anonymous HTTPS routes including readable
+before/after/job explanations, and healthy web/executor services. The protected
+receipts were not reread. See E021 and web/evidence/evidence-story-release.
 
-2026-11-14 active task: owner approved the six hackathon improvement priorities.
-E019 supersedes the initial fresh-guest pending state below: four native cases and
-actual source-fixed comparison passed on the new guest, which was shut down after
-verified cleanup. Original lab remains. Full web492 and offline browser45 views pass.
-The150s video is imported and drafted for selected @mignoncharly; exact final-value
-approval remains pending. New root driverdeploy_evidence_story.py pins application
-7ecb812 from observed activedfe1060 and tests candidate/old/candidate round trip.
-Run only its exact committed driver after clean read-only planning. Production
-drill and independent UAT remain pending; no tester available. Next: public source/
-asset release, actual root drill, exact video approval/publication, external UAT.
+Do not rerun the completed rollout, backup/restore, rollback, native qualification
+or provisioning. W036 native acceptance remains retained; E019 separately proves
+fresh-image agent reproduction. Independent external UAT and developer feedback
+remain pending; no tester is available yet. Use independent-validation.md and
+web/INDEPENDENT_UAT.md for the remaining exercises when a participant is available.
 
-Continue on feature/production-web-ai. Read E018/current STATUS and improvement-gates.
-Presentation/setup changes pass117 host/10 dashboard/15 release-helper tests.
-Fresh image `.local/fresh-lab-20261114` has new guest keys and is booted at loopback
-22221; original22220 guest is unchanged. Next: verify SSH/native probes, then clean
-source build/deploy and sensor failure/source-corrected replay/job on this fresh guest.
-Keep its private config under .local; do not replace the normal target route.
-No independent tester available (owner reply); exercise is prepared, feedback pending.
-Public release/video are authorized by approval of the six priorities; entrant
-attestations/Devpost submission are not. Actual sudo authentication is unavailable.
-Complete/test concrete deployment/rollback work before requesting local root execution.
+The owner explicitly selected Keep it as a draft for YouTube. Do not publish unless
+that instruction changes. Private draft state remains in the ignored local
+submission directory. Public GitHub source and ZIP/MP4/checksums are verified;
+read submission/readiness-current.json for the current distinction from historical
+readiness.json. Entrant attestations and Devpost submission remain separate.
+
+Existing application/native identities, partial failures, audit, SDK, keys, images,
+credentials and unrelated host services are preserved. This checkpoint changes
+records only; broad host/native tests are not needed. Historical handoff follows.
 
 Current production-web handoff (2026-11-10): remain on `feature/production-web-ai`
 for this work. Operator driver1fde3df completed same-ID recovery, native acceptance

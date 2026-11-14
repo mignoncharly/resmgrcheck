@@ -1,0 +1,19 @@
+{
+  "kind": "agent-observed-service-state",
+  "checked_at": "2026-11-14T13:11:39.394586+00:00",
+  "services": {
+    "resmgrcheck-web.service": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "Result": "success",
+      "ExecMainStatus": 0
+    },
+    "resmgrcheck-executor.service": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "Result": "success",
+      "ExecMainStatus": 0
+    }
+  },
+  "scope": "Read-only systemctl metadata, not protected browser or rollback receipts"
+}
