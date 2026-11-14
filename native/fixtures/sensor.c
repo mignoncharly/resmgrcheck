@@ -85,11 +85,6 @@ static int sensor_unblock(resmgr_context_t *ctp, io_pulse_t *msg, iofunc_ocb_t *
             event("fixture","barrier_wait","logical=%u generation=%u rcvid=%" PRId64,p->logical,p->generation,(int64_t)p->rcvid);
             return _RESMGR_NOREPLY;
         }
-        if (ignore_unblock) {
-            event("fixture", "ignored_unblock", "logical=%u generation=%u pending=%u",
-                  p->logical, p->generation, state.pending);
-            return _RESMGR_NOREPLY;
-        }
         /* -1 is valid only here: a live, owned, current unblock request. */
         int rc = MsgError(p->rcvid, -1);
         int error = rc == -1 ? errno : 0;
