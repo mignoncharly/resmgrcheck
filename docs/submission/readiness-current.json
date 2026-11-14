@@ -1,0 +1,20 @@
+{
+  "kind": "current-submission-readiness",
+  "schema_version": 1,
+  "checked_at": "2026-11-14T12:56:05.555906+00:00",
+  "published_review_revision": "b289dc3cb96cfc924df59fac288a9eff2c0efa9b",
+  "public_repository_verified": true,
+  "detected_license": "MIT",
+  "release_url": "https://github.com/mignoncharly/resmgrcheck/releases/tag/hackathon-review-2026-11-14",
+  "public_assets_hash_verified": true,
+  "fresh_target_reproduction_passed": true,
+  "independent_developer_validation": "pending: no tester available",
+  "web_presentation_and_compatible_rollback": "exact driver prepared; local sudo execution pending",
+  "independent_web_UAT": "pending",
+  "public_youtube_url": null,
+  "youtube_state": "exact draft prepared on selected @mignoncharly; approval pending",
+  "submission_ready": false,
+  "submitted": false,
+  "confirmation": null,
+  "historical_readiness_record": "readiness.json"
+}

@@ -9,6 +9,7 @@ The sensor and job examples use one generic C11 runner/worker and Python evaluat
 - [Explore the public evidence demo](https://qnx-resmgrcheck.gestionatech.de/demo/): inspect the failure, actual source correction and job-service result without an SDK or account. This is recorded playback; it cannot launch private-lab tests.
 - [Set up your own QNX lab](docs/fresh-lab.md), then [reproduce the source correction](docs/codelab.md).
 - [Independent developer exercise and feedback](docs/independent-validation.md): help test setup, usability and integration effort. Independent results remain pending.
+- [Download the public review release](https://github.com/mignoncharly/resmgrcheck/releases/tag/hackathon-review-2026-11-14): portable offline evidence ZIP, original 170-second recording, separate 150-second demo edit and verified checksums.
 - [Five-minute review without QNX](docs/JURY_START_HERE.md#route-a-review-without-qnx-about-five-minutes): real before/after HTML reports, comparison, job evidence and the portable jury ZIP's 170-second demo.
 - [Complete hands-on QNX reproduction](docs/JURY_START_HERE.md#route-b-reproduce-on-qnx): your own licensed SDK/guest, build/deploy, deliberate failure, recorded source patch and candidate replay.
 - [Real QNX evidence and identities](docs/jury/EVIDENCE_INDEX.md), [full test record](docs/TEST_EVIDENCE.md), and [codelab](docs/codelab.md).
@@ -59,7 +60,7 @@ placeholder. See [target configuration and command details](docs/cli.md) and
 Run from the repository root in a fresh shell, after those manual prerequisites:
 
 ```bash
-source /home/mignon/qnx800/qnxsdp-env.sh
+source "$HOME/qnx800/qnxsdp-env.sh"
 python3 -m resmgrcheck doctor --target lab
 python3 -m resmgrcheck validate profiles/sensor.json
 make qnx QNX_VARIANT=gcc_ntox86_64

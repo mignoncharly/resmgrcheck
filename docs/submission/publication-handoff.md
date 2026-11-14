@@ -1,5 +1,17 @@
 # Publication and submission handoff
 
+Current2026-11-14: source reviewb289dc3 is public on main and feature/production-web-ai;
+the actual corrected570a956 branch is public. The public review release now supplies
+the downloadable jury ZIP,150s video edit and checksums. Anonymous source bytes,
+MIT detection and all three asset downloads/hashes passed; receipt:
+../evidence/hackathon-improvements-20261114/publication.json. The archive's original
+170s recording/native identities are retained. See readiness-current.json for the
+current state; readiness.json below is a historical preparation snapshot.
+The selected YouTube channel is @mignoncharly, with an exact draft awaiting approval.
+Production presentation rollout/compatible rollback and independent UAT remain open;
+the prepared root driver is in ../web/EVIDENCE_STORY_DEPLOYMENT.md. No independent
+tester is available yet. Entrant attestations and Devpost submission remain separate.
+
 The local engineering and preparation work is complete. Product checkpoint
 7d8326a is now published: both public main and implementation/phase-1 were verified
 at that revision before this task's documentation changes. The current task

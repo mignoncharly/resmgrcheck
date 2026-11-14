@@ -10,6 +10,10 @@ same native runner, worker and evaluator.
 ## Route A: Review without QNX (about five minutes)
 
 No SDK, account, network connection or access to the author's server is needed.
+Download the [public jury ZIP](https://github.com/mignoncharly/resmgrcheck/releases/download/hackathon-review-2026-11-14/resmgrcheck-jury.zip)
+first, or use the [public recorded-evidence explorer](https://qnx-resmgrcheck.gestionatech.de/demo/)
+without downloading. The network is needed for those downloads/hosted pages;
+the extracted ZIP is self-contained for offline review.
 Extract the dedicated jury ZIP completely, then open its **START_HERE.html** in a
 browser. Keep the directory tree together; opening HTML inside a ZIP preview can
 break evidence links. This Markdown guide also works in a repository checkout.
@@ -18,7 +22,7 @@ break evidence links. This Markdown guide also works in a repository checkout.
    [demo.mp4](../demo.mp4). It has English on-screen explanations and no audio;
    [optional subtitles](submission/demo.srt) are included. A public YouTube URL has not
    yet been verified. The MP4 is intentionally excluded from Git; in a checkout,
-   obtain the jury ZIP from the project owner. This is a recording of actual QNX
+   download the jury ZIP from the public release above. This is a recording of actual QNX
    execution, including an explicitly labelled project-owned fixture defect.
 2. **Open the deliberate sensor failure:**
    [before-fix report](evidence/phase10/executions/p10demo2-broken/report.html).

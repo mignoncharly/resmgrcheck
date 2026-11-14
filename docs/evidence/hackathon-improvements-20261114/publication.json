@@ -1,0 +1,34 @@
+{
+  "kind": "anonymous-public-source-and-asset-verification",
+  "passed": true,
+  "repository": "https://github.com/mignoncharly/resmgrcheck",
+  "revision": "b289dc3cb96cfc924df59fac288a9eff2c0efa9b",
+  "detected_license": "MIT",
+  "source_files": {
+    "README.md": "1a69f7cf8ca487556ef57fc76b9f689b57d4a1010f66a46c362574f9f7a730f3",
+    "LICENSE": "f824cd2602cfd695a663d487f6d1619ec056ad285fe71a9ffa0faa7a22412b97",
+    "resmgrcheck/story.py": "33ef6cf092f9a6715e981de21ebe376edaf74cf111623e2a55fa0690b0f4db8f",
+    "docs/fresh-lab.md": "44892f7efff22f3701db83be3b170ff8ace95846a07e2800b3d63fb49f4053da",
+    "docs/evidence/fresh-target-20261114/index.json": "fada78636e0a7072b76a672e5052f5cebfa6a6ed8ed71f8fdcca36213c26ac64"
+  },
+  "release_url": "https://github.com/mignoncharly/resmgrcheck/releases/tag/hackathon-review-2026-11-14",
+  "assets": {
+    "demo.mp4": {
+      "url": "https://github.com/mignoncharly/resmgrcheck/releases/download/hackathon-review-2026-11-14/demo.mp4",
+      "sha256": "54014dc7bf996ce52c00d989f9a41efb2064be934161962bc9a38a7bf64e1be4",
+      "bytes": 4686116
+    },
+    "resmgrcheck-jury.zip": {
+      "url": "https://github.com/mignoncharly/resmgrcheck/releases/download/hackathon-review-2026-11-14/resmgrcheck-jury.zip",
+      "sha256": "75b7335266f4278d3fbd44eee7a83c76870a8055af53af3f83c06d3bcec5f072",
+      "bytes": 5204357
+    },
+    "SHA256SUMS": {
+      "url": "https://github.com/mignoncharly/resmgrcheck/releases/download/hackathon-review-2026-11-14/SHA256SUMS",
+      "sha256": "357500af0235ae8997fa1096d7ca766a89577759e36b5e687259b8013b53fba8",
+      "bytes": 162
+    }
+  },
+  "authorization_header_sent": false,
+  "QNX_runtime_included": false
+}

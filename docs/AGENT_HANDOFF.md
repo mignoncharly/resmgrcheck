@@ -1,5 +1,17 @@
 # Engineering complete; local publication review pending
 
+Publication follow-up2026-11-14: b289dc3 is public main/feature; corrected570a956 is
+public qualification/hackathon-fresh-fixed. Releasehackathon-review-2026-11-14 contains
+hash-verified ZIP/video/checksums; anonymous source/license/download verification
+is committed. Docs follow-up changes no application/runtime code. Root driver remains
+exactb289dc3 and pins candidate7ecb812 from activedfe1060. Its read-only plan passed.
+Two asynchronous user questions remain: exact YouTube draft approval and local sudo
+driver execution. YouTube draft27e5d806-b6c2-4e23-85a6-82f29bff7a76/revisionab8443ee
+is for selected@mignoncharly, public, title“ResMgrCheck: Find and Replay QNX Cancellation
+Failures”,150s actual edit, zero credits. Do not publish without the exact approval.
+No independent tester exists yet. Read readiness-current.json, not the preserved
+historical readiness.json, for remaining gates. Do not repeat passed QNX cases.
+
 2026-11-14 active task: owner approved the six hackathon improvement priorities.
 E019 supersedes the initial fresh-guest pending state below: four native cases and
 actual source-fixed comparison passed on the new guest, which was shut down after

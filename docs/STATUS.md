@@ -1,5 +1,13 @@
 # Implementation status
 
+Public delivery2026-11-14: reviewb289dc3 is published on main/feature; corrected
+source570a956 is published separately. The review release's ZIP,150s video and
+checksums were downloaded anonymously and hash-verified; MIT detection and five
+public source files matched. Public release links now replace owner-only ZIP access.
+See submission/readiness-current.json and E020. Exact YouTube draft approval and
+local-root production rollout/rollback remain pending, alongside independent UAT/
+developer feedback. No10/10 score or completed submission is asserted.
+
 Current hackathon improvement work (2026-11-14): the owner approved all six
 priorities. Work remains on `feature/production-web-ai`. Plain-language assertion
 views, a private target-config helper, fresh-lab instructions and the independent

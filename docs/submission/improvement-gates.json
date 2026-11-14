@@ -14,7 +14,8 @@
     {
       "id": 2,
       "task": "Consistent public source, website and evidence delivery",
-      "state": "in_progress"
+      "state": "public_source_and_assets_verified",
+      "evidence": "docs/evidence/hackathon-improvements-20261114/publication.json"
     },
     {
       "id": 3,
@@ -26,8 +27,9 @@
     {
       "id": 4,
       "task": "Public YouTube demonstration under three minutes",
-      "state": "pending",
-      "requires": "Verified public upload of reviewed actual footage"
+      "state": "draft_awaiting_exact_approval",
+      "requires": "Verified public upload of reviewed actual footage",
+      "evidence": "docs/submission/video-edit-20261114.json"
     },
     {
       "id": 5,

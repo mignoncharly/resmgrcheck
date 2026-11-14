@@ -1,5 +1,30 @@
 # Test evidence
 
+## E020: Public source and downloadable review assets, 2026-11-14
+
+Atomic normal fast-forward publishedb289dc3 to public main/feature. The actual
+source correction570a956 was published to qualification/hackathon-fresh-fixed;
+implementation/phase-1 and historical native identities remain untouched.
+Releasehackathon-review-2026-11-14 contains the original portable evidence ZIP
+(SHA25675b7335266f4278d3fbd44eee7a83c76870a8055af53af3f83c06d3bcec5f072),
+the150s actual video edit(SHA25654014dc7bf996ce52c00d989f9a41efb2064be934161962bc9a38a7bf64e1be4)
+and their checksum file. No SDK/image/executable/private config/key is included.
+
+An anonymous verifier used no Authorization header: public repository/MIT license
+detection, exact main SHA, five public raw source files and all three downloaded
+asset byte/hashes matched. [Publication receipt](evidence/hackathon-improvements-20261114/publication.json)
+records the actual source/asset identities. Source publication is separate from
+the currently deployed immutable application. The description/homepage/topics are
+set through normal GitHub account access; no privacy or permissions changed.
+
+Read-only plan for deploy_evidence_story.py at exactb289dc3 passed. User was given
+the concrete local sudo command; actual production round-trip receipts remain
+pending. YouTube media import and exact draft creation succeeded for the selected
+channel, but no publish call was made without final draft approval. Independent
+developer feedback/UAT, entrant attestations and Devpost submission remain pending.
+The new readiness-current.json distinguishes these from the historical preparation
+snapshot; later docs do not relabel old native recordings or create new target proof.
+
 ## E019: Fresh-target proof, browser checks and release preparation, 2026-11-14
 
 The source7ecb812 checkpoint was committed/clean. Real Make/qcc build metadata binds

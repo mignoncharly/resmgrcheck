@@ -20,7 +20,7 @@ verified host keys and ignored target metadata. The CLI does not create these.
 Use a Git checkout, Python3.10+, Make and OpenSSH. Run from the repository root:
 
 ```sh
-source /home/mignon/qnx800/qnxsdp-env.sh
+source "$HOME/qnx800/qnxsdp-env.sh"
 python3 -m resmgrcheck doctor --target lab
 python3 -m resmgrcheck validate profiles/sensor.json
 make qnx QNX_VARIANT=gcc_ntox86_64

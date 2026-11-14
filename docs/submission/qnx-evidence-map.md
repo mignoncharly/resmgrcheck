@@ -1,5 +1,10 @@
 # QNX evidence map
 
+Current additional proof: E019 builds a fresh image with new guest host keys and
+runs four actual native cases, including same-contract source-fixed replay and
+observed cleanup. [Fresh-target index](../evidence/fresh-target-20261114/README.md)
+records exact source/build/run identities. It is agent-run, not independent adoption.
+
 The qualified clean source is d2e0a43; its actual source/binary/evaluator identities
 are in E015. The report-only successor is tracked separately. Demo manifests bind
 any later actual source/build selection; a current file merely existing is not proof.
@@ -22,5 +27,6 @@ any later actual source/build selection; a current file merely existing is not p
 
 Original project code is MIT; cJSON has its pinned MIT notice. QNX SDK/runtime,
 images, licensed components, machine configuration and credentials remain external.
-No proprietary image is included as evidence. The guest is explicitly reused;
-no fresh-target, external developer adoption, memory or exhaustive scheduling claim.
+No proprietary image is included as evidence. E015 explicitly reused its guest;
+E019 separately qualifies a newly generated guest. Independent developer adoption,
+memory measurement and exhaustive scheduling remain unverified.
