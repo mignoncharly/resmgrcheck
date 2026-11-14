@@ -48,6 +48,11 @@ def parser():
     p = command('verify', 'qualify expected outcomes; planted service defects remain FAIL', True)
     p.add_argument('--suite', choices=('release',), required=True); p.add_argument('--out')
     p = command('report', 'render an offline report from saved outcomes'); p.add_argument('source'); p.add_argument('--out', required=True)
+    p = command('return-check', 'compare an explicit return-code predicate with canonical native obligations')
+    p.add_argument('bundle'); p.add_argument('--out', required=True)
+    p = command('reduce', 'find the smallest reproduced failing cycle count within a bounded search', True)
+    p.add_argument('execution'); p.add_argument('--out', required=True)
+    p.add_argument('--max-attempts', type=int, default=20)
     p = command('plan', 'expand one validated native case'); p.add_argument('profile'); p.add_argument('--run-id', required=True)
     p.add_argument('--fixture-mode', choices=sorted(FIXTURE_MODES), default='corrected'); p.add_argument('--output', required=True)
     p = command('evaluate', 'evaluate collected native bytes'); p.add_argument('plan'); p.add_argument('events'); p.add_argument('--output', required=True); p.add_argument('--status')
@@ -70,9 +75,19 @@ def parser():
 def main():
     args = parser().parse_args()
     try:
-        if args.command in {'doctor', 'deploy', 'run', 'status', 'collect', 'verify'} or args.command == 'replay' and args.target:
+        if args.command in {'doctor', 'deploy', 'run', 'status', 'collect', 'verify', 'reduce'} or args.command == 'replay' and args.target:
             from .transport import Target
             target = Target.read(args.target, args.config)
+        if args.command == 'return-check':
+            from .return_check import return_check
+            value = return_check(args.bundle, args.out)
+            print('Return-code predicate: ' + value['limited_predicate'] + '; canonical verdict: ' + value['canonical_verdict'])
+            return 0
+        if args.command == 'reduce':
+            from .reduction import reduce_cycles
+            value = reduce_cycles(args.execution, target, args.out, args.max_attempts)
+            print('Reduction: ' + value['state'] + '; result ' + str(Path(args.out) / 'reduction.json'))
+            return 0 if value['state'] == 'reproduced' else 3 if value['state'] in {'budget_exhausted', 'not_reproduced'} else 2
         if args.command == 'doctor':
             from .doctor import doctor
             value, _ = doctor(target, Profile.parse(load(args.profile)) if args.profile else None)

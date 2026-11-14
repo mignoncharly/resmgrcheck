@@ -1,5 +1,23 @@
 # Decisions
 
+## D032: Add bounded reduction and a scoped independent-backend integration
+
+2026-11-14. The owner authorized further impact/innovation work. Add an explicitly
+limited return-code comparison over canonical sealed observations, and an ascending
+cycle-count search using the original pinned deployment and fixture mode. Each
+count is a changed input on a new owned instance, recorded before launch. Stop
+at uncertainty, different failure, matching failure or the fixed budget. This is
+not replay-until-pass, schedule exploration or arbitrary operation minimization.
+
+Link the MIT QFuse backend unchanged at a pinned independent upstream revision,
+with hash-locked LGPL headers/parser/logging and retained upstream licenses outside
+Git. Use our own two-file callback test filesystem and the public QFuse admin
+channel. This separate integration probe does not extend frozen ABI1 or claim
+external adoption. Its contract explicitly allows the callback to outlive the
+cancelled client wait. The cumulative cancellation counter must remain stable
+after release, not become zero. Preserve the first trial with our wrong counter
+expectation and its correction; it is not an upstream vulnerability.
+
 ## D031: Strengthen judge experience without inventing validation
 
 2026-11-14. Owner approved independent validation, consistent publication,

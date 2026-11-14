@@ -1,5 +1,12 @@
 # Implementation status
 
+Current authorized extension (2026-11-14, D032): return-code comparison and bounded
+cycle-count reduction are implemented; host checks are passing so far. Optional
+QFuse integration builds with qcc and a first native timeout run passes after
+correcting our interpretation of its cumulative counter. Clean-source native
+qualification of both services, the reducer and both QFuse cancellation modes
+remains in progress. This does not change the qualified production release.
+
 Current production checkpoint (2026-11-14): the operator executed driver b289dc3
 successfully. Its final result confirms application 7ecb812, HTTPS/browser acceptance
 and full compatible application rollback passed. Agent read-only checks separately
