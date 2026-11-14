@@ -5,6 +5,7 @@ import deploy_navigation as navigation
 
 class NavigationReleaseTests(previous.SecurityReleaseTests):
     def setUp(self):
+        super().setUp()
         # Reuse the same scope/alias/backup/failure-restoration cases without
         # changing the historical security-page driver or its protected journal.
         scoped=patch.object(previous,'deploy',navigation);scoped.start();self.addCleanup(scoped.stop)

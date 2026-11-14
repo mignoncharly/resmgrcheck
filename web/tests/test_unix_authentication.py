@@ -10,7 +10,8 @@ from .helpers import user,PASSWORD
 
 @override_settings(ENVIRONMENT='production',SESSION_COOKIE_SECURE=True,CSRF_COOKIE_SECURE=True,
     SECURE_SSL_REDIRECT=True,SECURE_PROXY_SSL_HEADER=('HTTP_X_FORWARDED_PROTO','https'),
-    ALLAUTH_TRUSTED_CLIENT_IP_HEADER='X-Real-IP')
+    ALLAUTH_TRUSTED_CLIENT_IP_HEADER='X-Real-IP',
+    ALLOWED_HOSTS=['qnx-resmgrcheck.gestionatech.de'])
 class UnixAuthenticationTests(TestCase):
     host='qnx-resmgrcheck.gestionatech.de'
     def setUp(self):

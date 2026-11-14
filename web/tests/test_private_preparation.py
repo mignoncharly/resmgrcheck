@@ -54,6 +54,7 @@ class PrivatePreparationTests(unittest.TestCase):
         m = self.module
         for path in [m.BASE, m.CONFIG, m.OPT, m.OPT/'releases', m.BASE/'private']:
             path.mkdir(mode=0o755)
+            path.chmod(0o755)  # Fixture metadata must not depend on another test's umask.
         for path, mode in [(m.BACKUP, 0o700), (m.BASE/'evidence', 0o2750),
                            (m.BASE/'engine-state', 0o700), (m.CONFIG/'keys', 0o700),
                            (m.CONFIG/'executor', 0o700), (m.CONFIG/'ai', 0o700)]:

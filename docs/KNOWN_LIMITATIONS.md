@@ -1,5 +1,12 @@
 # Known limitations
 
+2026-11-14 update: E019 adds agent-run fresh-image reproduction with new guest
+keys, four native cases and actual source-fixed replay. This does not establish
+independent developer reproduction, arbitrary external-service integration or
+hardware timing. The owner has no independent tester yet. Full web492 and45 offline
+browser views pass. Presentation deployment/compatible production rollback and
+independent UAT remain separate gates; the exact public-video draft awaits approval.
+
 Updated: 2026-11-07.
 
 - Phases 1–9 have passed their stated gates. The Phase 5 terminal qualification covers both real services and all six scenario families. Immutable evidence, explicit candidate replay, comparison and JUnit passed E012. Phase7 adds the complete lab CLI; Phase8 adds the detailed offline report.

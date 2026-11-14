@@ -5,7 +5,10 @@ priorities. Work remains on `feature/production-web-ai`. Plain-language assertio
 views, a private target-config helper, fresh-lab instructions and the independent
 developer exercise are implemented. Host117, dashboard10 and release-helper15
 tests passed. A separate new QNX image built successfully with new guest keys and
-booted on loopback22221; native reproduction is pending. No independent tester is
+booted on loopback22221; E019's four-case native reproduction passed with actual
+source-corrected replay and observed cleanup. The new guest was then shut down;
+the original lab remains. Refreshed full web492 and offline browser45 views pass.
+No independent tester is
 available yet; no adoption or independent UAT claim is made. Source/video publication,
 compatible app rollback and final independent feedback remain open. See E018 and
 submission/improvement-gates.json. Existing native evidence and lab are preserved.

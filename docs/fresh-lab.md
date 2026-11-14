@@ -122,10 +122,20 @@ the console log, then check the new guest:
 
 ```sh
 ssh -F .local/fresh-ssh-config resmgrcheck-fresh \
-  'uname -a; uname -p; /proc/boot/hello-qnx; /proc/boot/capabilities'
+  'uname -a && uname -p && /proc/boot/hello-qnx && /proc/boot/capabilities'
 ```
 
 Check each probe's output and exit. Successful SSH is not native capability proof.
+Create the product's private root on this new guest before doctor/deploy:
+
+```sh
+ssh -F .local/fresh-ssh-config resmgrcheck-fresh \
+  'umask 077; mkdir /data/resmgrcheck'
+```
+
+If that directory already exists, inspect its ownership/type before reuse; do not
+delete it or replace a symlink. The transfer helper deliberately refuses an absent,
+unowned or symlinked root. This setup step does not start a resource manager.
 
 ## 5. Configure and deploy
 
@@ -145,6 +155,11 @@ After deployment require its actual readiness checks. If the normal configuratio
 already exists, use `--out .local/fresh-target.json` on the helper and
 `--config .local/fresh-target.json` on **every** target CLI command. Preserve the
 original configuration and native lab.
+
+When keeping two labs in the same checkout, also give the new target a distinct
+name: add `--name fresh-lab` to the helper and use `--target fresh-lab` instead of
+`--target lab` throughout. Local deployment selection is keyed by target name;
+another configuration file alone does not create a separate selection namespace.
 
 Continue with [the codelab](codelab.md), using that same configuration. Preserve
 both source checkouts, real build/run identities and all evidence. Share only the

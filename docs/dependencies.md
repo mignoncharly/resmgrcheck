@@ -31,6 +31,12 @@ no fresh-target creation claim is made. Clean source checkout/build is separate
 from a fresh OS image. Required startup, licensing and local SSH setup are manual
 prerequisites in README/cli.md. TCG and other architectures/releases are unqualified.
 
+Follow-up E019 (2026-11-14) adds actual fresh-image/guest reproduction with newly
+generated guest host keys: four native cases, source-fixed replay and observed
+cleanup. It reuses the installed licensed SDK/client authentication on the same
+development host. Independent developer usability/adoption remains unverified.
+Use [fresh-lab.md](fresh-lab.md) rather than the historical bootstrap-copy steps.
+
 Only the two registered fixture protocols and scoped external-health attachment
 are supported. Combined custom wire operations, dynamic adapters and external
 lifecycle/build identity without instrumentation are unavailable. A passing lab

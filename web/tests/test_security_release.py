@@ -10,6 +10,10 @@ from https_checks import CheckFailed
 
 DRIVER='a'*40
 class SecurityReleaseTests(unittest.TestCase):
+    def setUp(self):
+        previous = __import__('os').umask(0o022)
+        self.addCleanup(__import__('os').umask, previous)
+
     def test_static_site_change_is_exactly_one_revision_alias(self):
         self.assertEqual(deploy.site_bytes(deploy.CANDIDATE),deploy.site_bytes(deploy.ACTIVE).replace(deploy.ACTIVE.encode(),deploy.CANDIDATE.encode()))
         self.assertEqual(deploy.site_bytes(deploy.ACTIVE).count(deploy.ACTIVE.encode()),1)

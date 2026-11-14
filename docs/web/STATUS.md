@@ -1,5 +1,14 @@
 # Production web implementation status
 
+W042 (2026-11-14): full isolated web492 PASS after correcting hostname/umask
+test-fixture isolation; production settings unchanged. Evidence explanations pass
+45 offline browser views. The exact7ecb812 immutable presentation release and
+compatible dfe1060/7ecb812 application round trip are prepared in
+EVIDENCE_STORY_DEPLOYMENT.md;24 release-helper tests pass with modeled root/services.
+Actual root deployment/rollback remains pending. Separate fresh QNX guest proof
+passed four native cases, source-fixed comparison and cleanup (E019); it is not a
+new production or independent UAT result. Owner has no independent tester yet.
+
 W041 (2026-11-14): approved hackathon improvements in progress. Shared report/demo
 assertion explanations pass117 host/10 dashboard tests; raw evidence and canonical
 verdicts remain unchanged. Host-origin current pointer namesdfe1060 and web/executor

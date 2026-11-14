@@ -1,6 +1,16 @@
 # Engineering complete; local publication review pending
 
 2026-11-14 active task: owner approved the six hackathon improvement priorities.
+E019 supersedes the initial fresh-guest pending state below: four native cases and
+actual source-fixed comparison passed on the new guest, which was shut down after
+verified cleanup. Original lab remains. Full web492 and offline browser45 views pass.
+The150s video is imported and drafted for selected @mignoncharly; exact final-value
+approval remains pending. New root driverdeploy_evidence_story.py pins application
+7ecb812 from observed activedfe1060 and tests candidate/old/candidate round trip.
+Run only its exact committed driver after clean read-only planning. Production
+drill and independent UAT remain pending; no tester available. Next: public source/
+asset release, actual root drill, exact video approval/publication, external UAT.
+
 Continue on feature/production-web-ai. Read E018/current STATUS and improvement-gates.
 Presentation/setup changes pass117 host/10 dashboard/15 release-helper tests.
 Fresh image `.local/fresh-lab-20261114` has new guest keys and is booted at loopback

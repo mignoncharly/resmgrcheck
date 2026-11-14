@@ -1,0 +1,15 @@
+{
+  "kind": "edited-actual-qnx-demonstration",
+  "schema_version": 1,
+  "original_sha256": "65a9bcaca896bc9da39a965d5c3de127c9b1f3ec7a3c801ef46eb65e84ab06e7",
+  "video_sha256": "54014dc7bf996ce52c00d989f9a41efb2064be934161962bc9a38a7bf64e1be4",
+  "duration_seconds": 150.0,
+  "edit": "Keep original seconds20 through170, in the original chronological order; re-encode H.264. No generated/replaced execution footage.",
+  "original_capture_source": "d9d2a1a36702488f3f40524f1ebf8cbd4ebc9357",
+  "original_corrected_source": "39b99d7a163c21c88d831456cc438e3c02a56ac9",
+  "audio_streams": 0,
+  "sampled_frames_inspected": true,
+  "fresh_target_reproduction_is_separate": true,
+  "public_youtube_url": null,
+  "publication_state": "draft awaiting exact user approval"
+}

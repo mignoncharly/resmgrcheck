@@ -1,5 +1,50 @@
 # Test evidence
 
+## E019: Fresh-target proof, browser checks and release preparation, 2026-11-14
+
+The source7ecb812 checkpoint was committed/clean. Real Make/qcc build metadata binds
+that source. A newly generated QNX8.0.0 x86_64 KVM image/host keys booted separately.
+Actual hello/native capability probes passed. Fresh target qualification passed
+four native cases: baseline PASS, intentional sensor defect FAIL, job PASS and
+source-corrected replay PASS. Original and actual corrected source570a956, full
+build hashes, exact IDs, cleanup and comparison are preserved unchanged in
+[the fresh-target evidence](evidence/fresh-target-20261114/README.md).
+The original lab deployment selection/build manifest were preserved byte-for-byte.
+Only the new guest was shut down after cleanup; fresh22221 listener closed and
+original22220 remained. This is fresh-target agent reproduction, not independent UAT.
+
+Two setup omissions were found/fixed in the guide: create the private target root
+before bootstrap, and choose a distinct local target name for a second guest.
+A first local orchestration logger failed after root creation, before any native
+case/deploy; that attempt remains local and the successful attempt has separate output.
+
+The installed browser environment now has an explicit executable option because
+its Playwright default expected an absent browser version. Using installed Chromium,
+`tests/browser/qualify_reports.py` passed15 reports/45 laptop/narrow/no-JS views:
+no external requests/overflow/page errors; original source/evidence and JUnit bytes
+unchanged. The initial default-browser failure is retained locally. Packaging the
+historical jury evidence succeeded with178 checked references, without relabelling
+historical native source or touching original bundles. Its original170s video remains.
+
+An edited150s video removes original seconds0–20 and retains20–170 chronologically.
+ffprobe confirms150.000s/H.264/no audio; sampled frames were inspected. It opens
+with the labelled intentional failure, retains source correction/replay/departure/job,
+and keeps original execution identities. The original file remains unchanged.
+The selected YouTube channel is @mignoncharly; exact draft approval is pending.
+See submission/video-edit-20261114.json; import/draft creation is not publication.
+
+The first full web suite ran483 tests and failed6+1error: three tests omitted their
+production hostname from ALLOWED_HOSTS; four preparation fixture checks inherited
+the umask changed by earlier modeled release tests. Fixtures now declare their
+hostname/modes, and release tests restore umask. Production settings were unchanged.
+Focused34 tests pass. Refreshed full isolated staging suite:492 tests PASS in123.988s;
+test database destroyed.24 release-helper tests pass in0.063s with root/services
+modeled. The new immutable presentation/compatible app rollback driver is prepared;
+actual local-root execution and independent UAT remain pending. See
+[the check summary](evidence/hackathon-improvements-20261114/checks.json) and
+web/EVIDENCE_STORY_DEPLOYMENT.md. Source scan found only the intentionally incomplete
+key marker in the existing rejection test, no private key material or ELF.
+
 ## E018: Hackathon improvement checkpoint, 2026-11-14
 
 Owner approved six priorities. Initial sourcecc851a9 on feature/production-web-ai

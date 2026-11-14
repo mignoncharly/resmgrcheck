@@ -16,6 +16,7 @@ from resmgrcheck.workflow import compare_executions
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--out',required=True)
+parser.add_argument('--browser-executable',help='explicit installed Chromium binary; no download or dependency change')
 args=parser.parse_args();out=Path(args.out);out.mkdir(parents=True,exist_ok=False)
 start=evaluator_identity()
 runs=Path('docs/evidence/phase7/executions')
@@ -52,7 +53,7 @@ bundles=[inspect_bundle(p) for p in (runs/'sensor-broken').glob('cases/*/bundle'
 xml=junit(bundles);(out/'broken.xml').write_bytes(xml)
 checks=[];screenshots=[]
 with sync_playwright() as p:
-    browser=p.chromium.launch()
+    browser=p.chromium.launch(executable_path=args.browser_executable)
     browser_version=browser.version
     for mode,width,height,javascript in [('laptop',1440,1000,True),('narrow',390,844,True),('no-js',1280,900,False)]:
         context=browser.new_context(viewport={'width':width,'height':height},java_script_enabled=javascript)

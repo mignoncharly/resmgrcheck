@@ -1,0 +1,50 @@
+{
+  "kind": "hackathon-improvement-checks",
+  "schema_version": 1,
+  "host_tests": {
+    "count": 117,
+    "passed": true,
+    "seconds": 14.636
+  },
+  "web_tests": {
+    "count": 492,
+    "passed": true,
+    "seconds": 123.988,
+    "database": "isolated disposable staging test database"
+  },
+  "initial_full_web_run": {
+    "count": 483,
+    "failures": 6,
+    "errors": 1,
+    "reason": "Three production-host fixture failures and four inherited-umask preparation fixture failures; preserved in session output"
+  },
+  "fixed_focused_tests": {
+    "count": 34,
+    "passed": true,
+    "seconds": 1.349
+  },
+  "release_helpers": {
+    "count": 24,
+    "passed": true,
+    "seconds": 0.063,
+    "root_services": "modeled"
+  },
+  "offline_browser": {
+    "reports": 15,
+    "views": 45,
+    "browser": "151.0.7922.34",
+    "playwright": "1.64.1",
+    "passed": true,
+    "source_bytes_unchanged": true,
+    "junit_bytes_unchanged": true
+  },
+  "fresh_target": "../fresh-target-20261114/index.json",
+  "independent_developer_validation": "pending: owner has no tester yet",
+  "production_story_deployment_and_rollback": "prepared, actual local-root execution pending",
+  "video": "150-second edit prepared; selected channel @mignoncharly; exact draft approval pending",
+  "publication_scan": {
+    "tracked_files": 5356,
+    "findings": "Only a deliberately incomplete private-key marker in rejection test web/tests/test_ai.py:113; no key material or ELF identified",
+    "limitation": "Signature scan and explicit asset selection, not exhaustive secret detection"
+  }
+}
