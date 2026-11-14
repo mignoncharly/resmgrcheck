@@ -15,6 +15,10 @@ def evaluate(raw, native_exit):
             raise ValueError('invalid native identity')
         if returned['expected_error'] != (260 if ready['mode'] == 'timeout' else 4):
             raise ValueError('unexpected QNX 8 x86_64 error identity')
+        for row, fields in ((returned, ('raw_return', 'api_error', 'expected_error')),
+                            (health, ('raw_return', 'value'))):
+            if any(type(row[k]) is not int for k in fields):
+                raise ValueError('invalid native result type')
         for row in (held, drained):
             if any(type(row[k]) is not int or row[k] < 0 for k in ('active_operations', 'cancelled_waits', 'cleanup_pending')):
                 raise ValueError('invalid counters')

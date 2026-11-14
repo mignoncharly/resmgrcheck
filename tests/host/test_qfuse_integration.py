@@ -47,3 +47,7 @@ class QFuseIntegration(unittest.TestCase):
     def test_reordered_observations_are_error(self):
         self.rows[1], self.rows[2] = self.rows[2], self.rows[1]
         self.assertEqual(check.evaluate(self.edited(), 0)['verdict'], 'ERROR')
+
+    def test_boolean_is_not_a_native_integer_result(self):
+        self.rows[4]['raw_return'] = True
+        self.assertEqual(check.evaluate(self.edited(), 0)['verdict'], 'ERROR')

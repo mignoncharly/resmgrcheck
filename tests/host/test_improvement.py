@@ -11,12 +11,36 @@ from resmgrcheck.return_check import return_check
 from resmgrcheck.reduction import reduce_cycles, failure_signature
 from resmgrcheck.transport import Target
 from resmgrcheck.workflow import inspect_execution
+from resmgrcheck.evaluator import evaluate_persistent, evaluate
 
 ROOT = Path(__file__).resolve().parents[2]
 EVIDENCE = ROOT / 'docs/evidence/phase7/executions/release'
 
 
 class Improvement(unittest.TestCase):
+    def test_real_failure_on_last_requested_cycle_is_not_infrastructure_error(self):
+        source = ROOT / 'docs/evidence/impact-innovation/trials/final-cycle-error'
+        original = load(source / 'result.json')
+        result = evaluate_persistent(load(source / 'plan.json'), (source / 'observations.jsonl').read_bytes(), load(source / 'status.json')).data
+        self.assertEqual(original['verdict'], 'ERROR')  # Preserved pre-correction evaluation.
+        self.assertEqual([c['verdict'] for c in result['cycles']], ['PASS', 'PASS', 'FAIL'])
+        self.assertEqual(result['verdict'], 'FAIL')
+        self.assertEqual(next(a['verdict'] for a in result['assertions'] if a['id'] == 'repeat_coverage'), 'NOT_RUN')
+        self.assertEqual(next(a['verdict'] for a in result['assertions'] if a['id'] == 'evidence_completeness'), 'PASS')
+
+    def test_missing_last_cycle_state_still_is_uncertainty(self):
+        source = ROOT / 'docs/evidence/impact-innovation/trials/final-cycle-error'
+        import json
+        from resmgrcheck.contracts import canonical
+        rows = [json.loads(line) for line in (source / 'observations.jsonl').read_bytes().splitlines()]
+        rows = [r for r in rows if not (r.get('event') == 'control_result' and r['cycle'] == 3 and r['data']['operation'] == 'state')]
+        sequences = {}
+        for row in rows[1:]:
+            key = (row['producer'], row['pid']); sequences[key] = sequences.get(key, 0) + 1; row['seq'] = sequences[key]
+        result = evaluate(load(source / 'plan.json'), b''.join(canonical(r) + b'\n' for r in rows)).data
+        self.assertEqual(result['verdict'], 'ERROR')
+        self.assertEqual(result['cycles'][-1]['verdict'], 'ERROR')
+
     def test_real_timeout_return_does_not_establish_waiter_cleanup(self):
         with tempfile.TemporaryDirectory() as directory:
             for service in ('sensor', 'job'):

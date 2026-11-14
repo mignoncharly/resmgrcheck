@@ -174,7 +174,11 @@ class Rules:
             cycles.append(CycleResult.parse(finish(data,'complete' if safe else 'aborted')).data)
         self.data['cycle_count']=count;self.data['cycles']=cycles
         complete=all(c['completion']=='complete' for c in cycles)
-        self.add('repeat_coverage','PASS' if complete else 'NOT_RUN' if any(c['verdict']=='NOT_RUN' for c in cycles) else 'ERROR',self.ev.select('cycle_begin')+self.ev.select('cycle_not_run'))
+        # A known failure can abort the final requested cycle too. There is no
+        # later cycle_not_run record in that case; its absence is not uncertainty.
+        known_final_abort=(cycles[-1]['verdict']=='FAIL' and cycles[-1]['completion']=='aborted'
+                           and all(c['verdict']=='PASS' and c['completion']=='complete' for c in cycles[:-1]))
+        self.add('repeat_coverage','PASS' if complete else 'NOT_RUN' if known_final_abort or any(c['verdict']=='NOT_RUN' for c in cycles) else 'ERROR',self.ev.select('cycle_begin')+self.ev.select('cycle_not_run'))
     def ordering(self,baseline):
         arm=self.one('operation_armed',operation='ordered');pid=arm['pid'] if arm else None;p=self.pending(pid) if pid else None
         pre,trigger=self.signal(pid,p)
