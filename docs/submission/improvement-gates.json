@@ -27,7 +27,7 @@
     {
       "id": 4,
       "task": "Public YouTube demonstration under three minutes",
-      "state": "draft_awaiting_exact_approval",
+      "state": "youtube_draft_held_by_owner",
       "requires": "Verified public upload of reviewed actual footage",
       "evidence": "docs/submission/video-edit-20261114.json"
     },
@@ -41,7 +41,7 @@
       "id": 6,
       "task": "Feature freeze and remaining release acceptance",
       "state": "in_progress",
-      "requires": "Compatible application rollback and independent UAT"
+      "requires": "Resolve operator-reported completion versus observed original application pointer; independent UAT remains pending"
     }
   ],
   "judging_scores": "Not assigned; judges determine scores",

@@ -6,9 +6,10 @@ hash-verified ZIP/video/checksums; anonymous source/license/download verificatio
 is committed. Docs follow-up changes no application/runtime code. Root driver remains
 exactb289dc3 and pins candidate7ecb812 from activedfe1060. Its read-only plan passed.
 Two asynchronous user questions remain: exact YouTube draft approval and local sudo
-driver execution. YouTube draft27e5d806-b6c2-4e23-85a6-82f29bff7a76/revisionab8443ee
-is for selected@mignoncharly, public, title“ResMgrCheck: Find and Replay QNX Cancellation
-Failures”,150s actual edit, zero credits. Do not publish without the exact approval.
+driver execution. YouTube draft state is private at .local/submission/hackathon-video-20261114/draft-state.json.
+Owner selected Keep it as a draft; do not publish. Owner reported successful root
+execution, but host still observes dfe1060 and HTTPS200. Final safe JSON was requested
+asynchronously to resolve that discrepancy; do not mark rollout/rollback passed.
 No independent tester exists yet. Read readiness-current.json, not the preserved
 historical readiness.json, for remaining gates. Do not repeat passed QNX cases.
 
